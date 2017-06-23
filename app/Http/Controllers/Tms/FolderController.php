@@ -38,6 +38,10 @@ class FolderController extends Controller
     public function store(Request $request)
     {
         //
+        $input = $request->input();
+        if ($input['id']) {
+            //每次请求都会去获取cookie里面是否有登录的用户信息，如果有看看是否过期，过期了跳转重新登录
+        }
     }
 
     /**

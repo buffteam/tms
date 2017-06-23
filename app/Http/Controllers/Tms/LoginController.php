@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tms;
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +29,8 @@ class LoginController extends BaseController
     }
 
     public function login (Request $request) {
+
+
         // 验证用户提交数据
         $check = $this->check($request);
 
@@ -46,8 +49,10 @@ class LoginController extends BaseController
         $check_pass = Hash::check($param['password'], $userData->password);
 
         if ($check_pass) {
-            $userInfo = $this->insertUsersToken($userData->id,$request->ip());
+
+            $userInfo = $this->insertUsersToken($userData->id,$request->ip(),$param['username']);
 //            $this->setMsg('登录成功')->response($userInfo)
+
             return (false !== $userInfo)  ? redirect()->route('dashboard') : $this->responseError(null,'服务器出了点小差错');
 
         }
@@ -61,12 +66,15 @@ class LoginController extends BaseController
      * @param $userIp
      * @return array|bool
      */
-    protected function insertUsersToken ($userId,$userIp) {
+    protected function insertUsersToken ($userId,$userIp,$username) {
 
         $user = DB::table('users_token');
         $data = ['uid'=>$userId,'token'=> str_random(32),'ip'=>$userIp,'token_expired'=> time() + 60*60*24,'add_time'=>time()];
         $insertToken = $user->insert($data);
         if ($insertToken) {
+            // 登录信息存储在session当中
+            $data['username'] = $username;
+            session(['user'=>$data]);
             return $data;
         }
         return false;
