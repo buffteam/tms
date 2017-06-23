@@ -1,0 +1,410 @@
+/*
+ * -- BASE STYLES --
+ * Most of these are inherited from Base, but I want to change a few.
+ */
+html,body{
+    height: 100%;
+}
+body {
+    color: #333;
+    font-family: '微软雅黑';
+    /*letter-spacing: normal;*/
+}
+a {
+    text-decoration: none;
+    color: #1b98f8;
+}
+
+
+/*
+ * -- HELPER STYLES --
+ * Over-riding some of the .pure-button styles to make my buttons look unique
+ */
+
+.primary-button,
+.secondary-button {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 20px;
+}
+
+.primary-button {
+    color: #fff;
+    background: #1b98f8;
+    margin: 1em 0;
+}
+
+.secondary-button {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 0.5em 2em;
+    font-size: 80%;
+}
+
+
+/*
+ * -- LAYOUT STYLES --
+ * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
+ */
+ .header{
+     position: fixed;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 50px;
+     background: #48a6ef;
+     z-index: 99;
+ }
+ .logo{
+     color: #fff;
+     font-size: 20px;
+     padding-left: 30px;
+     line-height: 50px;
+ }
+#layout,
+#nav,
+#list,
+#main {
+    margin: 0;
+    padding: 0;
+    letter-spacing: normal;
+}
+/*收起左侧栏*/
+#layout.middle #nav{
+    width: 40px;
+}
+#layout.middle #list{
+    left: 40px;
+}
+#layout.middle #main{
+    left: 340px;
+}
+#layout.middle .nav-menu-button{
+    right: 0;
+}
+#layout.middle .child-list{
+    display: none !important;
+}
+
+/* Make the navigation 100% width on phones */
+
+#nav {
+    width: 100%;
+    position: relative;
+    background: #f3f3f3;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    transition: width .3s;
+}
+
+
+/* Show the "Menu" button on phones */
+
+#nav .nav-menu-button {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 40px;
+    height: 37px;
+    background: url('/module/doc/imgs/icon/left.png') center no-repeat;
+    background-size: 25px;
+    cursor: pointer;
+}
+#nav .nav-menu-button.right{
+    background-image: url(/module/doc/imgs/icon/right.png);
+}
+
+
+/* When "Menu" is clicked, the navbar should be 80% height */
+
+#nav.active {
+    height: 80%;
+}
+
+
+/* Don't show the navigation items... */
+
+.nav-inner {
+    display: none;
+}
+
+
+/*
+ * -- NAV BAR STYLES --
+ * Styling the default .pure-menu to look a little more unique.
+ */
+
+#nav .pure-menu {
+    background: transparent;
+    border: none;
+    text-align: left;
+}
+.pure-menu-item{
+    width: 200px;
+}
+.pure-menu-item .first-menu-a{
+    padding: 8px 0 8px 40px;
+}
+.pure-menu-item a:hover{
+    background-color: #e4e4e4;
+}
+.nav-doc-item .first-menu-a{
+    background: url(/module/doc/imgs/icon/doc.png) 10px 8px no-repeat;
+    background-size: 20px;
+}
+.nav-share-item .first-menu-a{
+    background: url(/module/doc/imgs/icon/share.png) 10px 8px no-repeat;
+    background-size: 20px;
+}
+.nav-del-item .first-menu-a{
+    background: url(/module/doc/imgs/icon/del.png) 10px 8px no-repeat;
+    background-size: 20px;
+}
+.child-list{
+    list-style: none;
+    padding-left: 40px;
+    font-size: 14px;
+}
+.child-item a{
+    padding: 8px 10px;
+}
+.child-item.active a{
+    background-color: #c0e2f2;
+}
+.child-item.active a:hover{
+    background: #c0e2f2;
+}
+.child-item.add-dir a{
+    padding-left: 15px;
+    background: url('/module/doc/imgs/icon/add.png') 0 10px no-repeat;
+    background-size: 16px;
+}
+.child-item.add-dir a{
+    color: #1b98f8;
+}
+.pure-menu-item a{
+    display: block;
+    color: #333;
+}
+
+
+
+.child-item-input{
+    display: none;
+    
+}
+.child-item-input input{
+    width: 130px;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+#list::-webkit-scrollbar, #nav::-webkit-scrollbar {
+    width: 0;
+}
+
+.doc-count {
+    color: rgb(75, 113, 151);
+}
+
+.doc-label-personal,
+.doc-label-work,
+.doc-label-travel {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 0.5em;
+    border-radius: 3px;
+}
+
+.doc-label-personal {
+    background: #ffc94c;
+}
+
+.doc-label-work {
+    background: #41ccb4;
+}
+
+.doc-label-travel {
+    background: #40c365;
+}
+
+
+/* Doc Item Styles */
+.list-search-box{
+    padding: 10px;
+    border-bottom: #ddd;
+    text-align: center;
+}
+/*.list-search-box input{
+    border: 1px solid #ededed;
+    width: 170px;
+    padding: 5px 15px;
+    border-radius: 20px;
+}*/
+.list-search-box input:focus{
+    outline: 0;
+}
+.doc-item {
+    padding: 0.9em 1em;
+    border-bottom: 1px solid #ddd;
+}
+
+.doc-avatar {
+    border-radius: 3px;
+    margin-right: 0.5em;
+}
+
+.doc-name,
+.doc-subject {
+    margin: 0;
+}
+
+.doc-name {
+    text-transform: uppercase;
+    color: #333;
+}
+
+.doc-time {
+    font-size: 80%;
+    margin: 0.4em 0;
+    color: #aaa;
+}
+
+.doc-item-selected {
+    background: #c5e7ff;
+}
+
+
+/* Email Content Styles */
+
+.doc-content-header {
+    padding: 1em 2em;
+}
+
+.doc-content-header {
+    border-bottom: 1px solid #ddd;
+}
+
+.doc-content-header input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-size: 25px;
+    color: #333;
+}
+
+ ::-webkit-input-placeholder {
+    color: #ccc;
+}
+
+.doc-content-header input:focus,
+.doc-content-header input:active {
+    outline: 0;
+}
+
+.doc-content-title {
+    margin: 0.5em 0 0;
+}
+
+.doc-content-subtitle {
+    font-size: 1em;
+    margin: 0;
+    font-weight: normal;
+}
+
+.doc-content-subtitle span {
+    color: #999;
+}
+
+.doc-content-controls {
+    text-align: right;
+    line-height: 35px;
+}
+
+.doc-content-controls .secondary-button {
+    margin-bottom: 0.3em;
+}
+
+.doc-avatar {
+    width: 40px;
+    height: 40px;
+}
+
+
+/*
+ * -- TABLET (AND UP) MEDIA QUERIES --
+ * On tablets and other medium-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+
+@media (min-width: 40em) {
+    /* Move the layout over so we can fit the nav + list in on the left */
+    #layout {
+        position: relative;
+        padding-top: 50px;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    /* These are position:fixed; elements that will be in the left 500px of the screen */
+    #nav,
+    #list {
+        position: absolute;
+        top: 50px;;
+        bottom: 0;
+        overflow-y: scroll;
+    }
+    #nav {
+        /* "left col (nav + list)" width */
+        left: 0;
+        width: 200px;
+    }
+    /* Show the menu items on the larger screen */
+    .nav-inner {
+        display: block;
+        margin: 37px 0;
+        border-top: 1px solid #aaa;
+    }
+    /* Hide the "Menu" button on larger screens */
+    #list {
+        left: 200px;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        transition: left .3s;
+    }
+}
+
+
+/*
+ * -- DESKTOP (AND UP) MEDIA QUERIES --
+ * On desktops and other large-sized devices, we want to customize some
+ * of the mobile styles.
+ */
+
+@media (min-width: 60em) {
+    /* This will take up the entire height, and be a little thinner */
+    #list {
+        left: 200px;
+        width: 300px;
+        border-right: 1px solid #ddd;
+    }
+    /* This will now take up it's own column, so don't need position: fixed; */
+    #main {
+        position: absolute;
+        left: 500px;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        transition: left .3s;
+    }
+}
+#editormd{
+    box-sizing: border-box;
+    border-top: 0;
+    border-right: 0;
+    margin-bottom: 0;
+}
+.editormd-fullscreen{
+    z-index: 100;
+}
