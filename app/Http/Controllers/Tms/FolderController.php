@@ -70,7 +70,7 @@ class FolderController extends BaseController
         //
         $categories = Folders::where(array('parent_id'=>0,'active'=>1))->select('id','title','parent_id')->get();
         $allCategories = Folders::where([['parent_id','>',0],['active','=',1]])->select('id','title','parent_id')->get();
-        return $this->response(compact('categories','allCategories'),'获取目录数据成功');
+        return $this->response(compact('categories','allCategories'));
     }
 
     /**

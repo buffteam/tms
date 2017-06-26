@@ -50,5 +50,6 @@ Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () 
     Route::any('/note/del', 'NotesController@del');
     Route::any('/note/update', 'NotesController@update');
     Route::any('/note/find', 'NotesController@find');
+    Route::any('/note/show', 'NotesController@show');
     Route::any('/note/list', 'NotesController@listAll');
 });

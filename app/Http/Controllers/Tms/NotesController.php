@@ -84,9 +84,15 @@ class NotesController extends BaseController
         return $this->setMsg('修改成功')->response();
     }
     public function find () {
-//        $id = $this->request->input('id');
-//        Notes::where('id',$id)->update(['active'=>0]);
-//        return $this->setMsg('修改成功')->response();
+        $id = $this->request->input('id');
+        $data = Notes::where('id',$id)->select(['id','title','content','f_id'])->get();
+        return $this->setMsg('获取')->response($data);
+    }
+
+    public function show () {
+        $id = $this->request->input('f_id');
+        $list = Notes::where('f_id',$id)->select(['id','title','content','f_id'])->get();
+        return $this->setMsg('获取成功')->response($list);
     }
     public function listAll () {
         return Notes::where('active',1)->get();
