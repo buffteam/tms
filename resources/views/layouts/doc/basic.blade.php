@@ -7,7 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('title')
     <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
-    <link rel="stylesheet" href="{{asset('libs/pure/grids-responsive.min.css')}}">
     <link rel="stylesheet" href="{{asset('module/common/css/marketing.css')}}">
     <link rel="stylesheet" href="{{asset('module/common/css/sign.css')}}">
 </head>

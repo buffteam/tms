@@ -59,4 +59,9 @@ class UsersController extends BaseController
         }
         return response($this->responseError($user->saveOrFail()));
     }
+    public function logout () {
+        session('user',null);
+        setcookie('log_token',null,time()-3600);
+        return $this->setMsg('退出登录成功')->response();
+    }
 }

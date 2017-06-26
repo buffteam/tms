@@ -87,13 +87,13 @@ class LoginController extends BaseController
     protected function insertUsersToken ($userId,$userIp,$username) {
 
         $user = DB::table('users_token');
-        $data = ['uid'=>$userId,'token'=> str_random(32),'ip'=>$userIp,'token_expired'=> time() + 60*60*24,'add_time'=>time()];
+        $data = ['uid'=>$userId,'token'=> str_random(32),'ip'=>$userIp,'token_expired'=> time() + 60*60*2,'add_time'=>time()];
         $insertToken = $user->insert($data);
         if ($insertToken) {
             // 登录信息存储在session当中
             $data['username'] = $username;
             session(['user'=>$data]);
-            setcookie('log_token', $data['token'], time()+24*3600);
+            setcookie('log_token', $data['token'], time()+2*3600);
             return $data;
         }
         return false;

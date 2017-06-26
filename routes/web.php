@@ -31,21 +31,19 @@ Route::group(['namespace' => 'Tms'], function () {
     Route::post('doRegister', 'RegisterController@doRegister');
     Route::get('login', 'LoginController@index')->name('login');
     Route::post('doLogin', 'LoginController@login');
+    Route::any('logout', 'UsersController@logout')->name('logout');
+
+
 });
 Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () {
 
-
-
-
-
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-    Route::resource('folder', 'FolderController');
 
-    Route::post('/folder/add', 'FolderController@add');
-    Route::post('/folder/del', 'FolderController@del');
-    Route::post('/folder/update', 'FolderController@update');
-    Route::get('/folder/find', 'FolderController@find');
+    Route::any('/folder/add', 'FolderController@store');
+    Route::any('/folder/del', 'FolderController@del');
+    Route::any('/folder/update', 'FolderController@update');
+//    Route::get('/folder/find', 'FolderController@find');
     Route::get('/folder/list', 'FolderController@listAll');
 
     Route::post('/note/add', 'NotesController@add');
