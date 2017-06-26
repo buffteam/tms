@@ -30,28 +30,54 @@
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item nav-doc-item">
-                            <a href="#" class="first-menu-a toggle-item">我的文档</a>
-                            <ul class="child-list">
-                                <li class="child-item active"><a href="#" class="">IOS</a></li>
-                                <li class="child-item"><a href="#" class="">Android</a></li>
-                                <li class="child-item"><a href="#" class="">HTML5</a></li>
+                            <a href="#" class="first-menu-a is-parent" data-switch="on">
+                                <span>我的文档</span>
+                                <span class="first-menu-down"></span>
+                            </a>
+                            <ul class="child-list first-child-list">
+                                <li class="child-item active">
+                                    <a href="#" class="second-menu-a is-parent on" data-switch="on">
+                                        <span class="child-menu-open"></span>
+                                        <span class="child-menu-icon"></span>
+                                        <span class="item-name">公共文件</span>
+                                        <span class="child-menu-down"></span>
+                                    </a>
+                                    <ul class="child-list">
+                                        <li class="child-item">
+                                            <a href="#" class="last-menu-a">
+                                                <span class="child-menu-icon"></span>
+                                                <span class="item-name">html5</span>
+                                                <span class="child-menu-down"></span>
+                                            </a>
+                                        </li>
+                                        <li class="child-item">
+                                            <a href="#" class="last-menu-a">
+                                                <span class="child-menu-icon"></span>
+                                                <span class="item-name">vue.js</span>
+                                                <span class="child-menu-down"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="child-item">
+                                    <a href="#" class="second-menu-a">
+                                        <span class="child-menu-open"></span>
+                                        <span class="child-menu-icon"></span>
+                                        <span class="item-name">我的笔记</span>
+                                        <span class="child-menu-down"></span>
+                                    </a>
+                                </li>
+
                                 <li class="child-item child-item-input">
                                     <input type="text" name="add_dir1">
                                 </li>
-                                <li class="child-item  add-dir"><a href="#" class="">新建文件夹</a></li>
+                                <li class="child-item add-dir"><a href="#" class="">新建文件夹</a></li>
                             </ul>
-                        </li>
-                        <li class="pure-menu-item nav-doc-item">
-                            <a href="#" class="first-menu-a toggle-item">个人笔记</a>
-                            <ul class="child-list">
-                                <li class="child-item"><a href="#" class="">IOS</a></li>
-                                <li class="child-item"><a href="#" class="">Android</a></li>
-                                <li class="child-item"><a href="#" class="">HTML5</a></li>
-                                <li class="child-item child-item-input">
-                                    <input type="text" name="add_dir2">
-                                </li>
-                                <li class="child-item  add-dir"><a href="#" class="">新建文件夹</a></li>
-                            </ul>
+                            <div class="down-box">
+                                <p data-type="add" data-id="1">新建子文件夹</p>
+                                <p data-type="rename" data-id="1">重命名</p>
+                                <p data-type="del" data-id="1">删除文件夹</p>
+                            </div>
                         </li>
                         <li class="pure-menu-item nav-share-item">
                             <a href="#" class="first-menu-a">我的分享</a>
@@ -182,40 +208,72 @@
             </div>
         </div>
     </div>
+    <script id="add-input-tpl" type="text/html">
+        <li class="child-item">
+            <a href="#" class="last-menu-a">
+                <span class="child-menu-icon"></span>
+                <span class="item-name"><input type="text"></span>
+                <span class="child-menu-down"></span>
+            </a>
+        </li>
+    </script>
 
     <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
     <script>
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
         var editor = editormd("editormd", {
-            path: "/libs/editormd/lib/",
+            path: "./libs/editormd/lib/",
             width: '100%',
             height: height,
+            imageUpload: true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "./php/upload.php",
             toolbarIcons: function () {
                 return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
                     "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
                     "watch", "preview", "fullscreen", "clear", "search"
                 ]
-            },
+            }
         });
         var $input = $('.child-item-input input'),
             $layout = $('#layout'),
-            $menuBtn = $('.nav-menu-button');
-
-        $('.toggle-item').on('click', function () {
-            var self = $(this);
+            $menuBtn = $('.nav-menu-button'),
+            $nav = $('#nav'),
+            $firstParent = $('.first-menu-a.is-parent'),
+            $downBox = $('.down-box');
+        // 收起左边栏
+        $menuBtn.on('click', function () {
             if ($layout.hasClass('middle')) {
                 $layout.removeClass('middle');
                 $menuBtn.removeClass('right');
-                self.next('.child-list').slideDown(300);
+                $firstParent.data('switch','on').siblings('ul').slideDown(300);
             } else {
-                self.next('.child-list').toggle(300);
+                $layout.addClass('middle');
+                $menuBtn.addClass('right');
+                $firstParent.data('switch','off').siblings('ul').slideUp(300);
             }
-        })
+        });
+        // 左边栏目录点击事件
+        $nav.on('click','.is-parent', function () {
+            var self = $(this),
+                ul_switch = self.data('switch');
+            if ($layout.hasClass('middle')) {
+                $layout.removeClass('middle');
+                $menuBtn.removeClass('right');
+                self.data('switch','on').addClass('on').siblings('ul').slideDown(300);
+            } else {
+                if(ul_switch == 'on'){
+                    self.data('switch','off').removeClass('on').siblings('ul').slideUp(300);
+                }else{
+                    self.data('switch','on').addClass('on').siblings('ul').slideDown(300);
+                }
+            }
+        });
         // 新建文件夹
         $('.add-dir').on('click', function () {
             $(this).prev('.child-item-input').show().find('input').focus();
-        })
+        });
         // 输入框失去焦点时触发
         $input.blur(function () {
             var value = $(this).val();
@@ -223,23 +281,84 @@
                 console.log(value);
             }
             $(this).val('').parent().hide();
-        })
+        });
 
-        // 收起左边栏
-        $menuBtn.on('click', function () {
-            if ($layout.hasClass('middle')) {
-                $layout.removeClass('middle');
-                $menuBtn.removeClass('right');
-            } else {
-                $layout.addClass('middle');
-                $menuBtn.addClass('right');
+
+
+        // 点击下拉菜单
+        $nav.on('click','.child-menu-down,.first-menu-down',function(e){
+            e.stopPropagation();
+            var $self = $(this);
+
+            if(!$self.hasClass('active')){
+                $('.child-menu-down,.first-menu-down').removeClass('active');
+                $self.addClass('active');
+                $downBox.fadeIn(200).css('top',e.pageY-e.offsetY-65);
+                $(document).one("click", function(){
+                    $downBox.fadeOut(200);
+                    $('.child-menu-down,.first-menu-down').removeClass('active');
+                });
+            }else{
+                $self.removeClass('active');
+                $downBox.fadeOut(200);
             }
-        })
+        });
+
+        // 选中下拉菜单事件
+        $nav.on('click','.down-box p',function(e){
+            e.stopPropagation();
+            var $self= $(this),
+                type = $self.data('type'),
+                id = $self.data('id'),
+                $icon = $('.child-menu-down.active'),
+                elem =  $icon.parent().parent(), text = null;
+            $self.parent().hide();
+            $icon.removeClass('active');
+
+            switch(type){
+                case 'add':
+                    text = $('#add-input-tpl').html();
+                    if(elem.find('.child-list').length === 0){
+                        elem.append('<ul class="child-list">'+text+'</ul>');
+                    }else{
+                        elem.find('.child-list').append(text);
+                    }
+                    elem.find('ul input').focus().on('blur',function(){
+                        var value = $(this).val();
+                        if(value){
+                            var tag = $(this).parent().parent().parent().parent().prev('a');
+                            $(this).parent().html(value);
+                            if(!tag.hasClass('is-parent')){
+                                tag.addClass('is-parent on').data('switch','on');
+                            }
+                        }else{
+                            $(this).parent().hide();
+                        }
+                    });
+                    break;
+                case 'rename':
+                    elem = $icon.parent().find('.item-name');
+                    text = elem.text();
+                    elem.html('<input type="text" value="'+text+'">')
+                        .find('input').focus().on('blur',function(){
+                        var $self = $(this),
+                            value = $self.val();
+                        if(value){
+                            elem.text(value);
+                        }else{
+                            elem.text(text);
+                        }
+                    }).on('click',function(e){
+                        e.stopPropagation();
+                    });
+                    break;
+                case 'del':
+                    break;
+            }
+        });
+
+        //
     </script>
-
-
-
-
 </body>
 
 </html>
