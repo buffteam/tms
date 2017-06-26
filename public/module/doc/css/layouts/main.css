@@ -2,19 +2,20 @@
  * -- BASE STYLES --
  * Most of these are inherited from Base, but I want to change a few.
  */
-html,body{
+html, body {
     height: 100%;
 }
+
 body {
     color: #333;
     font-family: '微软雅黑';
     /*letter-spacing: normal;*/
 }
+
 a {
     text-decoration: none;
     color: #1b98f8;
 }
-
 
 /*
  * -- HELPER STYLES --
@@ -43,26 +44,27 @@ a {
     font-size: 80%;
 }
 
-
 /*
  * -- LAYOUT STYLES --
  * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
  */
- .header{
-     position: fixed;
-     left: 0;
-     top: 0;
-     width: 100%;
-     height: 50px;
-     background: #48a6ef;
-     z-index: 99;
- }
- .logo{
-     color: #fff;
-     font-size: 20px;
-     padding-left: 30px;
-     line-height: 50px;
- }
+.header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background: #48a6ef;
+    z-index: 99;
+}
+
+.logo {
+    color: #fff;
+    font-size: 20px;
+    padding-left: 30px;
+    line-height: 50px;
+}
+
 #layout,
 #nav,
 #list,
@@ -71,36 +73,27 @@ a {
     padding: 0;
     letter-spacing: normal;
 }
+
 /*收起左侧栏*/
-#layout.middle #nav{
+#layout.middle #nav {
     width: 40px;
 }
-#layout.middle #list{
+
+#layout.middle #list {
     left: 40px;
 }
-#layout.middle #main{
-    left: 340px;
+
+#layout.middle #main {
+    left: 360px;
 }
-#layout.middle .nav-menu-button{
+
+#layout.middle .nav-menu-button {
     right: 0;
 }
-#layout.middle .child-list{
-    display: none !important;
+
+#layout.middle .child-list {
+    /*display: none !important;*/
 }
-
-/* Make the navigation 100% width on phones */
-
-#nav {
-    width: 100%;
-    position: relative;
-    background: #f3f3f3;
-    text-align: center;
-    border-right: 1px solid #ddd;
-    transition: width .3s;
-}
-
-
-/* Show the "Menu" button on phones */
 
 #nav .nav-menu-button {
     position: absolute;
@@ -108,98 +101,205 @@ a {
     right: 10px;
     width: 40px;
     height: 37px;
-    background: url('/module/doc/imgs/icon/left.png') center no-repeat;
+    background: url(/module/doc/imgs/icon/left.png) center no-repeat;
     background-size: 25px;
     cursor: pointer;
 }
-#nav .nav-menu-button.right{
+
+#nav .nav-menu-button.right {
     background-image: url(/module/doc/imgs/icon/right.png);
 }
-
-
-/* When "Menu" is clicked, the navbar should be 80% height */
-
-#nav.active {
-    height: 80%;
-}
-
-
-/* Don't show the navigation items... */
-
-.nav-inner {
-    display: none;
-}
-
-
-/*
- * -- NAV BAR STYLES --
- * Styling the default .pure-menu to look a little more unique.
- */
 
 #nav .pure-menu {
     background: transparent;
     border: none;
     text-align: left;
 }
-.pure-menu-item{
-    width: 200px;
+
+.pure-menu-item {
+    position: relative;
+    width: 240px;
 }
-.pure-menu-item .first-menu-a{
-    padding: 8px 0 8px 40px;
+
+.pure-menu-item .first-menu-a {
+    position: relative;
+    padding: 8px 30px 8px 40px;
 }
-.pure-menu-item a:hover{
+
+.pure-menu-item a:hover {
     background-color: #e4e4e4;
 }
-.nav-doc-item .first-menu-a{
-    background: url(/module/doc/imgs/icon/doc.png) 10px 8px no-repeat;
+
+.first-menu-a {
+    line-height: 20px;
+}
+
+.nav-doc-item .first-menu-a {
+    background: url(/module/doc/imgs/icon/doc.png) 10px 7px no-repeat;
     background-size: 20px;
 }
-.nav-share-item .first-menu-a{
-    background: url(/module/doc/imgs/icon/share.png) 10px 8px no-repeat;
+
+.nav-share-item .first-menu-a {
+    background: url(/module/doc/imgs/icon/share.png) 10px 7px no-repeat;
     background-size: 20px;
 }
-.nav-del-item .first-menu-a{
-    background: url(/module/doc/imgs/icon/del.png) 10px 8px no-repeat;
+
+.nav-del-item .first-menu-a {
+    background: url(/module/doc/imgs/icon/del.png) 10px 7px no-repeat;
     background-size: 20px;
 }
-.child-list{
-    list-style: none;
-    padding-left: 40px;
-    font-size: 14px;
+
+.first-menu-down, .child-menu-down {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 14px;
+    height: 14px;
+    background: url(/module/doc/imgs/icon/down.png) 1px 2px no-repeat;
+    background-size: 12px;
+    border: 1px solid #aaa;
+    border-radius: 50%;
 }
-.child-item a{
-    padding: 8px 10px;
+
+.child-menu-down {
+    display: none;
 }
-.child-item.active a{
-    background-color: #c0e2f2;
+
+.child-menu-open {
+    position: absolute;
+    left: 5px;
+    top: 13px;
+    width: 10px;
+    height: 10px;
+    background: url("/module/doc/imgs/icon/down2.png") no-repeat;
+    background-size: 10px;
+    transition: transform .3s;
+    display: none;
 }
-.child-item.active a:hover{
-    background: #c0e2f2;
+.is-parent .child-menu-open{
+    display: block;
 }
-.child-item.add-dir a{
-    padding-left: 15px;
-    background: url('/module/doc/imgs/icon/add.png') 0 10px no-repeat;
+
+.on .child-menu-open {
+    transform: rotate(90deg);
+}
+
+.child-menu-down.active {
+    display: block;
+}
+
+.first-menu-a:hover .child-menu-down,
+.second-menu-a:hover .child-menu-down,
+.third-menu-a:hover .child-menu-down {
+    display: block;
+}
+
+.first-menu-down:hover, .child-menu-down:hover, .child-menu-down.active {
+    background-image: url(/module/doc/imgs/icon/down1.png);
+    border-color: #1b98f8;
+}
+
+.child-menu-icon {
+    position: absolute;
+    left: 18px;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    background: url("/module/doc/imgs/icon/folder.png") no-repeat;
     background-size: 16px;
 }
-.child-item.add-dir a{
+
+.child-list {
+    width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.first-child-list {
+    padding-left: 40px;
+}
+
+.child-item {
+    position: relative;
+}
+
+.child-item a {
+    padding: 8px 30px 8px 38px;
+    line-height: 20px;
+}
+
+.child-item.active > a {
+    background-color: #c0e2f2;
+}
+
+.child-item.active > a:hover {
+    background: #c0e2f2;
+}
+
+.child-item.add-dir a {
+    padding-left: 15px;
+    background: url(/module/doc/imgs/icon/add.png) 0 10px no-repeat;
+    background-size: 16px;
+}
+
+.child-item.add-dir a {
     color: #1b98f8;
 }
-.pure-menu-item a{
+
+.pure-menu-item a {
     display: block;
     color: #333;
 }
 
-
-
-.child-item-input{
+.down-box {
+    position: absolute;
+    right: 10px;
+    width: 100px;
     display: none;
-    
+    background: #fff;
+    border: 1px solid #ddd;
+    z-index: 5;
+    font-size: 12px;
+    transition: top .3s;
 }
-.child-item-input input{
+
+.down-box p {
+    margin: 0;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.down-box p:hover {
+    background: #f3f3f3;
+}
+
+.child-item input {
+    width: 95%;
+    border: 1px solid #eee;
+}
+
+.child-add-ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.child-add-ul li input {
+    margin: 8px 30px 8px 0;
+}
+
+.child-item-input {
+    display: none;
+
+}
+
+.child-item-input input {
     width: 130px;
     border: 1px solid #ddd;
     padding: 5px 10px;
 }
+
 #list::-webkit-scrollbar, #nav::-webkit-scrollbar {
     width: 0;
 }
@@ -230,22 +330,23 @@ a {
     background: #40c365;
 }
 
-
 /* Doc Item Styles */
-.list-search-box{
+.list-search-box {
     padding: 10px;
     border-bottom: #ddd;
     text-align: center;
 }
+
 /*.list-search-box input{
     border: 1px solid #ededed;
     width: 170px;
     padding: 5px 15px;
     border-radius: 20px;
 }*/
-.list-search-box input:focus{
+.list-search-box input:focus {
     outline: 0;
 }
+
 .doc-item {
     padding: 0.9em 1em;
     border-bottom: 1px solid #ddd;
@@ -276,7 +377,6 @@ a {
     background: #c5e7ff;
 }
 
-
 /* Email Content Styles */
 
 .doc-content-header {
@@ -295,7 +395,7 @@ a {
     color: #333;
 }
 
- ::-webkit-input-placeholder {
+::-webkit-input-placeholder {
     color: #ccc;
 }
 
@@ -332,79 +432,59 @@ a {
     height: 40px;
 }
 
-
-/*
- * -- TABLET (AND UP) MEDIA QUERIES --
- * On tablets and other medium-sized devices, we want to customize some
- * of the mobile styles.
- */
-
-@media (min-width: 40em) {
-    /* Move the layout over so we can fit the nav + list in on the left */
-    #layout {
-        position: relative;
-        padding-top: 50px;
-        height: 100%;
-        box-sizing: border-box;
-    }
-    /* These are position:fixed; elements that will be in the left 500px of the screen */
-    #nav,
-    #list {
-        position: absolute;
-        top: 50px;;
-        bottom: 0;
-        overflow-y: scroll;
-    }
-    #nav {
-        /* "left col (nav + list)" width */
-        left: 0;
-        width: 200px;
-    }
-    /* Show the menu items on the larger screen */
-    .nav-inner {
-        display: block;
-        margin: 37px 0;
-        border-top: 1px solid #aaa;
-    }
-    /* Hide the "Menu" button on larger screens */
-    #list {
-        left: 200px;
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        transition: left .3s;
-    }
+#layout {
+    position: relative;
+    padding-top: 50px;
+    height: 100%;
+    box-sizing: border-box;
 }
 
-
-/*
- * -- DESKTOP (AND UP) MEDIA QUERIES --
- * On desktops and other large-sized devices, we want to customize some
- * of the mobile styles.
- */
-
-@media (min-width: 60em) {
-    /* This will take up the entire height, and be a little thinner */
-    #list {
-        left: 200px;
-        width: 300px;
-        border-right: 1px solid #ddd;
-    }
-    /* This will now take up it's own column, so don't need position: fixed; */
-    #main {
-        position: absolute;
-        left: 500px;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        transition: left .3s;
-    }
+#nav,
+#list {
+    position: absolute;
+    top: 50px;;
+    bottom: 0;
+    overflow-y: scroll;
 }
-#editormd{
+
+#nav {
+    left: 0;
+    width: 240px;
+    background: #f3f3f3;
+    border-right: 1px solid #ddd;
+    transition: width .3s;
+    overflow: hidden;
+}
+
+#list {
+    left: 240px;
+    width: 320px;
+    border-right: 1px solid #ddd;
+    transition: left .3s;
+}
+
+#main {
+    position: absolute;
+    left: 560px;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    transition: left .3s;
+}
+
+.nav-inner {
+    display: block;
+    margin: 37px 0;
+    border-top: 1px solid #aaa;
+}
+
+#editormd {
     box-sizing: border-box;
     border-top: 0;
     border-right: 0;
     margin-bottom: 0;
 }
-.editormd-fullscreen{
+
+.editormd-fullscreen {
     z-index: 100;
 }
