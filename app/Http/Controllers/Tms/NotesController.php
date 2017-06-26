@@ -2,84 +2,93 @@
 
 namespace App\Http\Controllers\Tms;
 
+use App\Http\Controllers\BaseController;
+use App\Model\Notes;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
-class NotesController extends Controller
+class NotesController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $request;
+    public function __construct(Request $request)
     {
-        //
+        $this->request = $request;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function add () {
+        // 验证
+        $rules =  [
+            'title' => 'required|max:80',
+            'f_id' => 'required|max:10'
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $validator = Validator::make($this->request->all(), $rules);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        if ($validator->fails()) {
+            return $this->responseError($validator->errors(),'参数验证输错');
+        }
+        $params = $this->request->input();
+        $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->first();
+        if (!empty($exist)) {
+            return $this->responseError('笔记名称重复','参数验证输错');
+        }
+        $params['u_id'] = session('user')['uid'];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if(!isset($params['parent_id'])) {
+            $params['parent_id'] = 0;
+        }
+        Notes::create($params);
+        return $this->setMsg('新增成功')->response();
     }
+    public function del () {
+        // 验证规则
+        $rules =  [
+            'id' => 'required|max:10'
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $validator = Validator::make($this->request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->responseError($validator->errors(),'参数验证输错');
+        }
+        $params = $this->request->input();
+
+        Notes::where('id',$params['id'])->update(array('active'=>0));
+
+        return $this->setMsg('删除成功')->response();
+
     }
+    public function update () {
+        // 验证
+        $rules =  [
+            'id' => 'required|max:10',
+            'f_id' => 'required|max:10'
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $validator = Validator::make($this->request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->responseError($validator->errors(),'参数验证输错');
+        }
+        $params = $this->request->input();
+        if (isset($params['title'])) {
+            $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->first();
+            if (!empty($exist)) {
+                return $this->responseError('笔记名称重复','参数验证输错');
+            }
+        }
+
+
+        $params['u_id'] = session('user')['uid'];
+        Notes::where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
+        return $this->setMsg('修改成功')->response();
+    }
+    public function find () {
+//        $id = $this->request->input('id');
+//        Notes::where('id',$id)->update(['active'=>0]);
+//        return $this->setMsg('修改成功')->response();
+    }
+    public function listAll () {
+        return Notes::where('active',1)->get();
     }
 }

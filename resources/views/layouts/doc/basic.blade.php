@@ -9,17 +9,18 @@
     <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
     <link rel="stylesheet" href="{{asset('module/common/css/marketing.css')}}">
     <link rel="stylesheet" href="{{asset('module/common/css/sign.css')}}">
+    @yield('style')
 </head>
 <body >
 {{--头部导航栏--}}
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">笔记共享系统</a>
+        <a class="pure-menu-heading" href="">醍醐共享笔记</a>
 
         <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">主页</a></li>
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">注册</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">登录</a></li>
+            <li class="pure-menu-item"><a href="{{route('home')}}" class="pure-menu-link">主页</a></li>
+            <li class="pure-menu-item "><a href="{{route('register')}}" class="pure-menu-link">注册</a></li>
+            <li class="pure-menu-item"><a href="{{route('login')}}" class="pure-menu-link">登录</a></li>
         </ul>
     </div>
 </div>
@@ -27,7 +28,7 @@
 @yield('content')
 
 <div class="footer l-box is-center">
-    View the source of this layout to learn more. Made with love by the YUI Team.
+    微想团队版权所有
 </div>
 @yield('script')
 <script src="/libs/jquery/jquery.min.js"></script>

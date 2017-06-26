@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('check', 'Tms\UsersController@check');
 Route::resource('test', 'TestController');
@@ -46,9 +46,9 @@ Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () 
 //    Route::get('/folder/find', 'FolderController@find');
     Route::get('/folder/list', 'FolderController@listAll');
 
-    Route::post('/note/add', 'NotesController@add');
-    Route::post('/note/del', 'NotesController@del');
-    Route::post('/note/update', 'NotesController@update');
-    Route::get('/note/find', 'NotesController@find');
-    Route::get('/note/list', 'NotesController@listAll');
+    Route::any('/note/add', 'NotesController@add');
+    Route::any('/note/del', 'NotesController@del');
+    Route::any('/note/update', 'NotesController@update');
+    Route::any('/note/find', 'NotesController@find');
+    Route::any('/note/list', 'NotesController@listAll');
 });

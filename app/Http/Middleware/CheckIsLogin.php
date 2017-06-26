@@ -16,8 +16,12 @@ class CheckIsLogin
      */
     public function handle($request, Closure $next)
     {
+//        dump($_COOKIE);
+//        dump(session('user'));
+//        exit();
+
         // 查看是否存在log_token cookie
-        if (!isset( $_COOKIE['log_token']) && empty(session('user'))) {
+        if (!isset( $_COOKIE['log_token']) || empty(session('user'))) {
             return redirect('login');
         }
 
