@@ -12,6 +12,7 @@ class LoginController extends BaseController
 {
     //
     public function index() {
+
         return view('public/login');
     }
 
@@ -29,6 +30,24 @@ class LoginController extends BaseController
     }
 
     public function login (Request $request) {
+
+
+
+        // 查看是否存在log_token cookie
+       /* if (isset($_COOKIE['log_token'])) {
+            $log_token = $_COOKIE['log_token'];
+            $tokenData =  DB::table('users_token')->where('token',$log_token)->select('uid','token_expired')->first();
+            // 如果过期了跳转到登录
+            if ( $tokenData->token_expired > time() ) {
+                $user = DB::table('users')->where('id',$tokenData->uid)->select('id','auth','email','avatar')->get()->toArray();
+                if ($user !== null) {
+                    session('user',$user);
+                    return redirect('dashboard');
+                }
+
+            }
+        }*/
+
 
 
         // 验证用户提交数据
@@ -51,7 +70,6 @@ class LoginController extends BaseController
         if ($check_pass) {
 
             $userInfo = $this->insertUsersToken($userData->id,$request->ip(),$param['username']);
-//            $this->setMsg('登录成功')->response($userInfo)
 
             return (false !== $userInfo)  ? redirect()->route('dashboard') : $this->responseError(null,'服务器出了点小差错');
 
@@ -75,6 +93,7 @@ class LoginController extends BaseController
             // 登录信息存储在session当中
             $data['username'] = $username;
             session(['user'=>$data]);
+            setcookie('log_token', $data['token'], time()+24*3600);
             return $data;
         }
         return false;

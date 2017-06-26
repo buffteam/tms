@@ -13,5 +13,6 @@ define('LARAVEL_START', microtime(true));
 | our application's PHP classes. It just feels great to relax.
 |
 */
-
+// 引入自定义全局函数
+require __DIR__ . '/../app/Helpers/function.php';
 require __DIR__.'/../vendor/autoload.php';

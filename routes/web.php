@@ -25,13 +25,18 @@ Route::get('getAll', 'TestController@getAll');
  */
 
 
-Route::group([/*'middleware' => 'auth',*/'namespace' => 'Tms'], function () {
-
-    Route::get('register', 'RegisterController@register');
+Route::group(['namespace' => 'Tms'], function () {
+    //
+    Route::get('register', 'RegisterController@register')->name('register');
     Route::post('doRegister', 'RegisterController@doRegister');
-
     Route::get('login', 'LoginController@index')->name('login');
     Route::post('doLogin', 'LoginController@login');
+});
+Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () {
+
+
+
+
 
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
