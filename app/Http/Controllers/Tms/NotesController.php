@@ -34,9 +34,10 @@ class NotesController extends BaseController
         }
         $params['u_id'] = session('user')['uid'];
 
-        if(!isset($params['parent_id'])) {
-            $params['parent_id'] = 0;
+        if(!isset($params['type'])) {
+            $params['type'] = 1;
         }
+
         $notes = Notes::create($params);
         return $this->setMsg('新增成功')->response(['id'=>$notes->id]);
     }
