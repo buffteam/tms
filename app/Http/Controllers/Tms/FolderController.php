@@ -58,8 +58,8 @@ class FolderController extends BaseController
         if(!isset($params['parent_id'])) {
             $params['parent_id'] = 0;
         }
-        Folders::create($params);
-        return $this->setMsg('新增成功')->response();
+        $data = Folders::create($params);
+        return $this->setMsg('新增成功')->response(array('id'=>$data->id));
     }
 
     /**
