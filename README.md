@@ -1,4 +1,9 @@
-# 团队管理系统（team info manage platform）
+# 醍醐共享云笔记
+
+## Doc
+- [English](./README.md)
+- [中文文档](./README-cn.md)
+
 - 初始化
 ````
 composer install
@@ -28,7 +33,7 @@ php artisan server
 ````
 
 
-## 笔记系统（tms_notes）
 
-## 博客系统（tms_blog）
 
+## LICENSE
+Apache 2.0
