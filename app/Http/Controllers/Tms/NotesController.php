@@ -37,8 +37,8 @@ class NotesController extends BaseController
         if(!isset($params['parent_id'])) {
             $params['parent_id'] = 0;
         }
-        Notes::create($params);
-        return $this->setMsg('新增成功')->response();
+        $notes = Notes::create($params);
+        return $this->setMsg('新增成功')->response(['id'=>$notes->id]);
     }
     public function del () {
         // 验证规则
@@ -86,7 +86,7 @@ class NotesController extends BaseController
     public function find () {
         $id = $this->request->input('id');
         $data = Notes::where('id',$id)->select(['id','title','content','f_id'])->get();
-        return $this->setMsg('获取')->response($data);
+        return $this->setMsg('获取成功')->response($data);
     }
 
     public function show () {
