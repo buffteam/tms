@@ -4,6 +4,8 @@
 - [English](./README.md)
 - [中文文档](./README-cn.md)
 
+## usage
+
 - 初始化
 ````
 composer install
