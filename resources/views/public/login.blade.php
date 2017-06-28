@@ -29,16 +29,13 @@
             </div>
         </fieldset>
     </form>
-    <div class="pure-shade pure-tip">
-        <div class="pure-tip-content">
-            <span>登录成功，正在跳转！请稍后！</span>
-        </div>
-    </div>
 @endsection
 
 @section('script')
     <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('module/doc/js/pure-tip.js')}}"></script>
     <script>
+
 
         var $username = $('#username'),
             $pwd = $('#password');
@@ -95,7 +92,6 @@
             }
         }
         $('#login').on('click',function () {
-
             removeErrorStyle();
             // 验证用户名是否为空和长度超过100
             if ($username.val().length < 1) {

@@ -91,8 +91,9 @@ class NotesController extends BaseController
     }
 
     public function show () {
+        //TODO 分页 排序 时间转化
         $id = $this->request->input('id');
-        $list = Notes::where('f_id',$id)->select(['id','title','content','f_id'])->get();
+        $list = Notes::where('f_id',$id)->select(['id','title','content','f_id','type','updated_at'])->get();
         return $this->setMsg('获取成功')->response($list);
     }
     public function listAll () {
