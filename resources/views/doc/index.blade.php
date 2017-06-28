@@ -193,7 +193,7 @@
     </div>
     <script id="add-input-tpl" type="text/html">
         <li class="child-item">
-            <a href="#" class="last-menu-a">
+            <a href="#" class="last-menu-a" data-id="">
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><input type="text"></span>
                 <span class="child-menu-down"></span>

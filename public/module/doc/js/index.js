@@ -96,74 +96,106 @@ var main = {
         $nav.on('click', '.child-menu-open', function () {
             var self = $(this).parent(),
                 ul_switch = self.data('switch');
-            if ($layout.hasClass('middle')) {
-                $layout.removeClass('middle');
-                $menuBtn.removeClass('right');
-                self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
+            if (ul_switch == 'on') {
+                self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
             } else {
-                if (ul_switch == 'on') {
-                    self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
-                } else {
-                    self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
-                }
+                self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
             }
-        });
+        })
+            // 点击我的文档目录事件
+            .on('click','.first-menu-a',function () {
+                var self = $(this),
+                    ul_switch = self.data('switch');
+                if ($layout.hasClass('middle')) {
+                    $layout.removeClass('middle');
+                    $menuBtn.removeClass('right');
+                    self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
+                } else {
+                    if (ul_switch == 'on') {
+                        self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
+                    } else {
+                        self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
+                    }
+                }
+            })
+            // 点击下拉菜单
+            .on('click', '.child-menu-down,.first-menu-down', function (e) {
+                e.stopPropagation();
+                var $self = $(this),
+                    idx = $self.data('idx');
+
+                g_id = $self.parent().data('id');
+                $g_folder = $self.parent().parent();
+
+                if (!$self.hasClass('active')) {
+                    $('.child-menu-down,.first-menu-down').removeClass('active');
+                    $self.addClass('active');
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 65);
+                    // 如果是第四级目录，则不给添加子文件夹
+                    var $add_p = $('.down-box p[data-type="add"]');
+                    if(idx == '4'){
+                        $add_p.hide();
+                    }else{
+                        $add_p.show();
+                    }
+                    // 点击其他地方则隐藏下拉框
+                    $(document).one("click", function () {
+                        $downBox.fadeOut(200);
+                        $('.child-menu-down,.first-menu-down').removeClass('active');
+                    });
+                } else {
+                    $self.removeClass('active');
+                    $downBox.fadeOut(200);
+                    $g_folder = null;
+                }
+            });
         // 新建文件夹
         $('.add-dir').on('click', function () {
             $(this).prev('.child-item-input').show().find('input').focus();
         });
-        // 输入框失去焦点时触发
-        $input.blur(function () {
-            var value = $(this).val();
-            if (value) {
-                $.post('/folder/add',{title: value, parent_id: 0}, function (res) {
-                    if(res.code === 200){
-                        var list = [
-                            {
-                                id: res.data.id,
-                                title: value,
-                                parent_id: 0
-                            }
-                        ];
-                        var html = template('nav-tpl', {list: list, idx: 0});
-                        $('.child-item-input').before(html);
+        // 我的文档下级新建文件夹输入框失去焦点时或回车触发
+        $input.on('blur keypress',function (e) {
+            var $self = $(this);
+            console.log(e)
+            if(e.keyCode === 13){
+                $self.off('blur keypress');
+            }else if(e.type !== 'blur'){
+                return ;
+            }
+            main.addFirstFolder($self);
+            $self.on('focus',function () {
+                $self.off('blur keypress').on('blur keypress',function (e) {
+                    var $self = $(this);
+
+                    if (e.keyCode === 13) {
+                        $self.off('blur keypress');
+                    }else if(e.type !== 'blur'){
+                        return ;
                     }
+                    main.addFirstFolder($self);
                 })
-            }
-            $(this).val('').parent().hide();
+            })
         });
-
-        // 点击下拉菜单
-        $nav.on('click', '.child-menu-down,.first-menu-down', function (e) {
-            e.stopPropagation();
-            var $self = $(this),
-                idx = $self.data('idx');
-
-            g_id = $self.parent().data('id');
-            $g_folder = $self.parent().parent();
-
-            if (!$self.hasClass('active')) {
-                $('.child-menu-down,.first-menu-down').removeClass('active');
-                $self.addClass('active');
-                $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 65);
-                // 如果是第四级目录，则不给添加子文件夹
-                var $add_p = $('.down-box p[data-type="add"]');
-                if(idx == '4'){
-                    $add_p.hide();
-                }else{
-                    $add_p.show();
+    },
+    // 我的文档下级新建文件夹事件
+    addFirstFolder: function(self){
+        var value = self.val();
+        if (value) {
+            $.post('/folder/add',{title: value, parent_id: 0}, function (res) {
+                if(res.code === 200){
+                    var list = [
+                        {
+                            id: res.data.id,
+                            title: value,
+                            parent_id: 0
+                        }
+                    ];
+                    var html = template('nav-tpl', {list: list, idx: 0});
+                    $('.child-item-input').before(html);
                 }
-                // 点击其他地方则隐藏下拉框
-                $(document).one("click", function () {
-                    $downBox.fadeOut(200);
-                    $('.child-menu-down,.first-menu-down').removeClass('active');
-                });
-            } else {
-                $self.removeClass('active');
-                $downBox.fadeOut(200);
-                $g_folder = null;
-            }
-        });
+            })
+        }
+        self.val('').parent().hide();
     },
     folderHandle: function () {
         // 选中下拉菜单事件
@@ -187,10 +219,17 @@ var main = {
                     } else {
                         elem.children('.child-list').append(text);
                     }
-                    elem.find('ul input').focus().on('blur', function () {
-                        var value = $(this).val();
+                    elem.find('ul input').focus().on('blur keypress', function (e) {
+                        var $self = $(this),
+                            value = $self.val(),
+                            $menu_a = $self.parent().parent();
+                        if(e.keyCode === 13){
+                            $self.off('blur');
+                        }else if(e.type !== 'blur'){
+                            return ;
+                        }
                         if (value) {
-                            var tag = $(this).parent().parent().parent().parent().prev('a');
+                            var tag = $self.parent().parent().parent().parent().prev('a');
                             $(this).parent().html(value);
                             if (!tag.hasClass('is-parent')) {
                                 tag.addClass('is-parent on').data('switch', 'on');
@@ -199,10 +238,17 @@ var main = {
                                 title: value,
                                 parent_id: g_id
                             }, function (res) {
-                                console.log(res);
+
+                                if(res.code === 200){
+                                    $menu_a.removeClass('last-menu-a')
+                                        .addClass('second-menu-a')
+                                        .data('id',res.data.id);
+                                    $menu_a = null;
+                                }
                             })
                         } else {
-                            $(this).parent().parent().remove();
+                            $menu_a.parent().remove();
+                            $menu_a = null;
                         }
                     });
                     break;
@@ -211,9 +257,14 @@ var main = {
                     elem = $icon.parent().find('.item-name');
                     text = elem.text();
                     elem.html('<input type="text" value="' + text + '">')
-                        .find('input').focus().on('blur', function () {
+                        .find('input').focus().on('blur keypress', function (e) {
                         var $self = $(this),
                             value = $self.val();
+                        if(e.keyCode === 13){
+                            $self.off('blur');
+                        }else if(e.type !== 'blur'){
+                            return ;
+                        }
                         if (value) {
                             elem.text(value);
                             $.post('/folder/update', {
