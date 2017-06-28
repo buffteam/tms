@@ -7,23 +7,19 @@
 
     <title>Laravel</title>
 
-    <link rel="stylesheet" href="{{asset('/libs/bootstrap/css/bootstrap.min.css')}}">
-
+    <link rel="stylesheet" href="{{asset('/libs/pure/base-min.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/pure-tip.css')}}">
 </head>
 <body>
-<div class="container">
-    <button type="button"></button>
-    <div class="list-group" id="list">
-        <a href="#" class="list-group-item list-group-item-heading active">
-            Cras justo odio
-        </a>
-        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-        <a href="#" class="list-group-item">Morbi leo risus</a>
-        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-        <a href="#" class="list-group-item">Vestibulum at eros</a>
+<h2>sadsdsdasda</h2>
+<div class="pure-shade pure-tip">
+    <div class="pure-tip-container">
+        <span>登录成功，正在跳转！请稍后！</span>
     </div>
-
 </div>
+
+
+
 
 <script type="template" id="tpl">
 

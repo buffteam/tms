@@ -71,7 +71,7 @@ class LoginController extends BaseController
 
             $userInfo = $this->insertUsersToken($userData->id,$request->ip(),$param['username']);
 
-            return (false !== $userInfo)  ? redirect()->route('dashboard') : $this->responseError(null,'服务器出了点小差错');
+            return (false !== $userInfo)  ? $this->setMsg('登录成功')->response(['id'=>$userData->id]) : $this->responseError(null,'服务器出了点小差错');
 
         }
         return $this->responseError('密码不正确','登陆出错');

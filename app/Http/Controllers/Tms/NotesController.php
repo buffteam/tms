@@ -91,7 +91,7 @@ class NotesController extends BaseController
     }
 
     public function show () {
-        $id = $this->request->input('f_id');
+        $id = $this->request->input('id');
         $list = Notes::where('f_id',$id)->select(['id','title','content','f_id'])->get();
         return $this->setMsg('获取成功')->response($list);
     }

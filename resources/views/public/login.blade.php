@@ -1,5 +1,7 @@
 @extends('layouts.doc.basic')
-@yield('title')
+@section('style')
+    <link rel="stylesheet" href="{{asset('css/pure-tip.css')}}">
+@endsection
 @section('title')
     <title>登录</title>
 @endsection
@@ -22,21 +24,25 @@
                     <input id="password" class="pure-u-1 button-xlarge" type="password" name="password" minlength="5" maxlength="40" placeholder="请输入密码" required>
                     <span class="check-span"><strong>！</strong><span class="info">请输入密码.</span></span>
                 </div>
-                <button type="submit" class="pure-button button-xlarge pure-button-primary pure-u-1" id="login">登录</button>
+                <button type="button" class="pure-button button-xlarge pure-button-primary pure-u-1" id="login">登录</button>
 
             </div>
         </fieldset>
     </form>
+    <div class="pure-shade pure-tip">
+        <div class="pure-tip-content">
+            <span>登录成功，正在跳转！请稍后！</span>
+        </div>
+    </div>
 @endsection
 
 @section('script')
-    <script src="/libs/jquery/jquery.min.js"></script>
+    <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
     <script>
 
         var $username = $('#username'),
-            $pwd = $('#password'),
-            $repwd = $('#repassword'),
-            $email = $('#email');
+            $pwd = $('#password');
+
         /**
          * 验证表单
          */
@@ -64,17 +70,7 @@
                 $pwd.next().find('.info').html('密码长度不能超过40个字符.');
                 return false;
             }
-            if ($repwd.val() !== $pwd.val()) {
-                $repwd.parent().addClass('error');
-                $repwd.next().find('.info').html('两次密码输入不一致.');
-                return false;
-            }
-            var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-            if (!myreg.test($email.val())) {
-                $email.parent().addClass('error');
-                $email.next().find('.info').html('邮箱格式不正确.');
-                return false;
-            }
+
             return true;
 
         }
@@ -95,37 +91,54 @@
         function getFormData() {
             return {
                 username: $username.val(),
-                password: $pwd.val(),
-                email: $email.val()
+                password: $pwd.val()
             }
         }
-        //    $('#register').on('click',function () {
-        //
-        //        removeErrorStyle();
-        //        checkForm();
-        //
-        //        if (!checkForm()) {
-        //            return;
-        //        }
-        //        $.ajax({
-        //            headers: {
-        //                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //            },
-        //            method: 'post',
-        //            url: '/doRegister',
-        //            dataType: 'json',
-        //            data: getFormData(),
-        //            success: function (res) {
-        //                if (res.code == 200) {
-        //                    alert(res.msg)
-        //                } else {
-        //                    alert(res.error)
-        //                }
-        //            },
-        //            error: function (res) {
-        //                console.log(res)
-        //            }
-        //        })
-        //    })
+        $('#login').on('click',function () {
+
+            removeErrorStyle();
+            // 验证用户名是否为空和长度超过100
+            if ($username.val().length < 1) {
+                $username.parent().addClass('error');
+                $username.next().find('.info').html('请输入用户名.');
+                return false;
+            }
+
+            if ($username.val().length > 40) {
+                $username.parent().addClass('error');
+                $username.next().find('.info').html('用户名长度不能超过40个字符.');
+                return false;
+            }
+            if ($pwd.val().length < 1) {
+                $pwd.parent().addClass('error');
+                $pwd.next().find('.info').html('请输入密码.');
+                return false;
+            }
+            if ($pwd.val().length > 40) {
+                $pwd.parent().addClass('error');
+                $pwd.next().find('.info').html('密码长度不能超过40个字符.');
+                return false;
+            }
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'post',
+                url: '/doLogin',
+                dataType: 'json',
+                data: getFormData(),
+                success: function (res) {
+                    if (res.code == 200) {
+                        alert(res.msg)
+                    } else {
+                        alert(res.error)
+                    }
+                },
+                error: function (res) {
+                    console.log(res)
+                }
+            })
+        })
     </script>
 @endsection
