@@ -25,15 +25,15 @@
     width: 280px;
     height: 80px;
     text-align: center;
-    color: white;
-    background-color: rgba(0,0,0,0.3);
+    /*color: white;*/
+    background-color: white;
     line-height: 48px;
     margin-left: -140px;
     margin-top: -50px;
     padding: 15px;
     border-radius: 4px;
     z-index: 1000;
-    animation: zoomIn 500ms;
+    animation: zoomIn 300ms;
 }
 .pure-tip-content {
 
