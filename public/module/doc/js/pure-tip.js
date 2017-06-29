@@ -49,7 +49,17 @@
 
         },
         pureAlert: function () {
-            
+            var tpl = '<div class="pure-shade pure-alert" id="bbkAlert"><div class="pure-alert-container"><div class="pure-close"></div><div class="pure-alert-title">温馨提示</div><div class="pure-alert-body">提示内容</div></div></div>';
+
+
+
+
+
+
+
+
+
+
         }
     });
 })(jQuery);
