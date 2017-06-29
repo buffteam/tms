@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tms;
 use App\Http\Controllers\BaseController;
 use App\Model\Notes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class NotesController extends BaseController
@@ -28,6 +29,7 @@ class NotesController extends BaseController
             return $this->responseError($validator->errors(),'参数验证输错');
         }
         $params = $this->request->input();
+        //TODO 关联模型判断文件夹ID是否存在
         $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->first();
         if (!empty($exist)) {
             return $this->responseError('笔记名称重复','参数验证输错');
@@ -92,9 +94,17 @@ class NotesController extends BaseController
 
     public function show () {
         //TODO 分页 排序 时间转化
-        $id = $this->request->input('id');
-        $list = Notes::where('f_id',$id)->select(['id','title','content','f_id','type','updated_at'])->get();
-        return $this->setMsg('获取成功')->response($list);
+        $params = $this->request->input();
+        $pagesize = isset($params['pagesize']) ? $params['pagesize'] : 15;
+        $page = isset($params['page']) ? $params['page'] : 1;
+        $start =  ($page - 1)*$pagesize + 1 ;
+
+        $total = Notes::count();
+        $totalPage = ceil($total/$pagesize);
+        $start = ($page - 1)*$pagesize;
+        $sql = 'select id,title,content,origin_content,u_id,f_id,type,isPrivate, FROM_UNIXTIME(updated_at) as update_time from tms_notes where f_id ='.$params['id'].' ORDER BY updated_at DESC limit '.$start.','.$pagesize ;
+        $data = DB::select($sql);
+        return $this->setMsg('获取成功')->response(['totalPage'=>$totalPage,'data'=>$data]);
     }
     public function listAll () {
         return Notes::where('active',1)->get();

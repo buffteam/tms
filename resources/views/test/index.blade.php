@@ -12,46 +12,31 @@
 </head>
 <body>
 <h2>sadsdsdasda</h2>
-<div class="pure-shade pure-tip">
-    <div class="pure-tip-container">
-        <span>登录成功，正在跳转！请稍后！</span>
+
+<div class="pure-shade pure-alert" id="bbkAlert">
+    <div class="pure-alert-container">
+        <div class="pure-close"></div>
+        <div class="pure-alert-title">
+            温馨提示
+        </div>
+        <div class="pure-alert-body">
+            提示内容
+        </div>
     </div>
 </div>
 
 
 
-
-<script type="template" id="tpl">
-
-    <% for (var i = 0; i < list.length; i++) {%>
-        <a href="#" class="list-group-item <%= list[i].id == 1 ? 'active' : '' %>" data-id="<%= list[i].name %>"><%= list[i].name %></a>
-    <% } %>
-
-</script>
 <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('/libs/template/template-native.js')}}"></script>
 <script>
-    var listData = localStorage.getItem('data');
-    if (listData !== null) {
-        $('#list').html(template('tpl',{list:JSON.parse(listData)}));
-        var timer = setTimeout(function(){
-            request();
-            clearTimeout(timer);
-        },2000);
-    } else {
-        request();
-    }
-    function request() {
-        $.ajax({
-            method: 'get',
-            url: '/getAll',
-            dataType: 'json',
-            success: function (res) {
-                localStorage.setItem('data',JSON.stringify(res));
-                $('#list').html(template('tpl',{list:res}));
-            }
+    $(function () {
+        var bbkAlert = $('#bbkAlert');
+        bbkAlert.on('click','.pure-close',function(){
+            bbkAlert.hide();
         });
-    }
+    })
+
 
 </script>
 </body>

@@ -34,7 +34,7 @@
                     <input id="email" class="pure-u-1 button-xlarge" type="email" name="email" placeholder="请输入邮箱" minlength="6" maxlength="80" required>
                     <span class="check-span"><strong>！</strong><span class="info">请输入邮箱</span></span>
                 </div>
-                <button type="submit" class="pure-button button-xlarge pure-button-primary pure-u-1" id="register">注册</button>
+                <button type="button" class="pure-button button-xlarge pure-button-primary pure-u-1" id="register">注册</button>
 
             </div>
         </fieldset>
@@ -43,6 +43,7 @@
 
 @section('script')
     <script src="/libs/jquery/jquery.min.js"></script>
+    <script src="{{asset('module/doc/js/pure-tip.js')}}"></script>
     <script>
 
         var $username = $('#username'),
@@ -111,34 +112,37 @@
                 email: $email.val()
             }
         }
-        //    $('#register').on('click',function () {
-        //
-        //        removeErrorStyle();
-        //        checkForm();
-        //
-        //        if (!checkForm()) {
-        //            return;
-        //        }
-        //        $.ajax({
-        //            headers: {
-        //                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //            },
-        //            method: 'post',
-        //            url: '/doRegister',
-        //            dataType: 'json',
-        //            data: getFormData(),
-        //            success: function (res) {
-        //                if (res.code == 200) {
-        //                    alert(res.msg)
-        //                } else {
-        //                    alert(res.error)
-        //                }
-        //            },
-        //            error: function (res) {
-        //                console.log(res)
-        //            }
-        //        })
-        //    })
+            $('#register').on('click',function () {
+
+                removeErrorStyle();
+                if (!checkForm()) {
+                    return;
+                }
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'post',
+                    url: '/doRegister',
+                    dataType: 'json',
+                    data: getFormData(),
+                    success: function (res) {
+                        if (res.code == 200) {
+                            $.pureTip({
+                                tip: '注册成功，正在跳转，请稍后！',
+                                callback: function () {
+                                    window.location.href = "/login"
+                                }
+                            });
+                        } else {
+                            alert(res.error)
+                        }
+                    },
+                    error: function (res) {
+                        console.log(res)
+                    }
+                })
+            })
     </script>
 @endsection
 

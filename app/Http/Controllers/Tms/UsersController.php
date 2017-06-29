@@ -54,10 +54,10 @@ class UsersController extends BaseController
         $user->auth = 1;
         $user->avatar = '/uploads/avatar/github.jpg';
         if ($user->save()) {
-            return redirect('login');
-//            return response($this->setMsg('注册成功')->response( ['id' => $user->id, 'username' => $user->username,]));
+//            return redirect('login');
+            return response($this->setMsg('注册成功')->response( ['id' => $user->id, 'username' => $user->username,]));
         }
-        return response($this->responseError($user->saveOrFail()));
+        return $this->setMsg('注册失败')->responseError();
     }
     public function logout () {
         session('user',null);
