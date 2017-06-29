@@ -60,99 +60,15 @@
         </div>
 
         <div id="list" class="">
-            <div class="list-search-box pure-form">
-                <input type="text" class="pure-input-rounded">
+            <div class="list-head pure-g">
+                <div class="serch-input-box pure-u-2-3">
+                    <input type="text" class="serch-input" placeholder="搜索笔记">
+                </div>
+                <div class="list-new-box pure-u-1-3">
+                    <button class="pure-button pure-button-primary">新建笔记</button>
+                </div>
             </div>
-            <div class="doc-item doc-item-selected">
-                <p class="doc-subject">HTML5 进阶系列：文件API</p>
-                <p class="doc-time">
-                    2017-06-20
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：canvas 动态图表</p>
-                <p class="doc-time">
-                    2017-06-19
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：拖放 API 实现拖放排序</p>
-                <p class="doc-time">
-                    2017-06-18
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：indexedDB 数据库</p>
-                <p class="doc-time">
-                    2017-06-17
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：web Storage</p>
-                <p class="doc-time">
-                    2017-06-16
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：文件API</p>
-                <p class="doc-time">
-                    2017-06-20
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：canvas 动态图表</p>
-                <p class="doc-time">
-                    2017-06-19
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：拖放 API 实现拖放排序</p>
-                <p class="doc-time">
-                    2017-06-18
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：indexedDB 数据库</p>
-                <p class="doc-time">
-                    2017-06-17
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：web Storage</p>
-                <p class="doc-time">
-                    2017-06-16
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：文件API</p>
-                <p class="doc-time">
-                    2017-06-20
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：canvas 动态图表</p>
-                <p class="doc-time">
-                    2017-06-19
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：拖放 API 实现拖放排序</p>
-                <p class="doc-time">
-                    2017-06-18
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：indexedDB 数据库</p>
-                <p class="doc-time">
-                    2017-06-17
-                </p>
-            </div>
-            <div class="doc-item">
-                <p class="doc-subject">HTML5 进阶系列：web Storage</p>
-                <p class="doc-time">
-                    2017-06-16
-                </p>
-            </div>
+            <div class="list-content"></div>
         </div>
 
         <div id="main" class="">
@@ -191,6 +107,16 @@
             </div>
         </div>
     </div>
+    <script id="list-tpl" type="text/html">
+        <% for(var i = 0; i < list.length; i++) { %>
+        <div class="doc-item <% if(list[i].id === active) {%> active <% } %>">
+            <p class="doc-subject"><%= list[i].title %></p>
+            <p class="doc-time">
+                2017-06-19
+            </p>
+        </div>
+        <% } %>
+    </script>
     <script id="add-input-tpl" type="text/html">
         <li class="child-item">
             <a href="#" class="last-menu-a" data-id="">
@@ -203,7 +129,7 @@
 
     <script id="nav-tpl" type="text/html">
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
-        <li class="child-item">
+        <li class="child-item <% if(list[i].id === active) {%> active <% } %>">
         <% if(list[i].child) {%> 
 			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-switch="on">
         <% }else{ %>

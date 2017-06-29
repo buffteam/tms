@@ -8,24 +8,19 @@ var $input = $('.child-item-input input'),
     $firstParent = $('.first-menu-a.is-parent'),
     $downBox = $('.down-box');
 
-
-
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
     dialog_type = null;         // 定义type 控制dialog的处理事件
-var main = {
+
+
+
+var folder = {
     init: function () {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        main.initNav();
-        main.initEditor();
-        main.clickHandle();
-        main.folderHandle();
+        folder.initNav();
+        folder.clickHandle();
+        folder.folderHandle();
     },
-    // 渲染nav
+    // 渲染文件夹列表
     initNav: function () {
         var tpl = $('#nav-tpl').html();
         var list = [];
@@ -54,31 +49,12 @@ var main = {
                     }
                 }
             }
-            var html = template('nav-tpl', {list: list, idx: 0});
+            var html = template('nav-tpl', {list: list, idx: 0, active: list[0].id});
             $('.first-child-list').prepend(html);
-
+            note.getList(list[0].id);
         });
 
     },
-    // 初始化编辑器
-    initEditor: function () {
-        var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        var editor = editormd("editormd", {
-            path: "./libs/editormd/lib/",
-            width: '100%',
-            height: height,
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "./php/upload.php",
-            toolbarIcons: function () {
-                return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
-                    "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
-                    "watch", "preview", "fullscreen", "clear", "search"
-                ]
-            }
-        });
-    },
-
     clickHandle: function () {
         // 收起侧边栏
         $menuBtn.on('click', function () {
@@ -102,7 +78,7 @@ var main = {
                 self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
             }
         })
-            // 点击我的文档目录事件
+        // 点击我的文档目录事件
             .on('click','.first-menu-a',function () {
                 var self = $(this),
                     ul_switch = self.data('switch');
@@ -162,7 +138,7 @@ var main = {
             }else if(e.type !== 'blur'){
                 return ;
             }
-            main.addFirstFolder($self);
+            folder.addFirstFolder($self);
             $self.on('focus',function () {
                 $self.off('blur keypress').on('blur keypress',function (e) {
                     var $self = $(this);
@@ -172,7 +148,7 @@ var main = {
                     }else if(e.type !== 'blur'){
                         return ;
                     }
-                    main.addFirstFolder($self);
+                    folder.addFirstFolder($self);
                 })
             })
         });
@@ -197,6 +173,7 @@ var main = {
         }
         self.val('').parent().hide();
     },
+    // 文件夹增删查改事件
     folderHandle: function () {
         // 选中下拉菜单事件
         $nav.on('click', '.down-box p', function (e) {
@@ -288,12 +265,60 @@ var main = {
             }
         });
     },
+};
+
+var note = {
+    init: function(){
+
+    },
+    getList: function (folder_id) {
+        $.get('/note/show', {id: folder_id}, function (res) {
+            if(res.code === 200){
+                var html = template('list-tpl', {list: res.data, active: res.data[0].id});
+                $('.list-content').append(html);
+            }
+        })
+    }
+};
+
+
+var main = {
+    init: function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        main.initEditor();
+        folder.init();
+    },
+
+    // 初始化编辑器
+    initEditor: function () {
+        var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
+        var editor = editormd("editormd", {
+            path: "./libs/editormd/lib/",
+            width: '100%',
+            height: height,
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "./php/upload.php",
+            toolbarIcons: function () {
+                return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
+                    "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
+                    "watch", "preview", "fullscreen", "clear", "search"
+                ]
+            }
+        });
+    },
+
     // dialog取消事件
     cancelDialog: function () {
         dialog_type = null;
         $('.dialog').hide();
         $g_folder = null;
     },
+
     // dialog确定事件
     sureDialog: function () {
         switch (dialog_type){
@@ -306,7 +331,7 @@ var main = {
                     }
                 })
         }
-    }
+    },
 
 };
 main.init();
