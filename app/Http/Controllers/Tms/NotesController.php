@@ -41,7 +41,8 @@ class NotesController extends BaseController
         }
 
         $notes = Notes::create($params);
-        return $this->setMsg('新增成功')->response(['id'=>$notes->id]);
+
+        return $this->setMsg('新增成功')->response($notes);
     }
     public function del () {
         // 验证规则
@@ -102,7 +103,7 @@ class NotesController extends BaseController
         $total = Notes::count();
         $totalPage = ceil($total/$pagesize);
         $start = ($page - 1)*$pagesize;
-        $sql = 'select id,title,content,origin_content,u_id,f_id,type,isPrivate, FROM_UNIXTIME(updated_at) as update_time from tms_notes where f_id ='.$params['id'].' ORDER BY updated_at DESC limit '.$start.','.$pagesize ;
+        $sql = 'select id,title,content,origin_content,u_id,f_id,type,isPrivate,updated_at from tms_notes where active > 0 and f_id ='.$params['id'].' ORDER BY updated_at DESC limit '.$start.','.$pagesize ;
         $data = DB::select($sql);
         return $this->setMsg('获取成功')->response(['totalPage'=>$totalPage,'data'=>$data]);
     }
