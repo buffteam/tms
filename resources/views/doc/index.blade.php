@@ -60,22 +60,35 @@
         </div>
 
         <div id="list" class="">
-            <div class="list-head pure-g">
-                <div class="serch-input-box pure-u-2-3">
+            <div class="list-head">
+                <div class="serch-input-box">
                     <input type="text" class="serch-input" placeholder="搜索笔记">
                 </div>
-                <div class="list-new-box pure-u-1-3">
-                    <button class="pure-button pure-button-primary">新建笔记</button>
+                <div class="sort-box">
+                    <span class="sort-box-icon"></span>
+                    <ul class="sort-down-menu">
+                        <li class="active">修改时间</li>
+                        <li>创建时间</li>
+                        <li>文件名称</li>
+                    </ul>
                 </div>
             </div>
-            <div class="list-content"></div>
+            <div class="list-content">
+                <ul class="list-content-ul"></ul>
+                <div class="list-content-null">
+                    <p>该目录下没有笔记</p>
+                    <span>新建笔记</span>
+                </div>
+            </div>
+
         </div>
 
         <div id="main" class="">
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
-                    <div class="pure-u-2-3">
+                    <div class="pure-u-2-3 doc-content-title">
                         <input type="text" name="title" placeholder="这里是标题">
+                        <span></span>
                     </div>
 
                     <div class="doc-content-controls pure-u-1-3">
@@ -86,9 +99,17 @@
                 </div>
 
                 <div class="doc-content-body">
-                    <div id="editormd">
-                        <textarea id="page_content" style="display:none;"></textarea>
+                    <div class="doc-preview-body">
+
                     </div>
+                    <div class="doc-edit-body" style="display: none;">
+                        <div id="editormd">
+                            <textarea id="page_content" style="display:none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-content-null">
+                    null
                 </div>
             </div>
         </div>
@@ -109,12 +130,16 @@
     </div>
     <script id="list-tpl" type="text/html">
         <% for(var i = 0; i < list.length; i++) { %>
-        <div class="doc-item <% if(list[i].id === active) {%> active <% } %>">
-            <p class="doc-subject"><%= list[i].title %></p>
-            <p class="doc-time">
-                2017-06-19
+        <li class="doc-item <% if(list[i].id === active) {%> active <% } %>" data-id="<%= list[i].id %>">
+            <p class="doc-title">
+                <% if(list[i].type === 1) {%><span class="icon-md"></span>
+                <% }else{ %><span class="icon-note"></span>
+                <% } %><%= list[i].title %>
             </p>
-        </div>
+            <p class="doc-time">
+                <%= list[i].update_time %>
+            </p>
+        </li>
         <% } %>
     </script>
     <script id="add-input-tpl" type="text/html">
@@ -153,6 +178,7 @@
     <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('/libs/template/template-native.js')}}"></script>
     <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
+    <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
 </body>
 
