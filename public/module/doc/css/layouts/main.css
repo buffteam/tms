@@ -17,6 +17,12 @@ a {
     color: #1b98f8;
 }
 
+ul, li{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 /*
  * -- HELPER STYLES --
  * Over-riding some of the .pure-button styles to make my buttons look unique
@@ -44,10 +50,6 @@ a {
     font-size: 80%;
 }
 
-/*
- * -- LAYOUT STYLES --
- * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
- */
 .header {
     position: fixed;
     left: 0;
@@ -89,10 +91,6 @@ a {
 
 #layout.middle .nav-menu-button {
     right: 0;
-}
-
-#layout.middle .child-list {
-    /*display: none !important;*/
 }
 
 #nav .nav-menu-button {
@@ -300,142 +298,40 @@ a {
     padding: 5px 10px;
 }
 
-#list::-webkit-scrollbar, #nav::-webkit-scrollbar {
-    width: 0;
-}
+/*::-webkit-scrollbar {*/
+    /*height: 8px;*/
+    /*width: 10px;*/
+    /*background: transparent;*/
+    /*border-radius: 5px;*/
+    /*z-index:2;*/
+/*}*/
+/*::-webkit-scrollbar-button {*/
+    /*display: none;*/
+/*}*/
+/*::-webkit-scrollbar-track {*/
+    /*background-color: transparent;*/
+/*}*/
+/*::-webkit-scrollbar-track-piece {*/
+    /*background: transparent;*/
+/*}*/
+/*::-webkit-scrollbar-thumb {*/
+    /*width: 10px;*/
+    /*min-height: 15px;*/
+    /*background: rgba(118, 176, 243, 0.3);*/
+    /*border-radius: 0;*/
+    /*margin-right: 1px;*/
+/*}*/
 
-.doc-count {
-    color: rgb(75, 113, 151);
-}
 
-.doc-label-personal,
-.doc-label-work,
-.doc-label-travel {
-    width: 15px;
-    height: 15px;
-    display: inline-block;
-    margin-right: 0.5em;
-    border-radius: 3px;
-}
-
-.doc-label-personal {
-    background: #ffc94c;
-}
-
-.doc-label-work {
-    background: #41ccb4;
-}
-
-.doc-label-travel {
-    background: #40c365;
-}
-
-/* Doc Item Styles */
-.list-head {
-    padding: 10px;
-    border-bottom: #ddd;
-    text-align: center;
-}
-.serch-input-box{
-    padding-right: 30px;
-    box-sizing: border-box;
-}
-.serch-input-box input.serch-input{
-    border: 1px solid #ededed;
-    width: 100%;
-    height: 37px;
-    padding: 5px 15px;
-    border-radius: 20px;
-    box-sizing: border-box;
-}
-.serch-input-box input.serch-input:focus {
-    outline: 0;
-}
-
-.doc-item {
-    padding: 0.9em 1em;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-}
-
-.doc-avatar {
-    border-radius: 3px;
-    margin-right: 0.5em;
-}
-
-.doc-name,
-.doc-subject {
-    margin: 0;
-}
-
-.doc-name {
-    text-transform: uppercase;
-    color: #333;
-}
-
-.doc-time {
-    font-size: 80%;
-    margin: 0.4em 0;
-    color: #aaa;
-}
-
-.doc-item.active {
-    background: #c5e7ff;
-}
-
-/* Email Content Styles */
-
-.doc-content-header {
-    padding: 1em 2em;
-}
-
-.doc-content-header {
-    border-bottom: 1px solid #ddd;
-}
-
-.doc-content-header input {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    font-size: 25px;
-    color: #333;
-}
-
-::-webkit-input-placeholder {
-    color: #ccc;
-}
 
 .doc-content-header input:focus,
 .doc-content-header input:active {
     outline: 0;
 }
 
-.doc-content-title {
-    margin: 0.5em 0 0;
-}
-
-.doc-content-subtitle {
-    font-size: 1em;
-    margin: 0;
-    font-weight: normal;
-}
-
-.doc-content-subtitle span {
-    color: #999;
-}
-
 .doc-content-controls {
     text-align: right;
     line-height: 35px;
-}
-
-.doc-content-controls .secondary-button {
-    margin-bottom: 0.3em;
-}
-
-.doc-avatar {
-    width: 40px;
-    height: 40px;
 }
 
 #layout {
@@ -450,7 +346,6 @@ a {
     position: absolute;
     top: 50px;;
     bottom: 0;
-    overflow-y: scroll;
 }
 
 #nav {
@@ -459,7 +354,6 @@ a {
     background: #f3f3f3;
     border-right: 1px solid #ddd;
     transition: width .3s;
-    overflow: hidden;
 }
 
 #list {
@@ -469,30 +363,10 @@ a {
     transition: left .3s;
 }
 
-#main {
-    position: absolute;
-    left: 560px;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    transition: left .3s;
-}
-
 .nav-inner {
     display: block;
     margin: 37px 0;
     border-top: 1px solid #aaa;
-}
-
-#editormd {
-    box-sizing: border-box;
-    border-top: 0;
-    border-right: 0;
-    margin-bottom: 0;
-}
-
-.editormd-fullscreen {
-    z-index: 100;
 }
 
 /* dialog */
@@ -564,4 +438,122 @@ a {
     from{
         top: 15%;
     }
+}
+
+
+/*note css*/
+.list-head {
+    height: 57px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    box-sizing: border-box;
+}
+.serch-input-box{
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+.serch-input-box input.serch-input{
+    border: 1px solid #ededed;
+    width: 100%;
+    height: 37px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+.serch-input-box input.serch-input:focus {
+    outline: 0;
+}
+.list-content{
+    position: absolute;
+    top: 57px;
+    bottom: 0;
+    width:100%;
+    overflow-y: scroll;
+}
+.list-content::-webkit-scrollbar{
+    width:0;
+}
+.doc-item {
+    padding: 0.9em 1em;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.doc-title {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+}
+.doc-title .icon-md, .doc-title .icon-note{
+    float: left;
+    width: 16px;
+    height: 16px;
+    background: url("/module/doc/imgs/icon/md.png") no-repeat;
+    background-size: 16px;
+    margin:2px 5px 0 0;
+}
+.doc-title .icon-note{
+    background-image: url("/module/doc/imgs/icon/note.png");
+}
+.doc-time {
+    font-size: 80%;
+    margin: 0.4em 0;
+    color: #aaa;
+}
+
+.doc-item.active {
+    background: #c5e7ff;
+}
+/* Doc Content Styles */
+#main {
+    position: absolute;
+    left: 560px;
+    right: 0;
+    top: 50px;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    transition: left .3s;
+}
+.doc-content-header {
+    padding: 15px 30px;
+    height: 70px;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.doc-content-header input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    font-size: 25px;
+    color: #333;
+}
+
+::-webkit-input-placeholder {
+    color: #ccc;
+}
+.doc-content-body{
+    position: absolute;
+    top:70px;
+    bottom: 0;
+    width: 100%;
+    overflow-y: scroll;
+}
+.doc-preview-body{
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+#editormd {
+    box-sizing: border-box;
+    border-top: 0;
+    border-right: 0;
+    margin-bottom: 0;
+}
+
+.editormd-fullscreen {
+    z-index: 100;
 }

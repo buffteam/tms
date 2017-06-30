@@ -6,11 +6,16 @@ var $input = $('.child-item-input input'),
     $menuBtn = $('.nav-menu-button'),
     $nav = $('#nav'),
     $firstParent = $('.first-menu-a.is-parent'),
-    $downBox = $('.down-box');
+    $downBox = $('.down-box'),
+    $list_ul = $('.list-content-ul'),
+    $list_box = $('.list-content');
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
-    dialog_type = null;         // 定义type 控制dialog的处理事件
+    dialog_type = null,         // 定义type 控制dialog的处理事件
+    cur_page = 1,               // 当前笔记列表的页码
+    totalPage = null,           // 笔记列表总页码
+    isLoading = false;          // 是否正在加载列表
 
 
 
@@ -272,12 +277,41 @@ var note = {
 
     },
     getList: function (folder_id) {
-        $.get('/note/show', {id: folder_id}, function (res) {
+        $.get('/note/show', {id: folder_id, page: cur_page}, function (res) {
             if(res.code === 200){
-                var html = template('list-tpl', {list: res.data, active: res.data[0].id});
-                $('.list-content').append(html);
+                var html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                $list_ul.append(html);
+                note.getNoteDetail(res.data.data[0].id);
+                cur_page ++;
+                note.scorllHandle();
+
             }
         })
+    },
+    getNoteDetail: function (note_id) {
+        $.get('/note/find', {id: note_id}, function (res) {
+            if(res.code === 200){
+                $('.doc-preview-body').html(res.data[0].content);
+            }
+        })
+    },
+    scorllHandle: function () {
+        var ul_height = $list_ul.height(),
+            box_height = $list_box.height();
+
+            $list_box.on('scroll',function () {
+                if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
+                    isLoading = true;
+                    console.log('正在加载')
+                }
+            });
+
+        var niceScroll = $('.list-content').niceScroll({
+            cursorcolor: '#999',
+            autohidemode: 'leave',
+            horizrailenabled: false,
+            cursorborder: '0'
+        });
     }
 };
 
