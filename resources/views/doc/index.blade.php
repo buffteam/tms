@@ -60,16 +60,25 @@
         </div>
 
         <div id="list" class="">
-            <div class="list-head pure-g">
-                <div class="serch-input-box pure-u-2-3">
+            <div class="list-head">
+                <div class="serch-input-box">
                     <input type="text" class="serch-input" placeholder="搜索笔记">
                 </div>
-                <div class="list-new-box pure-u-1-3">
-                    <button class="pure-button pure-button-primary">新建笔记</button>
+                <div class="sort-box">
+                    <span class="sort-box-icon"></span>
+                    <ul class="sort-down-menu">
+                        <li class="active">修改时间</li>
+                        <li>创建时间</li>
+                        <li>文件名称</li>
+                    </ul>
                 </div>
             </div>
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
+                <div class="list-content-null">
+                    <p>该目录下没有笔记</p>
+                    <span>新建笔记</span>
+                </div>
             </div>
 
         </div>
@@ -77,8 +86,9 @@
         <div id="main" class="">
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
-                    <div class="pure-u-2-3">
+                    <div class="pure-u-2-3 doc-content-title">
                         <input type="text" name="title" placeholder="这里是标题">
+                        <span></span>
                     </div>
 
                     <div class="doc-content-controls pure-u-1-3">
@@ -97,6 +107,9 @@
                             <textarea id="page_content" style="display:none;"></textarea>
                         </div>
                     </div>
+                </div>
+                <div class="doc-content-null">
+                    null
                 </div>
             </div>
         </div>
@@ -117,7 +130,7 @@
     </div>
     <script id="list-tpl" type="text/html">
         <% for(var i = 0; i < list.length; i++) { %>
-        <li class="doc-item <% if(list[i].id === active) {%> active <% } %>">
+        <li class="doc-item <% if(list[i].id === active) {%> active <% } %>" data-id="<%= list[i].id %>">
             <p class="doc-title">
                 <% if(list[i].type === 1) {%><span class="icon-md"></span>
                 <% }else{ %><span class="icon-note"></span>
