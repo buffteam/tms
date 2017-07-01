@@ -24,6 +24,8 @@ Route::get('getAll', 'TestController@getAll');
  * 用户表相关
  */
 
+Route::any('upload', 'UtilController@upload');
+
 
 Route::group(['namespace' => 'Tms'], function () {
     //
@@ -32,7 +34,7 @@ Route::group(['namespace' => 'Tms'], function () {
     Route::get('login', 'LoginController@index')->name('login');
     Route::post('doLogin', 'LoginController@login');
     Route::any('logout', 'UsersController@logout')->name('logout');
-
+    Route::any('/notes/upload', 'NotesController@upload');
 
 });
 Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () {

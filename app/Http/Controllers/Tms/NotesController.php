@@ -110,4 +110,22 @@ class NotesController extends BaseController
     public function listAll () {
         return Notes::where('active',1)->get();
     }
+
+    public function upload () {
+        $request = $this->request;
+
+        if (!$request->hasFile('file')) {
+            //
+            return $this->responseError('没有选择文件');
+        }
+        $file = $request->file('file');
+        if (!$file->isValid()){
+            //
+            return $this->responseError('上传文件失败');
+        }
+        $path = $file->path();
+//        return '<img src="'.$path.'">';
+        dump($file);
+
+    }
 }

@@ -7,23 +7,22 @@
 
     <title>Laravel</title>
 
-    <link rel="stylesheet" href="{{asset('/libs/pure/base-min.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/pure-tip.css')}}">
+    <link rel="stylesheet" href="{{asset('/libs/bootstrap/css/bootstrap.min.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('/css/pure-tip.css')}}">--}}
 </head>
 <body>
-<h2>sadsdsdasda</h2>
 
-<div class="pure-shade pure-alert" id="bbkAlert">
-    <div class="pure-alert-container">
-        <div class="pure-close"></div>
-        <div class="pure-alert-title">
-            温馨提示
-        </div>
-        <div class="pure-alert-body">
-            提示内容
-        </div>
-    </div>
+
+<div class="container" style="margin-top: 120px;">
+
+    <form action="/upload" method="post" class="form-inline" enctype="multipart/form-data">
+        {{ csrf_field() }}
+        <input type="file" name="file" class="form-control">
+        <button class="btn btn-primary" type="submit">上传</button>
+    </form>
 </div>
+
+
 
 
 
