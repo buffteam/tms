@@ -370,14 +370,23 @@ var note = {
             width: '100%',
             height: height,
             markdown: value || '',
+            disabledKeyMaps: ["Ctrl-S"],
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "./php/upload.php",
+            imageUploadURL: "/util/upload",
             toolbarIcons: function () {
                 return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
                     "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
                     "watch", "preview", "fullscreen", "clear", "search"
                 ]
+            },
+            onload : function() {
+                var keyMap = {
+                    "Ctrl-S": function(cm) {
+                        note.saveNote();
+                    }
+                };
+                this.addKeyMap(keyMap);
             }
         });
     },
@@ -442,7 +451,11 @@ var main = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
+        $(document).keydown(function(e){
+            if( e.ctrlKey  == true && e.keyCode == 83 ){
+                return false;
+            }
+        });
         folder.init();
     },
 
