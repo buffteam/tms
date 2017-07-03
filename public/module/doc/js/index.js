@@ -13,6 +13,8 @@ var $input = $('.child-item-input input'),
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
+    editor = null,
+    cur_note = null,
     dialog_type = null,         // 定义type 控制dialog的处理事件
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
@@ -301,6 +303,7 @@ var note = {
                 }else{
                     $doc_box.addClass('null');
                     $list_box.addClass('null');
+                    $list_ul.html('');
                 }
             }
         })
@@ -309,7 +312,9 @@ var note = {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
                 $('.doc-preview-body').html(res.data[0].content);
-                $('.doc-content-title').addClass('no_edit').find('span').html(res.data[0].title);
+                $doc_box.removeClass('is_edit').addClass('no_edit');
+                $('.doc-title-span').html(res.data[0].title);
+                cur_note = res.data[0];
             }
         })
     },
@@ -342,12 +347,13 @@ var note = {
         });
     },
     // 初始化编辑器
-    initEditor: function () {
+    initEditor: function (value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        var editor = editormd("editormd", {
+        editor = editormd("editormd", {
             path: "./libs/editormd/lib/",
             width: '100%',
             height: height,
+            markdown: value || '',
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
             imageUploadURL: "./php/upload.php",
@@ -358,6 +364,53 @@ var note = {
                 ]
             }
         });
+    },
+    newNote: function () {
+        $.post('/note/add',{
+            title: '新建笔记',
+            f_id: g_id
+        },function(res){
+            var list = [res.data];
+            var html = template('list-tpl', {list: list, active: res.data.id});
+            $list_ul.prepend(html);
+            $doc_box.removeClass('null no_edit').addClass('is_edit');
+            $list_box.removeClass('null');
+            $('.doc-title-input').val('');
+            note.initEditor();
+        })
+    },
+    delNote: function () {
+        var note_id = $('.doc-item.active').data('id');
+        $.post('/note/del',{id: note_id}, function (res) {
+            console.log(res);
+
+        })
+    },
+    editNote: function () {
+        $('.doc-title-input').val(cur_note.title);
+        editor = null;
+        note.initEditor(cur_note.origin_content);
+        $doc_box.removeClass('no_edit').addClass('is_edit');
+    },
+    saveNote: function () {
+        var title = $('.doc-title-input').val(),
+            md_cnt = editor.getMarkdown(),
+            html_cnt = editor.getPreviewedHTML(),
+            note_id = $('.doc-item.active').data('id');
+        $.post('/note/update', {
+            id: note_id,
+            f_id: g_id,
+            title: title,
+            content: html_cnt,
+            origin_content: md_cnt
+        }, function (res) {
+            console.log(res);
+            if(res.code === 200){
+                $('.doc-item.active .list-title-text').text(title);
+                alert('保存成功')
+            }
+
+        })
     }
 };
 

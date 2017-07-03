@@ -75,9 +75,10 @@
             </div>
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
+                <div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
                 <div class="list-content-null">
                     <p>该目录下没有笔记</p>
-                    <span>新建笔记</span>
+                    <span class="new-note" onclick="note.newNote()">新建笔记</span>
                 </div>
             </div>
 
@@ -87,14 +88,16 @@
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
                     <div class="pure-u-2-3 doc-content-title">
-                        <input type="text" name="title" placeholder="这里是标题">
-                        <span></span>
+                        <input class="doc-title-input" type="text" name="title" placeholder="这里是标题">
+                        <span class="doc-title-span"></span>
                     </div>
 
                     <div class="doc-content-controls pure-u-1-3">
-                        <span>分享</span>
-                        <span>导出</span>
-                        <span>删除</span>
+                        <span class="edit-btn" onclick="note.editNote()">编辑</span>
+                        <span class="save-btn" onclick="note.saveNote()">保存</span>
+                        {{--<span>分享</span>--}}
+                        {{--<span>导出</span>--}}
+                        {{--<span onclick="note.delNote()">删除</span>--}}
                     </div>
                 </div>
 
@@ -102,14 +105,14 @@
                     <div class="doc-preview-body">
 
                     </div>
-                    <div class="doc-edit-body" style="display: none;">
+                    <div class="doc-edit-body">
                         <div id="editormd">
                             <textarea id="page_content" style="display:none;"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="doc-content-null">
-                    null
+
                 </div>
             </div>
         </div>
@@ -134,10 +137,11 @@
             <p class="doc-title">
                 <% if(list[i].type === 1) {%><span class="icon-md"></span>
                 <% }else{ %><span class="icon-note"></span>
-                <% } %><%= list[i].title %>
+                <% } %>
+                <span class="list-title-text"><%= list[i].title %></span>
             </p>
             <p class="doc-time">
-                <%= list[i].update_time %>
+                <%= list[i].updated_at %>
             </p>
         </li>
         <% } %>
