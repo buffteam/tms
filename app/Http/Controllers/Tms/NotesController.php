@@ -107,8 +107,13 @@ class NotesController extends BaseController
         $data = DB::select($sql);
         return $this->setMsg('获取成功')->response(['totalPage'=>$totalPage,'data'=>$data]);
     }
-    public function listAll () {
-        return Notes::where('active',1)->get();
+    public function latest () {
+        $param = $this->request->input();
+        $latestNum = isset($param['num']) ? $param['num'] : 20;
+
+        $latestData = Notes::where('active',1)->orderBy('updated_at')->limit($latestNum)->get();
+        dump($latestData);
+
     }
 
     public function upload () {

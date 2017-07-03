@@ -15,18 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('check', 'Tms\UsersController@check');
-Route::resource('test', 'TestController');
-Route::get('getAll', 'TestController@getAll');
 
+Route::resource('test', 'TestController');
+
+
+Route::any('upload', 'UtilController@upload');
 
 /**
  * 用户表相关
  */
-
-Route::any('upload', 'UtilController@upload');
-
-
 Route::group(['namespace' => 'Tms'], function () {
     //
     Route::get('register', 'RegisterController@register')->name('register');
@@ -53,5 +50,5 @@ Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () 
     Route::any('/note/update', 'NotesController@update');
     Route::any('/note/find', 'NotesController@find');
     Route::any('/note/show', 'NotesController@show');
-    Route::any('/note/list', 'NotesController@listAll');
+    Route::any('/note/latest', 'NotesController@latest');
 });

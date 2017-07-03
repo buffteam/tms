@@ -12,7 +12,7 @@
 
             var defaultOptions = {
                 tip: '提示内容',
-                leaveTime: 1500,
+                leaveTime: 500,
                 callback: null
             };
 
