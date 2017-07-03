@@ -76,8 +76,8 @@ class NotesController extends BaseController
         }
         $params = $this->request->input();
         if (isset($params['title'])) {
-            $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->first();
-            if (!empty($exist)) {
+            $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->get();
+            if (count($exist) > 1) {
                 return $this->responseError('笔记名称重复','参数验证输错');
             }
         }

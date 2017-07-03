@@ -31,7 +31,7 @@ php artisan key:generate
 
 - 启动服务
 ````
-php artisan server
+php artisan serve
 
 ````
 
