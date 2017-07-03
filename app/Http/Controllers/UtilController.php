@@ -15,8 +15,10 @@ class UtilController extends BaseController
         $upload = new upload('file','uploads');
         $param = $upload->uploadFile();
         if ( $param['status'] ) {
-            return $this->setMsg('上传成功')->response(array('url'=>$param['data']));
+            return response()->json(array('success'=>1,'message'=>'上传成功','url'=>$param['data']));
         }
-        return $this->responseError($param['data'],'上传失败');
+        return response()->json(array('success'=>1,'message'=>'上传失败','url'=>$param['data']));
+
+
     }
 }

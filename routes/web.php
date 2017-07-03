@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::resource('test', 'TestController');
 
 
-Route::any('upload', 'UtilController@upload');
+Route::any('util/upload', 'UtilController@upload');
 
 /**
  * 用户表相关
