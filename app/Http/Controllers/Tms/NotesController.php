@@ -89,7 +89,7 @@ class NotesController extends BaseController
     }
     public function find () {
         $id = $this->request->input('id');
-        $data = Notes::where('id',$id)->select(['id','title','content','f_id'])->get();
+        $data = Notes::where('id',$id)->select(['id','title','content','f_id','origin_content'])->get();
         return $this->setMsg('获取成功')->response($data);
     }
 
@@ -107,25 +107,28 @@ class NotesController extends BaseController
         $data = DB::select($sql);
         return $this->setMsg('获取成功')->response(['totalPage'=>$totalPage,'data'=>$data]);
     }
-    public function listAll () {
-        return Notes::where('active',1)->get();
+    public function latest () {
+        $param = $this->request->input();
+        $latestNum = isset($param['num']) ? $param['num'] : 20;
+
+        $latestData = Notes::where('active',1)->orderBy('updated_at')->limit($latestNum)->get();
+        dump($latestData);
+
     }
 
-    public function upload () {
-        $request = $this->request;
+    public function order () {
+        $request =$this->request;
+        // 验证
+        $rules =  [
+            'field' => 'required',
+            'id' => 'required'
+        ];
 
-        if (!$request->hasFile('file')) {
-            //
-            return $this->responseError('没有选择文件');
-        }
-        $file = $request->file('file');
-        if (!$file->isValid()){
-            //
-            return $this->responseError('上传文件失败');
-        }
-        $path = $file->path();
-//        return '<img src="'.$path.'">';
-        dump($file);
+        $validator = Validator::make($this->request->all(), $rules);
 
+        if ($validator->fails()) {
+            return $this->responseError($validator->errors(),'参数验证输错');
+        }
+        $params = $request->input();
     }
 }

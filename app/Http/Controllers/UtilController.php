@@ -1,19 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\BaseController;
 use App\Libs\upload;
-class UtilController extends Controller
+class UtilController extends BaseController
 {
     /*
      * 文件上传
      */
     public function upload () {
-        $upload = new upload('file','uploads');
-        $dest = $upload->uploadFile();
-        if ( $dest ) {
-            return response()->json([ 'code' => 200,'msg' => $dest,'result' => null]);
+        if (!isset($_FILES['file'])) {
+            return $this->setMsg('参数错误')->responseError();
         }
-        return response()->json([ 'code' => 102,'msg' => '','result' => $dest]);
+        $upload = new upload('file','uploads');
+        $param = $upload->uploadFile();
+        if ( $param['status'] ) {
+            return $this->setMsg('上传成功')->response(array('url'=>$param['data']));
+        }
+        return $this->responseError($param['data'],'上传失败');
     }
 }
