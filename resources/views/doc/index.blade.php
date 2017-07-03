@@ -31,6 +31,9 @@
             <div class="nav-inner">
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
+                        <li class="pure-menu-item new-note-item">
+                            <span class="new-note" onclick="note.newNote()">新建笔记</span>
+                        </li>
                         <li class="pure-menu-item nav-doc-item">
                             <a href="#" class="first-menu-a is-parent" data-switch="on">
                                 <span>我的文档</span>
@@ -102,7 +105,7 @@
                 </div>
 
                 <div class="doc-content-body">
-                    <div class="doc-preview-body">
+                    <div class="doc-preview-body editormd-preview-container">
 
                     </div>
                     <div class="doc-edit-body">

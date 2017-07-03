@@ -60,6 +60,7 @@ var folder = {
             var html = template('nav-tpl', {list: list, idx: 0, active: list[0].id});
             $('.first-child-list').prepend(html);
             note.getList(list[0].id);
+            g_id = list[0].id;
             note.init();
         });
     },
@@ -74,6 +75,14 @@ var folder = {
                 $layout.addClass('middle');
                 $menuBtn.addClass('right');
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
+            }
+        });
+        if($(window).width() < 1200){
+            $menuBtn.click();
+        }
+        $(window).resize(function(){
+            if(($(this).width() < 1200 && !$('#layout').hasClass('middle')) || ($(this).width() > 1200 && $('#layout').hasClass('middle'))){
+                $menuBtn.click();
             }
         });
 
@@ -123,7 +132,7 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $('.child-menu-down,.first-menu-down').removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 65);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 125);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
                     if(idx == '4'){
@@ -291,15 +300,21 @@ var note = {
     },
     getList: function (folder_id) {
         $.get('/note/show', {id: folder_id, page: cur_page}, function (res) {
+            isLoading = false;
             if(res.code === 200){
                 if(res.data.data.length){
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null');
                     var html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
-                    cur_page === 1 ? $list_ul.html(html) : $list_ul.append(html);
-                    note.getNoteDetail(res.data.data[0].id);
+                    if(cur_page === 1){
+                        $list_ul.html(html);
+                        note.scorllHandle();
+                        note.getNoteDetail(res.data.data[0].id);
+                    }else{
+                        $list_ul.append(html);
+                        $(".list-content").getNiceScroll().resize()
+                    }
                     cur_page ++;
-                    note.scorllHandle();
                 }else{
                     $doc_box.addClass('null');
                     $list_box.addClass('null');
@@ -329,15 +344,15 @@ var note = {
         })
     },
     scorllHandle: function () {
-        var ul_height = $list_ul.height(),
-            box_height = $list_box.height();
 
-            $list_box.on('scroll',function () {
-                if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
-                    isLoading = true;
-                    console.log('正在加载')
-                }
-            });
+        $list_box.on('scroll',function () {
+            var ul_height = $list_ul.height(),
+                box_height = $list_box.height();
+            if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
+                isLoading = true;
+                note.getList();
+            }
+        });
 
         var niceScroll = $('.list-content').niceScroll({
             cursorcolor: '#999',
@@ -349,6 +364,7 @@ var note = {
     // 初始化编辑器
     initEditor: function (value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
+        editor = null;
         editor = editormd("editormd", {
             path: "./libs/editormd/lib/",
             width: '100%',
@@ -370,13 +386,18 @@ var note = {
             title: '新建笔记',
             f_id: g_id
         },function(res){
-            var list = [res.data];
-            var html = template('list-tpl', {list: list, active: res.data.id});
-            $list_ul.prepend(html);
-            $doc_box.removeClass('null no_edit').addClass('is_edit');
-            $list_box.removeClass('null');
-            $('.doc-title-input').val('');
-            note.initEditor();
+            if(res.code === 200){
+                $('.doc-item.active').removeClass('active');
+                var list = [res.data];
+                var html = template('list-tpl', {list: list, active: res.data.id});
+                $list_ul.prepend(html);
+                $doc_box.removeClass('null no_edit').addClass('is_edit');
+                $list_box.removeClass('null');
+                $('.doc-title-input').val('');
+                note.initEditor();
+            }else if(res.code === 403){
+                alert('新建失败，已有相同标题笔记了！')
+            }
         })
     },
     delNote: function () {
@@ -388,7 +409,6 @@ var note = {
     },
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
-        editor = null;
         note.initEditor(cur_note.origin_content);
         $doc_box.removeClass('no_edit').addClass('is_edit');
     },
