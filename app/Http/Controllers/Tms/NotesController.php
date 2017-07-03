@@ -89,7 +89,7 @@ class NotesController extends BaseController
     }
     public function find () {
         $id = $this->request->input('id');
-        $data = Notes::where('id',$id)->select(['id','title','content','f_id'])->get();
+        $data = Notes::where('id',$id)->select(['id','title','content','f_id','origin_content'])->get();
         return $this->setMsg('获取成功')->response($data);
     }
 
