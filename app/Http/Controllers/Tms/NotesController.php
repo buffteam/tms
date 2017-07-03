@@ -116,21 +116,19 @@ class NotesController extends BaseController
 
     }
 
-    public function upload () {
-        $request = $this->request;
+    public function order () {
+        $request =$this->request;
+        // 验证
+        $rules =  [
+            'field' => 'required',
+            'id' => 'required'
+        ];
 
-        if (!$request->hasFile('file')) {
-            //
-            return $this->responseError('没有选择文件');
-        }
-        $file = $request->file('file');
-        if (!$file->isValid()){
-            //
-            return $this->responseError('上传文件失败');
-        }
-        $path = $file->path();
-//        return '<img src="'.$path.'">';
-        dump($file);
+        $validator = Validator::make($this->request->all(), $rules);
 
+        if ($validator->fails()) {
+            return $this->responseError($validator->errors(),'参数验证输错');
+        }
+        $params = $request->input();
     }
 }
