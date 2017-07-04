@@ -347,6 +347,12 @@ var note = {
                 var note_id = $self.data('id');
                 note.getNoteDetail(note_id);
             }
+        });
+        $list_ul.on('click','.list-del-icon', function (e) {
+            e.stopPropagation();
+            var elem = $(this).parent().parent(),
+                note_id = elem.data('id');
+            note.delNote(note_id, elem);
         })
     },
     scorllHandle: function () {
@@ -388,7 +394,6 @@ var note = {
                 ]
             },
             onload : function() {
-                console.log(111)
                 var keyMap = {
                     "Ctrl-S": function(cm) {
                         note.saveNote();
@@ -418,10 +423,18 @@ var note = {
             }
         })
     },
-    delNote: function () {
-        var note_id = $('.doc-item.active').data('id');
+    delNote: function (note_id, elem) {
         $.post('/note/del',{id: note_id}, function (res) {
-            console.log(res);
+            if(res.code === 200){
+                alert('删除成功');
+                elem.remove();
+                if(!$('.doc-item.active').length){
+                    $doc_box.addClass('null');
+                }
+                if(!$list_ul.find('.doc-item').length){
+                    $list_box.addClass('null')
+                }
+            }
 
         })
     },

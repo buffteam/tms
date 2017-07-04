@@ -578,6 +578,7 @@ ul, li, ol{
     width:0;
 }
 .doc-item {
+    position: relative;
     padding: 0.9em 1em;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
@@ -587,6 +588,9 @@ ul, li, ol{
     margin: 0;
     font-size: 14px;
     line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .doc-title .icon-md, .doc-title .icon-note{
     float: left;
@@ -604,11 +608,38 @@ ul, li, ol{
     margin: 0.4em 0;
     color: #aaa;
 }
-
+.doc-hover-icon{
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    height: 20px;
+    margin: 0;
+    display: none;
+}
+.doc-hover-icon .list-share-icon, .doc-hover-icon .list-del-icon{
+    float: left;
+    width: 20px;
+    height:20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    margin-right:10px;
+}
+.doc-hover-icon .list-share-icon{
+    background-image: url("/module/doc/imgs/icon/share.png");
+}
+.doc-hover-icon .list-del-icon{
+    background-image: url("/module/doc/imgs/icon/del.png");
+}
 .doc-item.active {
     background: #c5e7ff;
 }
-/* Doc Content Styles */
+.doc-item:hover .doc-hover-icon{
+    display: block;
+}
+.doc-item:hover .doc-title{
+    padding-right: 60px;
+}
+    /* Doc Content Styles */
 #main {
     position: absolute;
     left: 560px;
@@ -693,4 +724,8 @@ ul, li, ol{
 }
 li.L1, li.L3, li.L5, li.L7, li.L9{
     background: #f6f6f6;
+}
+.editormd-html-preview .com,.editormd-preview-container .com{
+    color: #aaa;
+    font-size: 12px;
 }

@@ -62,7 +62,7 @@
             </div>
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
-                <div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
+                {{--<div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>--}}
                 <div class="list-content-null">
                     <p>该目录下没有笔记</p>
                     <span class="new-note" onclick="note.newNote()">新建笔记</span>
@@ -82,9 +82,6 @@
                     <div class="doc-content-controls pure-u-1-3">
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
-                        {{--<span>分享</span>--}}
-                        {{--<span>导出</span>--}}
-                        {{--<span onclick="note.delNote()">删除</span>--}}
                     </div>
                 </div>
 
@@ -129,6 +126,10 @@
             </p>
             <p class="doc-time">
                 <%= date(list[i].updated_at, 'yyyy-MM-dd hh:mm:ss') %>
+            </p>
+            <p class="doc-hover-icon">
+                <span class="list-share-icon" title="分享"></span>
+                <span class="list-del-icon" title="删除"></span>
             </p>
         </li>
         <% } %>
