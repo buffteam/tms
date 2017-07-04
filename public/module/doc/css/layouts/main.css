@@ -65,6 +65,15 @@ ul, li, ol{
     font-size: 20px;
     padding-left: 30px;
     line-height: 50px;
+    box-sizing: border-box;
+}
+.user-info{
+    text-align: right;
+    line-height: 50px;
+    padding-right: 30px;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 #layout,

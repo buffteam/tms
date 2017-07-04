@@ -22,6 +22,11 @@
 <body>
     <header class="header pure-g">
         <div class="logo pure-u-1-8">云笔记</div>
+        <div class="user-info pure-u-7-8">
+            <span>linxin</span>
+            <span> | </span>
+            <span onclick="main.loginOut()">退出</span>
+        </div>
     </header>
 
     <div id="layout" class="content pure-g">
@@ -144,7 +149,7 @@
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
             <p class="doc-time">
-                <%= list[i].updated_at %>
+                <%= date(list[i].updated_at, 'yyyy-MM-dd hh:mm:ss') %>
             </p>
         </li>
         <% } %>
