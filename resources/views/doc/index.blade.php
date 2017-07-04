@@ -1,34 +1,13 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+@extends('layouts.doc.index')
+@section('title')
     <title>云笔记</title>
+@endsection
 
-    <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
-    <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
-    <!--[if lte IE 8]>
-            <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main-old-ie.css')}}">
-        <![endif]-->
-    <!--[if gt IE 8]><!-->
+@section('style')
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
-    <!--<![endif]-->
-</head>
+@endsection
 
-<body>
-    <header class="header pure-g">
-        <div class="logo pure-u-1-8">云笔记</div>
-        <div class="user-info pure-u-7-8">
-            <span>linxin</span>
-            <span> | </span>
-            <span onclick="main.loginOut()">退出</span>
-        </div>
-    </header>
-
+@section('content')
     <div id="layout" class="content pure-g">
         <div id="nav" class="">
             <span class="nav-menu-button"></span>
@@ -92,7 +71,7 @@
 
         </div>
 
-        <div id="main" class="">
+        <div id="main">
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
                     <div class="pure-u-2-3 doc-content-title">
@@ -186,12 +165,7 @@
         </li>
         <% } %>
     </script>
-
-    <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('/libs/template/template-native.js')}}"></script>
-    <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
-    <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
+@endsection
+@section('script')
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
-</body>
-
-</html>
+@endsection

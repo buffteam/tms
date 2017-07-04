@@ -73,9 +73,10 @@ ul, li, ol{
     padding-right: 30px;
     color: #fff;
     box-sizing: border-box;
+}
+.user-info .logout{
     cursor: pointer;
 }
-
 #layout,
 #nav,
 #list,

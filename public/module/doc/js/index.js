@@ -316,9 +316,14 @@ var note = {
                     }
                     cur_page ++;
                 }else{
-                    $doc_box.addClass('null');
-                    $list_box.addClass('null');
-                    $list_ul.html('');
+                    if(cur_page === 1){
+                        $doc_box.addClass('null');
+                        $list_box.addClass('null');
+                        $list_ul.html('');
+                        editor && editor.clear();
+                    }else{
+                        alert('到底了');
+                    }
                 }
             }
         })
@@ -330,6 +335,7 @@ var note = {
                 $doc_box.removeClass('is_edit').addClass('no_edit');
                 $('.doc-title-span').html(res.data[0].title);
                 cur_note = res.data[0];
+                editor && editor.clear();
             }
         })
     },
@@ -344,7 +350,6 @@ var note = {
         })
     },
     scorllHandle: function () {
-
         $list_box.on('scroll',function () {
             var ul_height = $list_ul.height(),
                 box_height = $list_box.height();
@@ -364,7 +369,9 @@ var note = {
     // 初始化编辑器
     initEditor: function (value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        editor = null;
+        if(!!editor){
+            value ? editor.setMarkdown(value) : editor.clear();
+        }else{
         editor = editormd("editormd", {
             path: "./libs/editormd/lib/",
             width: '100%',
@@ -381,6 +388,7 @@ var note = {
                 ]
             },
             onload : function() {
+                console.log(111)
                 var keyMap = {
                     "Ctrl-S": function(cm) {
                         note.saveNote();
@@ -389,6 +397,7 @@ var note = {
                 this.addKeyMap(keyMap);
             }
         });
+        }
     },
     newNote: function () {
         $.post('/note/add',{
@@ -418,8 +427,8 @@ var note = {
     },
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
-        note.initEditor(cur_note.origin_content);
         $doc_box.removeClass('no_edit').addClass('is_edit');
+        note.initEditor(cur_note.origin_content);
     },
     saveNote: function () {
         var title = $('.doc-title-input').val(),
@@ -433,10 +442,12 @@ var note = {
             content: html_cnt,
             origin_content: md_cnt
         }, function (res) {
-            console.log(res);
             if(res.code === 200){
                 $('.doc-item.active .list-title-text').text(title);
-                alert('保存成功')
+                alert('保存成功');
+                $('.doc-preview-body').html(html_cnt);
+                $doc_box.removeClass('is_edit').addClass('no_edit');
+                $('.doc-title-span').html(title);
             }
 
         })
@@ -494,7 +505,6 @@ var main = {
     // 退出登录
     loginOut: function () {
         $.post('/logout', function (res) {
-            console.log(res)
             if(res.code === 200){
                 alert(res.msg);
                 location.href = '/login';
