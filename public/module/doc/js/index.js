@@ -298,6 +298,7 @@ var note = {
     init: function(){
         note.clickListEvent();
     },
+    // 加载笔记列表
     getList: function (folder_id) {
         $.get('/note/show', {id: folder_id, page: cur_page}, function (res) {
             isLoading = false;
@@ -328,6 +329,7 @@ var note = {
             }
         })
     },
+    // 显示笔记内容
     getNoteDetail: function (note_id) {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
@@ -339,6 +341,7 @@ var note = {
             }
         })
     },
+    // 监听事件
     clickListEvent: function(){
         $list_ul.on('click','.doc-item', function () {
             var $self = $(this);
@@ -355,6 +358,7 @@ var note = {
             note.delNote(note_id, elem);
         })
     },
+    // 笔记列表滚动事件
     scorllHandle: function () {
         $list_box.on('scroll',function () {
             var ul_height = $list_ul.height(),
@@ -404,6 +408,7 @@ var note = {
         });
         }
     },
+    // 新建笔记
     newNote: function () {
         $.post('/note/add',{
             title: '新建笔记',
@@ -423,6 +428,7 @@ var note = {
             }
         })
     },
+    // 删除笔记
     delNote: function (note_id, elem) {
         $.post('/note/del',{id: note_id}, function (res) {
             if(res.code === 200){
@@ -438,11 +444,13 @@ var note = {
 
         })
     },
+    // 编辑笔记
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
         $doc_box.removeClass('no_edit').addClass('is_edit');
         note.initEditor(cur_note.origin_content);
     },
+    // 保存笔记
     saveNote: function () {
         var title = $('.doc-title-input').val(),
             md_cnt = editor.getMarkdown(),
@@ -475,6 +483,7 @@ var main = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // 禁止保存网站
         $(document).keydown(function(e){
             if( e.ctrlKey  == true && e.keyCode == 83 ){
                 return false;
@@ -483,7 +492,7 @@ var main = {
         main.templateHelper();
         folder.init();
     },
-
+    // js模板处理
     templateHelper: function () {
         template.helper('date', function (date, format) {
             date = new Date(date*1000);
@@ -530,7 +539,6 @@ var main = {
         $('.dialog').hide();
         $g_folder = null;
     },
-
     // dialog确定事件
     sureDialog: function () {
         switch (dialog_type){

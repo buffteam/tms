@@ -14,7 +14,7 @@
 <header class="header pure-g">
     <div class="logo pure-u-1-8">云笔记</div>
     <div class="user-info pure-u-7-8">
-        <span>linxin</span>
+        <span>{{session('user')['username']}}</span>
         <span> | </span>
         <span class="logout" onclick="main.loginOut()">退出</span>
     </div>
