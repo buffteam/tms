@@ -209,8 +209,7 @@ ul, li, ol{
 }
 
 .first-menu-a:hover .child-menu-down,
-.second-menu-a:hover .child-menu-down,
-.third-menu-a:hover .child-menu-down {
+.second-menu-a:hover .child-menu-down{
     display: block;
 }
 

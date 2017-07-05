@@ -306,12 +306,15 @@ var note = {
                 if(res.data.data.length){
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null');
-                    var html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                    var html = null;
                     if(cur_page === 1){
+                        html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
                         note.getNoteDetail(res.data.data[0].id);
+                        totalPage = res.data.totalPage;
                     }else{
+                        html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
                         $(".list-content").getNiceScroll().resize()
                     }
@@ -363,9 +366,10 @@ var note = {
         $list_box.on('scroll',function () {
             var ul_height = $list_ul.height(),
                 box_height = $list_box.height();
+            console.log(totalPage,cur_page)
             if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
                 isLoading = true;
-                note.getList();
+                note.getList(g_id);
             }
         });
 
