@@ -13,7 +13,8 @@ var $input = $('.child-item-input input'),
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
-    editor = null,
+    mdeditor = null,            // md 编辑器
+    wangeditor = null,          // wangeditor 编辑器
     cur_note = null,
     dialog_type = null,         // 定义type 控制dialog的处理事件
     cur_page = 1,               // 当前笔记列表的页码
@@ -86,8 +87,20 @@ var folder = {
             }
         });
 
-            // 左边栏目录点击事件
-        $nav.on('click', '.child-menu-open', function () {
+        // 点击新建文档事件
+        $('.add-text').on('click', function (e) {
+            e.stopPropagation();
+            var $self = $(this);
+            var $parent = $self.parent();
+            $parent.hasClass('active') ? $parent.removeClass('active') : $parent.addClass('active');
+            $(document).one('click',function () {
+                $parent.hasClass('active') ? $parent.removeClass('active') : '';
+            })
+        });
+
+        // 左边栏目录点击事件
+        $nav.on('click', '.child-menu-open', function (e) {
+            e.stopPropagation();
             var self = $(this).parent(),
                 ul_switch = self.data('switch');
             if (ul_switch == 'on') {
@@ -305,20 +318,28 @@ var note = {
                 if(res.data.data.length){
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null');
-                    var html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                    var html = null;
                     if(cur_page === 1){
+                        html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
                         note.getNoteDetail(res.data.data[0].id);
+                        totalPage = res.data.totalPage;
                     }else{
+                        html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
                         $(".list-content").getNiceScroll().resize()
                     }
                     cur_page ++;
                 }else{
-                    $doc_box.addClass('null');
-                    $list_box.addClass('null');
-                    $list_ul.html('');
+                    if(cur_page === 1){
+                        $doc_box.addClass('null');
+                        $list_box.addClass('null');
+                        $list_ul.html('');
+                        mdeditor && mdeditor.clear();
+                    }else{
+                        alert('到底了');
+                    }
                 }
             }
         })
@@ -327,9 +348,11 @@ var note = {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
                 $('.doc-preview-body').html(res.data[0].content);
-                $doc_box.removeClass('is_edit').addClass('no_edit');
+                $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
                 $('.doc-title-span').html(res.data[0].title);
                 cur_note = res.data[0];
+                cur_note.type = cur_note.type || 2;
+                mdeditor && mdeditor.clear();
             }
         })
     },
@@ -350,7 +373,7 @@ var note = {
                 box_height = $list_box.height();
             if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
                 isLoading = true;
-                note.getList();
+                note.getList(g_id);
             }
         });
 
@@ -362,48 +385,74 @@ var note = {
         });
     },
     // 初始化编辑器
-    initEditor: function (value) {
+    initEditor: function (type, value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        editor = null;
-        editor = editormd("editormd", {
-            path: "./libs/editormd/lib/",
-            width: '100%',
-            height: height,
-            markdown: value || '',
-            disabledKeyMaps: ["Ctrl-S"],
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/util/upload",
-            toolbarIcons: function () {
-                return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
-                    "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
-                    "watch", "preview", "fullscreen", "clear", "search"
-                ]
-            },
-            onload : function() {
-                var keyMap = {
-                    "Ctrl-S": function(cm) {
-                        note.saveNote();
+        if(type === 1){
+            if(!!mdeditor){
+                value ? mdeditor.setMarkdown(value) : mdeditor.clear();
+            }else{
+                mdeditor = editormd("editormd", {
+                    path: "./libs/editormd/lib/",
+                    width: '100%',
+                    height: height,
+                    markdown: value || '',
+                    disabledKeyMaps: ["Ctrl-S"],
+                    imageUpload: true,
+                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                    imageUploadURL: "/util/upload",
+                    toolbarIcons: function () {
+                        return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
+                            "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
+                            "watch", "preview", "fullscreen", "clear", "search"
+                        ]
+                    },
+                    onload : function() {
+                        var keyMap = {
+                            "Ctrl-S": function(cm) {
+                                note.saveNote();
+                            }
+                        };
+                        this.addKeyMap(keyMap);
                     }
-                };
-                this.addKeyMap(keyMap);
+                });
             }
-        });
+        }else if(type === 2){
+            if(!!wangeditor){
+                wangeditor.txt.html(value || '');
+            }else{
+                wangeditor = new wangEditor('#editor');
+                wangeditor.customConfig.uploadImgServer = '/util/upload';
+                wangeditor.customConfig.uploadFileName = 'image-file';
+                wangeditor.create();
+                wangeditor.txt.html(value || '');
+                $('.w-e-text-container').height(height-41);
+                $('.w-e-text').keydown(function(e){
+                    if( e.ctrlKey  == true && e.keyCode == 83 ){
+                        note.saveNote();
+                        return false;
+                    }
+                });
+            }
+
+        }
     },
-    newNote: function () {
+    // 新建笔记
+    newNote: function (type) {
+        type = type || 1;
         $.post('/note/add',{
             title: '新建笔记',
-            f_id: g_id
+            f_id: g_id,
+            type: type
         },function(res){
             if(res.code === 200){
                 $('.doc-item.active').removeClass('active');
                 var list = [res.data];
                 var html = template('list-tpl', {list: list, active: res.data.id});
                 $list_ul.prepend(html);
-                $doc_box.removeClass('null no_edit').addClass('is_edit');
+                $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-'+cur_note.type);
                 $list_box.removeClass('null');
                 $('.doc-title-input').val('');
-                note.initEditor();
+                note.initEditor(type);
             }else if(res.code === 403){
                 alert('新建失败，已有相同标题笔记了！')
             }
@@ -418,13 +467,13 @@ var note = {
     },
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
-        note.initEditor(cur_note.origin_content);
-        $doc_box.removeClass('no_edit').addClass('is_edit');
+        $doc_box.removeClass('no-edit').addClass('is-edit is-edit-'+cur_note.type);
+        cur_note.type === 1 ? note.initEditor(1, cur_note.origin_content) : note.initEditor(cur_note.type, cur_note.content);
     },
     saveNote: function () {
         var title = $('.doc-title-input').val(),
-            md_cnt = editor.getMarkdown(),
-            html_cnt = editor.getPreviewedHTML(),
+            md_cnt = cur_note.type === 1 ? mdeditor.getMarkdown(): '',
+            html_cnt = cur_note.type === 1 ? mdeditor.getPreviewedHTML() : wangeditor.txt.html(),
             note_id = $('.doc-item.active').data('id');
         $.post('/note/update', {
             id: note_id,
@@ -436,7 +485,10 @@ var note = {
             console.log(res);
             if(res.code === 200){
                 $('.doc-item.active .list-title-text').text(title);
-                alert('保存成功')
+                alert('保存成功');
+                $('.doc-preview-body').html(html_cnt);
+                $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
+                $('.doc-title-span').html(title);
             }
 
         })

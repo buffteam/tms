@@ -32,7 +32,15 @@
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item new-note-item">
-                            <span class="new-note" onclick="note.newNote()">新建笔记</span>
+                            <span class="middle-add-item" onclick="note.newNote(1)"></span>
+                            <div class="new-doc-box">
+                                <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
+                                <span class="add-text">新建文档</span>
+                                <ul class="add-list">
+                                    <li onclick="note.newNote(1)">新建md文档</li>
+                                    <li onclick="note.newNote(2)">新建笔记</li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="pure-menu-item nav-doc-item">
                             <a href="#" class="first-menu-a is-parent" data-switch="on">
@@ -78,10 +86,9 @@
             </div>
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
-                <div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
                 <div class="list-content-null">
-                    <p>该目录下没有笔记</p>
-                    <span class="new-note" onclick="note.newNote()">新建笔记</span>
+                    <p>该目录下没有文档</p>
+                    <span class="new-note" onclick="note.newNote(1)">新建文档</span>
                 </div>
             </div>
 
@@ -109,9 +116,10 @@
 
                     </div>
                     <div class="doc-edit-body">
-                        <div id="editormd">
+                        <div id="editormd" class="editor-1">
                             <textarea id="page_content" style="display:none;"></textarea>
                         </div>
+                        <div id="editor" class="editor-2"></div>
                     </div>
                 </div>
                 <div class="doc-content-null">
