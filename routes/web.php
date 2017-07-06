@@ -13,38 +13,28 @@
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
-
-
-Route::resource('test', 'TestController');
-
-
-Route::any('util/upload', 'UtilController@upload');
-
-/**
- * 用户表相关
- */
-Route::group(['namespace' => 'Tms'], function () {
-    //
-    Route::get('register', 'RegisterController@register')->name('register');
-    Route::post('doRegister', 'RegisterController@doRegister');
-    Route::get('login', 'LoginController@index')->name('login');
-    Route::post('doLogin', 'LoginController@login');
-    Route::any('logout', 'UsersController@logout')->name('logout');
-    Route::any('/notes/upload', 'NotesController@upload');
-
 });
-Route::group(['middleware' => 'checkIsLogin','namespace' => 'Tms'], function () {
 
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Auth::routes();
 
+Route::any('/home', 'HomeController@index')->name('home');
+Route::any('/mdEditorUpload', 'CommonController@mdEditorUpload');
+Route::any('/wangEditorUpload', 'CommonController@wangEditorUpload');
+
+Route::any('/test/export', 'CommonController@export')->name('export');
+
+Route::any('/test/index', 'CommonController@index')->name('index');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::any('/folder/add', 'FolderController@store');
     Route::any('/folder/del', 'FolderController@del');
     Route::any('/folder/update', 'FolderController@update');
-//    Route::get('/folder/find', 'FolderController@find');
     Route::get('/folder/list', 'FolderController@listAll');
 
+    Route::any('/note/index', 'NotesController@index');
     Route::any('/note/add', 'NotesController@add');
     Route::any('/note/del', 'NotesController@del');
     Route::any('/note/update', 'NotesController@update');

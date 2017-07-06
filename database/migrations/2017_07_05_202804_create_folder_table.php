@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTokenTable extends Migration
+class CreateFolderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateUsersTokenTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_token', function (Blueprint $table) {
+        //
+        Schema::create('folders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('uid');
-            $table->string('token');
-            $table->integer('token_expire');
-            $table->string('ip',30);
-            $table->integer('add_time');
+            $table->string('title',80);
+            $table->integer('u_id');
+            $table->integer('p_id');
+            $table->enum('active',[0,1])->default(1);
+            $table->timestamps();
         });
     }
 
@@ -30,6 +31,6 @@ class CreateUsersTokenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_token');
+        //
     }
 }
