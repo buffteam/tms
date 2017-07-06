@@ -16,13 +16,13 @@
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item new-note-item">
-                            <span class="middle-add-item" onclick="note.newNote(1)"></span>
+                            <span class="middle-add-item" onclick="note.newNote('1')"></span>
                             <div class="new-doc-box">
                                 <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
                                 <span class="add-text">新建文档</span>
                                 <ul class="add-list">
-                                    <li onclick="note.newNote(1)">新建md文档</li>
-                                    <li onclick="note.newNote(2)">新建笔记</li>
+                                    <li onclick="note.newNote('1')">新建md文档</li>
+                                    <li onclick="note.newNote('2')">新建笔记</li>
                                 </ul>
                             </div>
                         </li>
@@ -72,7 +72,7 @@
                 <ul class="list-content-ul"></ul>
                 <div class="list-content-null">
                     <p>该目录下没有文档</p>
-                    <span class="new-note" onclick="note.newNote(1)">新建文档</span>
+                    <span class="new-note" onclick="note.newNote('1')">新建文档</span>
                 </div>
             </div>
 
@@ -127,13 +127,13 @@
         <% for(var i = 0; i < list.length; i++) { %>
         <li class="doc-item <% if(list[i].id === active) {%> active <% } %>" data-id="<%= list[i].id %>">
             <p class="doc-title">
-                <% if(list[i].type === 1) {%><span class="icon-md"></span>
+                <% if(list[i].type === '1') {%><span class="icon-md"></span>
                 <% }else{ %><span class="icon-note"></span>
                 <% } %>
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
             <p class="doc-time">
-                <%= date(list[i].updated_at, 'yyyy-MM-dd hh:mm:ss') %>
+                <%= list[i].updated_at %>
             </p>
             <p class="doc-hover-icon">
                 <span class="list-share-icon" title="分享"></span>
