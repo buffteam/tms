@@ -8,6 +8,9 @@
     @yield('title')
     <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/wangEditor-3.0.3/wangEditor.min.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('libs/simditor-2.3.6/styles/simditor.css')}}">--}}
+
     @yield('style')
 </head>
 <body >
@@ -25,6 +28,9 @@
 <script src="{{asset('/libs/template/template-native.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
 <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
+<script src="{{asset('/libs/wangEditor-3.0.3/wangEditor.min.js')}}"></script>
+{{--<script src="{{asset('/libs/simditor-2.3.6/scripts/simditor.support.js')}}"></script>--}}
+{{--<script src="{{asset('/libs/simditor-2.3.6/scripts/simditor.min.js')}}"></script>--}}
 @yield('script')
 
 </body>
