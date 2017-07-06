@@ -16,13 +16,13 @@
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item new-note-item">
-                            <span class="middle-add-item" onclick="note.newNote()"></span>
+                            <span class="middle-add-item" onclick="note.newNote(1)"></span>
                             <div class="new-doc-box">
                                 <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
                                 <span class="add-text">新建文档</span>
                                 <ul class="add-list">
-                                    <li onclick="note.newNote()">新建md文档</li>
-                                    <li>新建笔记</li>
+                                    <li onclick="note.newNote(1)">新建md文档</li>
+                                    <li onclick="note.newNote(2)">新建笔记</li>
                                 </ul>
                             </div>
                         </li>
@@ -72,7 +72,7 @@
                 <ul class="list-content-ul"></ul>
                 <div class="list-content-null">
                     <p>该目录下没有文档</p>
-                    <span class="new-note" onclick="note.newNote()">新建文档</span>
+                    <span class="new-note" onclick="note.newNote(1)">新建文档</span>
                 </div>
             </div>
 

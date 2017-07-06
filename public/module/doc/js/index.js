@@ -435,9 +435,12 @@ var note = {
                 wangeditor.create();
                 wangeditor.txt.html(value || '');
                 $('.w-e-text-container').height(height-41);
-                $('.w-e-text').on('keypress', function (e) {
-                    console.log(e)
-                })
+                $('.w-e-text').keydown(function(e){
+                    if( e.ctrlKey  == true && e.keyCode == 83 ){
+                        note.saveNote();
+                        return false;
+                    }
+                });
             }
 
         }
