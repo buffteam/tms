@@ -78,7 +78,7 @@ class NotesController extends BaseController
 
         // 选择排序方式
         if (!isset($params['order'])) {
-            $params['order'] = 'asc';
+            $params['order'] = 'desc';
         }
         // 分页页码
         if (!isset($params['page'])) {
@@ -127,8 +127,8 @@ class NotesController extends BaseController
         }
         $params = $request->input();
         if (isset($params['title'])) {
-            $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->count();
-            if ($exist > 0) {
+            $exist = Notes::where(array('title'=>$params['title'],'f_id'=>$params['f_id'],'active'=>'1'))->count();
+            if ($exist > 1) {
                 return $this->error('笔记名称重复');
             }
         }

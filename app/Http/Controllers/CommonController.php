@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Knp\Snappy\Pdf;
 use App\Notes;
 use Dompdf\Dompdf;
 use App\Libs\upload;
@@ -39,11 +40,34 @@ class CommonController extends BaseController
 
     public function export (Request $request)
     {
+
         $params = $request->input();
         // instantiate and use the dompdf class
         $data = Notes::find(19);
+
+
+
+
+
+        $myProjectDirectory = '/path/to/my/project';
+
+        $snappy = new Pdf($myProjectDirectory . '/vendor/h4cc/wkhtmltopdf-i386/bin/wkhtmltopdf-i386');
+
+// or
+
+        $snappy = new Pdf($myProjectDirectory . '/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64');
+
+        $snappy = new Pdf('/path/to/binary');
+
+        $snappy->setOption('toc', true);
+        $snappy->setOption('xsl-style-sheet', 'http://path/to/stylesheet.xsl');//or local file;
+
+        $snappy->generateFromHtml('<p>Some content</p>', 'test.pdf');
+
         $dompdf = new Dompdf();
-        $dompdf->loadHtml($data->content);
+//        var_dump($data->content);
+//        return;
+        $dompdf->loadHtml(utf8_decode($data->content),'UTF-8');
 
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape');
@@ -54,5 +78,9 @@ class CommonController extends BaseController
 
         // Output the generated PDF to Browser
         $dompdf->stream($data->title);
+    }
+    public function index ()
+    {
+        return view('test');
     }
 }
