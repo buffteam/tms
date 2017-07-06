@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Notes;
 use Dompdf\Dompdf;
 use App\Libs\upload;
 use Illuminate\Http\Request;
@@ -40,8 +41,9 @@ class CommonController extends BaseController
     {
         $params = $request->input();
         // instantiate and use the dompdf class
+        $data = Notes::find(19);
         $dompdf = new Dompdf();
-        $dompdf->loadHtml($params['content']);
+        $dompdf->loadHtml($data->content);
 
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape');
@@ -51,6 +53,6 @@ class CommonController extends BaseController
 
 
         // Output the generated PDF to Browser
-        $dompdf->stream();
+        $dompdf->stream($data->title);
     }
 }

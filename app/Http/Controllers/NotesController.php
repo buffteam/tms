@@ -86,20 +86,22 @@ class NotesController extends BaseController
         }
         // 每页数量
         if (!isset($params['pagesize'])) {
-            $params['pagesize'] = 3;
+            $params['pagesize'] = 15;
         }
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         // 获取用户ID
         $userId = user()->id;
+        $notes = new Notes();
         // TODO 私人可见笔记待做 查询数据
-        $data = Notes::where(['f_id'=>$params['id'],'active'=>'1'])
+        $data = $notes->where(['f_id'=>$params['id'],'active'=>'1'])
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
                     ->get();
-        return $this->success('获取数据成功',$data);
+        $totalPage = ceil($notes->count()/$params['pagesize']);
+        return $this->success('获取数据成功',array('totalPage'=>$totalPage,'data'=>$data));
     }
 
     public function find (Request $request)
