@@ -1,13 +1,29 @@
-@extends('layouts.doc.index')
-@section('title')
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>云笔记</title>
-@endsection
 
-@section('style')
+    <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main-old-ie.css')}}">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
-@endsection
+    <!--<![endif]-->
+</head>
 
-@section('content')
+<body>
+    <header class="header pure-g">
+        <div class="logo pure-u-1-8">云笔记</div>
+    </header>
+
     <div id="layout" class="content pure-g">
         <div id="nav" class="">
             <span class="nav-menu-button"></span>
@@ -62,7 +78,7 @@
             </div>
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
-                {{--<div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>--}}
+                <div class="list-loading"> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
                 <div class="list-content-null">
                     <p>该目录下没有笔记</p>
                     <span class="new-note" onclick="note.newNote()">新建笔记</span>
@@ -71,7 +87,7 @@
 
         </div>
 
-        <div id="main">
+        <div id="main" class="">
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
                     <div class="pure-u-2-3 doc-content-title">
@@ -82,6 +98,9 @@
                     <div class="doc-content-controls pure-u-1-3">
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
+                        {{--<span>分享</span>--}}
+                        {{--<span>导出</span>--}}
+                        {{--<span onclick="note.delNote()">删除</span>--}}
                     </div>
                 </div>
 
@@ -125,11 +144,7 @@
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
             <p class="doc-time">
-                <%= date(list[i].updated_at, 'yyyy-MM-dd hh:mm:ss') %>
-            </p>
-            <p class="doc-hover-icon">
-                <span class="list-share-icon" title="分享"></span>
-                <span class="list-del-icon" title="删除"></span>
+                <%= list[i].updated_at %>
             </p>
         </li>
         <% } %>
@@ -166,7 +181,12 @@
         </li>
         <% } %>
     </script>
-@endsection
-@section('script')
+
+    <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('/libs/template/template-native.js')}}"></script>
+    <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
+    <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
-@endsection
+</body>
+
+</html>

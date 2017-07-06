@@ -298,7 +298,6 @@ var note = {
     init: function(){
         note.clickListEvent();
     },
-    // 加载笔记列表
     getList: function (folder_id) {
         $.get('/note/show', {id: folder_id, page: cur_page}, function (res) {
             isLoading = false;
@@ -320,19 +319,13 @@ var note = {
                     }
                     cur_page ++;
                 }else{
-                    if(cur_page === 1){
-                        $doc_box.addClass('null');
-                        $list_box.addClass('null');
-                        $list_ul.html('');
-                        editor && editor.clear();
-                    }else{
-                        alert('到底了');
-                    }
+                    $doc_box.addClass('null');
+                    $list_box.addClass('null');
+                    $list_ul.html('');
                 }
             }
         })
     },
-    // 显示笔记内容
     getNoteDetail: function (note_id) {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
@@ -340,11 +333,9 @@ var note = {
                 $doc_box.removeClass('is_edit').addClass('no_edit');
                 $('.doc-title-span').html(res.data[0].title);
                 cur_note = res.data[0];
-                editor && editor.clear();
             }
         })
     },
-    // 监听事件
     clickListEvent: function(){
         $list_ul.on('click','.doc-item', function () {
             var $self = $(this);
@@ -353,16 +344,10 @@ var note = {
                 var note_id = $self.data('id');
                 note.getNoteDetail(note_id);
             }
-        });
-        $list_ul.on('click','.list-del-icon', function (e) {
-            e.stopPropagation();
-            var elem = $(this).parent().parent(),
-                note_id = elem.data('id');
-            note.delNote(note_id, elem);
         })
     },
-    // 笔记列表滚动事件
     scorllHandle: function () {
+
         $list_box.on('scroll',function () {
             var ul_height = $list_ul.height(),
                 box_height = $list_box.height();
@@ -383,9 +368,7 @@ var note = {
     // 初始化编辑器
     initEditor: function (value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        if(!!editor){
-            value ? editor.setMarkdown(value) : editor.clear();
-        }else{
+        editor = null;
         editor = editormd("editormd", {
             path: "./libs/editormd/lib/",
             width: '100%',
@@ -410,9 +393,7 @@ var note = {
                 this.addKeyMap(keyMap);
             }
         });
-        }
     },
-    // 新建笔记
     newNote: function () {
         $.post('/note/add',{
             title: '新建笔记',
@@ -432,29 +413,18 @@ var note = {
             }
         })
     },
-    // 删除笔记
-    delNote: function (note_id, elem) {
+    delNote: function () {
+        var note_id = $('.doc-item.active').data('id');
         $.post('/note/del',{id: note_id}, function (res) {
-            if(res.code === 200){
-                alert('删除成功');
-                elem.remove();
-                if(!$('.doc-item.active').length){
-                    $doc_box.addClass('null');
-                }
-                if(!$list_ul.find('.doc-item').length){
-                    $list_box.addClass('null')
-                }
-            }
+            console.log(res);
 
         })
     },
-    // 编辑笔记
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
-        $doc_box.removeClass('no_edit').addClass('is_edit');
         note.initEditor(cur_note.origin_content);
+        $doc_box.removeClass('no_edit').addClass('is_edit');
     },
-    // 保存笔记
     saveNote: function () {
         var title = $('.doc-title-input').val(),
             md_cnt = editor.getMarkdown(),
@@ -467,12 +437,10 @@ var note = {
             content: html_cnt,
             origin_content: md_cnt
         }, function (res) {
+            console.log(res);
             if(res.code === 200){
                 $('.doc-item.active .list-title-text').text(title);
-                alert('保存成功');
-                $('.doc-preview-body').html(html_cnt);
-                $doc_box.removeClass('is_edit').addClass('no_edit');
-                $('.doc-title-span').html(title);
+                alert('保存成功')
             }
 
         })
@@ -487,62 +455,23 @@ var main = {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // 禁止保存网站
         $(document).keydown(function(e){
             if( e.ctrlKey  == true && e.keyCode == 83 ){
                 return false;
             }
         });
-        main.templateHelper();
         folder.init();
     },
-    // js模板处理
-    templateHelper: function () {
-        template.helper('date', function (date, format) {
-            date = new Date(date*1000);
-            var map = {
-                "M": date.getMonth() + 1, //月份
-                "d": date.getDate(), //日
-                "h": date.getHours(), //小时
-                "m": date.getMinutes(), //分
-                "s": date.getSeconds(), //秒
-                "q": Math.floor((date.getMonth() + 3) / 3), //季度
-                "S": date.getMilliseconds() //毫秒
-            };
 
-            /*正则替换*/
-            format = format.replace(/([yMdhmsqS])+/g, function(all, t){
-                var v = map[t];
-                if(v !== undefined){
-                    if(all.length > 1){
-                        v = '0' + v;
-                        v = v.substr(v.length-2);
-                    }
-                    return v;
-                }
-                else if(t === 'y'){
-                    return (date.getFullYear() + '').substr(4 - all.length);
-                }
-                return all;
-            });
-            return format;
-        });
-    },
-    // 退出登录
-    loginOut: function () {
-        $.post('/logout', function (res) {
-            if(res.code === 200){
-                alert(res.msg);
-                location.href = '/login';
-            }
-        })
-    },
+
+
     // dialog取消事件
     cancelDialog: function () {
         dialog_type = null;
         $('.dialog').hide();
         $g_folder = null;
     },
+
     // dialog确定事件
     sureDialog: function () {
         switch (dialog_type){

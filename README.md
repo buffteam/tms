@@ -1,39 +1,52 @@
-# 醍醐共享云笔记
+# TISP(Team informatization sharing platform)
 
-## Doc
-- [English](./README.md)
-- [中文文档](./README-cn.md)
+## 使用
 
-## usage
+- 克隆代码
 
-- 初始化
-````
+ 
+```
+git clone git@github.com:omwteam/tisp.git
+```
+
+ 
+- 安装依赖
+
+
+```
 composer install
+```
 
-````
-- 拷贝配置文件
 
-````
+- 配置env
+
+
+```
 cp .env.example .env
+```
 
-````
-- 生成Key
-````
+
+修改数据库用户名和密码
+
+- 生成key
+
+
+```
 php artisan key:generate
+```
 
-````
-- 导入数据库文件
 
-````
-新建数据库tms,在public/sql目录的sql文件导入数据库
+- 数据迁移
 
-````
+
+```
+php artisan migrate
+```
+
 
 - 启动服务
-````
+
+
+```
 php artisan serve
-
-````
-
-## LICENSE
-Apache 2.0
+```

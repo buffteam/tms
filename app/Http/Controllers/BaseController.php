@@ -6,55 +6,50 @@ use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
-    //
-    private $responseData = ['code'=>200,'msg'=>'默认描述信息'];
+    /**
+     * 返回数据格式
+     * @var array
+     */
+    protected $response = ['code' => 200,'msg'=> '请求成功','data'=>null];
 
     /**
-     * 返回正确信息
-     * @return array
+     * 成功返回
+     * @param string $msg
+     * @param null $data
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function response () {
-
-        $param = func_get_args();
-
-        if (count($param) > 0) {
-            $this->responseData['data'] = $param[0];
-        }
-        if (count($param) > 1) {
-            $this->responseData['msg'] = $param[1];
-        }
-        return $this->responseData;
-
+    public function success($msg = '请求成功',$data = null,$code = 200)
+    {
+        $this->response['code'] = $code;
+        $this->response['msg'] = $msg;
+        $this->response['data'] = $data;
+        return response()->json($this->response);
     }
 
-    protected function responseError ($error = null,$msg = '请求出错') {
-
-        $this->responseData['code'] = 403;
-        $this->responseData['msg'] = $msg;
-        $this->responseData['error'] = $error;
-
-        return $this->responseData;
-
+    /**
+     * 错误返回
+     * @param string $msg
+     * @param null $data
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function error($msg = '请求成功',$data = null,$code = 403)
+    {
+        $this->response['code'] = $code;
+        $this->response['msg'] = $msg;
+        $this->response['data'] = $data;
+        return response()->json($this->response);
     }
-    protected function setCode ($code = 200) {
 
-        $this->responseData['code'] = $code;
-
+    /**
+     * 设置code
+     * @param int $code
+     * @return $this
+     */
+    public function setCode($code = 200)
+    {
+        $this->response['code'] = $code;
         return $this;
-
-    }
-    protected function setMsg ($msg = '请求成功') {
-
-        $this->responseData['msg'] = $msg;
-
-        return $this;
-
-    }
-    protected function setError ($error = null) {
-
-        $this->responseData['error'] = $error;
-
-        return $this;
-
     }
 }
