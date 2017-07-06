@@ -39,7 +39,7 @@ var folder = {
             if (allLen) {
                 for (var i = 0; i < allLen - 1; i++) {
                     for (var j = 1; j < allLen; j++) {
-                        if (allList[i].id === allList[j].parent_id) {
+                        if (allList[i].id === allList[j].p_id) {
                             if (!allList[i].child) {
                                 allList[i].child = []
                             }
@@ -49,7 +49,7 @@ var folder = {
                 }
                 for (i = 0; i < list.length; i++) {
                     for (j = 0; j < allLen; j++) {
-                        if (list[i].id === allList[j].parent_id) {
+                        if (list[i].id === allList[j].p_id) {
                             if (!list[i].child) {
                                 list[i].child = []
                             }
@@ -197,13 +197,13 @@ var folder = {
     addFirstFolder: function(self){
         var value = self.val();
         if (value) {
-            $.post('/folder/add',{title: value, parent_id: 0}, function (res) {
+            $.post('/folder/add',{title: value, p_id: 0}, function (res) {
                 if(res.code === 200){
                     var list = [
                         {
                             id: res.data.id,
                             title: value,
-                            parent_id: 0
+                            p_id: 0
                         }
                     ];
                     var html = template('nav-tpl', {list: list, idx: 0});
@@ -253,7 +253,7 @@ var folder = {
                             }
                             $.post('/folder/add', {
                                 title: value,
-                                parent_id: g_id
+                                p_id: g_id
                             }, function (res) {
 
                                 if(res.code === 200){
@@ -349,11 +349,10 @@ var note = {
     getNoteDetail: function (note_id) {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
-                $('.doc-preview-body').html(res.data[0].content);
+                $('.doc-preview-body').html(res.data.content);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
-                $('.doc-title-span').html(res.data[0].title);
-                cur_note = res.data[0];
-                cur_note.type = cur_note.type || 2;
+                $('.doc-title-span').html(res.data.title);
+                cur_note = res.data;
                 mdeditor && mdeditor.clear();
             }
         })
@@ -396,7 +395,7 @@ var note = {
     // 初始化编辑器
     initEditor: function (type, value) {
         var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
-        if(type === 1){
+        if(type === '1'){
             if(!!mdeditor){
                 value ? mdeditor.setMarkdown(value) : mdeditor.clear();
             }else{
@@ -425,7 +424,7 @@ var note = {
                     }
                 });
             }
-        }else if(type === 2){
+        }else if(type === '2'){
             if(!!wangeditor){
                 wangeditor.txt.html(value || '');
             }else{
@@ -447,7 +446,7 @@ var note = {
     },
     // 新建笔记
     newNote: function (type) {
-        type = type || 1;
+        type = type || '1';
         $.post('/note/add',{
             title: '新建笔记',
             f_id: g_id,
@@ -458,9 +457,10 @@ var note = {
                 var list = [res.data];
                 var html = template('list-tpl', {list: list, active: res.data.id});
                 $list_ul.prepend(html);
-                $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-'+cur_note.type);
+                $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-'+type);
                 $list_box.removeClass('null');
                 $('.doc-title-input').val('');
+                cur_note = res.data;
                 note.initEditor(type);
             }else if(res.code === 403){
                 alert('新建失败，已有相同标题笔记了！')
@@ -487,13 +487,13 @@ var note = {
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
         $doc_box.removeClass('no-edit').addClass('is-edit is-edit-'+cur_note.type);
-        cur_note.type === 1 ? note.initEditor(1, cur_note.origin_content) : note.initEditor(cur_note.type, cur_note.content);
+        cur_note.type === '1' ? note.initEditor('1', cur_note.origin_content) : note.initEditor(cur_note.type, cur_note.content);
     },
     // 保存笔记
     saveNote: function () {
         var title = $('.doc-title-input').val(),
-            md_cnt = cur_note.type === 1 ? mdeditor.getMarkdown(): '',
-            html_cnt = cur_note.type === 1 ? mdeditor.getPreviewedHTML() : wangeditor.txt.html(),
+            md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown(): '',
+            html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML() : wangeditor.txt.html(),
             note_id = $('.doc-item.active').data('id');
         $.post('/note/update', {
             id: note_id,
