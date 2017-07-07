@@ -20,4 +20,5 @@ class Folder extends Model
     public $timestamps = true;
 //    protected $fillable = ['title','u_id','p_id','active'];
     protected $guarded = ['created_at','updated_at'];
+
 }

@@ -34,7 +34,7 @@ class BaseController extends Controller
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function error($msg = '请求成功',$data = null,$code = 403)
+    public function error($msg = '请求失败',$data = null,$code = 403)
     {
         $this->response['code'] = $code;
         $this->response['msg'] = $msg;

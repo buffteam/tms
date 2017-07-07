@@ -94,14 +94,19 @@ class NotesController extends BaseController
         // 获取用户ID
         $userId = user()->id;
         $notes = new Notes();
+        // 查询私有文档
+        $private = $notes->where(['isPrivate'=>'0','u_id'=>$userId,'f_id'=>$params['id']])->get()->toArray();
+
         // TODO 私人可见笔记待做 查询数据
-        $data = $notes->where(['f_id'=>$params['id'],'active'=>'1'])
+        $data = $notes->where(['f_id'=>$params['id'],'active'=>'1','isPrivate'=>'1'])
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
-                    ->get();
+                    ->get()->toArray();
+
         $totalPage = ceil($notes->count()/$params['pagesize']);
-        return $this->success('获取数据成功',array('totalPage'=>$totalPage,'data'=>$data));
+        $list = array_merge($data,$private);
+        return $this->success('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
     }
 
     public function find (Request $request)
@@ -141,6 +146,12 @@ class NotesController extends BaseController
         }
         return $this->success('更新成功',Notes::find($params['id']));
     }
+
+    /**
+     * 删除
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function del (Request $request)
     {
         // 验证规则
@@ -162,11 +173,22 @@ class NotesController extends BaseController
         return $this->success('删除成功');
 
     }
+
+    /**
+     * 最新文档
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function latest ()
     {
         $latest = Notes::where(array('active'=>'1'))->get();
         return $this->success('获取成功',$latest);
     }
+
+    /**
+     * 验证文档Id是否存在
+     * @param $id
+     * @return bool
+     */
     private function findFolderId($id)
     {
         return Folder::find($id) ? true : false;

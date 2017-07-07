@@ -82,15 +82,22 @@ class FolderController extends BaseController
         if ($validator->fails()) {
             return $this->error('参数验证输错',$validator->errors());
         }
+
         $params = $request->input();
-        $data = Folder::find($params['id']);
-        if (null === $data) {
+        $Folder = Folder::find($params['id']);
+
+        if (null === $Folder) {
             return $this->error('ID不存在');
         }
-        if ( $data->p_id === 0 && user()->auth !== 2 ) {
-            return $this->error('没有权限删除一级菜单');
+
+        if ($Folder->notes()->count() > 0) {
+            return $this->error('删除失败，必须删除文件夹下所有笔记');
         }
-        Folder::where('id',$params['id'])->update($params);
+        if ( $Folder->p_id === 0 && user()->auth !== 2 ) {
+            return $this->error('删除失败，没有权限删除一级菜单');
+        }
+
+        $Folder->where('id',$params['id'])->update($params);
         return $this->success('删除成功');
 
     }

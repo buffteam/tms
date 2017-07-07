@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Folder;
+use App\User;
 use Illuminate\Support\Facades\App;
 use App\Notes;
-use Dompdf\Dompdf;
 use App\Libs\upload;
 use Illuminate\Http\Request;
 
@@ -76,6 +77,8 @@ class CommonController extends BaseController
     }
     public function index ()
     {
-        return view('test');
+
+        dump(Folder::find(1)->notes()->count());
+
     }
 }
