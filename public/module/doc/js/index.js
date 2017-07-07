@@ -16,12 +16,11 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     mdeditor = null,            // md 编辑器
     wangeditor = null,          // wangeditor 编辑器
     cur_note = null,
-    dialog_type = null,         // 定义type 控制dialog的处理事件
+    sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序方式
+    share_title = null,         // 分享标题
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
     isLoading = false;          // 是否正在加载列表
-
-
 
 var folder = {
     init: function () {
@@ -88,29 +87,28 @@ var folder = {
         });
 
         // 点击新建文档事件
-        $('.add-text').on('click', function (e) {
+        $('.new-doc-box').on('click', function (e) {
             e.stopPropagation();
             var $self = $(this);
-            var $parent = $self.parent();
-            $parent.hasClass('active') ? $parent.removeClass('active') : $parent.addClass('active');
+            $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
             $(document).one('click',function () {
-                $parent.hasClass('active') ? $parent.removeClass('active') : '';
+                $self.hasClass('active') ? $self.removeClass('active') : '';
             })
         });
 
         // 左边栏目录点击事件
         $nav.on('click', '.child-menu-open', function (e) {
-            e.stopPropagation();
-            var self = $(this).parent(),
-                ul_switch = self.data('switch');
-            if (ul_switch == 'on') {
-                self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
-            } else {
-                self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
-            }
-        })
-        // 点击我的文档目录事件
-            .on('click','.first-menu-a',function () {
+                e.stopPropagation();
+                var self = $(this).parent(),
+                    ul_switch = self.data('switch');
+                if (ul_switch == 'on') {
+                    self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
+                } else {
+                    self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
+                }
+            })
+            // 点击我的文档目录事件
+            .on('click','.nav-doc-a',function () {
                 var self = $(this),
                     ul_switch = self.data('switch');
                 if ($layout.hasClass('middle')) {
@@ -145,7 +143,7 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $('.child-menu-down,.first-menu-down').removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 125);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 105);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
                     if(idx == '4'){
@@ -163,7 +161,17 @@ var folder = {
                     $downBox.fadeOut(200);
                     $g_folder = null;
                 }
-            });
+            })
+            .on('click', '.nav-share-item',function () {
+                var layer_share = layer.open({
+                    type: 2,
+                    title: '我的分享',
+                    content: '/myshare',
+                    area: ['100%', '100%'],
+                    maxmin: false
+                });
+                layer.full(layer_share);
+        });
 
         // 新建文件夹
         $('.add-dir').on('click', function () {
@@ -246,20 +254,23 @@ var folder = {
                             return ;
                         }
                         if (value) {
-                            var tag = $self.parent().parent().parent().parent().prev('a');
-                            $(this).parent().html(value);
-                            if (!tag.hasClass('is-parent')) {
-                                tag.addClass('is-parent on').data('switch', 'on');
-                            }
                             $.post('/folder/add', {
                                 title: value,
                                 p_id: g_id
                             }, function (res) {
-
                                 if(res.code === 200){
+                                    var tag = $self.parent().parent().parent().parent().prev('a');
+                                    $(this).parent().html(value);
+                                    if (!tag.hasClass('is-parent')) {
+                                        tag.addClass('is-parent on').data('switch', 'on');
+                                    }
                                     $menu_a.removeClass('last-menu-a')
                                         .addClass('second-menu-a')
                                         .data('id',res.data.id);
+                                    $menu_a = null;
+                                }else if(res.code === 403){
+                                    layer.msg('添加失败,文件夹名称重复');
+                                    $menu_a.parent().remove();
                                     $menu_a = null;
                                 }
                             })
@@ -299,8 +310,11 @@ var folder = {
                     break;
                 // 删除文件夹
                 case 'del':
-                    $('.dialog').show();
-                    dialog_type = 'del_folder';
+                    layer.confirm('删除不可恢复，是否确定删除？', {
+                        btn: ['确定','取消']
+                    }, function(){
+                        main.delFolder();
+                    });
                     break;
             }
         });
@@ -310,10 +324,20 @@ var folder = {
 var note = {
     init: function(){
         note.clickListEvent();
+        var $sortLi = $('.sort-down-menu li');
+        $sortLi.each(function () {
+            if($(this).data('type') === sort_type){
+                $(this).addClass('active');
+            }
+        })
     },
     // 加载笔记列表
     getList: function (folder_id) {
-        $.get('/note/show', {id: folder_id, page: cur_page}, function (res) {
+        $.get('/note/show', {
+            id: folder_id,
+            field: sort_type,
+            page: cur_page
+        }, function (res) {
             isLoading = false;
             if(res.code === 200){
                 if(res.data.data.length){
@@ -338,8 +362,6 @@ var note = {
                         $list_box.addClass('null');
                         $list_ul.html('');
                         mdeditor && mdeditor.clear();
-                    }else{
-                        alert('到底了');
                     }
                 }
             }
@@ -359,6 +381,7 @@ var note = {
     },
     // 监听事件
     clickListEvent: function(){
+        // 点击列表
         $list_ul.on('click','.doc-item', function () {
             var $self = $(this);
             if(!$self.hasClass('active')){
@@ -367,11 +390,37 @@ var note = {
                 note.getNoteDetail(note_id);
             }
         });
+        // 点击列表删除图表
         $list_ul.on('click','.list-del-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
                 note_id = elem.data('id');
             note.delNote(note_id, elem);
+        });
+        // 点击列表分享图标
+        $list_ul.on('click','.list-share-icon', function (e) {
+            e.stopPropagation();
+            var elem = $(this).parent().parent(),
+                note_id = elem.data('id'),
+                title = elem.find('.list-title-text').text();
+            $('.mask,.share-dialog').show();
+            var g_url = window.location.href;
+            $('.share-copy-c input').val(g_url);
+            new ZeroClipboard( document.getElementById("btnCopy"));
+
+            share_title = title + ' -- 来自云笔记';
+
+            $('.share-close').on('click',function () {
+                $('.mask,.share-dialog').hide();
+                $(this).off('click');
+            })
+        });
+        // 选择排序方式
+        $('.sort-down-menu li').on('click', function () {
+            var $self = $(this);
+            sort_type = $self.data('type');
+            cur_page = 1;
+            note.getList(g_id);
         })
     },
     // 笔记列表滚动事件
@@ -463,7 +512,7 @@ var note = {
                 cur_note = res.data;
                 note.initEditor(type);
             }else if(res.code === 403){
-                alert('新建失败，已有相同标题笔记了！')
+                layer.msg('新建失败，已有相同标题笔记了！');
             }
         })
     },
@@ -471,13 +520,13 @@ var note = {
     delNote: function (note_id, elem) {
         $.post('/note/del',{id: note_id}, function (res) {
             if(res.code === 200){
-                alert('删除成功');
+                layer.msg('删除成功');
                 elem.remove();
                 if(!$('.doc-item.active').length){
                     $doc_box.addClass('null');
                 }
                 if(!$list_ul.find('.doc-item').length){
-                    $list_box.addClass('null')
+                    $list_box.addClass('null');
                 }
             }
 
@@ -504,16 +553,17 @@ var note = {
         }, function (res) {
             if(res.code === 200){
                 $('.doc-item.active .list-title-text').text(title);
-                alert('保存成功');
+                layer.msg('保存成功');
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
                 $('.doc-title-span').html(title);
+                cur_note = res.data;
+            }else if(res.code === 403){
+                layer.msg('保存失败，已有相同标题笔记了！');
             }
-
         })
     }
 };
-
 
 var main = {
     init: function () {
@@ -528,69 +578,31 @@ var main = {
                 return false;
             }
         });
-        main.templateHelper();
         folder.init();
-    },
-    // js模板处理
-    templateHelper: function () {
-        template.helper('date', function (date, format) {
-            date = new Date(date*1000);
-            var map = {
-                "M": date.getMonth() + 1, //月份
-                "d": date.getDate(), //日
-                "h": date.getHours(), //小时
-                "m": date.getMinutes(), //分
-                "s": date.getSeconds(), //秒
-                "q": Math.floor((date.getMonth() + 3) / 3), //季度
-                "S": date.getMilliseconds() //毫秒
-            };
-
-            /*正则替换*/
-            format = format.replace(/([yMdhmsqS])+/g, function(all, t){
-                var v = map[t];
-                if(v !== undefined){
-                    if(all.length > 1){
-                        v = '0' + v;
-                        v = v.substr(v.length-2);
-                    }
-                    return v;
-                }
-                else if(t === 'y'){
-                    return (date.getFullYear() + '').substr(4 - all.length);
-                }
-                return all;
-            });
-            return format;
-        });
     },
     // 退出登录
     loginOut: function () {
         $.post('/logout', function (res) {
             if(res.code === 200){
-                alert(res.msg);
+                layer.msg(res.msg);
                 location.href = '/login';
             }
         })
     },
-    // dialog取消事件
-    cancelDialog: function () {
-        dialog_type = null;
-        $('.dialog').hide();
-        $g_folder = null;
+    // 删除目录事件
+    delFolder: function () {
+        $.post('/folder/del',{id: g_id}, function (res) {
+            if(res.code === 200){
+                $g_folder.remove();
+                layer.msg('删除成功');
+            }
+        })
     },
-    // dialog确定事件
-    sureDialog: function () {
-        switch (dialog_type){
-            // 删除目录
-            case 'del_folder':
-                $.post('/folder/del',{id: g_id}, function (res) {
-                    if(res.code === 200){
-                        $g_folder.remove();
-                        main.cancelDialog();
-                    }
-                })
+    configShare: function (cmd, config) {
+        if(share_title){
+            config.bdText = share_title;
         }
-    },
-
+        return config;
+    }
 };
 main.init();
