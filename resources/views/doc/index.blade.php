@@ -5,6 +5,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
+    <link rel="stylesheet" href="{{asset('module/doc/css/dialog.css')}}">
 @endsection
 
 @section('content')
@@ -27,7 +28,7 @@
                             </div>
                         </li>
                         <li class="pure-menu-item nav-doc-item">
-                            <a href="#" class="first-menu-a is-parent" data-switch="on">
+                            <a href="#" class="nav-doc-a first-menu-a is-parent" data-switch="on">
                                 <span>我的文档</span>
                             </a>
                             <ul class="child-list first-child-list">
@@ -62,9 +63,8 @@
                 <div class="sort-box">
                     <span class="sort-box-icon"></span>
                     <ul class="sort-down-menu">
-                        <li class="active">修改时间</li>
-                        <li>创建时间</li>
-                        <li>文件名称</li>
+                        <li data-type="updated_at">修改时间</li>
+                        <li data-type="created_at">创建时间</li>
                     </ul>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="doc-content-body">
-                    <div class="doc-preview-body editormd-preview-container">
+                    <div class="doc-preview-body markdown-body  editormd-preview-container">
 
                     </div>
                     <div class="doc-edit-body">
@@ -106,20 +106,6 @@
                 <div class="doc-content-null">
 
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="dialog">
-        <div class="dialog-wrapper">
-            <div class="dialog-header">
-                <span class="dialog-header-title">提示</span>
-            </div>
-            <div class="dialog-content">
-                <p>删除之后不可恢复，是否仍要删除？</p>
-            </div>
-            <div class="dialog-btns">
-                <button type="button" class="cancel-btn" onclick="main.cancelDialog()">取消</button>
-                <button type="button" class="sure-btn" onclick="main.sureDialog()">确定</button>
             </div>
         </div>
     </div>
@@ -177,4 +163,5 @@
 @endsection
 @section('script')
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
+    <script>window._bd_share_config={"common":{onBeforeClick: main.configShare,"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["sqq"],"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
 @endsection

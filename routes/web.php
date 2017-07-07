@@ -28,6 +28,7 @@ Route::any('test/index', 'CommonController@index')->name('index');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/myshare', 'DashboardController@share')->name('myshare');
 
     Route::any('/folder/add', 'FolderController@store');
     Route::any('/folder/del', 'FolderController@del');

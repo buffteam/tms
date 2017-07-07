@@ -11,4 +11,8 @@ class DashboardController extends Controller
     {
         return view('doc.index');
     }
+    public function share()
+    {
+        return view('doc.share');
+    }
 }
