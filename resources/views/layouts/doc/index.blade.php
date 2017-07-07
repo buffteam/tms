@@ -18,7 +18,17 @@
     <div class="user-info pure-u-7-8">
         <span>{{ Auth::user()->name }}</span>
         <span> | </span>
-        <span class="logout" onclick="main.loginOut()">退出</span>
+        {{--<span class="logout" onclick="main.loginOut()">退出</span>--}}
+        <a  class="logout" href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+
+            退出
+
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
     </div>
 </header>
 
