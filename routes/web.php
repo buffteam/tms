@@ -23,7 +23,7 @@ Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
 
 Route::any('/test/export', 'CommonController@export')->name('export');
 
-Route::any('test/index', 'CommonController@index')->name('index');
+Route::any('/checkLogin', 'CommonController@checkLogin');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -42,4 +42,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/note/find', 'NotesController@find');
     Route::any('/note/show', 'NotesController@show');
     Route::any('/note/latest', 'NotesController@latest');
+    Route::any('/note/search', 'NotesController@search');
 });

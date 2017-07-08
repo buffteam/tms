@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use App\Notes;
 use App\Libs\upload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommonController extends BaseController
 {
@@ -38,47 +39,8 @@ class CommonController extends BaseController
 
 
     }
-
-    public function export (Request $request)
+    public function checkLogin()
     {
-
-        $params = $request->input();
-        // instantiate and use the dompdf class
-        $data = Notes::find(19);
-        $snappy = App::make('snappy.pdf');
-//To file
-        $html = $data->content;
-        $snappy->generateFromHtml($data->content, '/tmp/bill-123.pdf');
-//        $snappy->generate('http://www.github.com', '/tmp/github.pdf');
-//Or output:
-        return response(
-            $snappy->getOutputFromHtml($html),
-            200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="file.pdf"'
-            )
-        );
-//
-//        $dompdf = new Dompdf();
-////        var_dump($data->content);
-////        return;
-//        $dompdf->loadHtml(utf8_decode($data->content),'UTF-8');
-//
-//        // (Optional) Setup the paper size and orientation
-//        $dompdf->setPaper('A4', 'landscape');
-//
-//        // Render the HTML as PDF
-//        $dompdf->render();
-//
-//
-//        // Output the generated PDF to Browser
-//        $dompdf->stream($data->title);
-    }
-    public function index ()
-    {
-
-        dump(Folder::find(1)->notes()->count());
-
+        return Auth::check() ? $this->success('登录成功',user()) : $this->error('登录过期');
     }
 }

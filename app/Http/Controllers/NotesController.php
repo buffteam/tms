@@ -6,13 +6,10 @@ use App\Notes;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
 class NotesController extends BaseController
 {
-    public function index()
-    {
-        return Notes::all();
-    }
-
 
     /**
      * 新增笔记
@@ -30,7 +27,7 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error($validator->errors(),'参数验证输错');
+            return $this->error('参数验证输错',$validator->errors());
         }
         $params = $request->input();
         //TODO 验证关联表 某个数据是否存在表数据中
@@ -50,6 +47,11 @@ class NotesController extends BaseController
 
     }
 
+    /**
+     * 获取id下面的笔记
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show (Request $request)
     {
         // 验证规则
@@ -60,7 +62,7 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error($validator->errors(),'参数验证输错');
+            return $this->error('参数验证输错',$validator->errors());
         }
 
         // 用户提交信息
@@ -86,7 +88,7 @@ class NotesController extends BaseController
         }
         // 每页数量
         if (!isset($params['pagesize'])) {
-            $params['pagesize'] = 15;
+            $params['pagesize'] = 3;
         }
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
@@ -95,20 +97,24 @@ class NotesController extends BaseController
         $userId = user()->id;
         $notes = new Notes();
         // 查询私有文档
-        $private = $notes->where(['isPrivate'=>'0','u_id'=>$userId,'f_id'=>$params['id']])->get()->toArray();
+        $private = $notes->where([ 'isPrivate'=>'0','u_id'=>$userId,'f_id'=>$params['id']]);
 
         // TODO 私人可见笔记待做 查询数据
-        $data = $notes->where(['f_id'=>$params['id'],'active'=>'1','isPrivate'=>'1'])
+        $list = $notes->where([ 'active'=>'1','isPrivate'=>'1','f_id'=>$params['id'] ])
+                    ->union($private)
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
                     ->get()->toArray();
-
         $totalPage = ceil($notes->count()/$params['pagesize']);
-        $list = array_merge($data,$private);
         return $this->success('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
     }
 
+    /**
+     * 获取笔记详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function find (Request $request)
     {
         $id = $request->input('id');
@@ -117,6 +123,11 @@ class NotesController extends BaseController
 
     }
 
+    /**
+     * 更新笔记
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update (Request $request)
     {
         // 验证
@@ -180,8 +191,56 @@ class NotesController extends BaseController
      */
     public function latest ()
     {
-        $latest = Notes::where(array('active'=>'1'))->get();
+        $latest = Notes::where(array('active'=>'1'))->limit(20)->get();
         return $this->success('获取成功',$latest);
+    }
+
+    public function search(Request $request)
+    {
+        // 验证规则
+        $rules =  [
+            'keywords' => 'required|max:80',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->error('参数验证输错',$validator->errors());
+        }
+        $params = $request->input();
+
+        // 选择排序字段
+        if (!isset($params['field'])) {
+            $params['field'] = 'created_at';
+        }
+
+        // 选择排序方式
+        if (!isset($params['order'])) {
+            $params['order'] = 'desc';
+        }
+        // 分页页码
+        if (!isset($params['page'])) {
+            $params['page'] = 1;
+        }
+        // 每页数量
+        if (!isset($params['pagesize'])) {
+            $params['pagesize'] = 15;
+        }
+        // 起始页
+        $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
+
+        // 获取用户ID
+        $userId = user()->id;
+        $notes = new Notes();
+
+        $list = $notes->where('title','like','%'.$params['keywords'].'%')
+                    ->orWhere(['active'=>'1','isPrivate'=>'1' ]) //未删除且是公开的
+                    ->orWhere([ 'isPrivate'=>'0','u_id'=>$userId]) //私有且是登录用户
+                    ->orderBy($params['field'],$params['order'])
+                    ->offset($start)
+                    ->limit($params['pagesize'])
+                    ->get();
+        return $this->success('搜索成功',$list);
     }
 
     /**
