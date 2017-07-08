@@ -496,8 +496,13 @@ ul, ol{
 .sort-down-menu li:hover{
     background-color: #f3f3f3;
 }
-.sort-down-menu li.active{
+.sort-down-menu li.active.desc{
     background-image: url('/module/doc/imgs/icon/sort_down.png');
+    background-position: 10px 9px;
+    background-repeat: no-repeat;
+}
+.sort-down-menu li.active.asc{
+    background-image: url('/module/doc/imgs/icon/sort_up.png');
     background-position: 10px 9px;
     background-repeat: no-repeat;
 }

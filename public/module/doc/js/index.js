@@ -1,7 +1,8 @@
 /**
  * Created by linxin on 2017/6/26.
  */
-var $menuBtn = $('.nav-menu-button'),
+var $window = $(window),
+    $menuBtn = $('.nav-menu-button'),
     $list_ul = $('.list-content-ul'),               // 笔记列表
     $list_box = $('.list-content'),                 // 笔记列表盒子
     $doc_box = $('.doc-content');                   // 笔记详情盒子
@@ -16,7 +17,8 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     md_time = null,
     wang_time = null,
     cur_note = null,
-    sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序方式
+    sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序类型
+    sort_order = localStorage.getItem('sort_order') || 'desc',      // 排序方式
     share_title = null,         // 分享标题
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
@@ -82,10 +84,10 @@ var folder = {
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
             }
         });
-        if($(window).width() < 1200){
+        if($window.width() < 1200){
             $menuBtn.click();
         }
-        $(window).resize(function(){
+        $window.resize(function(){
             var $self = $(this);
             if(($self.width() < 1200 && !$layout.hasClass('middle')) || ($self.width() > 1200 && $layout.hasClass('middle'))){
                 $menuBtn.click();
@@ -335,8 +337,9 @@ var note = {
         note.clickListEvent();
 
         $sortLi.each(function () {
-            if($(this).data('type') === sort_type){
-                $(this).addClass('active');
+            var $self = $(this);
+            if($self.data('type') === sort_type){
+                $self.addClass('active ' + sort_order);
             }
         })
     },
@@ -345,6 +348,7 @@ var note = {
         $.get('/note/show', {
             id: folder_id,
             field: sort_type,
+            order: sort_order,
             page: cur_page
         }, function (res) {
             isLoading = false;
@@ -426,8 +430,26 @@ var note = {
         });
         // 选择排序方式
         $('.sort-down-menu li').on('click', function () {
-            var $self = $(this);
-            sort_type = $self.data('type');
+            var $self = $(this),
+                type = $self.data('type');
+            if(type === sort_type){
+                if($self.hasClass('desc')){
+                    $self.addClass('asc').removeClass('desc');
+                    sort_order = 'asc';
+                }else{
+                    $self.addClass('desc').removeClass('asc');
+                    sort_order = 'desc';
+                }
+            }else{
+                sort_type = type;
+                if($self.hasClass('desc')){
+                    $self.addClass('active asc').removeClass('desc').siblings().removeClass('active');
+                    sort_order = 'asc';
+                }else{
+                    $self.addClass('active desc').removeClass('asc').siblings().removeClass('active');
+                    sort_order = 'desc';
+                }
+            }
             cur_page = 1;
             note.getList(g_id);
         })
@@ -452,7 +474,7 @@ var note = {
     },
     // 初始化编辑器
     initEditor: function (type, value) {
-        var height = $(window).height() - $('.doc-content-header').outerHeight() - 50;
+        var height = $window.height() - $('.doc-content-header').outerHeight() - 50;
         if(type === '1'){
             if(!!mdeditor){
                 value ? mdeditor.setMarkdown(value) : mdeditor.clear();
@@ -465,7 +487,7 @@ var note = {
                     disabledKeyMaps: ["Ctrl-S"],
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL: "/util/upload",
+                    imageUploadURL: "/common/mdEditorUpload",
                     toolbarIcons: function () {
                         return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
                             "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
@@ -491,7 +513,7 @@ var note = {
                 wangeditor.txt.html(value || '');
             }else{
                 wangeditor = new wangEditor('#editor');
-                wangeditor.customConfig.uploadImgServer = '/util/upload';
+                wangeditor.customConfig.uploadImgServer = '/common/wangEditorUpload';
                 wangeditor.customConfig.uploadFileName = 'image-file';
                 wangeditor.create();
                 wangeditor.txt.html(value || '');
@@ -525,7 +547,7 @@ var note = {
                 cur_note = res.data;
                 note.initEditor(type);
             }else if(res.code === 403){
-                layer.msg('新建失败，已有相同标题笔记了！');
+                layer.msg(res.msg);
             }
         })
     },
@@ -541,6 +563,8 @@ var note = {
                 if(!$list_ul.find('.doc-item').length){
                     $list_box.addClass('null');
                 }
+            }else{
+                layer.msg(res.msg);
             }
 
         })
@@ -572,7 +596,7 @@ var note = {
                 $('.doc-title-span').html(title);
                 cur_note = res.data;
             }else if(res.code === 403){
-                layer.msg('保存失败，已有相同标题笔记了！');
+                layer.msg(res.msg);
             }
         })
     },
