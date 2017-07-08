@@ -18,8 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::any('/home', 'HomeController@index')->name('home');
-Route::any('/mdEditorUpload', 'CommonController@mdEditorUpload');
-Route::any('/wangEditorUpload', 'CommonController@wangEditorUpload');
+Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
+Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
 
 Route::any('/test/export', 'CommonController@export')->name('export');
 
