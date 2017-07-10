@@ -150,7 +150,6 @@ class NotesController extends BaseController
         if ($validator->fails()) {
             return $this->error('参数验证输错',$validator->errors());
         }
-        DB::connection()->enableQueryLog();
 
         $params = $request->input();
         if (isset($params['title'])) {
@@ -166,8 +165,6 @@ class NotesController extends BaseController
         if ($data != 1) {
             return $this->success('更新失败');
         }
-        $log = DB::getQueryLog();
-        dd($log);
         return $this->success('更新成功',Notes::find($params['id']));
     }
 
