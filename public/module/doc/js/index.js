@@ -22,6 +22,7 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     share_title = null,         // 分享标题
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
+    isSearch = false,           // 是否为搜索列表
     isLoading = false;          // 是否正在加载列表
 
 var folder = {
@@ -71,7 +72,8 @@ var folder = {
             $newDocBtn = $('.new-doc-box'),
             $addDir = $('.add-dir'),
             $input = $('.child-item-input input'),
-            $firstParent = $('.first-menu-a.is-parent');
+            $firstParent = $('.first-menu-a.is-parent'),
+            $search = $('.search-input');
         // 收起侧边栏
         $menuBtn.on('click', function () {
             if ($layout.hasClass('middle')) {
@@ -137,6 +139,8 @@ var folder = {
                 $('.child-item.active').removeClass('active');
                 $self.parent().addClass('active');
                 cur_page = 1;
+                isSearch = false;
+                $search.val('');
                 note.getList(g_id);
             })
             // 点击下拉菜单
@@ -355,7 +359,7 @@ var note = {
             if(res.code === 200){
                 if(res.data.data.length){
                     $doc_box.removeClass('null');
-                    $list_box.removeClass('null');
+                    $list_box.removeClass('null is-search-null');
                     var html = null;
                     if(cur_page === 1){
                         html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
@@ -372,7 +376,49 @@ var note = {
                 }else{
                     if(cur_page === 1){
                         $doc_box.addClass('null');
-                        $list_box.addClass('null');
+                        $list_box.addClass('null').removeClass('is-search-null');
+                        $list_ul.html('');
+                        mdeditor && mdeditor.clear();
+                    }
+                }
+            }
+        })
+    },
+    // 搜索功能
+    getSearch: function () {
+        var $search = $('.search-input'),
+            value = $search.val();
+        if(!value.trim()){
+            return false;
+        }
+        $.get('/note/search', {
+            keywords: value,
+            field: sort_type,
+            order: sort_order,
+            page: cur_page
+        }, function (res) {
+            isLoading = false;
+            if(res.code === 200){
+                if(res.data.data.length){
+                    $doc_box.removeClass('null');
+                    $list_box.removeClass('null is-search-null');
+                    var html = null;
+                    if(cur_page === 1){
+                        html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                        $list_ul.html(html);
+                        note.scorllHandle();
+                        note.getNoteDetail(res.data.data[0].id);
+                        totalPage = res.data.totalPage;
+                    }else{
+                        html = template('list-tpl', {list: res.data.data, active: null});
+                        $list_ul.append(html);
+                        $(".list-content").getNiceScroll().resize()
+                    }
+                    cur_page ++;
+                }else{
+                    if(cur_page === 1){
+                        $doc_box.addClass('null');
+                        $list_box.addClass('null is-search-null');
                         $list_ul.html('');
                         mdeditor && mdeditor.clear();
                     }
@@ -451,7 +497,15 @@ var note = {
                 }
             }
             cur_page = 1;
-            note.getList(g_id);
+            isSearch ? note.getSearch() : note.getList(g_id);
+        });
+        // 监听搜索框回车事件
+        $('.search-input').on('keypress',function (e) {
+            if(e.keyCode === 13){
+                cur_page = 1;
+                isSearch = true;
+                note.getSearch();
+            }
         })
     },
     // 笔记列表滚动事件
@@ -461,7 +515,7 @@ var note = {
                 box_height = $list_box.height();
             if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
                 isLoading = true;
-                note.getList(g_id);
+                isSearch ? note.getSearch() : note.getList(g_id);
             }
         });
 
@@ -507,7 +561,8 @@ var note = {
                     }
                 });
             }
-            md_time = setInterval(main.autoSaveNote, AUTO_TIME);
+            // 自动保存
+            // md_time = setInterval(note.autoSaveNote, AUTO_TIME);
         }else if(type === '2'){
             if(!!wangeditor){
                 wangeditor.txt.html(value || '');
