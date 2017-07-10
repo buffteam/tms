@@ -234,8 +234,8 @@ class NotesController extends BaseController
         $notes = new Notes();
 
         $list = $notes->where('title','like','%'.$params['keywords'].'%')
-                    ->orWhere(['active'=>'1','isPrivate'=>'1' ]) //未删除且是公开的
-                    ->orWhere([ 'isPrivate'=>'0','u_id'=>$userId]) //私有且是登录用户
+                    ->where(['active'=>'1','isPrivate'=>'1' ]) //未删除且是公开的
+//                    ->orWhere([ 'isPrivate'=>'0','u_id'=>$userId]) //私有且是登录用户
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])

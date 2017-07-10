@@ -77,7 +77,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <span>欢迎使用醍醐共享云笔记</span>
+                    <span>欢迎使用共享笔记平台</span>
                 </div>
 
                 <div class="links">
