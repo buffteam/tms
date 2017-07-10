@@ -9,7 +9,7 @@ include_once 'mpdf.php';
 //}
 
 header('Content-Type: application/pdf');
-$post = $_POST ? $_POST : $_GET;
+$post = $_GET;
 if(!isset($post['content'])) {
     echo json_encode(array('code'=>403,'msg'=>'参数不能为空','data'=>null));
     return false;
@@ -19,10 +19,10 @@ if(!isset($post['content'])) {
 
 $config = [
     'header' => isset($post['header']) ? $post['header'] : '',
-    'footer' => isset($post['footer']) ? $post['header'] : '',
+    'footer' => isset($post['footer']) ? $post['footer'] : '',
     'content' => $post['content'] ,
-    'title' => isset($post['header']) ? $post['header'] : '',
-    'author' => isset($post['header']) ? $post['header'] : ''
+    'title' => isset($post['title']) ? $post['title'] : '',
+    'author' => isset($post['author']) ? $post['author'] : ''
 ];
 
 $mpdf = new mPDF('utf-8');

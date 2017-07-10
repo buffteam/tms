@@ -13,7 +13,7 @@ class FolderController extends BaseController
     {
         // 验证规则
         $rules =  [
-            'title' => 'required|max:30',
+            'title' => 'required|max:80',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -26,8 +26,8 @@ class FolderController extends BaseController
             $params['p_id'] = 0;
         }
 
-        $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->get();
-        if (count($num) > 0) {
+        $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->count();
+        if ($num > 0) {
             return $this->error('文件夹名称重复');
         }
         $params['u_id'] = user()->id;
@@ -41,8 +41,8 @@ class FolderController extends BaseController
     public function listAll()
     {
         //
-        $categories = Folder::where(array('p_id'=>0,'active'=>'1'))->select('id','title','p_id')->get();
-        $allCategories = Folder::where([['p_id','>',0],['active','=','1']])->select('id','title','p_id','u_id')->get();
+        $categories = Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
+        $allCategories = Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
         return $this->success('请求成功',compact('categories','allCategories'));
     }
 
@@ -61,8 +61,8 @@ class FolderController extends BaseController
         }
         $params = $request->input();
         $pid = isset($params['pid']) ? $params['pid'] : 0;
-        $exist = Folder::where(array('p_id'=>$pid,'title'=>$params['title']))->first();
-        if (!empty($exist)) {
+        $exist = Folder::where(array('p_id'=>$pid,'title'=>$params['title']))->count();
+        if ($exist > 0) {
             return $this->error('文件夹名称重复');
         }
         Folder::where('id',$params['id'])->update(array('title'=>$params['title']));
