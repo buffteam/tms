@@ -57,8 +57,8 @@
 
         <div id="list" class="">
             <div class="list-head">
-                <div class="serch-input-box">
-                    <input type="text" class="serch-input" placeholder="搜索笔记">
+                <div class="search-input-box">
+                    <input type="text" class="search-input" placeholder="搜索笔记">
                 </div>
                 <div class="sort-box">
                     <span class="sort-box-icon"></span>
@@ -71,8 +71,13 @@
             <div class="list-content">
                 <ul class="list-content-ul"></ul>
                 <div class="list-content-null">
-                    <p>该目录下没有文档</p>
-                    <span class="new-note" onclick="note.newNote('1')">新建文档</span>
+                    <div class="list-null">
+                        <p>该目录下没有文档</p>
+                        <span class="new-note" onclick="note.newNote('1')">新建文档</span>
+                    </div>
+                    <div class="search-null">
+                        <p>搜索结果为空</p>
+                    </div>
                 </div>
             </div>
 
@@ -142,9 +147,9 @@
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
         <li class="child-item <% if(list[i].id === active) {%> active <% } %>">
         <% if(list[i].child) {%> 
-			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-switch="on">
+			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
         <% }else{ %>
-            <a href="#" class="second-menu-a" data-id="<%= list[i].id %>">
+            <a href="#" class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
         <% } %>
             	<span class="child-menu-open"></span>
                 <span class="child-menu-icon"></span>
