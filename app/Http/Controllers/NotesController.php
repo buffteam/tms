@@ -88,7 +88,7 @@ class NotesController extends BaseController
         }
         // 每页数量
         if (!isset($params['pagesize'])) {
-            $params['pagesize'] = 3;
+            $params['pagesize'] = 15;
         }
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
@@ -101,7 +101,7 @@ class NotesController extends BaseController
 
         // TODO 私人可见笔记待做 查询数据
         $list = $notes->where([ 'active'=>'1','isPrivate'=>'1','f_id'=>$params['id'] ])
-                    ->union($private)
+//                    ->union($private)
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
@@ -224,7 +224,7 @@ class NotesController extends BaseController
         }
         // 每页数量
         if (!isset($params['pagesize'])) {
-            $params['pagesize'] = 15;
+            $params['pagesize'] = 10;
         }
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
@@ -232,15 +232,15 @@ class NotesController extends BaseController
         // 获取用户ID
         $userId = user()->id;
         $notes = new Notes();
-
         $list = $notes->where('title','like','%'.$params['keywords'].'%')
                     ->where(['active'=>'1','isPrivate'=>'1' ]) //未删除且是公开的
-//                    ->orWhere([ 'isPrivate'=>'0','u_id'=>$userId]) //私有且是登录用户
                     ->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
                     ->get();
-        return $this->success('搜索成功',$list);
+        $totalNum = $notes->where('title','like','%'.$params['keywords'].'%')->where(['active'=>'1','isPrivate'=>'1' ])->count();
+        $totalPage = ceil($totalNum/$params['pagesize']);
+        return $this->success('搜索成功',['totalPage'=>$totalPage,'list'=>$list]);
     }
 
     /**
