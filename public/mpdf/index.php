@@ -37,5 +37,5 @@ $mpdf->autoScriptToLang = true;
 $mpdf->autoLangToFont = true;
 $mpdf->WriteHTML($config['content']);
 
-echo $mpdf->Output();
+echo $mpdf->Output($config['title'].'.pdf',true);
 exit();
