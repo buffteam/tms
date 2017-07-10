@@ -92,8 +92,12 @@
                     </div>
 
                     <div class="doc-content-controls pure-u-1-3">
+                        <span class="more-btn"></span>
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
+                        <ul class="more-list">
+                            <li onclick="note.htmlToPDF()">导出PDF</li>
+                        </ul>
                     </div>
                 </div>
 

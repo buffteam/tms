@@ -351,7 +351,7 @@ var note = {
             if($self.data('type') === sort_type){
                 $self.addClass('active ' + sort_order);
             }
-        })
+        });
     },
     // 加载笔记列表
     getList: function (folder_id) {
@@ -442,6 +442,11 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
+                // 查看大图
+                layer.photos({
+                    photos: '.doc-content-body'
+                    ,anim: 5
+                });
             }
         })
     },
@@ -514,7 +519,8 @@ var note = {
                 isSearch = true;
                 note.getSearch();
             }
-        })
+        });
+
     },
     // 笔记列表滚动事件
     scorllHandle: function () {
@@ -639,13 +645,10 @@ var note = {
     },
     // 保存笔记
     saveNote: function () {
-        console.log(cur_note)
         var title = $('.doc-title-input').val().trim(),
             md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
             html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
             note_id = cur_note.id;
-        console.log(cur_note.content);
-        console.log(html_cnt);
         if(cur_note.title == title && cur_note.content == html_cnt){
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
@@ -692,6 +695,15 @@ var note = {
         localStorage.setItem('local_note', JSON.stringify(local_note));
         main.bindUnload();
         console.log('保存了');
+    },
+    // 导出PDF
+    htmlToPDF: function () {
+        var elem = document.createElement('a');
+        elem.download = cur_note.title+'.pdf';
+        var a = cur_note.content;
+        console.log(cur_note.content.length)
+        elem.href = '/mpdf?content='+a+'&title='+cur_note.title;
+        elem.click();
     }
 };
 

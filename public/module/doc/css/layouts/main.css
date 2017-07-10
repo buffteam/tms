@@ -382,6 +382,7 @@ ul, ol{
 }
 
 .doc-content-controls {
+    position: relative;
     text-align: right;
     line-height: 35px;
 }
@@ -397,6 +398,37 @@ ul, ol{
     text-align: center;
     font-size: 14px;
     cursor: pointer;
+}
+.doc-content-controls .more-btn{
+    float: right;
+    width: 18px;
+    height:18px;
+    background: url("/module/doc/imgs/icon/more.png") no-repeat;
+    border: 1px solid #888;
+    border-radius: 50%;
+    margin: 8px 0 0 10px;
+    cursor: pointer;
+}
+.more-list{
+    /*display: none;*/
+    position: absolute;
+    right: -10px;
+    top: 45px;
+    width: 100px;
+    background: #fff;
+    font-size: 12px;
+    text-align: left;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
+    z-index: 11;
+}
+.more-list li{
+    padding-left: 15px;
+    color: #999;
+    cursor: pointer;
+}
+.more-list li:hover{
+    color: #76b0f3;
+    background: #f4f9ff;
 }
 
 #layout {
