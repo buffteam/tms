@@ -201,7 +201,7 @@ class NotesController extends BaseController
      */
     public function latest ()
     {
-        $latest = $this->notesModel->private()->limit($this->pagesize)->get();
+        $latest = $this->notesModel->isPrivate()->limit($this->pagesize)->get();
         return $this->success('获取成功',$latest);
     }
 

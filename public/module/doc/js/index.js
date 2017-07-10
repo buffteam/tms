@@ -345,13 +345,44 @@ var note = {
         var $sortLi = $('.sort-down-menu li');
 
         note.clickListEvent();
-
+        note.getNewList();
         $sortLi.each(function () {
             var $self = $(this);
             if($self.data('type') === sort_type){
                 $self.addClass('active ' + sort_order);
             }
         });
+    },
+    getNewList: function(){
+        $.get('/note/latest', function (res) {
+            isLoading = false;
+            if(res.code === 200){
+                if(res.data.data.length){
+                    $doc_box.removeClass('null');
+                    $list_box.removeClass('null is-search-null');
+                    var html = null;
+                    if(cur_page === 1){
+                        html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                        $list_ul.html(html);
+                        note.scorllHandle();
+                        note.getNoteDetail(res.data.data[0].id);
+                        totalPage = res.data.totalPage;
+                    }else{
+                        html = template('list-tpl', {list: res.data.data, active: null});
+                        $list_ul.append(html);
+                        $(".list-content").getNiceScroll().resize()
+                    }
+                    cur_page ++;
+                }else{
+                    if(cur_page === 1){
+                        $doc_box.addClass('null');
+                        $list_box.addClass('null').removeClass('is-search-null');
+                        $list_ul.html('');
+                        mdeditor && mdeditor.clear();
+                    }
+                }
+            }
+        })
     },
     // 加载笔记列表
     getList: function (folder_id) {
