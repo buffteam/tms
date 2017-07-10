@@ -147,9 +147,9 @@
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
         <li class="child-item <% if(list[i].id === active) {%> active <% } %>">
         <% if(list[i].child) {%> 
-			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-switch="on">
+			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
         <% }else{ %>
-            <a href="#" class="second-menu-a" data-id="<%= list[i].id %>">
+            <a href="#" class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
         <% } %>
             	<span class="child-menu-open"></span>
                 <span class="child-menu-icon"></span>

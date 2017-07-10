@@ -8,15 +8,15 @@ var $window = $(window),
     $doc_box = $('.doc-content');                   // 笔记详情盒子
 
 
-var AUTO_TIME = 0.1 * 60 * 1000;
+var AUTO_TIME = 10 * 60 * 1000;
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
     mdeditor = null,            // md 编辑器
     wangeditor = null,          // wangeditor 编辑器
-    md_time = null,
-    wang_time = null,
+    timeId = null,
     cur_note = null,
+    local_note = null,
     sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序类型
     sort_order = localStorage.getItem('sort_order') || 'desc',      // 排序方式
     share_title = null,         // 分享标题
@@ -236,6 +236,7 @@ var folder = {
                     break;
                 // 文件夹重命名
                 case 'rename':
+                    var pid = $icon.parent().data('pid');
                     elem = $icon.parent().find('.item-name');
                     text = elem.text();
                     elem.html('<input type="text" value="' + text + '">')
@@ -248,12 +249,17 @@ var folder = {
                             return ;
                         }
                         if (value) {
-                            elem.text(value);
                             $.post('/folder/update', {
                                 title: value,
-                                id: g_id
+                                id: g_id,
+                                pid: pid
                             }, function (res) {
-                                console.log(res);
+                                if(res.code === 200){
+                                    elem.text(value);
+                                }else{
+                                    elem.text(text);
+                                    layer.msg(res.msg);
+                                }
                             })
                         } else {
                             elem.text(text);
@@ -431,7 +437,8 @@ var note = {
         $.get('/note/find', {id: note_id}, function (res) {
             if(res.code === 200){
                 $('.doc-preview-body').html(res.data.content);
-                $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
+                $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
+                clearInterval(timeId); timeId = null;
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
@@ -446,6 +453,7 @@ var note = {
             if(!$self.hasClass('active')){
                 $self.addClass('active').siblings().removeClass('active');
                 var note_id = $self.data('id');
+                $doc_box.hasClass('is-edit') ? note.saveNote() : null;
                 note.getNoteDetail(note_id);
             }
         });
@@ -548,9 +556,6 @@ var note = {
                             "watch", "preview", "fullscreen", "clear", "search"
                         ]
                     },
-                    onchange : function() {
-                        note.autoSaveNote();
-                    },
                     onload : function() {
                         var keyMap = {
                             "Ctrl-S": function(cm) {
@@ -561,8 +566,6 @@ var note = {
                     }
                 });
             }
-            // 自动保存
-            // md_time = setInterval(note.autoSaveNote, AUTO_TIME);
         }else if(type === '2'){
             if(!!wangeditor){
                 wangeditor.txt.html(value || '');
@@ -582,6 +585,8 @@ var note = {
             }
 
         }
+
+        timeId = setInterval(note.autoSaveNote, AUTO_TIME);
     },
     // 新建笔记
     newNote: function (type) {
@@ -612,6 +617,7 @@ var note = {
             if(res.code === 200){
                 layer.msg('删除成功');
                 elem.remove();
+                clearInterval(timeId); timeId = null;
                 if(!$('.doc-item.active').length){
                     $doc_box.addClass('null');
                 }
@@ -628,14 +634,23 @@ var note = {
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
         $doc_box.removeClass('no-edit').addClass('is-edit is-edit-'+cur_note.type);
+        $('.doc-item.active').addClass('is-edit');
         cur_note.type === '1' ? note.initEditor('1', cur_note.origin_content) : note.initEditor(cur_note.type, cur_note.content);
     },
     // 保存笔记
     saveNote: function () {
-        var title = $('.doc-title-input').val(),
-            md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown(): '',
-            html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML() : wangeditor.txt.html(),
-            note_id = $('.doc-item.active').data('id');
+        console.log(cur_note)
+        var title = $('.doc-title-input').val().trim(),
+            md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
+            html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
+            note_id = cur_note.id;
+        console.log(cur_note.content);
+        console.log(html_cnt);
+        if(cur_note.title == title && cur_note.content == html_cnt){
+            $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
+            return false;
+        }
+        layer.msg('努力保存中...');
         $.post('/note/update', {
             id: note_id,
             f_id: g_id,
@@ -644,12 +659,16 @@ var note = {
             origin_content: md_cnt
         }, function (res) {
             if(res.code === 200){
-                $('.doc-item.active .list-title-text').text(title);
+                $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(title);
                 layer.msg('保存成功');
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
+                clearInterval(timeId); timeId = null;
                 $('.doc-title-span').html(title);
                 cur_note = res.data;
+                local_note = null;
+                localStorage.removeItem('local_note');
+                main.unbindUnload();
             }else if(res.code === 403){
                 layer.msg(res.msg);
             }
@@ -657,7 +676,22 @@ var note = {
     },
     // 自动保存笔记
     autoSaveNote: function () {
-        console.log('保存了')
+        local_note = {};
+        for(var i in cur_note){
+            local_note[i] = cur_note[i];
+        }
+        var title = $('.doc-title-input').val().trim(),
+            md_cnt = local_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
+            html_cnt = local_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim();
+        if(local_note.title == title && local_note.content == html_cnt){
+            return false;
+        }
+        local_note.title = title;
+        local_note.origin_content = md_cnt;
+        local_note.content = html_cnt;
+        localStorage.setItem('local_note', JSON.stringify(local_note));
+        main.bindUnload();
+        console.log('保存了');
     }
 };
 
@@ -674,7 +708,36 @@ var main = {
                 return false;
             }
         });
+
         folder.init();
+    },
+    // 监听窗口关闭
+    bindUnload: function () {
+        main.unbindUnload();
+        $window.bind('beforeunload',function(){
+            var localNote = localStorage.getItem('local_note');
+            if(localNote){
+                localNote = JSON.parse(localNote);
+                layer.msg(localNote.title+' 还未保存，是否要保存？', {
+                    time: 0 ,
+                    btn: ['保存', '不保存'],
+                    yes: function(){
+                        note.saveNote();
+                    },
+                    btn2: function () {
+                        $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
+                        clearInterval(timeId); timeId = null;
+                        local_note = null;
+                        localStorage.removeItem('local_note');
+                        main.unbindUnload();
+                    }
+                });
+                return '您输入的内容尚未保存，确定离开此页面吗？';
+            }
+        });
+    },
+    unbindUnload: function () {
+        $window.unbind('beforeunload');
     },
     // 退出登录
     loginOut: function () {
