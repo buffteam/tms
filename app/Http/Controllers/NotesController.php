@@ -240,7 +240,7 @@ class NotesController extends BaseController
                     ->get();
         $totalNum = $notes->where('title','like','%'.$params['keywords'].'%')->where(['active'=>'1','isPrivate'=>'1' ])->count();
         $totalPage = ceil($totalNum/$params['pagesize']);
-        return $this->success('搜索成功',['totalPage'=>$totalPage,'list'=>$list]);
+        return $this->success('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
 
     /**
