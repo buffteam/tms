@@ -50,10 +50,9 @@ class NotesController extends BaseController
             return $this->error('文件夹ID不存在');
         }
 
-        $count = $this->notesModel->where(['f_id'=>$params['f_id'],'title'=>$params['title']])->count();
-
+        $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
         if ($count > 0) {
-            return $this->error('标题重复');
+            return $this->error('标题重复',['adviseName'=>$params['title'].($count+1)]);
         }
         $params['u_id'] = user()->id;
 

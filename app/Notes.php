@@ -43,4 +43,16 @@ class Notes extends Model
     {
         return $query->where('isPrivate', $type);
     }
+
+    /**
+     * 动态模糊匹配
+     * @param $query
+     * @param $field
+     * @param $value
+     * @return mixed
+     */
+    public function scopeLike($query, $field,$value)
+    {
+        return $query->where($field,'like', ''.$value.'');
+    }
 }
