@@ -735,7 +735,7 @@ var note = {
             input = document.createElement('input'),
             textArea = document.createElement('textarea'),
             button = document.createElement('button');
-        form.action = '/mpdf';
+        form.action = '/tcpd';
         form.method = 'post';
         input.name = 'title';
         input.value = cur_note.title;
@@ -746,15 +746,21 @@ var note = {
         form.appendChild(textArea);
         form.appendChild(button);
 
-        document.body.appendChild(form);
-        $.post(
-            '/mpdf',
-            $(form).serialize(),
-            function(data) {
-                alert("success");
-            },
-            "json"
-        );
+        // document.body.appendChild(form);
+        // $.post(
+        //     '/tcpd',
+        //     $(form).serialize(),
+        //     function(data) {
+        //         alert("success");
+        //     },
+        //     "json"
+        // );
+        // var a = document.createElement('a');
+        // a.download = 'a.pdf';
+        // a.innerHTML = 'aaa';
+        // a.href = '/tcpd?title='+cur_note.title+'&content='+cur_note.content;document.body.appendChild(a);
+        // a.click();
+
     }
 };
 

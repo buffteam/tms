@@ -6,6 +6,8 @@ $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 //$data= DB::table('notes')->find(19);
 //var_dump($data);
 $post = $_POST ? $_POST : $_GET;
+//var_dump($post['content']);
+//exit();
 $title = isset($post['title']) ? $post['title'] : 'test';
 
 if (!isset($post['content'])) {
@@ -50,9 +52,9 @@ $pdf->SetFont('stsongstdlight', '', 14);
 
 $pdf->AddPage();
 
-
+header('Content-Type: application/pdf');
 
 $pdf->writeHTML($post['content'], true, false, true, false, '');
 
 //输出PDF
-$pdf->Output($title.'.pdf', 'I');
+echo $pdf->Output($title.'.pdf', 'I');
