@@ -23,7 +23,7 @@ Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
 
 Route::any('/test/export', 'CommonController@export')->name('export');
 
-Route::any('/checkLogin', 'CommonController@checkLogin');
+Route::any('/test', 'TestController@test');
 
 Route::group(['middleware' => 'auth'], function () {
 

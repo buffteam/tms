@@ -85,8 +85,8 @@
                 <div class="title m-b-md">
                     <span>欢迎使用醍醐共享云笔记</span>
                 </div>
-                <form action="/test/export" method="post" id="form">
-                    <input type="text" name="content" id="content">
+                <form action="/mpdf" method="post" id="form">
+                    <input type="text" name="content" id="content" value="{{$list->content}}" style="display: none;">
                     <button type="submit"  id="test">导出</button>
                 </form>
 
@@ -101,12 +101,13 @@
         </div>
         <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
     <script>
+
         $('#test').on('click',function (e) {
             e.preventDefault();
 //            $('#form')[0]['content'].value = $(document).html();
 //            console.log($('html').html());
 //            return;
-            $('#content').val($('body').html());
+            $('#content').val();
             $('#form').submit();
         })
 
