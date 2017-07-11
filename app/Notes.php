@@ -53,6 +53,6 @@ class Notes extends Model
      */
     public function scopeLike($query, $field,$value)
     {
-        return $query->where($field,'like', ''.$value.'');
+        return $query->where($field,'like', '%'.$value.'%');
     }
 }

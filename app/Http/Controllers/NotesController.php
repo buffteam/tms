@@ -49,8 +49,12 @@ class NotesController extends BaseController
         if (!$this->findFolderId($params['f_id'])) {
             return $this->error('文件夹ID不存在');
         }
-
+//        DB::connection()->enableQueryLog();
         $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
+//        $log = DB::getQueryLog();
+//        dd($log);
+//        dump($count);
+//        exit();
         if ($count > 0) {
             $params['title'] = $params['title'].'('.($count+1).')';
         }
