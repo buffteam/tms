@@ -742,11 +742,11 @@ var note = {
         textArea.name = 'content';
         textArea.value = cur_note.content;
         button.type = 'submit';
+        button.innerHTML = '提交';
         form.appendChild(input);
         form.appendChild(textArea);
         form.appendChild(button);
-
-        // document.body.appendChild(form);
+        document.body.appendChild(form);
         // $.post(
         //     '/tcpd',
         //     $(form).serialize(),
@@ -755,11 +755,6 @@ var note = {
         //     },
         //     "json"
         // );
-        // var a = document.createElement('a');
-        // a.download = 'a.pdf';
-        // a.innerHTML = 'aaa';
-        // a.href = '/tcpd?title='+cur_note.title+'&content='+cur_note.content;document.body.appendChild(a);
-        // a.click();
 
     }
 };
