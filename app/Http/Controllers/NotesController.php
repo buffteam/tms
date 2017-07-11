@@ -52,7 +52,7 @@ class NotesController extends BaseController
 
         $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
         if ($count > 0) {
-            return $this->error('标题重复',['adviseName'=>$params['title'].($count+1)]);
+            $params['title'] = $params['title'].'('.($count+1).')';
         }
         $params['u_id'] = user()->id;
 
@@ -152,11 +152,12 @@ class NotesController extends BaseController
 
         $params = $request->input();
         if (isset($params['title'])) {
-            $exist = $this->notesModel->where(array('title'=>$params['title'],'f_id'=>$params['f_id']))->count();
-            if ($exist > 1) {
-                return $this->error('笔记名称重复');
+            $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
+            if ($count > 0) {
+                $params['title'] = $params['title'].'('.($count+1).')';
             }
         }
+
 
         $params['updated_id'] = user()->id;
 
