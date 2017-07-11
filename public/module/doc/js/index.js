@@ -742,19 +742,21 @@ var note = {
         textArea.name = 'content';
         textArea.value = cur_note.content;
         button.type = 'submit';
+        button.innerHTML = '提交';
         form.appendChild(input);
         form.appendChild(textArea);
         form.appendChild(button);
 
         document.body.appendChild(form);
-        $.post(
-            '/mpdf',
-            $(form).serialize(),
-            function(data) {
-                alert("success");
-            },
-            "json"
-        );
+
+        // $.post(
+        //     '/mpdf',
+        //     $(form).serialize(),
+        //     function(data) {
+        //         alert("success");
+        //     },
+        //     "json"
+        // );
     }
 };
 
