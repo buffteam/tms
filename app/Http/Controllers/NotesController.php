@@ -56,7 +56,7 @@ class NotesController extends BaseController
 //        dump($count);
 //        exit();
         if ($count > 0) {
-            $params['title'] = $params['title'].'('.($count+1).')';
+            $params['title'] = $params['title'].'('.$count.')';
         }
         $params['u_id'] = user()->id;
 
@@ -156,7 +156,10 @@ class NotesController extends BaseController
 
         $params = $request->input();
         if (isset($params['title'])) {
-            $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
+            $count = $this->notesModel->like('title',$params['title'])
+                ->where(['f_id'=>$params['f_id']])
+                ->where('id','!=',$params['id'])
+                ->count();
             if ($count > 0) {
                 $params['title'] = $params['title'].'('.($count+1).')';
             }
