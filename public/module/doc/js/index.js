@@ -731,12 +731,30 @@ var note = {
     },
     // 导出PDF
     htmlToPDF: function () {
-        var elem = document.createElement('a');
-        elem.download = cur_note.title+'.pdf';
-        var a = cur_note.content;
-        console.log(cur_note.content.length)
-        elem.href = '/tcpd?content='+a+'&title='+cur_note.title;
-        elem.click();
+        var form = document.createElement('form'),
+            input = document.createElement('input'),
+            textArea = document.createElement('textarea'),
+            button = document.createElement('button');
+        form.action = '/mpdf';
+        form.method = 'post';
+        input.name = 'title';
+        input.value = cur_note.title;
+        textArea.name = 'content';
+        textArea.value = cur_note.content;
+        button.type = 'submit';
+        form.appendChild(input);
+        form.appendChild(textArea);
+        form.appendChild(button);
+
+        document.body.appendChild(form);
+        $.post(
+            '/mpdf',
+            $(form).serialize(),
+            function(data) {
+                alert("success");
+            },
+            "json"
+        );
     }
 };
 
