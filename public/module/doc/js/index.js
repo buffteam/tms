@@ -8,7 +8,8 @@ var $window = $(window),
     $doc_box = $('.doc-content');                   // 笔记详情盒子
 
 
-var AUTO_TIME = 10 * 60 * 1000;
+var AUTO_TIME = 10 * 60 * 1000,
+    NEW_TITLE = '新建笔记';
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
@@ -369,6 +370,7 @@ var note = {
                     var html = template('list-tpl', {list: res.data, active: res.data[0].id});
                     $list_ul.html(html);
                     note.scorllHandle();
+                    g_id = res.data[0].f_id;
                     note.getNoteDetail(res.data[0].id);
                 }else{
                     $doc_box.addClass('null');
@@ -439,6 +441,7 @@ var note = {
                         html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
+                        g_id = res.data.data[0].f_id;
                         note.getNoteDetail(res.data.data[0].id);
                         totalPage = res.data.totalPage;
                     }else{
@@ -484,6 +487,7 @@ var note = {
             if(!$self.hasClass('active')){
                 $self.addClass('active').siblings().removeClass('active');
                 var note_id = $self.data('id');
+                g_id = $self.data('fid');
                 $doc_box.hasClass('is-edit') ? note.saveNote() : null;
                 note.getNoteDetail(note_id);
             }
@@ -630,8 +634,12 @@ var note = {
     // 新建笔记
     newNote: function (type) {
         type = type || '1';
+        if(!g_id){
+            layer.msg('新建笔记需要先选择目录哦！');
+            return false;
+        }
         $.post('/note/add',{
-            title: '新建笔记',
+            title: NEW_TITLE,
             f_id: g_id,
             type: type
         },function(res){
@@ -645,7 +653,7 @@ var note = {
                 $('.doc-title-input').val('');
                 cur_note = res.data;
                 note.initEditor(type);
-            }else if(res.code === 403){
+            }else{
                 layer.msg(res.msg);
             }
         })
@@ -678,11 +686,12 @@ var note = {
     },
     // 保存笔记
     saveNote: function () {
-        var title = $('.doc-title-input').val().trim(),
+        var title = $('.doc-title-input').val().trim() || cur_note.title,
             md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
             html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
             note_id = cur_note.id;
-        if(cur_note.title == title && cur_note.content == html_cnt){
+
+        if(cur_note.title == title && (cur_note.content || '') == html_cnt){
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
         }
@@ -734,28 +743,23 @@ var note = {
         var form = document.createElement('form'),
             input = document.createElement('input'),
             textArea = document.createElement('textarea'),
-            button = document.createElement('button');
+            button = document.createElement('button'),
+            tpl = $('#pdf-tpl').html();
         form.action = '/tcpd';
         form.method = 'post';
+        form.download = '_blank';
         input.name = 'title';
         input.value = cur_note.title;
         textArea.name = 'content';
-        textArea.value = cur_note.content;
+        textArea.value = tpl.replace('##content##', cur_note.content);
         button.type = 'submit';
         button.innerHTML = '提交';
         form.appendChild(input);
         form.appendChild(textArea);
         form.appendChild(button);
+        form.style.display = 'none';
         document.body.appendChild(form);
-        // $.post(
-        //     '/tcpd',
-        //     $(form).serialize(),
-        //     function(data) {
-        //         alert("success");
-        //     },
-        //     "json"
-        // );
-
+        button.click();
     }
 };
 
