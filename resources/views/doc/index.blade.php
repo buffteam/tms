@@ -27,6 +27,9 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="pure-menu-item nav-newest-item active">
+                            <a href="#" class="first-menu-a">最新笔记</a>
+                        </li>
                         <li class="pure-menu-item nav-doc-item">
                             <a href="#" class="nav-doc-a first-menu-a is-parent" data-switch="on">
                                 <span>我的文档</span>
@@ -149,7 +152,7 @@
 
     <script id="nav-tpl" type="text/html">
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
-        <li class="child-item <% if(list[i].id === active) {%> active <% } %>">
+        <li class="child-item">
         <% if(list[i].child) {%> 
 			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
         <% }else{ %>

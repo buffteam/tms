@@ -22,7 +22,8 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     share_title = null,         // 分享标题
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
-    isSearch = false,           // 是否为搜索列表
+    isSearch = false,           // 是否为搜索结果列表
+    isNewest = false,            // 是否为最新笔记列表
     isLoading = false;          // 是否正在加载列表
 
 var folder = {
@@ -61,8 +62,7 @@ var folder = {
             }
             var html = template('nav-tpl', {list: list, idx: 0, active: list[0].id});
             $('.first-child-list').prepend(html);
-            note.getList(list[0].id);
-            g_id = list[0].id;
+            note.getNewList();
             note.init();
         });
     },
@@ -136,10 +136,11 @@ var folder = {
             .on('click','.second-menu-a',function () {
                 var $self = $(this);
                 g_id = $self.data('id');
-                $('.child-item.active').removeClass('active');
+                $('.child-item.active,.nav-newest-item').removeClass('active');
                 $self.parent().addClass('active');
                 cur_page = 1;
                 isSearch = false;
+                isNewest = false;
                 $search.val('');
                 note.getList(g_id);
             })
@@ -288,6 +289,12 @@ var folder = {
                     maxmin: false
                 });
                 layer.full(layer_share);
+            })
+            // 打开最新笔记
+            .on('click', '.nav-newest-item',function () {
+                $(this).addClass('active');
+                $('.child-item.active').removeClass('active');
+                note.getNewList();
             });
 
         // 新建文件夹
@@ -342,10 +349,8 @@ var folder = {
 
 var note = {
     init: function(){
-        var $sortLi = $('.sort-down-menu li');
-
         note.clickListEvent();
-        note.getNewList();
+        var $sortLi = $('.sort-down-menu li');
         $sortLi.each(function () {
             var $self = $(this);
             if($self.data('type') === sort_type){
@@ -354,32 +359,22 @@ var note = {
         });
     },
     getNewList: function(){
+        isNewest = true;
         $.get('/note/latest', function (res) {
             isLoading = false;
             if(res.code === 200){
-                if(res.data.data.length){
+                if(res.data.length){
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null is-search-null');
-                    var html = null;
-                    if(cur_page === 1){
-                        html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
-                        $list_ul.html(html);
-                        note.scorllHandle();
-                        note.getNoteDetail(res.data.data[0].id);
-                        totalPage = res.data.totalPage;
-                    }else{
-                        html = template('list-tpl', {list: res.data.data, active: null});
-                        $list_ul.append(html);
-                        $(".list-content").getNiceScroll().resize()
-                    }
-                    cur_page ++;
+                    var html = template('list-tpl', {list: res.data, active: res.data[0].id});
+                    $list_ul.html(html);
+                    note.scorllHandle();
+                    note.getNoteDetail(res.data[0].id);
                 }else{
-                    if(cur_page === 1){
-                        $doc_box.addClass('null');
-                        $list_box.addClass('null').removeClass('is-search-null');
-                        $list_ul.html('');
-                        mdeditor && mdeditor.clear();
-                    }
+                    $doc_box.addClass('null');
+                    $list_box.addClass('null').removeClass('is-search-null');
+                    $list_ul.html('');
+                    mdeditor && mdeditor.clear();
                 }
             }
         })
@@ -520,6 +515,10 @@ var note = {
         });
         // 选择排序方式
         $('.sort-down-menu li').on('click', function () {
+            if(isNewest){
+                layer.msg('最新笔记不需要排序哦！');
+                return '';
+            }
             var $self = $(this),
                 type = $self.data('type');
             if(type === sort_type){
@@ -548,6 +547,7 @@ var note = {
             if(e.keyCode === 13){
                 cur_page = 1;
                 isSearch = true;
+                isNewest = false;
                 note.getSearch();
             }
         });
@@ -555,14 +555,16 @@ var note = {
     },
     // 笔记列表滚动事件
     scorllHandle: function () {
-        $list_box.on('scroll',function () {
-            var ul_height = $list_ul.height(),
-                box_height = $list_box.height();
-            if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
-                isLoading = true;
-                isSearch ? note.getSearch() : note.getList(g_id);
-            }
-        });
+        if(!isNewest){
+            $list_box.on('scroll',function () {
+                var ul_height = $list_ul.height(),
+                    box_height = $list_box.height();
+                if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
+                    isLoading = true;
+                    isSearch ? note.getSearch() : note.getList(g_id);
+                }
+            });
+        }
 
         var niceScroll = $('.list-content').niceScroll({
             cursorcolor: '#999',

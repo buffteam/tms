@@ -209,11 +209,16 @@ ul, ol{
 .pure-menu-item a:hover {
     background-color: #e4e4e4;
 }
+.nav-newest-item.active a:hover {
+    background-color: #c0e2f2;
+}
 
 .first-menu-a {
     line-height: 20px;
 }
-
+.nav-newest-item .first-menu-a {
+    background: url(/module/doc/imgs/icon/new.png) 10px 7px no-repeat;
+}
 .nav-doc-item .first-menu-a {
     background: url(/module/doc/imgs/icon/doc.png) 10px 7px no-repeat;
 }
@@ -224,6 +229,9 @@ ul, ol{
 
 .nav-del-item .first-menu-a {
     background: url(/module/doc/imgs/icon/del.png) 10px 7px no-repeat;
+}
+.nav-newest-item.active{
+    background: #c0e2f2;
 }
 
 .first-menu-down, .child-menu-down {
