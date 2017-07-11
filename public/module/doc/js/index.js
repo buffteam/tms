@@ -733,7 +733,7 @@ var note = {
         elem.download = cur_note.title+'.pdf';
         var a = cur_note.content;
         console.log(cur_note.content.length)
-        elem.href = '/mpdf?content='+a+'&title='+cur_note.title;
+        elem.href = '/tcpd?content='+a+'&title='+cur_note.title;
         elem.click();
     }
 };
