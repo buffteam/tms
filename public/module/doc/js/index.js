@@ -735,7 +735,7 @@ var note = {
             input = document.createElement('input'),
             textArea = document.createElement('textarea'),
             button = document.createElement('button');
-        form.action = '/mpdf';
+        form.action = '/tcpd';
         form.method = 'post';
         input.name = 'title';
         input.value = cur_note.title;
@@ -746,17 +746,16 @@ var note = {
         form.appendChild(input);
         form.appendChild(textArea);
         form.appendChild(button);
-
         document.body.appendChild(form);
-
         // $.post(
-        //     '/mpdf',
+        //     '/tcpd',
         //     $(form).serialize(),
         //     function(data) {
         //         alert("success");
         //     },
         //     "json"
         // );
+
     }
 };
 
