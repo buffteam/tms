@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
+//    $readme = file_get_contents(base_path().'\README.md');
     return view('welcome');
 });
-
+Route::get('/getReadme', function () {
+    return file_get_contents(base_path().'\README.md');
+});
 Auth::routes();
 
 Route::any('/home', 'HomeController@index')->name('home');

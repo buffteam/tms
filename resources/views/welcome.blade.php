@@ -7,62 +7,10 @@
 
     <title>Laravel</title>
     <link rel="stylesheet" href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}">
-
+    <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
 </head>
-<body>
+<body >
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -79,72 +27,98 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            {{--<ul class="nav navbar-nav">--}}
-                {{--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>--}}
-                {{--<li><a href="{{ url('/dashboard') }}">首页</a></li>--}}
-                {{--<li class="dropdown">--}}
-                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
-                       {{--aria-expanded="false">Dropdown <span class="caret"></span></a>--}}
-                    {{--<ul class="dropdown-menu">--}}
-                        {{--<li><a href="#">Action</a></li>--}}
-                        {{--<li><a href="#">Another action</a></li>--}}
-                        {{--<li><a href="#">Something else here</a></li>--}}
-                        {{--<li role="separator" class="divider"></li>--}}
-                        {{--<li><a href="#">Separated link</a></li>--}}
-                        {{--<li role="separator" class="divider"></li>--}}
-                        {{--<li><a href="#">One more separated link</a></li>--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
-            {{--</ul>--}}
-            {{--<form class="navbar-form navbar-left">--}}
-                {{--<div class="form-group">--}}
-                    {{--<input type="text" class="form-control" placeholder="Search">--}}
-                {{--</div>--}}
-                {{--<button type="submit" class="btn btn-default">Submit</button>--}}
-            {{--</form>--}}
             <ul class="nav navbar-nav navbar-right">
                 @if (Route::has('login'))
-                        @if (Auth::check())
-                        <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                    @if (Auth::check())
+                        <li><a href="{{ url('/dashboard') }}">编写笔记</a></li>
 
-                        @else
-                            <li><a href="{{ url('/login') }}">登录</a></li>
-                            <li><a href="{{ url('/register') }}">注册</a></li>
-                        @endif
+                    @else
+                        <li><a href="{{ url('/login') }}">登录</a></li>
+                        <li><a href="{{ url('/register') }}">注册</a></li>
+                    @endif
                 @endif
-              {{--  <li><a href="#">Link</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>--}}
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="flex-center position-ref full-height">
 
-    <div class="content">
-        <div class="title m-b-md">
-            <span>欢迎使用</span>
-        </div>
 
-        <div class="links">
-            {{--<a href="https://laravel.com/docs">Documentation</a>--}}
-            {{--<a href="https://laracasts.com">Laracasts</a>--}}
-            {{--<a href="https://laravel-news.com">News</a>--}}
-            {{--<a href="https://forge.laravel.com">Forge</a>--}}
-            {{--<a href="https://github.com/laravel/laravel">GitHub</a>--}}
-        </div>
+<div class="container">
+
+
+    <div id="test-editormd" class="editormd-onlyread">
+
     </div>
+
 </div>
+
 <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
+<script>
+//    testEditor = editormd("test-editormd", {
+//        path: "./libs/editormd/lib/",
+//        width: '100%',
+//        height: 1000,
+//        readOnly: true,
+////
+////        styleActiveLine: false  // disable active line
+//        //lineNumbers     : false      // hide line numbers
+//    });
+$.get('/getReadme', function(md){
+    testEditor = editormd("test-editormd", {
+        width: "100%",
+        height: 900,
+        path : "./libs/editormd/lib/",
+        readOnly: true,
+        markdown : md,
+        taskList : true,
+//        theme : "dark",
+//        previewTheme : "dark",
+//        editorTheme : "pastel-on-dark",
+
+//        codeFold : true,
+
+        //syncScrolling : false,
+//        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+//        searchReplace : true,
+//        watch : false,                // 关闭实时预览
+//        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+//        toolbar  : true,             //关闭工具栏
+//        previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+//        emoji : true,
+
+//        tocm            : true,         // Using [TOCM]
+//        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+//        flowChart : true,             // 开启流程图支持，默认关闭
+//        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+//        dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+//        dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+//        dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+//        dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+//        dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+//        imageUpload : true,
+//        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+//        imageUploadURL : "./php/upload.php",
+
+        onload : function() {
+            testEditor.previewing();
+            console.log('onload', this);
+//            this.fullscreen();
+//            this.unwatch();
+//            this.watch().fullscreen();
+
+            //this.setMarkdown("#PHP");
+            //this.width("100%");
+            //this.height(480);
+            //this.resize("100%", 640);
+        }
+    });
+});
+
+
+
+
+</script>
 </body>
 </html>
