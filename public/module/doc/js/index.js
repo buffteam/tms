@@ -370,7 +370,6 @@ var note = {
                     var html = template('list-tpl', {list: res.data, active: res.data[0].id});
                     $list_ul.html(html);
                     note.scorllHandle();
-                    g_id = res.data[0].f_id;
                     note.getNoteDetail(res.data[0].id);
                 }else{
                     $doc_box.addClass('null');
@@ -441,7 +440,6 @@ var note = {
                         html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
-                        g_id = res.data.data[0].f_id;
                         note.getNoteDetail(res.data.data[0].id);
                         totalPage = res.data.totalPage;
                     }else{
@@ -487,7 +485,6 @@ var note = {
             if(!$self.hasClass('active')){
                 $self.addClass('active').siblings().removeClass('active');
                 var note_id = $self.data('id');
-                g_id = $self.data('fid');
                 $doc_box.hasClass('is-edit') ? note.saveNote() : null;
                 note.getNoteDetail(note_id);
             }
@@ -554,6 +551,27 @@ var note = {
                 isNewest = false;
                 note.getSearch();
             }
+        });
+        // 标题失去焦点事件
+        $('.doc-title-span').on('blur', function () {
+            note.saveTitle();
+        });
+        // 点击更多按钮
+        $('.more-btn').on('click',function (e) {
+            e.stopPropagation();
+            var $self = $(this),
+                type = $self.data('type'),
+                $moreList = $('.more-list');
+            if(type === 'off'){
+                $self.data('type','on');
+                $moreList.show();
+            }else{
+                $self.data('type','off');
+                $moreList.hide();
+            }
+            $(document).one('click', function () {
+                $moreList.hide();
+            })
         });
 
     },
@@ -648,9 +666,12 @@ var note = {
                 var list = [res.data];
                 var html = template('list-tpl', {list: list, active: res.data.id});
                 $list_ul.prepend(html);
+                $('.doc-item.active').addClass('is-edit');
                 $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-'+type);
                 $list_box.removeClass('null');
                 $('.doc-title-input').val('');
+                $('.doc-title-span').html(res.data.title);
+                $('.doc-preview-body').html(res.data.content);
                 cur_note = res.data;
                 note.initEditor(type);
             }else{
@@ -695,10 +716,9 @@ var note = {
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
         }
-        layer.msg('努力保存中...');
         $.post('/note/update', {
             id: note_id,
-            f_id: g_id,
+            f_id: cur_note.f_id,
             title: title,
             content: html_cnt,
             origin_content: md_cnt
@@ -709,7 +729,7 @@ var note = {
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
                 clearInterval(timeId); timeId = null;
-                $('.doc-title-span').html(title);
+                $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 local_note = null;
                 localStorage.removeItem('local_note');
@@ -747,7 +767,7 @@ var note = {
             tpl = $('#pdf-tpl').html();
         form.action = '/tcpd';
         form.method = 'post';
-        form.download = '_blank';
+        form.target = '_blank';
         input.name = 'title';
         input.value = cur_note.title;
         textArea.name = 'content';
@@ -760,6 +780,25 @@ var note = {
         form.style.display = 'none';
         document.body.appendChild(form);
         button.click();
+    },
+    // 保存标题
+    saveTitle: function () {
+        var title = $('.doc-title-span').html();
+        if(title === cur_note.title){
+            return false;
+        }
+        $.post('/note/update', {
+            id: cur_note.id,
+            f_id: cur_note.f_id,
+            title: title
+        }, function (res) {
+            if(res.code === 200){
+                if(cur_note.id === res.data.id){
+                    $('.doc-title-span,.doc-item.active .list-title-text').text(res.data.title);
+                    cur_note.title = res.data.title;
+                }
+            }
+        })
     }
 };
 
@@ -825,11 +864,11 @@ var main = {
             }
         })
     },
-    configShare: function (cmd, config) {
-        if(share_title){
-            config.bdText = share_title;
-        }
-        return config;
-    }
+    // configShare: function (cmd, config) {
+    //     if(share_title){
+    //         config.bdText = share_title;
+    //     }
+    //     return config;
+    // }
 };
 main.init();
