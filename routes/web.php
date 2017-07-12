@@ -14,7 +14,7 @@
 Route::get('/', function () {
 //    $readme = file_get_contents(base_path().'\README.md');
     return view('welcome');
-});
+})->name('root');
 Route::get('/getReadme', function () {
     return file_get_contents(base_path().'\README.md');
 });
@@ -23,6 +23,17 @@ Auth::routes();
 Route::any('/home', 'HomeController@index')->name('home');
 Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
 Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
+Route::any('/common/checkLogin', 'CommonController@checkLogin');
+
+/**
+ * 问题反馈相关
+ */
+Route::any('/feedback', 'FeedbackController@create')->name('feedback');
+Route::any('/feedback/store', 'FeedbackController@store')->name('feedback.store');
+Route::any('/admin', 'FeedbackController@index');
+
+
+
 
 Route::any('/test/export', 'CommonController@export')->name('export');
 

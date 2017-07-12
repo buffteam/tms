@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class CommonController extends BaseController
 {
 
-
+    /**
+     * md笔记上传图片
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function mdEditorUpload () {
         if (!isset($_FILES['editormd-image-file'])) {
             return $this->error('参数错误');
@@ -26,6 +29,11 @@ class CommonController extends BaseController
 
 
     }
+
+    /**
+     * 普通笔记上传图片
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function wangEditorUpload () {
         if (!isset($_FILES['image-file'])) {
             return $this->error('参数错误');
@@ -39,8 +47,15 @@ class CommonController extends BaseController
 
 
     }
+
+    /**
+     * 验证登录
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function checkLogin()
     {
         return Auth::check() ? $this->success('登录成功',user()) : $this->error('登录过期');
     }
+
+
 }

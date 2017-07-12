@@ -27,6 +27,11 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!-- Left Side Of Navbar -->
+            <ul class="nav navbar-nav">
+                &nbsp; <li><a href="{{ url('/feedback') }}">问题反馈与建议</a></li>
+            </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 @if (Route::has('login'))
                     @if (Auth::check())
@@ -37,6 +42,7 @@
                         <li><a href="{{ url('/register') }}">注册</a></li>
                     @endif
                 @endif
+
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -45,7 +51,11 @@
 
 <div class="container">
 
-
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div id="test-editormd" class="editormd-onlyread">
 
     </div>
