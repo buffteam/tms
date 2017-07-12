@@ -414,11 +414,11 @@ ul, ol{
     background: url("/module/doc/imgs/icon/more.png") no-repeat;
     border: 1px solid #888;
     border-radius: 50%;
-    margin: 8px 0 0 10px;
+    margin: 8px 0 0 20px;
     cursor: pointer;
 }
 .more-list{
-    /*display: none;*/
+    display: none;
     position: absolute;
     right: -10px;
     top: 45px;
@@ -685,6 +685,7 @@ ul, ol{
     display: none;
     font-size: 20px;
     color: #333;
+    outline: 0;
 }
 .is-edit .doc-title-input,
 .is-edit .save-btn,
