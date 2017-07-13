@@ -77,14 +77,28 @@ var folder = {
             $search = $('.search-input');
         // 收起侧边栏
         $menuBtn.on('click', function () {
+            var isEdit = $doc_box.hasClass('is-edit-1');
+            if(isEdit){
+                var $code = $('.CodeMirror'),
+                    $preview = $('.editormd-preview'),
+                    width = $code.width();
+            }
             if ($layout.hasClass('middle')) {
                 $layout.removeClass('middle');
                 $menuBtn.removeClass('right');
                 $firstParent.data('switch', 'on').siblings('ul').slideDown(300);
+                if(isEdit){
+                    $code.animate({'width': width-100},300);
+                    $preview.animate({'width': width-100},300);
+                }
             } else {
                 $layout.addClass('middle');
                 $menuBtn.addClass('right');
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
+                if(isEdit){
+                    $code.animate({'width': width+100},300);
+                    $preview.animate({'width': width+100},300);
+                }
             }
         });
         if ($window.width() < 1200) {
