@@ -116,6 +116,9 @@
                     <div class="doc-edit-body">
                         <div id="editormd" class="editor-1">
                             <textarea id="page_content" style="display:none;"></textarea>
+                            <ul class="editor-theme">
+                                <li></li>
+                            </ul>
                         </div>
                         <div id="editor" class="editor-2"></div>
                     </div>

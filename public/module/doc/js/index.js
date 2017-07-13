@@ -36,7 +36,7 @@ var folder = {
     initNav: function () {
         var tpl = $('#nav-tpl').html();
         var list = [];
-        $.get('/folder/list', function (res) {
+        $.get('./folder/list', function (res) {
             list = res.data.categories;
             var allList = res.data.allCategories, allLen = allList.length;
             if (allLen) {
@@ -210,7 +210,7 @@ var folder = {
                                 return;
                             }
                             if (value) {
-                                $.post('/folder/add', {
+                                $.post('./folder/add', {
                                     title: value,
                                     p_id: g_id
                                 }, function (res) {
@@ -251,7 +251,7 @@ var folder = {
                                 return;
                             }
                             if (value) {
-                                $.post('/folder/update', {
+                                $.post('./folder/update', {
                                     title: value,
                                     id: g_id,
                                     pid: pid
@@ -281,16 +281,16 @@ var folder = {
                 }
             })
             // 打开我的分享
-            .on('click', '.nav-share-item', function () {
-                var layer_share = layer.open({
-                    type: 2,
-                    title: '我的分享',
-                    content: '/myshare',
-                    area: ['100%', '100%'],
-                    maxmin: false
-                });
-                layer.full(layer_share);
-            })
+            // .on('click', '.nav-share-item', function () {
+            //     var layer_share = layer.open({
+            //         type: 2,
+            //         title: '我的分享',
+            //         content: '/myshare',
+            //         area: ['100%', '100%'],
+            //         maxmin: false
+            //     });
+            //     layer.full(layer_share);
+            // })
             // 打开最新笔记
             .on('click', '.nav-newest-item', function () {
                 $(this).addClass('active');
@@ -328,7 +328,7 @@ var folder = {
     addFirstFolder: function (self) {
         var value = self.val();
         if (value) {
-            $.post('/folder/add', {title: value, p_id: 0}, function (res) {
+            $.post('./folder/add', {title: value, p_id: 0}, function (res) {
                 if (res.code === 200) {
                     var list = [
                         {
@@ -361,7 +361,7 @@ var note = {
     },
     getNewList: function () {
         isNewest = true;
-        $.get('/note/latest', function (res) {
+        $.get('./note/latest', function (res) {
             isLoading = false;
             if (res.code === 200) {
                 if (res.data.length) {
@@ -382,7 +382,7 @@ var note = {
     },
     // 加载笔记列表
     getList: function (folder_id) {
-        $.get('/note/show', {
+        $.get('./note/show', {
             id: folder_id,
             field: sort_type,
             order: sort_order,
@@ -424,7 +424,7 @@ var note = {
         if (!value.trim()) {
             return false;
         }
-        $.get('/note/search', {
+        $.get('./note/search', {
             keywords: value,
             field: sort_type,
             order: sort_order,
@@ -461,7 +461,7 @@ var note = {
     },
     // 显示笔记内容
     getNoteDetail: function (note_id) {
-        $.get('/note/find', {id: note_id}, function (res) {
+        $.get('./note/find', {id: note_id}, function (res) {
             if (res.code === 200) {
                 $('.doc-preview-body').html(res.data.content);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
@@ -611,13 +611,21 @@ var note = {
                     disabledKeyMaps: ["Ctrl-S"],
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL: "/common/mdEditorUpload",
+                    imageUploadURL: "./common/mdEditorUpload",
                     toolbarIcons: function () {
                         return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
                             "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
                             "watch", "preview", "fullscreen", "clear", "search"
                         ]
                     },
+                    // toolbarIconTexts: {
+                    //     theme: 'Theme'
+                    // },
+                    // toolbarHandlers: {
+                    //     theme: function(){
+                    //         alert('选择主题')
+                    //     }
+                    // },
                     onload: function () {
                         var keyMap = {
                             "Ctrl-S": function (cm) {
@@ -633,7 +641,7 @@ var note = {
                 wangeditor.txt.html(value || '');
             } else {
                 wangeditor = new wangEditor('#editor');
-                wangeditor.customConfig.uploadImgServer = '/common/wangEditorUpload';
+                wangeditor.customConfig.uploadImgServer = './common/wangEditorUpload';
                 wangeditor.customConfig.uploadFileName = 'image-file';
                 wangeditor.create();
                 wangeditor.txt.html(value || '');
@@ -657,7 +665,7 @@ var note = {
             layer.msg('新建笔记需要先选择目录哦！');
             return false;
         }
-        $.post('/note/add', {
+        $.post('./note/add', {
             title: NEW_TITLE,
             f_id: g_id,
             type: type
@@ -682,7 +690,7 @@ var note = {
     },
     // 删除笔记
     delNote: function (note_id, elem) {
-        $.post('/note/del', {id: note_id}, function (res) {
+        $.post('./note/del', {id: note_id}, function (res) {
             if (res.code === 200) {
                 layer.msg('删除成功');
                 elem.remove();
@@ -718,7 +726,7 @@ var note = {
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
         }
-        $.post('/note/update', {
+        $.post('./note/update', {
             id: note_id,
             f_id: cur_note.f_id,
             title: title,
@@ -768,7 +776,7 @@ var note = {
             textArea = document.createElement('textarea'),
             button = document.createElement('button'),
             tpl = $('#pdf-tpl').html();
-        form.action = '/tcpd';
+        form.action = './tcpd';
         form.method = 'post';
         form.target = '_blank';
         input.name = 'title';
@@ -790,7 +798,7 @@ var note = {
         if (title === cur_note.title) {
             return false;
         }
-        $.post('/note/update', {
+        $.post('./note/update', {
             id: cur_note.id,
             f_id: cur_note.f_id,
             title: title
@@ -813,7 +821,7 @@ var main = {
             },
             complete: function (XMLHttpRequest) {
                 if (XMLHttpRequest.status === 401) {
-                    location.href = '/login';
+                    location.href = './login';
                 } else if (XMLHttpRequest.status !== 200) {
                     layer.msg('服务器出错了 ' + XMLHttpRequest.status);
                 }
@@ -857,18 +865,9 @@ var main = {
     unbindUnload: function () {
         $window.unbind('beforeunload');
     },
-    // 退出登录
-    loginOut: function () {
-        $.post('/logout', function (res) {
-            if (res.code === 200) {
-                layer.msg(res.msg);
-                location.href = '/login';
-            }
-        })
-    },
     // 删除目录事件
     delFolder: function () {
-        $.post('/folder/del', {id: g_id}, function (res) {
+        $.post('./folder/del', {id: g_id}, function (res) {
             if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');

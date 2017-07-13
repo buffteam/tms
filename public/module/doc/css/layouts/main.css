@@ -114,12 +114,12 @@ ul, ol{
     right: 10px;
     width: 40px;
     height: 37px;
-    background: url(/module/doc/imgs/icon/left.png) center no-repeat;
+    background: url(../../imgs/icon/left.png) center no-repeat;
     cursor: pointer;
 }
 
 #nav .nav-menu-button.right {
-    background-image: url(/module/doc/imgs/icon/right.png);
+    background-image: url(../../imgs/icon/right.png);
 }
 
 #nav .pure-menu {
@@ -143,7 +143,7 @@ ul, ol{
     top: 0;
     width: 40px;
     height: 36px;
-    background: url("/module/doc/imgs/icon/add.png") 10px 7px no-repeat;
+    background: url("../../imgs/icon/add.png") 10px 7px no-repeat;
     cursor: pointer;
 }
 .middle-add-item:hover{
@@ -221,18 +221,18 @@ ul, ol{
     line-height: 20px;
 }
 .nav-newest-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/new.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/new.png) 10px 7px no-repeat;
 }
 .nav-doc-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/doc.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/doc.png) 10px 7px no-repeat;
 }
 
 .nav-share-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/share.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/share.png) 10px 7px no-repeat;
 }
 
 .nav-del-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/del.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/del.png) 10px 7px no-repeat;
 }
 .nav-newest-item.active{
     background: #c0e2f2;
@@ -244,7 +244,7 @@ ul, ol{
     top: 10px;
     width: 14px;
     height: 14px;
-    background: url(/module/doc/imgs/icon/down.png) 1px 2px no-repeat;
+    background: url(../../imgs/icon/down.png) 1px 2px no-repeat;
     background-size: 12px;
     border: 1px solid #aaa;
     border-radius: 50%;
@@ -260,7 +260,7 @@ ul, ol{
     top: 8px;
     width: 20px;
     height: 20px;
-    background: url("/module/doc/imgs/icon/down2.png") 5px 5px no-repeat;
+    background: url("../../imgs/icon/down2.png") 5px 5px no-repeat;
     background-size: 10px;
     transition: transform .3s;
     display: none;
@@ -283,7 +283,7 @@ ul, ol{
 }
 
 .first-menu-down:hover, .child-menu-down:hover, .child-menu-down.active {
-    background-image: url(/module/doc/imgs/icon/down1.png);
+    background-image: url(../../imgs/icon/down1.png);
     border-color: #1b98f8;
 }
 
@@ -293,7 +293,7 @@ ul, ol{
     top: 10px;
     width: 16px;
     height: 16px;
-    background: url("/module/doc/imgs/icon/folder.png") no-repeat;
+    background: url("../../imgs/icon/folder.png") no-repeat;
     background-size: 16px;
 }
 
@@ -329,7 +329,7 @@ ul, ol{
 
 .child-item.add-dir a {
     padding-left: 15px;
-    background: url(/module/doc/imgs/icon/add.png) 0 10px no-repeat;
+    background: url(../../imgs/icon/add.png) 0 10px no-repeat;
     background-size: 16px;
 }
 
@@ -416,7 +416,7 @@ ul, ol{
     float: right;
     width: 18px;
     height:18px;
-    background: url("/module/doc/imgs/icon/more.png") no-repeat;
+    background: url("../../imgs/icon/more.png") no-repeat;
     border: 1px solid #888;
     border-radius: 50%;
     margin: 8px 0 0 20px;
@@ -472,7 +472,7 @@ ul, ol{
     padding-top: 3px;
 }
 .middle .feedback a{
-    background-image: url("/module/doc/imgs/icon/feedback.png");
+    background-image: url("../../imgs/icon/feedback.png");
     background-position: 10px 10px;
     background-repeat: no-repeat;
 }
@@ -549,7 +549,7 @@ ul, ol{
     margin: 12px;
     width: 25px;
     height:25px;
-    background: url("/module/doc/imgs/icon/sort.png") no-repeat;
+    background: url("../../imgs/icon/sort.png") no-repeat;
     cursor: pointer;
 }
 .sort-box:hover .sort-down-menu{
@@ -577,12 +577,12 @@ ul, ol{
     background: #f4f9ff;
 }
 .sort-down-menu li.active.desc{
-    background-image: url('/module/doc/imgs/icon/sort_down.png');
+    background-image: url('../../imgs/icon/sort_down.png');
     background-position: 10px 11px;
     background-repeat: no-repeat;
 }
 .sort-down-menu li.active.asc{
-    background-image: url('/module/doc/imgs/icon/sort_up.png');
+    background-image: url('../../imgs/icon/sort_up.png');
     background-position: 10px 11px;
     background-repeat: no-repeat;
 }
@@ -643,12 +643,12 @@ ul, ol{
     float: left;
     width: 16px;
     height: 16px;
-    background: url("/module/doc/imgs/icon/md.png") no-repeat;
+    background: url("../../imgs/icon/md.png") no-repeat;
     background-size: 16px;
     margin:2px 5px 0 0;
 }
 .doc-title .icon-note{
-    background-image: url("/module/doc/imgs/icon/note.png");
+    background-image: url("../../imgs/icon/note.png");
 }
 .doc-time {
     font-size: 80%;
@@ -672,10 +672,10 @@ ul, ol{
     margin-right:10px;
 }
 .doc-hover-icon .list-share-icon{
-    background-image: url("/module/doc/imgs/icon/share.png");
+    background-image: url("../../imgs/icon/share.png");
 }
 .doc-hover-icon .list-del-icon{
-    background-image: url("/module/doc/imgs/icon/del.png");
+    background-image: url("../../imgs/icon/del.png");
 }
 .doc-item.active {
     background: #c5e7ff;
