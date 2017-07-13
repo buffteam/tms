@@ -837,6 +837,12 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
     color: #aaa;
     font-size: 12px;
 }
+.editormd-preview-container ul{
+    list-style-type: disc;
+}
+.editormd-preview-container ol{
+    list-style-type: decimal;
+}
 
 .editor-2 .w-e-toolbar{
     border-bottom: 1px solid #ddd;
