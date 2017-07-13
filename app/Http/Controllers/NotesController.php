@@ -195,6 +195,7 @@ class NotesController extends BaseController
         $params = $request->input();
 
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0'));
+
         if ($data != 1) {
             return $this->ajaxError('删除失败','服务器内部错误',500);
         }

@@ -632,6 +632,7 @@ var note = {
                     height: height,
                     markdown: value || '',
                     disabledKeyMaps: ["Ctrl-S"],
+                    taskList : true,
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                     imageUploadURL: "./common/mdEditorUpload",

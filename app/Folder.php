@@ -32,4 +32,8 @@ class Folder extends Model
 
         static::addGlobalScope(new PublicScope);
     }
+    public function notes()
+    {
+        return $this->hasMany('App\Notes','f_id','id');
+    }
 }
