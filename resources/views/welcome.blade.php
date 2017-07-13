@@ -47,14 +47,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <!-- Left Side Of Navbar -->
-            {{--<ul class="nav navbar-nav">--}}
-                {{--&nbsp; <li><a href="{{ url('/feedback') }}">问题反馈与建议</a></li>--}}
-            {{--</ul>--}}
+            <ul class="nav navbar-nav">
+                <li><a href="http://doc.omwteam.com">Doc文档</a></li>
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 @if (Route::has('login'))
                     @if (Auth::check())
-                        <li><a href="{{ url('/dashboard') }}">编写笔记</a></li>
+                        <li><a href="{{ url('/dashboard') }}">进入主页</a></li>
 
                     @else
                         <li><a href="{{ url('/login') }}">登录</a></li>
@@ -78,23 +78,15 @@
     <div id="test-editormd" class="editormd-onlyread">
 
     </div>
-
+        <input type="hidden" value="{{route('getReadme')}}" id="getReadme">
 </div>
 <a class="feedback" href="{{route('feedback')}}" title="问题反馈与建议">问题反馈与建议</a>
 <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
 <script>
-//    testEditor = editormd("test-editormd", {
-//        path: "./libs/editormd/lib/",
-//        width: '100%',
-//        height: 1000,
-//        readOnly: true,
-////
-////        styleActiveLine: false  // disable active line
-//        //lineNumbers     : false      // hide line numbers
-//    });
-$.get('/getReadme', function(md){
+
+$.get("@php echo route('getReadme'); @endphp", function(md){
     testEditor = editormd("test-editormd", {
         width: "100%",
         height: 900,
@@ -133,14 +125,6 @@ $.get('/getReadme', function(md){
         onload : function() {
             testEditor.previewing();
             console.log('onload', this);
-//            this.fullscreen();
-//            this.unwatch();
-//            this.watch().fullscreen();
-
-            //this.setMarkdown("#PHP");
-            //this.width("100%");
-            //this.height(480);
-            //this.resize("100%", 640);
         }
     });
 });

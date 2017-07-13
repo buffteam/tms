@@ -41,13 +41,13 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
 
         //TODO 验证关联表 某个数据是否存在表数据中
         if (!$this->findFolderId($params['f_id'])) {
-            return $this->error('文件夹ID不存在');
+            return $this->ajaxError('文件夹ID不存在');
         }
 //        DB::connection()->enableQueryLog();
         $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
@@ -61,7 +61,7 @@ class NotesController extends BaseController
         $params['u_id'] = user()->id;
 
         $data = $this->notesModel->create($params);
-        return $this->success('新增成功',$data);
+        return $this->ajaxSuccess('新增成功',$data);
 
     }
 
@@ -80,7 +80,7 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
 
         // 用户提交信息
@@ -88,7 +88,7 @@ class NotesController extends BaseController
 
         // 判断查询文件夹ID是否存在
         if (!$this->findFolderId($params['id'])) {
-            return $this->error('文件夹ID不存在');
+            return $this->ajaxError('文件夹ID不存在');
         }
 
         // 选择排序字段
@@ -119,7 +119,7 @@ class NotesController extends BaseController
                     ->get()->toArray();
 
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
-        return $this->success('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
+        return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
     }
 
     /**
@@ -131,7 +131,7 @@ class NotesController extends BaseController
     {
         $id = $request->input('id');
         $data = Notes::find($id);
-        return $this->success('获取成功',$data);
+        return $this->ajaxSuccess('获取成功',$data);
 
     }
 
@@ -151,7 +151,7 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
 
         $params = $request->input();
@@ -170,9 +170,9 @@ class NotesController extends BaseController
 
         $data = $this->notesModel->where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
         if ($data != 1) {
-            return $this->success('更新失败');
+            return $this->ajaxError('更新失败','服务器内部错误',500);
         }
-        return $this->success('更新成功',Notes::find($params['id']));
+        return $this->ajaxSuccess('更新成功',Notes::find($params['id']));
     }
 
     /**
@@ -190,15 +190,15 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
 
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0'));
         if ($data != 1) {
-            return $this->success('删除失败');
+            return $this->ajaxError('删除失败','服务器内部错误',500);
         }
-        return $this->success('删除成功');
+        return $this->ajaxSuccess('删除成功');
 
     }
 
@@ -209,7 +209,7 @@ class NotesController extends BaseController
     public function latest ()
     {
         $latest = $this->notesModel->isPrivate()->orderBy('updated_at','desc')->limit($this->pagesize)->get();
-        return $this->success('获取成功',$latest);
+        return $this->ajaxSuccess('获取成功',$latest);
     }
 
     /**
@@ -227,7 +227,7 @@ class NotesController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
 
@@ -252,7 +252,7 @@ class NotesController extends BaseController
                     ->get();
         $totalNum = $this->notesModel->where('title','like','%'.$params['keywords'].'%')->count();
         $totalPage = ceil($totalNum/$params['pagesize']);
-        return $this->success('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
+        return $this->ajaxSuccess('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
 
     /**
