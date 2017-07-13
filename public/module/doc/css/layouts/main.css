@@ -9,7 +9,7 @@ html, body {
 body {
     color: #333;
     font-family: '微软雅黑';
-    /*letter-spacing: normal;*/
+    overflow: hidden;
 }
 
 a {

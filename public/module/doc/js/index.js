@@ -87,12 +87,12 @@ var folder = {
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
             }
         });
-        if($window.width() < 1200){
+        if ($window.width() < 1200) {
             $menuBtn.click();
         }
-        $window.resize(function(){
+        $window.resize(function () {
             var $self = $(this);
-            if(($self.width() < 1200 && !$layout.hasClass('middle')) || ($self.width() > 1200 && $layout.hasClass('middle'))){
+            if (($self.width() < 1200 && !$layout.hasClass('middle')) || ($self.width() > 1200 && $layout.hasClass('middle'))) {
                 $menuBtn.click();
             }
         });
@@ -102,24 +102,24 @@ var folder = {
             e.stopPropagation();
             var $self = $(this);
             $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
-            $(document).one('click',function () {
+            $(document).one('click', function () {
                 $self.hasClass('active') ? $self.removeClass('active') : '';
             })
         });
 
         // 左边栏目录点击事件
         $nav.on('click', '.child-menu-open', function (e) {
-                e.stopPropagation();
-                var self = $(this).parent(),
-                    ul_switch = self.data('switch');
-                if (ul_switch == 'on') {
-                    self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
-                } else {
-                    self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
-                }
-            })
-            // 点击我的文档目录事件
-            .on('click','.nav-doc-a',function () {
+            e.stopPropagation();
+            var self = $(this).parent(),
+                ul_switch = self.data('switch');
+            if (ul_switch == 'on') {
+                self.data('switch', 'off').removeClass('on').siblings('ul').slideUp(300);
+            } else {
+                self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
+            }
+        })
+        // 点击我的文档目录事件
+            .on('click', '.nav-doc-a', function () {
                 var self = $(this),
                     ul_switch = self.data('switch');
                 if ($layout.hasClass('middle')) {
@@ -134,7 +134,7 @@ var folder = {
                     }
                 }
             })
-            .on('click','.second-menu-a',function () {
+            .on('click', '.second-menu-a', function () {
                 var $self = $(this);
                 g_id = $self.data('id');
                 $('.child-item.active,.nav-newest-item').removeClass('active');
@@ -159,12 +159,12 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $downIcon.removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 105);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 140);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
-                    if(idx == '4'){
+                    if (idx == '4') {
                         $add_p.hide();
-                    }else{
+                    } else {
                         $add_p.show();
                     }
                     // 点击其他地方则隐藏下拉框
@@ -180,108 +180,108 @@ var folder = {
             })
             // 选中下拉菜单事件
             .on('click', '.down-box p', function (e) {
-            e.stopPropagation();
-            var $self = $(this),
-                type = $self.data('type'),
-                id = $self.data('id'),
-                $icon = $('.child-menu-down.active'),
-                elem = $icon.parent().parent(), text = null;
+                e.stopPropagation();
+                var $self = $(this),
+                    type = $self.data('type'),
+                    id = $self.data('id'),
+                    $icon = $('.child-menu-down.active'),
+                    elem = $icon.parent().parent(), text = null;
 
-            $self.parent().hide();
-            $icon.removeClass('active');
+                $self.parent().hide();
+                $icon.removeClass('active');
 
-            switch (type) {
-                // 新建子文件夹
-                case 'add':
-                    text = $('#add-input-tpl').html();
-                    if (elem.find('.child-list').length === 0) {
-                        elem.append('<ul class="child-list">' + text + '</ul>');
-                    } else {
-                        elem.children('.child-list').append(text);
-                    }
-                    // 监听输入框失去焦点和回车事件
-                    elem.find('ul input').focus().on('blur keypress', function (e) {
-                        var $self = $(this),
-                            value = $self.val(),
-                            $menu_a = $self.parent().parent();
-                        if(e.keyCode === 13){
-                            $self.off('blur');
-                        }else if(e.type !== 'blur'){
-                            return ;
+                switch (type) {
+                    // 新建子文件夹
+                    case 'add':
+                        text = $('#add-input-tpl').html();
+                        if (elem.find('.child-list').length === 0) {
+                            elem.append('<ul class="child-list">' + text + '</ul>');
+                        } else {
+                            elem.children('.child-list').append(text);
                         }
-                        if (value) {
-                            $.post('/folder/add', {
-                                title: value,
-                                p_id: g_id
-                            }, function (res) {
-                                if(res.code === 200){
-                                    var tag = $self.parent().parent().parent().parent().prev('a');
-                                    $(this).parent().html(value);
-                                    if (!tag.hasClass('is-parent')) {
-                                        tag.addClass('is-parent on').data('switch', 'on');
+                        // 监听输入框失去焦点和回车事件
+                        elem.find('ul input').focus().on('blur keypress', function (e) {
+                            var $self = $(this),
+                                value = $self.val(),
+                                $menu_a = $self.parent().parent();
+                            if (e.keyCode === 13) {
+                                $self.off('blur');
+                            } else if (e.type !== 'blur') {
+                                return;
+                            }
+                            if (value) {
+                                $.post('/folder/add', {
+                                    title: value,
+                                    p_id: g_id
+                                }, function (res) {
+                                    if (res.code === 200) {
+                                        var tag = $self.parent().parent().parent().parent().prev('a');
+                                        $(this).parent().html(value);
+                                        if (!tag.hasClass('is-parent')) {
+                                            tag.addClass('is-parent on').data('switch', 'on');
+                                        }
+                                        $menu_a.removeClass('last-menu-a')
+                                            .addClass('second-menu-a')
+                                            .data('id', res.data.id);
+                                        $menu_a = null;
+                                    } else if (res.code === 403) {
+                                        layer.msg(res.msg);
+                                        $menu_a.parent().remove();
+                                        $menu_a = null;
                                     }
-                                    $menu_a.removeClass('last-menu-a')
-                                        .addClass('second-menu-a')
-                                        .data('id',res.data.id);
-                                    $menu_a = null;
-                                }else if(res.code === 403){
-                                    layer.msg(res.msg);
-                                    $menu_a.parent().remove();
-                                    $menu_a = null;
-                                }
-                            })
-                        } else {
-                            $menu_a.parent().remove();
-                            $menu_a = null;
-                        }
-                    });
-                    break;
-                // 文件夹重命名
-                case 'rename':
-                    var pid = $icon.parent().data('pid');
-                    elem = $icon.parent().find('.item-name');
-                    text = elem.text();
-                    elem.html('<input type="text" value="' + text + '">')
-                        .find('input').focus().on('blur keypress', function (e) {
-                        var $self = $(this),
-                            value = $self.val();
-                        if(e.keyCode === 13){
-                            $self.off('blur');
-                        }else if(e.type !== 'blur'){
-                            return ;
-                        }
-                        if (value) {
-                            $.post('/folder/update', {
-                                title: value,
-                                id: g_id,
-                                pid: pid
-                            }, function (res) {
-                                if(res.code === 200){
-                                    elem.text(value);
-                                }else{
-                                    elem.text(text);
-                                    layer.msg(res.msg);
-                                }
-                            })
-                        } else {
-                            elem.text(text);
-                        }
-                    }).on('click', function (e) {
-                        e.stopPropagation();
-                    });
-                    break;
-                // 删除文件夹
-                case 'del':
-                    layer.confirm('删除不可恢复，是否确定删除？', {
-                        btn: ['确定','取消']
-                    }, function(){
-                        main.delFolder();
-                    });
-                    break;
-            }
-        })
+                                })
+                            } else {
+                                $menu_a.parent().remove();
+                                $menu_a = null;
+                            }
+                        });
+                        break;
+                    // 文件夹重命名
+                    case 'rename':
+                        var pid = $icon.parent().data('pid');
+                        elem = $icon.parent().find('.item-name');
+                        text = elem.text();
+                        elem.html('<input type="text" value="' + text + '">')
+                            .find('input').focus().on('blur keypress', function (e) {
+                            var $self = $(this),
+                                value = $self.val();
+                            if (e.keyCode === 13) {
+                                $self.off('blur');
+                            } else if (e.type !== 'blur') {
+                                return;
+                            }
+                            if (value) {
+                                $.post('/folder/update', {
+                                    title: value,
+                                    id: g_id,
+                                    pid: pid
+                                }, function (res) {
+                                    if (res.code === 200) {
+                                        elem.text(value);
+                                    } else {
+                                        elem.text(text);
+                                        layer.msg(res.msg);
+                                    }
+                                })
+                            } else {
+                                elem.text(text);
+                            }
+                        }).on('click', function (e) {
+                            e.stopPropagation();
+                        });
+                        break;
+                    // 删除文件夹
+                    case 'del':
+                        layer.confirm('删除不可恢复，是否确定删除？', {
+                            btn: ['确定', '取消']
+                        }, function () {
+                            main.delFolder();
+                        });
+                        break;
+                }
+            })
             // 打开我的分享
-            .on('click', '.nav-share-item',function () {
+            .on('click', '.nav-share-item', function () {
                 var layer_share = layer.open({
                     type: 2,
                     title: '我的分享',
@@ -292,7 +292,7 @@ var folder = {
                 layer.full(layer_share);
             })
             // 打开最新笔记
-            .on('click', '.nav-newest-item',function () {
+            .on('click', '.nav-newest-item', function () {
                 $(this).addClass('active');
                 $('.child-item.active').removeClass('active');
                 note.getNewList();
@@ -303,21 +303,21 @@ var folder = {
             $(this).prev('.child-item-input').show().find('input').focus();
         });
         // 我的文档下级新建文件夹输入框失去焦点时或回车触发
-        $input.on('blur keypress',function (e) {
+        $input.on('blur keypress', function (e) {
             var $self = $(this);
-            if(e.keyCode === 13){
+            if (e.keyCode === 13) {
                 $self.off('blur keypress');
-            }else if(e.type !== 'blur'){
-                return ;
+            } else if (e.type !== 'blur') {
+                return;
             }
             folder.addFirstFolder($self);
-            $self.on('focus',function () {
-                $self.off('blur keypress').on('blur keypress',function (e) {
+            $self.on('focus', function () {
+                $self.off('blur keypress').on('blur keypress', function (e) {
                     var $self = $(this);
                     if (e.keyCode === 13) {
                         $self.off('blur keypress');
-                    }else if(e.type !== 'blur'){
-                        return ;
+                    } else if (e.type !== 'blur') {
+                        return;
                     }
                     folder.addFirstFolder($self);
                 })
@@ -325,11 +325,11 @@ var folder = {
         });
     },
     // 我的文档下级新建文件夹事件
-    addFirstFolder: function(self){
+    addFirstFolder: function (self) {
         var value = self.val();
         if (value) {
-            $.post('/folder/add',{title: value, p_id: 0}, function (res) {
-                if(res.code === 200){
+            $.post('/folder/add', {title: value, p_id: 0}, function (res) {
+                if (res.code === 200) {
                     var list = [
                         {
                             id: res.data.id,
@@ -339,7 +339,7 @@ var folder = {
                     ];
                     var html = template('nav-tpl', {list: list, idx: 0});
                     $('.child-item-input').before(html);
-                }else{
+                } else {
                     layer.msg(res.msg);
                 }
             })
@@ -349,29 +349,29 @@ var folder = {
 };
 
 var note = {
-    init: function(){
+    init: function () {
         note.clickListEvent();
         var $sortLi = $('.sort-down-menu li');
         $sortLi.each(function () {
             var $self = $(this);
-            if($self.data('type') === sort_type){
+            if ($self.data('type') === sort_type) {
                 $self.addClass('active ' + sort_order);
             }
         });
     },
-    getNewList: function(){
+    getNewList: function () {
         isNewest = true;
         $.get('/note/latest', function (res) {
             isLoading = false;
-            if(res.code === 200){
-                if(res.data.length){
+            if (res.code === 200) {
+                if (res.data.length) {
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null is-search-null');
                     var html = template('list-tpl', {list: res.data, active: res.data[0].id});
                     $list_ul.html(html);
                     note.scorllHandle();
                     note.getNoteDetail(res.data[0].id);
-                }else{
+                } else {
                     $doc_box.addClass('null');
                     $list_box.addClass('null').removeClass('is-search-null');
                     $list_ul.html('');
@@ -389,25 +389,25 @@ var note = {
             page: cur_page
         }, function (res) {
             isLoading = false;
-            if(res.code === 200){
-                if(res.data.data.length){
+            if (res.code === 200) {
+                if (res.data.data.length) {
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null is-search-null');
                     var html = null;
-                    if(cur_page === 1){
+                    if (cur_page === 1) {
                         html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
                         note.getNoteDetail(res.data.data[0].id);
                         totalPage = res.data.totalPage;
-                    }else{
+                    } else {
                         html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
                         $(".list-content").getNiceScroll().resize()
                     }
-                    cur_page ++;
-                }else{
-                    if(cur_page === 1){
+                    cur_page++;
+                } else {
+                    if (cur_page === 1) {
                         $doc_box.addClass('null');
                         $list_box.addClass('null').removeClass('is-search-null');
                         $list_ul.html('');
@@ -421,7 +421,7 @@ var note = {
     getSearch: function () {
         var $search = $('.search-input'),
             value = $search.val();
-        if(!value.trim()){
+        if (!value.trim()) {
             return false;
         }
         $.get('/note/search', {
@@ -431,25 +431,25 @@ var note = {
             page: cur_page
         }, function (res) {
             isLoading = false;
-            if(res.code === 200){
-                if(res.data.data.length){
+            if (res.code === 200) {
+                if (res.data.data.length) {
                     $doc_box.removeClass('null');
                     $list_box.removeClass('null is-search-null');
                     var html = null;
-                    if(cur_page === 1){
+                    if (cur_page === 1) {
                         html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         $list_ul.html(html);
                         note.scorllHandle();
                         note.getNoteDetail(res.data.data[0].id);
                         totalPage = res.data.totalPage;
-                    }else{
+                    } else {
                         html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
                         $(".list-content").getNiceScroll().resize()
                     }
-                    cur_page ++;
-                }else{
-                    if(cur_page === 1){
+                    cur_page++;
+                } else {
+                    if (cur_page === 1) {
                         $doc_box.addClass('null');
                         $list_box.addClass('null is-search-null');
                         $list_ul.html('');
@@ -462,27 +462,28 @@ var note = {
     // 显示笔记内容
     getNoteDetail: function (note_id) {
         $.get('/note/find', {id: note_id}, function (res) {
-            if(res.code === 200){
+            if (res.code === 200) {
                 $('.doc-preview-body').html(res.data.content);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
-                clearInterval(timeId); timeId = null;
+                clearInterval(timeId);
+                timeId = null;
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
                 // 查看大图
                 layer.photos({
                     photos: '.doc-content-body'
-                    ,anim: 5
+                    , anim: 5
                 });
             }
         })
     },
     // 监听事件
-    clickListEvent: function(){
+    clickListEvent: function () {
         // 点击列表
-        $list_ul.on('click','.doc-item', function () {
+        $list_ul.on('click', '.doc-item', function () {
             var $self = $(this);
-            if(!$self.hasClass('active')){
+            if (!$self.hasClass('active')) {
                 $self.addClass('active').siblings().removeClass('active');
                 var note_id = $self.data('id');
                 $doc_box.hasClass('is-edit') ? note.saveNote() : null;
@@ -490,14 +491,14 @@ var note = {
             }
         });
         // 点击列表删除图表
-        $list_ul.on('click','.list-del-icon', function (e) {
+        $list_ul.on('click', '.list-del-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
                 note_id = elem.data('id');
             note.delNote(note_id, elem);
         });
         // 点击列表分享图标
-        $list_ul.on('click','.list-share-icon', function (e) {
+        $list_ul.on('click', '.list-share-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
                 note_id = elem.data('id'),
@@ -505,37 +506,37 @@ var note = {
             $('.mask,.share-dialog').show();
             var g_url = window.location.href;
             $('.share-copy-c input').val(g_url);
-            new ZeroClipboard( document.getElementById("btnCopy"));
+            new ZeroClipboard(document.getElementById("btnCopy"));
 
             share_title = title + ' -- 来自云笔记';
 
-            $('.share-close').on('click',function () {
+            $('.share-close').on('click', function () {
                 $('.mask,.share-dialog').hide();
                 $(this).off('click');
             })
         });
         // 选择排序方式
         $('.sort-down-menu li').on('click', function () {
-            if(isNewest){
+            if (isNewest) {
                 layer.msg('最新笔记不需要排序哦！');
                 return '';
             }
             var $self = $(this),
                 type = $self.data('type');
-            if(type === sort_type){
-                if($self.hasClass('desc')){
+            if (type === sort_type) {
+                if ($self.hasClass('desc')) {
                     $self.addClass('asc').removeClass('desc');
                     sort_order = 'asc';
-                }else{
+                } else {
                     $self.addClass('desc').removeClass('asc');
                     sort_order = 'desc';
                 }
-            }else{
+            } else {
                 sort_type = type;
-                if($self.hasClass('desc')){
+                if ($self.hasClass('desc')) {
                     $self.addClass('active asc').removeClass('desc').siblings().removeClass('active');
                     sort_order = 'asc';
-                }else{
+                } else {
                     $self.addClass('active desc').removeClass('asc').siblings().removeClass('active');
                     sort_order = 'desc';
                 }
@@ -544,8 +545,8 @@ var note = {
             isSearch ? note.getSearch() : note.getList(g_id);
         });
         // 监听搜索框回车事件
-        $('.search-input').on('keypress',function (e) {
-            if(e.keyCode === 13){
+        $('.search-input').on('keypress', function (e) {
+            if (e.keyCode === 13) {
                 cur_page = 1;
                 isSearch = true;
                 isNewest = false;
@@ -557,16 +558,16 @@ var note = {
             note.saveTitle();
         });
         // 点击更多按钮
-        $('.more-btn').on('click',function (e) {
+        $('.more-btn').on('click', function (e) {
             e.stopPropagation();
             var $self = $(this),
                 type = $self.data('type'),
                 $moreList = $('.more-list');
-            if(type === 'off'){
-                $self.data('type','on');
+            if (type === 'off') {
+                $self.data('type', 'on');
                 $moreList.show();
-            }else{
-                $self.data('type','off');
+            } else {
+                $self.data('type', 'off');
                 $moreList.hide();
             }
             $(document).one('click', function () {
@@ -577,11 +578,11 @@ var note = {
     },
     // 笔记列表滚动事件
     scorllHandle: function () {
-        if(!isNewest){
-            $list_box.on('scroll',function () {
+        if (!isNewest) {
+            $list_box.on('scroll', function () {
                 var ul_height = $list_ul.height(),
                     box_height = $list_box.height();
-                if(totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading){
+                if (totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading) {
                     isLoading = true;
                     isSearch ? note.getSearch() : note.getList(g_id);
                 }
@@ -598,10 +599,10 @@ var note = {
     // 初始化编辑器
     initEditor: function (type, value) {
         var height = $window.height() - $('.doc-content-header').outerHeight() - 50;
-        if(type === '1'){
-            if(!!mdeditor){
+        if (type === '1') {
+            if (!!mdeditor) {
                 value ? mdeditor.setMarkdown(value) : mdeditor.clear();
-            }else{
+            } else {
                 mdeditor = editormd("editormd", {
                     path: "./libs/editormd/lib/",
                     width: '100%',
@@ -617,9 +618,9 @@ var note = {
                             "watch", "preview", "fullscreen", "clear", "search"
                         ]
                     },
-                    onload : function() {
+                    onload: function () {
                         var keyMap = {
-                            "Ctrl-S": function(cm) {
+                            "Ctrl-S": function (cm) {
                                 note.saveNote();
                             }
                         };
@@ -627,18 +628,18 @@ var note = {
                     }
                 });
             }
-        }else if(type === '2'){
-            if(!!wangeditor){
+        } else if (type === '2') {
+            if (!!wangeditor) {
                 wangeditor.txt.html(value || '');
-            }else{
+            } else {
                 wangeditor = new wangEditor('#editor');
                 wangeditor.customConfig.uploadImgServer = '/common/wangEditorUpload';
                 wangeditor.customConfig.uploadFileName = 'image-file';
                 wangeditor.create();
                 wangeditor.txt.html(value || '');
-                $('.w-e-text-container').height(height-41);
-                $('.w-e-text').keydown(function(e){
-                    if( e.ctrlKey  == true && e.keyCode == 83 ){
+                $('.w-e-text-container').height(height - 41);
+                $('.w-e-text').keydown(function (e) {
+                    if (e.ctrlKey == true && e.keyCode == 83) {
                         note.saveNote();
                         return false;
                     }
@@ -652,47 +653,48 @@ var note = {
     // 新建笔记
     newNote: function (type) {
         type = type || '1';
-        if(!g_id){
+        if (!g_id) {
             layer.msg('新建笔记需要先选择目录哦！');
             return false;
         }
-        $.post('/note/add',{
+        $.post('/note/add', {
             title: NEW_TITLE,
             f_id: g_id,
             type: type
-        },function(res){
-            if(res.code === 200){
+        }, function (res) {
+            if (res.code === 200) {
                 $('.doc-item.active').removeClass('active');
                 var list = [res.data];
                 var html = template('list-tpl', {list: list, active: res.data.id});
                 $list_ul.prepend(html);
                 $('.doc-item.active').addClass('is-edit');
-                $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-'+type);
+                $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-' + type);
                 $list_box.removeClass('null');
                 $('.doc-title-input').val('');
                 $('.doc-title-span').html(res.data.title);
                 $('.doc-preview-body').html(res.data.content);
                 cur_note = res.data;
                 note.initEditor(type);
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
         })
     },
     // 删除笔记
     delNote: function (note_id, elem) {
-        $.post('/note/del',{id: note_id}, function (res) {
-            if(res.code === 200){
+        $.post('/note/del', {id: note_id}, function (res) {
+            if (res.code === 200) {
                 layer.msg('删除成功');
                 elem.remove();
-                clearInterval(timeId); timeId = null;
-                if(!$('.doc-item.active').length){
+                clearInterval(timeId);
+                timeId = null;
+                if (!$('.doc-item.active').length) {
                     $doc_box.addClass('null');
                 }
-                if(!$list_ul.find('.doc-item').length){
+                if (!$list_ul.find('.doc-item').length) {
                     $list_box.addClass('null');
                 }
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
 
@@ -701,18 +703,18 @@ var note = {
     // 编辑笔记
     editNote: function () {
         $('.doc-title-input').val(cur_note.title);
-        $doc_box.removeClass('no-edit').addClass('is-edit is-edit-'+cur_note.type);
+        $doc_box.removeClass('no-edit').addClass('is-edit is-edit-' + cur_note.type);
         $('.doc-item.active').addClass('is-edit');
         cur_note.type === '1' ? note.initEditor('1', cur_note.origin_content) : note.initEditor(cur_note.type, cur_note.content);
     },
     // 保存笔记
     saveNote: function () {
         var title = $('.doc-title-input').val().trim() || cur_note.title,
-            md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
+            md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim() : '',
             html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
             note_id = cur_note.id;
 
-        if(cur_note.title == title && (cur_note.content || '') == html_cnt){
+        if (cur_note.title == title && (cur_note.content || '') == html_cnt) {
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
         }
@@ -723,18 +725,19 @@ var note = {
             content: html_cnt,
             origin_content: md_cnt
         }, function (res) {
-            if(res.code === 200){
+            if (res.code === 200) {
                 $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(title);
                 layer.msg('保存成功');
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
-                clearInterval(timeId); timeId = null;
+                clearInterval(timeId);
+                timeId = null;
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 local_note = null;
                 localStorage.removeItem('local_note');
                 main.unbindUnload();
-            }else if(res.code === 403){
+            } else if (res.code === 403) {
                 layer.msg(res.msg);
             }
         })
@@ -742,13 +745,13 @@ var note = {
     // 自动保存笔记
     autoSaveNote: function () {
         local_note = {};
-        for(var i in cur_note){
+        for (var i in cur_note) {
             local_note[i] = cur_note[i];
         }
         var title = $('.doc-title-input').val().trim(),
-            md_cnt = local_note.type === '1' ? mdeditor.getMarkdown().trim(): '',
+            md_cnt = local_note.type === '1' ? mdeditor.getMarkdown().trim() : '',
             html_cnt = local_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim();
-        if(local_note.title == title && local_note.content == html_cnt){
+        if (local_note.title == title && local_note.content == html_cnt) {
             return false;
         }
         local_note.title = title;
@@ -784,7 +787,7 @@ var note = {
     // 保存标题
     saveTitle: function () {
         var title = $('.doc-title-span').html();
-        if(title === cur_note.title){
+        if (title === cur_note.title) {
             return false;
         }
         $.post('/note/update', {
@@ -792,8 +795,8 @@ var note = {
             f_id: cur_note.f_id,
             title: title
         }, function (res) {
-            if(res.code === 200){
-                if(cur_note.id === res.data.id){
+            if (res.code === 200) {
+                if (cur_note.id === res.data.id) {
                     $('.doc-title-span,.doc-item.active .list-title-text').text(res.data.title);
                     cur_note.title = res.data.title;
                 }
@@ -807,11 +810,18 @@ var main = {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            complete: function (XMLHttpRequest) {
+                if (XMLHttpRequest.status === 401) {
+                    location.href = '/login';
+                } else if (XMLHttpRequest.status !== 200) {
+                    layer.msg('服务器出错了 ' + XMLHttpRequest.status);
+                }
             }
         });
         // 禁止保存网站
-        $(document).keydown(function(e){
-            if( e.ctrlKey  == true && e.keyCode == 83 ){
+        $(document).keydown(function (e) {
+            if (e.ctrlKey == true && e.keyCode == 83) {
                 return false;
             }
         });
@@ -821,19 +831,20 @@ var main = {
     // 监听窗口关闭
     bindUnload: function () {
         main.unbindUnload();
-        $window.bind('beforeunload',function(){
+        $window.bind('beforeunload', function () {
             var localNote = localStorage.getItem('local_note');
-            if(localNote){
+            if (localNote) {
                 localNote = JSON.parse(localNote);
-                layer.msg(localNote.title+' 还未保存，是否要保存？', {
-                    time: 0 ,
+                layer.msg(localNote.title + ' 还未保存，是否要保存？', {
+                    time: 0,
                     btn: ['保存', '不保存'],
-                    yes: function(){
+                    yes: function () {
                         note.saveNote();
                     },
                     btn2: function () {
                         $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
-                        clearInterval(timeId); timeId = null;
+                        clearInterval(timeId);
+                        timeId = null;
                         local_note = null;
                         localStorage.removeItem('local_note');
                         main.unbindUnload();
@@ -849,7 +860,7 @@ var main = {
     // 退出登录
     loginOut: function () {
         $.post('/logout', function (res) {
-            if(res.code === 200){
+            if (res.code === 200) {
                 layer.msg(res.msg);
                 location.href = '/login';
             }
@@ -857,8 +868,8 @@ var main = {
     },
     // 删除目录事件
     delFolder: function () {
-        $.post('/folder/del',{id: g_id}, function (res) {
-            if(res.code === 200){
+        $.post('/folder/del', {id: g_id}, function (res) {
+            if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');
             }
