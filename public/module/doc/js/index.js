@@ -574,6 +574,15 @@ var note = {
                 $moreList.hide();
             })
         });
+        // 切换主题
+        $('.editor-theme li').on('click', function (e) {
+            e.stopPropagation();
+            var $self = $(this),
+                theme = $self.text();
+            $self.addClass('active').siblings().removeClass('active');
+            mdeditor.setEditorTheme(theme);
+            localStorage.setItem('editor_theme', theme);
+        })
 
     },
     // 笔记列表滚动事件
@@ -615,24 +624,44 @@ var note = {
                     toolbarIcons: function () {
                         return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
                             "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
-                            "watch", "preview", "fullscreen", "clear", "search"
+                            "watch", "preview", "fullscreen", "clear", "search", "||", "theme"
                         ]
                     },
-                    // toolbarIconTexts: {
-                    //     theme: 'Theme'
-                    // },
-                    // toolbarHandlers: {
-                    //     theme: function(){
-                    //         alert('选择主题')
-                    //     }
-                    // },
+                    toolbarIconTexts: {
+                        theme: '自定义主题 '
+                    },
+                    toolbarHandlers: {
+                        theme: function(){
+                            var $theme = $('.editor-theme'),
+                                $document = $(document);
+                            if($theme.hasClass('active')){
+                                $theme.removeClass('active');
+                                $document.off('click');
+                            }else{
+                                $theme.addClass('active');
+                                $document.one('click', function(){
+                                    $theme.removeClass('active');
+                                })
+                            }
+                        }
+                    },
                     onload: function () {
+                        console.log(this)
                         var keyMap = {
                             "Ctrl-S": function (cm) {
                                 note.saveNote();
                             }
                         };
                         this.addKeyMap(keyMap);
+                        $('.editor-theme li').each(function (index,item) {
+                            var $self = $(this),
+                                theme = localStorage.getItem('editor_theme') || 'default',
+                                text = $self.text();
+                            if(theme === text){
+                                $self.addClass('active');
+                                mdeditor.setEditorTheme(theme);
+                            }
+                        })
                     }
                 });
             }

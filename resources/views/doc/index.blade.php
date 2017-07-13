@@ -95,7 +95,7 @@
             <div class="doc-content">
                 <div class="doc-content-header pure-g">
                     <div class="pure-u-2-3 doc-content-title">
-                        <input class="doc-title-input" type="text" name="title" placeholder="这里是标题">
+                        <input class="doc-title-input" type="text" placeholder="这里是标题">
                         <span class="doc-title-span" contenteditable="true"></span>
                     </div>
 
@@ -117,7 +117,33 @@
                         <div id="editormd" class="editor-1">
                             <textarea id="page_content" style="display:none;"></textarea>
                             <ul class="editor-theme">
-                                <li></li>
+                                <li>default</li>
+                                <li>3024-day</li>
+                                <li>3024-night</li>
+                                <li>ambiance</li>
+                                <li>base16-dark</li>
+                                <li>base16-light</li>
+                                <li>blackboard</li>
+                                <li>cobalt</li>
+                                <li>eclipse</li>
+                                <li>erlang-dark</li>
+                                <li>lesser-dark</li>
+                                <li>mbo</li>
+                                <li>mdn-like</li>
+                                <li>midnight</li>
+                                <li>monokai</li>
+                                <li>neo</li>
+                                <li>night</li>
+                                <li>paraiso-dark</li>
+                                <li>paraiso-light</li>
+                                <li>pastel-on-dark</li>
+                                <li>rubyblue</li>
+                                <li>solarized</li>
+                                <li>the-matrix</li>
+                                <li>twilight</li>
+                                <li>vibrant-ink</li>
+                                <li>xq-dark</li>
+                                <li>tomorrow-night-eighties</li>
                             </ul>
                         </div>
                         <div id="editor" class="editor-2"></div>
@@ -148,7 +174,7 @@
                 <%= list[i].updated_at %>
             </p>
             <p class="doc-hover-icon">
-<!--                <span class="list-share-icon" title="分享"></span>-->
+<!--               <span class="list-share-icon" title="分享"></span>-->
                 <span class="list-del-icon" title="删除"></span>
             </p>
         </li>
