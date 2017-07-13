@@ -16,14 +16,14 @@ class NotesTableSeeder extends Seeder
         //
         DB::table('notes')->insert([
             [
-                'title' => 'softteam',
+                'title' => 'README',
                 'origin_content' => $mdNotes,
                 'u_id' => 2,
                 'f_id' => 1,
             ],
             [
-                'title' => 'softteam',
-                'origin_content' => $mdNotes,
+                'title' => '欢迎使用',
+                'content' => '欢迎使用',
                 'u_id' => 2,
                 'f_id' => 1,
             ]
