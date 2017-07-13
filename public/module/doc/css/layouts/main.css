@@ -22,7 +22,11 @@ ul, ol{
     margin: 0;
     padding: 0;
 }
-
+@keyframes show {
+    from{
+        opacity: 0;
+    }
+}
 /*
  * -- HELPER STYLES --
  * Over-riding some of the .pure-button styles to make my buttons look unique
@@ -307,6 +311,7 @@ ul, ol{
 
 .child-item {
     position: relative;
+    animation: show .3s ease;
 }
 
 .child-item a {
@@ -557,26 +562,28 @@ ul, ol{
     width: 100px;
     z-index: 11;
     background: #fff;
-    border: 1px solid #ddd;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
 }
 .sort-down-menu li{
-    line-height: 30px;
-    padding-left: 30px;
+    line-height: 35px;
+    padding-left: 25px;
     font-size: 14px;
     text-align: left;
-    cursor: default;
+    color: #999;
+    cursor: pointer;
 }
 .sort-down-menu li:hover{
-    background-color: #f3f3f3;
+    color: #76b0f3;
+    background: #f4f9ff;
 }
 .sort-down-menu li.active.desc{
     background-image: url('/module/doc/imgs/icon/sort_down.png');
-    background-position: 10px 9px;
+    background-position: 10px 11px;
     background-repeat: no-repeat;
 }
 .sort-down-menu li.active.asc{
     background-image: url('/module/doc/imgs/icon/sort_up.png');
-    background-position: 10px 9px;
+    background-position: 10px 11px;
     background-repeat: no-repeat;
 }
 .list-content{
@@ -621,6 +628,7 @@ ul, ol{
     padding: 0.9em 1em;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
+    animation: show .3s ease;
 }
 
 .doc-title {
@@ -713,12 +721,14 @@ ul, ol{
     border: 0;
     font-size: 20px;
     color: #333;
+    animation: show .3s ease;
 }
 .doc-content-title .doc-title-span{
     display: none;
     font-size: 20px;
     color: #333;
     outline: 0;
+    animation: show .3s ease;
 }
 .is-edit .doc-title-input,
 .is-edit .save-btn,
@@ -751,12 +761,14 @@ ul, ol{
 }
 .doc-edit-body{
     display: none;
+    animation: show .3s ease;
 }
 .doc-preview-body{
     display: none;
     width: 80%;
     margin: auto;
     padding: 20px;
+    animation: show .3s ease;
 }
 
 #editormd {
