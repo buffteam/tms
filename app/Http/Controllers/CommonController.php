@@ -57,5 +57,28 @@ class CommonController extends BaseController
         return Auth::check() ? $this->success('登录成功',user()) : $this->error('登录过期');
     }
 
+    /**
+     *  中转页面提示
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function prompt ()
+    {
+        if(!empty(session('message')) && !empty(session('url')) && !empty(session('jumpTime'))){
+            $data = [
+                'message' => session('message'),
+                'url' => session('url'),
+                'jumpTime' => session('jumpTime'),
+                'status' => session('status')
+            ];
+        } else {
+            $data = [
+                'message' => '请勿非法访问！',
+                'url' => '/',
+                'jumpTime' => 3,
+                'status' => false
+            ];
+        }
+        return view('common.prompt',['data' => $data]);
+    }
 
 }

@@ -19,7 +19,7 @@ class FolderController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
         if (!isset($params['p_id'])) {
@@ -28,11 +28,11 @@ class FolderController extends BaseController
 
         $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->count();
         if ($num > 0) {
-            return $this->error('文件夹名称重复');
+            return $this->ajaxError('文件夹名称重复');
         }
         $params['u_id'] = user()->id;
         $data = Folder::create($params);
-        return $this->success('新增成功',$data);
+        return $this->ajaxSuccess('新增成功',$data);
     }
 
     /**
@@ -43,7 +43,7 @@ class FolderController extends BaseController
         //
         $categories = Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
         $allCategories = Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
-        return $this->success('请求成功',compact('categories','allCategories'));
+        return $this->ajaxSuccess('请求成功',compact('categories','allCategories'));
     }
 
 
@@ -57,17 +57,17 @@ class FolderController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
         $pid = isset($params['pid']) ? $params['pid'] : 0;
         $exist = Folder::where(array('p_id'=>$pid,'title'=>$params['title']))->count();
         if ($exist > 0) {
-            return $this->error('文件夹名称重复');
+            return $this->ajaxError('文件夹名称重复');
         }
         Folder::where('id',$params['id'])->update(array('title'=>$params['title']));
 
-        return $this->success('修改成功',Folder::find($params['id']));
+        return $this->ajaxSuccess('修改成功',Folder::find($params['id']));
     }
 
 
@@ -80,25 +80,25 @@ class FolderController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->error('参数验证输错',$validator->errors());
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
 
         $params = $request->input();
         $Folder = Folder::find($params['id']);
 
         if (null === $Folder) {
-            return $this->error('ID不存在');
+            return $this->ajaxError('ID不存在');
         }
 
         if ($Folder->notes()->count() > 0) {
-            return $this->error('删除失败，必须删除文件夹下所有笔记');
+            return $this->ajaxError('删除失败，必须删除文件夹下所有笔记');
         }
         if ( $Folder->p_id === 0 && user()->auth !== 2 ) {
-            return $this->error('删除失败，没有权限删除一级菜单');
+            return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
 
         $Folder->where('id',$params['id'])->update($params);
-        return $this->success('删除成功');
+        return $this->ajaxSuccess('删除成功');
 
     }
 }

@@ -12,18 +12,15 @@
 */
 
 Route::get('/', function () {
-//    $readme = file_get_contents(base_path().'\README.md');
     return view('welcome');
 })->name('root');
 Route::get('/getReadme', function () {
     return file_get_contents(base_path().'/README.md');
-});
-Auth::routes();
+})->name('getReadme');
 
-Route::any('/home', 'HomeController@index')->name('home');
-Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
-Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
-Route::any('/common/checkLogin', 'CommonController@checkLogin');
+
+
+
 
 /**
  * 问题反馈相关
@@ -33,12 +30,27 @@ Route::any('/feedback/store', 'FeedbackController@store')->name('feedback.store'
 Route::any('/admin', 'FeedbackController@index');
 
 
+/**
+ * 公共路由
+ */
+Route::any('/home', 'HomeController@index')->name('home');
+Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
+Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
+Route::any('/common/checkLogin', 'CommonController@checkLogin');
+Route::any('/common/prompt', 'CommonController@prompt')->name('prompt');
 
-
-Route::any('/test/export', 'CommonController@export')->name('export');
-
+/**
+ * 测试路由
+ */
 Route::any('/test', 'TestController@test');
 
+
+
+Auth::routes();
+
+/**
+ * 需权限认证的路由
+ */
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');

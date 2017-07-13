@@ -47,7 +47,7 @@ class FeedbackController extends BaseController
         }
         $flag = Feeds::create($params);
         if (null != $flag) {
-            return redirect(route('root'));
+            return redirect(route('prompt'))->with(['message'=>'提交成功，感谢您的反馈！','url' =>route('root'), 'jumpTime'=>2,'status'=>true]);
         }
         return back()->withInput();
 

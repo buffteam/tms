@@ -31,7 +31,6 @@
         </form>
     </div>
 </header>
-
 @yield('content')
 {{--<div class="mask" style="display: none"></div>--}}
 {{--<div class="share-dialog" style="display: none">--}}
