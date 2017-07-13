@@ -22,7 +22,11 @@ ul, ol{
     margin: 0;
     padding: 0;
 }
-
+@keyframes show {
+    from{
+        opacity: 0;
+    }
+}
 /*
  * -- HELPER STYLES --
  * Over-riding some of the .pure-button styles to make my buttons look unique
@@ -110,12 +114,12 @@ ul, ol{
     right: 10px;
     width: 40px;
     height: 37px;
-    background: url(/module/doc/imgs/icon/left.png) center no-repeat;
+    background: url(../../imgs/icon/left.png) center no-repeat;
     cursor: pointer;
 }
 
 #nav .nav-menu-button.right {
-    background-image: url(/module/doc/imgs/icon/right.png);
+    background-image: url(../../imgs/icon/right.png);
 }
 
 #nav .pure-menu {
@@ -139,7 +143,7 @@ ul, ol{
     top: 0;
     width: 40px;
     height: 36px;
-    background: url("/module/doc/imgs/icon/add.png") 10px 7px no-repeat;
+    background: url("../../imgs/icon/add.png") 10px 7px no-repeat;
     cursor: pointer;
 }
 .middle-add-item:hover{
@@ -217,18 +221,18 @@ ul, ol{
     line-height: 20px;
 }
 .nav-newest-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/new.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/new.png) 10px 7px no-repeat;
 }
 .nav-doc-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/doc.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/doc.png) 10px 7px no-repeat;
 }
 
 .nav-share-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/share.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/share.png) 10px 7px no-repeat;
 }
 
 .nav-del-item .first-menu-a {
-    background: url(/module/doc/imgs/icon/del.png) 10px 7px no-repeat;
+    background: url(../../imgs/icon/del.png) 10px 7px no-repeat;
 }
 .nav-newest-item.active{
     background: #c0e2f2;
@@ -240,7 +244,7 @@ ul, ol{
     top: 10px;
     width: 14px;
     height: 14px;
-    background: url(/module/doc/imgs/icon/down.png) 1px 2px no-repeat;
+    background: url(../../imgs/icon/down.png) 1px 2px no-repeat;
     background-size: 12px;
     border: 1px solid #aaa;
     border-radius: 50%;
@@ -256,7 +260,7 @@ ul, ol{
     top: 8px;
     width: 20px;
     height: 20px;
-    background: url("/module/doc/imgs/icon/down2.png") 5px 5px no-repeat;
+    background: url("../../imgs/icon/down2.png") 5px 5px no-repeat;
     background-size: 10px;
     transition: transform .3s;
     display: none;
@@ -279,7 +283,7 @@ ul, ol{
 }
 
 .first-menu-down:hover, .child-menu-down:hover, .child-menu-down.active {
-    background-image: url(/module/doc/imgs/icon/down1.png);
+    background-image: url(../../imgs/icon/down1.png);
     border-color: #1b98f8;
 }
 
@@ -289,7 +293,7 @@ ul, ol{
     top: 10px;
     width: 16px;
     height: 16px;
-    background: url("/module/doc/imgs/icon/folder.png") no-repeat;
+    background: url("../../imgs/icon/folder.png") no-repeat;
     background-size: 16px;
 }
 
@@ -307,6 +311,7 @@ ul, ol{
 
 .child-item {
     position: relative;
+    animation: show .3s ease;
 }
 
 .child-item a {
@@ -324,7 +329,7 @@ ul, ol{
 
 .child-item.add-dir a {
     padding-left: 15px;
-    background: url(/module/doc/imgs/icon/add.png) 0 10px no-repeat;
+    background: url(../../imgs/icon/add.png) 0 10px no-repeat;
     background-size: 16px;
 }
 
@@ -411,7 +416,7 @@ ul, ol{
     float: right;
     width: 18px;
     height:18px;
-    background: url("/module/doc/imgs/icon/more.png") no-repeat;
+    background: url("../../imgs/icon/more.png") no-repeat;
     border: 1px solid #888;
     border-radius: 50%;
     margin: 8px 0 0 20px;
@@ -437,6 +442,39 @@ ul, ol{
 .more-list li:hover{
     color: #76b0f3;
     background: #f4f9ff;
+}
+
+.feedback{
+    position: absolute;
+    bottom: 0;
+    width: 240px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+.feedback a{
+    display: block;
+    color: #666;
+}
+.feedback a:hover{
+    background-color: #e4e4e4;
+}
+.feedback span{
+    display: inline-block;
+}
+.feedback .feedback-icon{
+    width: 20px;
+    height: 20px;
+}
+.feedback .feedback-icon img{
+    float: left;
+    padding-top: 3px;
+}
+.middle .feedback a{
+    background-image: url("../../imgs/icon/feedback.png");
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
 }
 
 #layout {
@@ -511,7 +549,7 @@ ul, ol{
     margin: 12px;
     width: 25px;
     height:25px;
-    background: url("/module/doc/imgs/icon/sort.png") no-repeat;
+    background: url("../../imgs/icon/sort.png") no-repeat;
     cursor: pointer;
 }
 .sort-box:hover .sort-down-menu{
@@ -524,26 +562,28 @@ ul, ol{
     width: 100px;
     z-index: 11;
     background: #fff;
-    border: 1px solid #ddd;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
 }
 .sort-down-menu li{
-    line-height: 30px;
-    padding-left: 30px;
+    line-height: 35px;
+    padding-left: 25px;
     font-size: 14px;
     text-align: left;
-    cursor: default;
+    color: #999;
+    cursor: pointer;
 }
 .sort-down-menu li:hover{
-    background-color: #f3f3f3;
+    color: #76b0f3;
+    background: #f4f9ff;
 }
 .sort-down-menu li.active.desc{
-    background-image: url('/module/doc/imgs/icon/sort_down.png');
-    background-position: 10px 9px;
+    background-image: url('../../imgs/icon/sort_down.png');
+    background-position: 10px 11px;
     background-repeat: no-repeat;
 }
 .sort-down-menu li.active.asc{
-    background-image: url('/module/doc/imgs/icon/sort_up.png');
-    background-position: 10px 9px;
+    background-image: url('../../imgs/icon/sort_up.png');
+    background-position: 10px 11px;
     background-repeat: no-repeat;
 }
 .list-content{
@@ -588,6 +628,7 @@ ul, ol{
     padding: 0.9em 1em;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
+    animation: show .3s ease;
 }
 
 .doc-title {
@@ -602,12 +643,12 @@ ul, ol{
     float: left;
     width: 16px;
     height: 16px;
-    background: url("/module/doc/imgs/icon/md.png") no-repeat;
+    background: url("../../imgs/icon/md.png") no-repeat;
     background-size: 16px;
     margin:2px 5px 0 0;
 }
 .doc-title .icon-note{
-    background-image: url("/module/doc/imgs/icon/note.png");
+    background-image: url("../../imgs/icon/note.png");
 }
 .doc-time {
     font-size: 80%;
@@ -631,10 +672,10 @@ ul, ol{
     margin-right:10px;
 }
 .doc-hover-icon .list-share-icon{
-    background-image: url("/module/doc/imgs/icon/share.png");
+    background-image: url("../../imgs/icon/share.png");
 }
 .doc-hover-icon .list-del-icon{
-    background-image: url("/module/doc/imgs/icon/del.png");
+    background-image: url("../../imgs/icon/del.png");
 }
 .doc-item.active {
     background: #c5e7ff;
@@ -680,12 +721,14 @@ ul, ol{
     border: 0;
     font-size: 20px;
     color: #333;
+    animation: show .3s ease;
 }
 .doc-content-title .doc-title-span{
     display: none;
     font-size: 20px;
     color: #333;
     outline: 0;
+    animation: show .3s ease;
 }
 .is-edit .doc-title-input,
 .is-edit .save-btn,
@@ -718,12 +761,14 @@ ul, ol{
 }
 .doc-edit-body{
     display: none;
+    animation: show .3s ease;
 }
 .doc-preview-body{
     display: none;
     width: 80%;
     margin: auto;
     padding: 20px;
+    animation: show .3s ease;
 }
 
 #editormd {
@@ -760,7 +805,7 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
     padding: 10px;
 }
 .editor-2 .w-e-text{
-    padding: 20px;
+    padding: 20px 40px;
 }
 .editor-2 .w-e-text::-webkit-scrollbar{
     width: 0;
@@ -773,4 +818,15 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 }
 .editormd-html-preview code, .editormd-preview-container code{
     border: 0;
+}
+/* wangeditor */
+#editor{
+    background: #F0F0F0;
+}
+.w-e-toolbar,.w-e-text-container{
+    background: #fff;
+}
+.w-e-text-container{
+    width: 80%;
+    margin: auto;
 }

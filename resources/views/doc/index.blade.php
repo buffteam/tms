@@ -54,6 +54,12 @@
                             {{--<a href="#" class="first-menu-a">回收站</a>--}}
                         {{--</li>--}}
                     </ul>
+                    <div class="feedback">
+                        <a href="{{route('feedback')}}" target="_blank">
+                            <span class="feedback-icon"><img src="{{asset('module/doc/imgs/icon/feedback.png')}}"></span>
+                            <span>问题反馈与建议</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +89,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div id="main">
@@ -111,6 +116,9 @@
                     <div class="doc-edit-body">
                         <div id="editormd" class="editor-1">
                             <textarea id="page_content" style="display:none;"></textarea>
+                            <ul class="editor-theme">
+                                <li></li>
+                            </ul>
                         </div>
                         <div id="editor" class="editor-2"></div>
                     </div>

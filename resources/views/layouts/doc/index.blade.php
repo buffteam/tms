@@ -12,7 +12,7 @@
 
     @yield('style')
 </head>
-<body >
+<body>
 <header class="header pure-g">
     <div class="logo pure-u-1-8">云笔记</div>
     <div class="user-info pure-u-7-8">
