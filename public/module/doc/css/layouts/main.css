@@ -439,6 +439,39 @@ ul, ol{
     background: #f4f9ff;
 }
 
+.feedback{
+    position: absolute;
+    bottom: 0;
+    width: 240px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+.feedback a{
+    display: block;
+    color: #666;
+}
+.feedback a:hover{
+    background-color: #e4e4e4;
+}
+.feedback span{
+    display: inline-block;
+}
+.feedback .feedback-icon{
+    width: 20px;
+    height: 20px;
+}
+.feedback .feedback-icon img{
+    float: left;
+    padding-top: 3px;
+}
+.middle .feedback a{
+    background-image: url("/module/doc/imgs/icon/feedback.png");
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+}
+
 #layout {
     position: relative;
     padding-top: 50px;
@@ -760,7 +793,7 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
     padding: 10px;
 }
 .editor-2 .w-e-text{
-    padding: 20px;
+    padding: 20px 40px;
 }
 .editor-2 .w-e-text::-webkit-scrollbar{
     width: 0;
@@ -773,4 +806,15 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 }
 .editormd-html-preview code, .editormd-preview-container code{
     border: 0;
+}
+/* wangeditor */
+#editor{
+    background: #F0F0F0;
+}
+.w-e-toolbar,.w-e-text-container{
+    background: #fff;
+}
+.w-e-text-container{
+    width: 80%;
+    margin: auto;
 }
