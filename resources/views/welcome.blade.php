@@ -9,6 +9,25 @@
     <link rel="stylesheet" href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <!-- Styles -->
+    <style>
+        .feedback {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            box-sizing: content-box;
+            width: 100px;
+            height: 25px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            line-height: 25px;
+
+        }
+        .feedback:hover {
+            background-color: gainsboro;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body >
 <nav class="navbar navbar-default navbar-static-top">
@@ -28,9 +47,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <!-- Left Side Of Navbar -->
-            <ul class="nav navbar-nav">
-                &nbsp; <li><a href="{{ url('/feedback') }}">问题反馈与建议</a></li>
-            </ul>
+            {{--<ul class="nav navbar-nav">--}}
+                {{--&nbsp; <li><a href="{{ url('/feedback') }}">问题反馈与建议</a></li>--}}
+            {{--</ul>--}}
 
             <ul class="nav navbar-nav navbar-right">
                 @if (Route::has('login'))
@@ -61,7 +80,7 @@
     </div>
 
 </div>
-
+<a class="feedback" href="{{route('feedback')}}" title="问题反馈与建议">问题反馈与建议</a>
 <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('libs/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>

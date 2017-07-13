@@ -18,7 +18,7 @@
 
 
                                 <div class="col-md-10">
-                                    <input id="title" type="text" class="form-control input-lg" name="title"
+                                    <input id="title" type="text" class="form-control " name="title"
                                            value="{{ old('title') }}" maxlength="60" placeholder="请输入标题" required autofocus>
 
                                     @if ($errors->has('title'))
@@ -36,7 +36,7 @@
 
                                 <div class="col-md-4">
 
-                                    <select name="type" class="form-control input-lg" id="type">
+                                    <select name="type" class="form-control " id="type">
                                         <option value="1">问题</option>
                                         <option value="2">建议</option>
                                         <option value="3">其他</option>
@@ -56,7 +56,7 @@
 
 
                                 <div class="col-md-10">
-                                    <textarea  class="form-control input-lg" name="content" rows="15" maxlength="1000" placeholder="详细描述您要反馈的问题与建议，谢谢您的支持与鼓励" required></textarea>
+                                    <textarea  class="form-control " name="content" rows="15" maxlength="1000" placeholder="详细描述您要反馈的问题与建议，谢谢您的支持与鼓励" required></textarea>
                                     @if ($errors->has('content'))
                                         <span class="help-block">
                                         <strong>{{ $errors->first('content') }}</strong>
@@ -70,7 +70,7 @@
 
 
                                 <div class="col-md-10">
-                                    <input id="title" type="text" class="form-control input-lg" name="contact"
+                                    <input id="title" type="text" class="form-control " name="contact"
                                            value="{{ old('contact') }}" maxlength="60" placeholder="邮箱/手机号码【可以不填】"  autofocus>
 
                                     @if ($errors->has('contact'))
@@ -83,7 +83,7 @@
 
                             <div class="form-group">
                                 <div class="" style="padding: 10px 15px 10px 60px;">
-                                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                                    <button type="submit" class="btn btn-primary btn-block">
                                         提交
                                     </button>
 
