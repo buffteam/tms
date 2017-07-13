@@ -65,14 +65,30 @@ ul, ol{
 }
 
 .logo {
+    display: inline-block;
+    width: 240px;
     color: #fff;
     font-size: 20px;
-    padding-left: 30px;
+    padding-left: 40px;
     line-height: 50px;
     box-sizing: border-box;
 }
+.menu{
+    display: inline-block;
+    vertical-align: top;
+    height: 50px;
+    line-height: 50px;
+
+}
+.menu a{
+    color: #eee;
+    padding: 5px 10px;
+}
+.menu a:hover{
+    color: #fff;
+}
 .user-info{
-    text-align: right;
+    float: right;
     line-height: 50px;
     padding-right: 30px;
     color: #fff;
@@ -769,6 +785,31 @@ ul, ol{
     margin: auto;
     padding: 20px;
     animation: show .3s ease;
+}
+.editor-theme{
+    position: absolute;
+    right: 10px;
+    top: 40px;
+    width: 300px;
+    padding:10px;
+    background: #fff;
+    z-index: 11;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
+    transform: translateX(110%);
+    transition: transform .3s;
+}
+.editor-theme.active{
+    transform: translateX(0);
+}
+.editor-theme li{
+    font-size: 12px;
+    display: inline-block;
+    padding: 5px;
+}
+.editor-theme li:hover,.editor-theme li.active{
+    cursor: pointer;
+    color: #76b0f3;
+    background: #f4f9ff;
 }
 
 #editormd {

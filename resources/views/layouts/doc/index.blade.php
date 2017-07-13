@@ -13,9 +13,14 @@
     @yield('style')
 </head>
 <body>
-<header class="header pure-g">
-    <div class="logo pure-u-1-8">云笔记</div>
-    <div class="user-info pure-u-7-8">
+<header class="header">
+    <div class="logo">云笔记</div>
+    <ul class="menu">
+        <li>
+            <a href="./" target="_blank">首页</a>
+        </li>
+    </ul>
+    <div class="user-info">
         <span>{{ Auth::user()->name }}</span>
         <span> | </span>
         {{--<span class="logout" onclick="main.loginOut()">退出</span>--}}
