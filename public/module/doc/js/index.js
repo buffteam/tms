@@ -642,7 +642,7 @@ var note = {
                         ]
                     },
                     toolbarIconTexts: {
-                        theme: '自定义主题 '
+                        theme: '切换主题 '
                     },
                     toolbarHandlers: {
                         theme: function(){
