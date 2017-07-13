@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('root');
 Route::get('/getReadme', function () {
-    return file_get_contents(base_path().'\README.md');
+    return file_get_contents(base_path().'/README.md');
 });
 Auth::routes();
 
