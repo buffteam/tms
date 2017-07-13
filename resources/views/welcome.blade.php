@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ config('app.name', 'stip平台') }}</title>
+    <title>{{ config('app.name', 'STIP平台') }}</title>
     <link rel="stylesheet" href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <!-- Styles -->
@@ -48,7 +48,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="http://doc.omwteam.com">Doc文档</a></li>
+                <li><a href="http://doc.omwteam.com">ShowDoc文档 </a></li>
+
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -70,15 +71,9 @@
 
 <div class="container">
 
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
-    <div id="test-editormd" class="editormd-onlyread">
+    <div id="test-editormd" class="editormd-onlyread"></div>
 
-    </div>
-        <input type="hidden" value="{{route('getReadme')}}" id="getReadme">
+
 </div>
 <a class="feedback" href="{{route('feedback')}}" title="问题反馈与建议">问题反馈与建议</a>
 <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
