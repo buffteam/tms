@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>{{ config('app.name', 'stip平台') }}</title>
     <link rel="stylesheet" href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <!-- Styles -->
@@ -41,7 +41,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{route('home')}}">{{config('app.name')}}</a>
+            <a class="navbar-brand" href="{{route('root')}}">{{config('app.name')}}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -133,5 +133,15 @@ $.get("@php echo route('getReadme'); @endphp", function(md){
 
 
 </script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4dfecf0ae81170fba757c72f3cf83e11";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
 </body>
 </html>

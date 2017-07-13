@@ -67,6 +67,15 @@
 <script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>
 {{--<script src="http://cdn.bootcss.com/zeroclipboard/1.2.0/ZeroClipboard.min.js"></script>--}}
 @yield('script')
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4dfecf0ae81170fba757c72f3cf83e11";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
 </body>
 </html>
