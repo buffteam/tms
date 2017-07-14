@@ -21,6 +21,10 @@ class Notes extends Model
     protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active'];
 //    protected $guarded = ['created_at','updated_at'];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User','u_id');
+    }
     /**
      * 添加全局条件
      *
