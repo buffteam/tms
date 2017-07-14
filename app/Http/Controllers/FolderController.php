@@ -23,8 +23,10 @@ class FolderController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
-        if (!isset($params['p_id'])) {
-            $params['p_id'] = 0;
+
+        // 只有管理员才有权限创建一级菜单
+        if (user()->auth != 2 &&  $params['p_id'] == 0) {
+            return $this->ajaxError('创建失败，没有权限创建一级菜单');
         }
 
         $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->count();
