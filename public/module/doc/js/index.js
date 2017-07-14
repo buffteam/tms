@@ -223,7 +223,7 @@ var folder = {
                             } else if (e.type !== 'blur') {
                                 return;
                             }
-                            if (value) {
+                            if (value && value.length < 13) {
                                 $.post('./folder/add', {
                                     title: value,
                                     p_id: g_id
@@ -246,6 +246,9 @@ var folder = {
                                     }
                                 })
                             } else {
+                                if(value.length > 12){
+                                    layer.msg('文件夹名称不能超过12个字符');
+                                }
                                 $menu_a.parent().remove();
                                 $menu_a = null;
                             }
@@ -265,7 +268,7 @@ var folder = {
                             } else if (e.type !== 'blur') {
                                 return;
                             }
-                            if (value && value !== text) {
+                            if (value && value !== text && value.length < 13) {
                                 $.post('./folder/update', {
                                     title: value,
                                     id: g_id,
@@ -280,6 +283,9 @@ var folder = {
                                     }
                                 })
                             } else {
+                                if(value.length > 12){
+                                    layer.msg('文件夹名称不能超过12个字符');
+                                }
                                 elem.html(text);
                             }
                         }).on('click', function (e) {
@@ -651,6 +657,12 @@ var note = {
                     markdown: value || '',
                     disabledKeyMaps: ["Ctrl-S"],
                     taskList : true,
+                    tocm: true,
+                    codeFold : true,
+                    tex : true,
+                    flowChart : true,
+                    sequenceDiagram  : true,
+                    searchReplace  : true,
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                     imageUploadURL: "./common/mdEditorUpload",
