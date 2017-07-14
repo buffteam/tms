@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Folder;
 use App\Notes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,10 @@ class NotesController extends BaseController
         $params['u_id'] = user()->id;
 
         $data = $this->notesModel->create($params);
-        return $this->ajaxSuccess('新增成功',$data);
+        if (null != $data) {
+            return $this->ajaxSuccess('新增成功',$data);
+        }
+        return $this->ajaxError('新增失败');
 
     }
 
@@ -131,7 +135,10 @@ class NotesController extends BaseController
     {
         $id = $request->input('id');
         $data = Notes::find($id);
-        return $this->ajaxSuccess('获取成功',$data);
+        if (null != $data) {
+            return $this->ajaxSuccess('获取成功',$data);
+        }
+        return $this->ajaxError('数据不存在');
 
     }
 
@@ -170,7 +177,7 @@ class NotesController extends BaseController
 
         $data = $this->notesModel->where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
         if ($data != 1) {
-            return $this->ajaxError('更新失败','服务器内部错误',500);
+            return $this->ajaxError('更新失败，数据不存在');
         }
         return $this->ajaxSuccess('更新成功',Notes::find($params['id']));
     }
@@ -194,10 +201,10 @@ class NotesController extends BaseController
         }
         $params = $request->input();
 
-        $data = Notes::where('id',$params['id'])->update(array('active'=>'0'));
+        $data = Notes::where('id',$params['id'])->update(array('active'=>'0','updated_id'=>Auth::id()));
 
         if ($data != 1) {
-            return $this->ajaxError('删除失败','服务器内部错误',500);
+            return $this->ajaxError('删除失败,数据已经被删除了');
         }
         return $this->ajaxSuccess('删除成功');
 

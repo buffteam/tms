@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Folder;
 use Illuminate\Http\Request;
@@ -32,7 +33,10 @@ class FolderController extends BaseController
         }
         $params['u_id'] = user()->id;
         $data = Folder::create($params);
-        return $this->ajaxSuccess('新增成功',$data);
+        if (null != $data) {
+            return $this->ajaxSuccess('新增成功',$data);
+        }
+        return $this->ajaxError('新增失败');
     }
 
     /**
@@ -60,13 +64,17 @@ class FolderController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
-        $pid = isset($params['pid']) ? $params['pid'] : 0;
-        $exist = Folder::where(array('p_id'=>$pid,'title'=>$params['title']))->count();
+        if (Auth::user()->auth != 2 && $params['pid'] == 0) {
+            return $this->ajaxError('没有权限更改一级菜名称');
+        }
+        $exist = Folder::where(array('p_id'=>$params['pid'],'title'=>$params['title']))->count();
         if ($exist > 0) {
             return $this->ajaxError('文件夹名称重复');
         }
-        Folder::where('id',$params['id'])->update(array('title'=>$params['title']));
-
+        $flag = Folder::where('id',$params['id'])->update(array('title'=>$params['title']));
+        if (1 != $flag) {
+            return $this->ajaxError('修改失败');
+        }
         return $this->ajaxSuccess('修改成功',Folder::find($params['id']));
     }
 
@@ -87,7 +95,7 @@ class FolderController extends BaseController
         $Folder = Folder::find($params['id']);
 
         if (null === $Folder) {
-            return $this->ajaxError('ID不存在');
+            return $this->ajaxError('数据不存在');
         }
 
         if ($Folder->notes()->count() > 0) {
@@ -97,7 +105,11 @@ class FolderController extends BaseController
             return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
 
-        $Folder->where('id',$params['id'])->update($params);
+        $flag = $Folder->where('id',$params['id'])->update($params);
+        if (1 != $flag) {
+            return $this->ajaxError('删除失败');
+        }
+
         return $this->ajaxSuccess('删除成功');
 
     }
