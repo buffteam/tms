@@ -188,6 +188,7 @@ ul, ol{
 }
 .new-doc-box span, .new-doc-box .add-icon img{
     float: left;
+    user-select: none;
 }
 .new-doc-box .add-icon{
     width: 20px;
@@ -322,7 +323,7 @@ ul, ol{
 }
 
 .first-child-list {
-    padding-left: 40px;
+    padding-left: 30px;
 }
 
 .child-item {
@@ -351,6 +352,13 @@ ul, ol{
 
 .child-item.add-dir a {
     color: #1b98f8;
+}
+.child-item .item-name{
+    display: inline-block;
+    width:100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .pure-menu-item a {
@@ -862,6 +870,10 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 }
 .editor-2 .w-e-text ul{
     list-style-type: disc;
+}
+.editor-2 .w-e-text code{
+    margin: 0;
+    padding: 5px 10px;
 }
 .editormd-html-preview code, .editormd-preview-container code{
     border: 0;
