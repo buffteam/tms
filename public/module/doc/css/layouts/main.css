@@ -682,6 +682,9 @@ ul, ol{
     margin: 0.4em 0;
     color: #aaa;
 }
+.doc-author{
+    margin-left: 10px;
+}
 .doc-hover-icon{
     position: absolute;
     right: 10px;

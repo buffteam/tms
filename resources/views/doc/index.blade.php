@@ -171,7 +171,8 @@
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
             <p class="doc-time">
-                <%= list[i].updated_at %>
+                <span><%= list[i].updated_at %></span>
+                <span class="doc-author"> <%= list[i].author %></span>
             </p>
             <p class="doc-hover-icon">
 <!--               <span class="list-share-icon" title="分享"></span>-->
