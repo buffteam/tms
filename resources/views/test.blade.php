@@ -85,10 +85,11 @@
                 <div class="title m-b-md">
                     <span>欢迎使用醍醐共享云笔记</span>
                 </div>
-                <form action="/mpdf" method="post" id="form">
-                    <input type="text" name="content" id="content" value="{{$list->content}}" style="display: none;">
-                    <button type="submit"  id="test">导出</button>
-                </form>
+                {{--<form action="/common/upload" method="post" id="form" enctype="multipart/form-data">--}}
+                    {{--<input type="text" name="content" id="content" value="{{$list->content}}" style="display: none;">--}}
+                    {{--<input type="file" name="picture">--}}
+                    {{--<button type="submit"  id="test">上传</button>--}}
+                {{--</form>--}}
 
                 <div class="links">
                     {{--<a href="https://laravel.com/docs">Documentation</a>--}}

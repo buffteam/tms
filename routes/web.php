@@ -36,6 +36,7 @@ Route::any('/admin', 'FeedbackController@index');
 Route::any('/home', 'HomeController@index')->name('home');
 Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
 Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
+Route::any('/common/upload', 'CommonController@upload');
 Route::any('/common/checkLogin', 'CommonController@checkLogin');
 Route::any('/common/prompt', 'CommonController@prompt')->name('prompt');
 

@@ -15,9 +15,9 @@ class TestController extends Controller
         $log = DB::getQueryLog();
         dd($log);
     }
-    public function test ()
+    public function test (Request $request)
     {
-        $data = Notes::find(19);
-        return view('test',['list'=>$data]);
+//        $data = Notes::find(19);
+//        return view('test',['list'=>$data]);
     }
 }
