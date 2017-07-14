@@ -57,8 +57,9 @@ class FolderController extends BaseController
     {
         // 验证规则
         $rules =  [
-            'title' => 'required|max:30',
-            'id' => 'required|max:10'
+            'title' => 'required|max:50',
+            'id' => 'required|max:11',
+            'pid' => 'required|max:11'
         ];
         $validator = Validator::make($request->all(), $rules);
 
@@ -107,7 +108,7 @@ class FolderController extends BaseController
             return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
 
-        $flag = $Folder->where('id',$params['id'])->update($params);
+        $flag = $Folder->where('id',$params['id'])->update(array('active'=> '0'));
         if (1 != $flag) {
             return $this->ajaxError('删除失败');
         }
