@@ -104,6 +104,11 @@ class FolderController extends BaseController
         if ($Folder->notes()->count() > 0) {
             return $this->ajaxError('删除失败，必须删除文件夹下所有笔记');
         }
+
+        if (Folder::where('p_id',$params['id'])->count() > 0) {
+            return $this->ajaxError('删除失败，必须删除该文件夹下面的子文件夹');
+        }
+
         if ( $Folder->p_id === 0 && user()->auth !== 2 ) {
             return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
