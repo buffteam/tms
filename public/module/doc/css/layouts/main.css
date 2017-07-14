@@ -497,10 +497,11 @@ ul, ol{
     float: left;
     padding-top: 3px;
 }
-.middle .feedback a{
-    background-image: url("../../imgs/icon/feedback.png");
-    background-position: 10px 10px;
-    background-repeat: no-repeat;
+.middle .feedback{
+    width: 40px;
+    /*background-image: url("../../imgs/icon/feedback.png");*/
+    /*background-position: 10px 10px;*/
+    /*background-repeat: no-repeat;*/
 }
 
 #layout {
