@@ -334,6 +334,7 @@ ul, ol{
 .child-item a {
     padding: 8px 30px 8px 38px;
     line-height: 20px;
+    height: 20px;
 }
 
 .child-item.active > a {
@@ -469,13 +470,14 @@ ul, ol{
 }
 
 .feedback{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 240px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     border-top: 1px solid #ddd;
+    background: #f3f3f3;
 }
 .feedback a{
     display: block;

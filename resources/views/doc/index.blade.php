@@ -182,10 +182,10 @@
     </script>
     <script id="add-input-tpl" type="text/html">
         <li class="child-item">
-            <a href="#" class="last-menu-a" data-id="">
+            <a href="#" class="last-menu-a" data-id="" data-pid="">
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><input type="text"></span>
-                <span class="child-menu-down"></span>
+                <span class="child-menu-down" data-idx="##idx##"></span>
             </a>
         </li>
     </script>

@@ -2,6 +2,7 @@
  * Created by linxin on 2017/6/26.
  */
 var $window = $(window),
+    $nav = $('#nav'),
     $menuBtn = $('.nav-menu-button'),
     $list_ul = $('.list-content-ul'),               // 笔记列表
     $list_box = $('.list-content'),                 // 笔记列表盒子
@@ -63,13 +64,19 @@ var folder = {
             }
             var html = template('nav-tpl', {list: list, idx: 0, active: list[0].id});
             $('.first-child-list').prepend(html);
+            $nav.niceScroll({
+                cursorcolor: '#aaa',
+                autohidemode: 'scroll',
+                horizrailenabled: false,
+                cursorborder: '0'
+            });
             note.getNewList();
             note.init();
         });
     },
     clickHandle: function () {
         var $layout = $('#layout'),
-            $nav = $('#nav'),
+
             $newDocBtn = $('.new-doc-box'),
             $addDir = $('.add-dir'),
             $input = $('.child-item-input input'),
@@ -91,6 +98,7 @@ var folder = {
                     $code.animate({'width': width-100},300);
                     $preview.animate({'width': width-100},300);
                 }
+                folder.navScrollResize();
             } else {
                 $layout.addClass('middle');
                 $menuBtn.addClass('right');
@@ -108,6 +116,7 @@ var folder = {
             var $self = $(this);
             if (($self.width() < 1200 && !$layout.hasClass('middle')) || ($self.width() > 1200 && $layout.hasClass('middle'))) {
                 $menuBtn.click();
+                folder.navScrollResize();
             }
         });
 
@@ -116,6 +125,7 @@ var folder = {
             e.stopPropagation();
             var $self = $(this);
             $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
+            folder.navScrollResize();
             $(document).one('click', function () {
                 $self.hasClass('active') ? $self.removeClass('active') : '';
             })
@@ -131,6 +141,7 @@ var folder = {
             } else {
                 self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
             }
+            folder.navScrollResize();
         })
         // 点击我的文档目录事件
             .on('click', '.nav-doc-a', function () {
@@ -147,6 +158,7 @@ var folder = {
                         self.data('switch', 'on').addClass('on').siblings('ul').slideDown(300);
                     }
                 }
+                folder.navScrollResize();
             })
             .on('click', '.second-menu-a', function () {
                 var $self = $(this);
@@ -162,6 +174,7 @@ var folder = {
             // 点击下拉菜单
             .on('click', '.child-menu-down', function (e) {
                 e.stopPropagation();
+                var scrollTop = $nav.getNiceScroll(0).getScrollTop();
                 var $self = $(this),
                     idx = $self.data('idx'),
                     $downBox = $('.down-box'),
@@ -173,7 +186,7 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $downIcon.removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 140);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 140 + scrollTop);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
                     if (idx == '4') {
@@ -199,15 +212,15 @@ var folder = {
                     type = $self.data('type'),
                     id = $self.data('id'),
                     $icon = $('.child-menu-down.active'),
-                    elem = $icon.parent().parent(), text = null;
-
+                    elem = $icon.parent().parent(), text = null,
+                    idx = parseInt($icon.data('idx'));
                 $self.parent().hide();
                 $icon.removeClass('active');
 
                 switch (type) {
                     // 新建子文件夹
                     case 'add':
-                        text = $('#add-input-tpl').html();
+                        text = $('#add-input-tpl').html().replace('##idx##', idx+1);
                         if (elem.find('.child-list').length === 0) {
                             elem.append('<ul class="child-list">' + text + '</ul>');
                         } else {
@@ -237,7 +250,7 @@ var folder = {
                                         }
                                         $menu_a.removeClass('last-menu-a')
                                             .addClass('second-menu-a')
-                                            .data('id', res.data.id);
+                                            .data({'id': res.data.id, 'pid': res.data.p_id});
                                         $menu_a = null;
                                     } else if (res.code === 403) {
                                         layer.msg(res.msg);
@@ -367,6 +380,11 @@ var folder = {
             })
         }
         self.val('').parent().hide();
+    },
+    navScrollResize: function(){
+        setTimeout(function () {
+            $nav.getNiceScroll().resize();
+        },300);
     }
 };
 
@@ -485,6 +503,7 @@ var note = {
     getNoteDetail: function (note_id) {
         $.get('./note/find', {id: note_id}, function (res) {
             if (res.code === 200) {
+                $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
                     .on('click','img', function () {
                         var $self = $(this),
@@ -513,6 +532,10 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
+            }else{
+                layer.msg(res.msg);
+                $('.doc-item.active').remove();
+                $doc_box.addClass('null');
             }
         })
     },
@@ -637,7 +660,7 @@ var note = {
         }
 
         var niceScroll = $('.list-content').niceScroll({
-            cursorcolor: '#999',
+            cursorcolor: '#aaa',
             autohidemode: 'leave',
             horizrailenabled: false,
             cursorborder: '0'
@@ -945,6 +968,8 @@ var main = {
             if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');
+            }else{
+                layer.msg(res.msg);
             }
         })
     },
