@@ -714,7 +714,6 @@ var note = {
                         }
                     },
                     onload: function () {
-                        console.log(this)
                         var keyMap = {
                             "Ctrl-S": function (cm) {
                                 note.saveNote();
@@ -777,7 +776,7 @@ var note = {
                 $list_box.removeClass('null');
                 $('.doc-title-input').val('');
                 $('.doc-title-span').html(res.data.title);
-                $('.doc-preview-body').html(res.data.content);
+                $('.doc-preview-body').html(res.data.content || '');
                 cur_note = res.data;
                 note.initEditor(type);
             } else {
