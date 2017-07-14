@@ -21,14 +21,14 @@ class FeedbackController extends BaseController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        return view('feedback.create');
+        $action = $request->input('action');
+        return view('feedback.create',['action'=>$action]);
     }
 
 
@@ -37,7 +37,7 @@ class FeedbackController extends BaseController
         //
         $this->validate($request, [
                 'title' => 'required|max:60',
-                'content' => 'required|max:1000'
+                'content' => 'required|max:1000',
             ]);
 
         $params = $request->input();
@@ -47,7 +47,7 @@ class FeedbackController extends BaseController
         }
         $flag = Feeds::create($params);
         if (null != $flag) {
-            return redirect(route('prompt'))->with(['message'=>'提交成功，感谢您的反馈！','url' =>route('root'), 'jumpTime'=>2,'status'=>true]);
+            return redirect(route('prompt'))->with(['message'=>'提交成功，感谢您的反馈！','url' =>route($params['action']), 'jumpTime'=>2,'status'=>true]);
         }
         return back()->withInput();
 

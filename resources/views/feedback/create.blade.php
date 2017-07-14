@@ -16,7 +16,7 @@
 
                                 <label for="title" class="col-md-2 control-label">标题</label>
 
-
+                                <input type="hidden" name="action" value="{{$action}}">
                                 <div class="col-md-10">
                                     <input id="title" type="text" class="form-control " name="title"
                                            value="{{ old('title') }}" maxlength="60" placeholder="请输入标题" required autofocus>

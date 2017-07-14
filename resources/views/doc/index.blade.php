@@ -55,7 +55,7 @@
                         {{--</li>--}}
                     </ul>
                     <div class="feedback">
-                        <a href="{{route('feedback')}}" target="_blank">
+                        <a href="{{route('feedback',['action'=> 'dashboard'])}}" target="_blank">
                             <span class="feedback-icon"><img src="{{asset('module/doc/imgs/icon/feedback.png')}}"></span>
                             <span>问题反馈与建议</span>
                         </a>
