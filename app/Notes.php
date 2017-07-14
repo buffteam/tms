@@ -23,7 +23,7 @@ class Notes extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','u_id');
+        return $this->hasOne('App\User','id','u_id');
     }
     /**
      * 添加全局条件

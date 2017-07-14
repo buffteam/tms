@@ -110,16 +110,14 @@ class NotesController extends BaseController
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         // 获取用户ID
-//        $userId = user()->id;
         // TODO 私人可见笔记待做 查询数据
-//        $private = $this->notesModel->isPrivate('0')->where([ 'u_id'=>$userId,'f_id'=>$params['id']]);
-
 
         $list = $this->notesModel->isPrivate()->where([ 'f_id'=>$params['id'] ])
-//                    ->union($private)
+                    ->join('users','notes.u_id','=','users.id')
+                    ->select('notes.*', 'users.name as author')
                     ->orderBy($params['field'],$params['order'])
-                    ->offset($start)
-                    ->limit($params['pagesize'])
+                    ->skip($start)
+                    ->take($params['pagesize'])
                     ->get()->toArray();
 
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
@@ -204,7 +202,7 @@ class NotesController extends BaseController
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0','updated_id'=>Auth::id()));
 
         if ($data != 1) {
-            return $this->ajaxError('删除失败,数据已经被删除了');
+            return $this->ajaxError('数据在另一端已经被删除了，请刷新页面');
         }
         return $this->ajaxSuccess('删除成功');
 
@@ -216,7 +214,12 @@ class NotesController extends BaseController
      */
     public function latest ()
     {
-        $latest = $this->notesModel->isPrivate()->orderBy('updated_at','desc')->limit($this->pagesize)->get();
+        $latest = $this->notesModel->isPrivate()
+            ->join('users','notes.u_id','=','users.id')
+            ->select('notes.*', 'users.name as author')
+            ->orderBy('updated_at','desc')
+            ->limit($this->pagesize)
+            ->get()->toArray();
         return $this->ajaxSuccess('获取成功',$latest);
     }
 

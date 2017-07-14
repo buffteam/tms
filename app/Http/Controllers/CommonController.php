@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommonController extends BaseController
 {
-
+    protected $rootDir = 'http://172.28.2.228/stip/public/';
     /**
      * md笔记上传图片
      * @return \Illuminate\Http\JsonResponse
@@ -20,7 +20,7 @@ class CommonController extends BaseController
         if (!isset($_FILES['editormd-image-file'])) {
             return $this->error('参数错误');
         }
-        $upload = new upload('editormd-image-file','uploads');
+        $upload = new upload('editormd-image-file','/uploads');
         $param = $upload->uploadFile();
         if ( $param['status'] ) {
             return response()->json(array('success'=>1,'message'=>'上传成功','url'=>$param['data'],'data'=>[$param['data']]));
@@ -38,7 +38,7 @@ class CommonController extends BaseController
         if (!isset($_FILES['image-file'])) {
             return $this->error('参数错误');
         }
-        $upload = new upload('image-file','uploads');
+        $upload = new upload('image-file','/uploads');
         $param = $upload->uploadFile();
         if ( $param['status'] ) {
             return response()->json(array('errno'=>0,'message'=>'上传成功','data'=>[$param['data']]));
