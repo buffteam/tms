@@ -229,8 +229,9 @@ var folder = {
                                     p_id: g_id
                                 }, function (res) {
                                     if (res.code === 200) {
+                                        layer.msg('添加成功');
                                         var tag = $self.parent().parent().parent().parent().prev('a');
-                                        $(this).parent().html(value);
+                                        $self.parent().html(value);
                                         if (!tag.hasClass('is-parent')) {
                                             tag.addClass('is-parent on').data('switch', 'on');
                                         }
@@ -264,21 +265,22 @@ var folder = {
                             } else if (e.type !== 'blur') {
                                 return;
                             }
-                            if (value) {
+                            if (value && value !== text) {
                                 $.post('./folder/update', {
                                     title: value,
                                     id: g_id,
                                     pid: pid
                                 }, function (res) {
                                     if (res.code === 200) {
-                                        elem.text(value);
+                                        elem.html(value);
+                                        layer.msg('修改成功');
                                     } else {
-                                        elem.text(text);
+                                        elem.html(text);
                                         layer.msg(res.msg);
                                     }
                                 })
                             } else {
-                                elem.text(text);
+                                elem.html(text);
                             }
                         }).on('click', function (e) {
                             e.stopPropagation();
@@ -477,18 +479,34 @@ var note = {
     getNoteDetail: function (note_id) {
         $.get('./note/find', {id: note_id}, function (res) {
             if (res.code === 200) {
-                $('.doc-preview-body').html(res.data.content);
+                $('.doc-preview-body').html(res.data.content)
+                    .on('click','img', function () {
+                        var $self = $(this),
+                            json = {
+                                "title": "",
+                                "id": 123,
+                                "start": 0,
+                                "data": [
+                                    {
+                                        "alt": "",
+                                        "pid": 666,
+                                        "src": $self.attr('src'),
+                                        "thumb": ""
+                                    }
+                                ]
+                            };
+                        // 查看大图
+                        layer.photos({
+                            photos: json
+                            , anim: 5
+                        });
+                    });
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
                 clearInterval(timeId);
                 timeId = null;
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
-                // 查看大图
-                layer.photos({
-                    photos: '.doc-content-body'
-                    , anim: 5
-                });
             }
         })
     },

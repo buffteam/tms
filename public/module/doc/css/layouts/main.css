@@ -188,6 +188,7 @@ ul, ol{
 }
 .new-doc-box span, .new-doc-box .add-icon img{
     float: left;
+    user-select: none;
 }
 .new-doc-box .add-icon{
     width: 20px;
