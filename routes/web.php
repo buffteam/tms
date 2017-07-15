@@ -50,6 +50,12 @@ Route::any('/test', 'TestController@test');
 
 Auth::routes();
 
+Route::any('/forget', 'UserController@checkEmail')->name('forget');
+Route::any('/doForget', 'UserController@handleEmail')->name('doForget');
+
+Route::any('/reset/', 'UserController@getForget')->name('reset');
+
+
 /**
  * 需权限认证的路由
  */
@@ -71,4 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/note/show', 'NotesController@show');
     Route::any('/note/latest', 'NotesController@latest');
     Route::any('/note/search', 'NotesController@search');
+
+    Route::get('modify', 'UserController@getModify')->name('modify');
+    Route::post('modify', 'UserController@postModify');
 });
