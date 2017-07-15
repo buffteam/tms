@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="{{asset('libs/pure/pure-min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/wangEditor-3.0.3/wangEditor.min.css')}}">
-
+    <style>
+        .markdown-body p {
+            font-size: 15px;
+        }
+    </style>
     @yield('style')
 </head>
 <body>
