@@ -15,10 +15,11 @@
                     @endif
                         <form class="login-form" action="" method="post">
                             <h3 class="font-green">修改密码</h3>
-                            @if($errors->first())
-                                <div class="alert alert-danger display-hide" style="display: block;">
-                                    <button class="close" data-close="alert"></button>
-                                    <span>   </span>
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                        @foreach ($errors->all() as $error)
+                                            <span>{{ $error }}</span>
+                                        @endforeach
                                 </div>
                             @endif
                             {!! csrf_field() !!}
@@ -42,3 +43,6 @@
     </div>
 </div>
 @endsection
+
+
+
