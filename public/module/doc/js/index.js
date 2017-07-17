@@ -929,7 +929,6 @@ var main = {
                 return false;
             }
         });
-
         folder.init();
     },
     // 监听窗口关闭
@@ -972,11 +971,14 @@ var main = {
             }
         })
     },
-    // configShare: function (cmd, config) {
-    //     if(share_title){
-    //         config.bdText = share_title;
-    //     }
-    //     return config;
-    // }
+    // 用户名下拉
+    userDropDown: function (elem,event) {
+        event.stopPropagation();
+        var $self = $(elem);
+        $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
+        $(document).off('click').one('click',function(){
+            $self.removeClass('active');
+        })
+    }
 };
 main.init();

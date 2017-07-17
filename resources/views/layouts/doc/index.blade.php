@@ -24,57 +24,29 @@
             <a href="./" target="_blank">首页</a>
         </li>
     </ul>
-    <div class="user-info">
+    <div class="user-info" onclick="main.userDropDown(this,event)">
         <span>{{ Auth::user()->name }}</span>
-        <span> | </span>
-        {{--<span class="logout" onclick="main.loginOut()">退出</span>--}}
-        <a  class="logout" href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-
-            退出
-
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
+        <ul class="user-down-list">
+            <li><a href="{{ route('modify') }}">修改密码</a></li>
+            <li><a class="logout" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    退出登录
+                </a>
+            </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+        </ul>
     </div>
 </header>
 @yield('content')
-{{--<div class="mask" style="display: none"></div>--}}
-{{--<div class="share-dialog" style="display: none">--}}
-    {{--<div class="share-close"></div>--}}
-    {{--<div class="share-dialog-title">分享</div>--}}
-    {{--<div class="share-dialog-cont">--}}
-        {{--<div class="share-copy">--}}
-            {{--<div class="share-copy-l">分享链接：</div>--}}
-            {{--<div class="share-copy-c"><input id="copytext" type="text"/></div>--}}
-            {{--<div id="btnCopy" class="share-copy-r"  data-clipboard-target="copytext">复制链接</div>--}}
-            {{--<div class="clear"></div>--}}
-        {{--</div>--}}
-        {{--<div class="share-platform">--}}
-            {{--<div class="share-platform-l">社交平台：</div>--}}
-            {{--<div class="share-platform-r">--}}
-                {{--<div class="bdsharebuttonbox">--}}
-                    {{--<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>--}}
-                    {{--<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>--}}
-                    {{--<a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>--}}
-                    {{--<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>--}}
-                {{--</div>--}}
-                {{--<div class="share-platform-text">--}}
-                    {{--您可以直接复制短链，分享给朋友，也可直接点击社交平台图标，指定分享。--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
+
 <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('/libs/template/template-native.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
 <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
 <script src="{{asset('/libs/wangEditor-3.0.3/wangEditor.min.js')}}"></script>
 <script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>
-{{--<script src="http://cdn.bootcss.com/zeroclipboard/1.2.0/ZeroClipboard.min.js"></script>--}}
 @yield('script')
 <script>
     var _hmt = _hmt || [];
