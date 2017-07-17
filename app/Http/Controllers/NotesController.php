@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
+use Mmanos\Search\Search;
 
 class NotesController extends BaseController
 {
@@ -255,13 +256,19 @@ class NotesController extends BaseController
         $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : $this->pagesize;
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
+//        $results = Search::search(array('title', 'content'), 'test')->get();
+//
+//        dump($results);
 
-        $list = $this->notesModel->isPrivate()->where('title','like','%'.$params['keywords'].'%')
-                    ->orderBy($params['field'],$params['order'])
+        $condition = $this->notesModel->isPrivate()
+                        ->where('title','like','%'.$params['keywords'].'%')
+                        ->orWhere('content','like','%'.$params['keywords'].'%');
+
+        $list = $condition->orderBy($params['field'],$params['order'])
                     ->offset($start)
                     ->limit($params['pagesize'])
                     ->get();
-        $totalNum = $this->notesModel->where('title','like','%'.$params['keywords'].'%')->count();
+        $totalNum = $condition->count();
         $totalPage = ceil($totalNum/$params['pagesize']);
         return $this->ajaxSuccess('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
