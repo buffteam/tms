@@ -17,22 +17,28 @@
                             <h3 class="font-green">修改密码</h3>
                             @if (count($errors) > 0)
                                 <div class="alert alert-danger">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <ul>
                                         @foreach ($errors->all() as $error)
-                                            <span>{{ $error }}</span>
+                                            <li><span>{{ $error }}</span></li>
                                         @endforeach
+                                    </ul>
+
                                 </div>
                             @endif
                             {!! csrf_field() !!}
 
                             <div class="form-group">
                                 <label class="control-label visible-ie8 visible-ie9">原始密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Old Password" name="oldpassword"> </div>
+                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" minlength="6" maxlength="20" placeholder="原始密码" name="oldpassword"> </div>
                             <div class="form-group">
                                 <label class="control-label visible-ie8 visible-ie9">新密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="New password" name="password"> </div>
+                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="新密码" name="password"> </div>
                             <div class="form-group">
                                 <label class="control-label visible-ie8 visible-ie9">重复密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Repeat password" name="password_confirmation"> </div>
+                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="重复新密码" name="password_confirmation"> </div>
                             <div class="form-actions">
                                 <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">确定</button>
                             </div>
