@@ -51,10 +51,10 @@ Route::any('/test', 'TestController@test');
 Auth::routes();
 
 Route::any('/forget', 'UserController@checkEmail')->name('forget');
-Route::any('/doForget', 'UserController@handleEmail')->name('doForget');
+Route::post('/doForget', 'UserController@handleEmail')->name('doForget');
 
-Route::any('/reset/', 'UserController@getForget')->name('reset');
-
+Route::any('/reset', 'UserController@getForget')->name('reset');
+Route::post('/doReset', 'UserController@getForget')->name('doReset');
 
 /**
  * 需权限认证的路由
@@ -64,15 +64,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/myshare', 'DashboardController@share')->name('myshare');
 
-    Route::any('/folder/add', 'FolderController@store');
-    Route::any('/folder/del', 'FolderController@del');
-    Route::any('/folder/update', 'FolderController@update');
+    Route::post('/folder/add', 'FolderController@store');
+    Route::post('/folder/del', 'FolderController@del');
+    Route::post('/folder/update', 'FolderController@update');
     Route::get('/folder/list', 'FolderController@listAll');
 
     Route::any('/note/index', 'NotesController@index');
-    Route::any('/note/add', 'NotesController@add');
-    Route::any('/note/del', 'NotesController@del');
-    Route::any('/note/update', 'NotesController@update');
+    Route::post('/note/add', 'NotesController@add');
+    Route::post('/note/del', 'NotesController@del');
+    Route::post('/note/update', 'NotesController@update');
     Route::any('/note/find', 'NotesController@find');
     Route::any('/note/show', 'NotesController@show');
     Route::any('/note/latest', 'NotesController@latest');
