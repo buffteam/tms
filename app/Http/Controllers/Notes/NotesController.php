@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notes;
 use App\Folder;
 use App\Notes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\DB;
-use Mmanos\Search\Search;
+use App\Http\Controllers\BaseController;
 
 class NotesController extends BaseController
 {

@@ -19,56 +19,44 @@ Route::get('getReadme', function () {
     return file_get_contents(base_path().'/README.md');
 })->name('getReadme');
 
-
-
-
+/**
+ * Home前端用户界面相关的路由
+ */
+Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
+    Route::any('/home', 'HomeController@index')->name('home');
+});
 
 /**
- * 问题反馈相关
+ * Home前端用户界面相关的路由
  */
-Route::any('/feedback', 'FeedbackController@create')->name('feedback');
-Route::any('/feedback/store', 'FeedbackController@store')->name('feedback.store');
-Route::any('/admin', 'FeedbackController@index');
+Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
-
-/**
- * 公共路由
- */
-Route::any('/home', 'HomeController@index')->name('home');
-Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
-Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
-Route::any('/common/upload', 'CommonController@upload');
-Route::any('/common/checkLogin', 'CommonController@checkLogin');
-Route::any('/common/prompt', 'CommonController@prompt')->name('prompt');
-
-/**
- * 测试路由
- */
-Route::any('/test', 'TestController@test');
-
+    /**
+     * 问题反馈相关
+     */
+    Route::any('/feedback', 'FeedbackController@create')->name('feedback');
+    Route::any('/feedback/store', 'FeedbackController@store')->name('feedback.store');
+    Route::any('/admin', 'FeedbackController@index');
+});
 
 
 Auth::routes();
 
-Route::any('/forget', 'UserController@checkEmail')->name('forget');
-Route::post('/doForget', 'UserController@handleEmail')->name('doForget');
-
-Route::any('/reset', 'UserController@getForget')->name('reset');
-Route::post('/doReset', 'UserController@getForget')->name('doReset');
-
 /**
- * 需权限认证的路由
+ * 笔记相关的路由
  */
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/myshare', 'DashboardController@share')->name('myshare');
 
+    // 文件夹相关的路由
     Route::post('/folder/add', 'FolderController@store');
     Route::post('/folder/del', 'FolderController@del');
     Route::post('/folder/update', 'FolderController@update');
     Route::get('/folder/list', 'FolderController@listAll');
 
+    // 笔记相关路由
     Route::any('/note/index', 'NotesController@index');
     Route::post('/note/add', 'NotesController@add');
     Route::post('/note/del', 'NotesController@del');
@@ -78,6 +66,45 @@ Route::group(['middleware' => 'auth'], function () {
     Route::any('/note/latest', 'NotesController@latest');
     Route::any('/note/search', 'NotesController@search');
 
+    // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');
     Route::post('modify', 'UserController@postModify');
+
+    Route::any('/forget', 'UserController@checkEmail')->name('forget');
+    Route::post('/doForget', 'UserController@handleEmail')->name('doForget');
+
+    Route::any('/reset', 'UserController@getForget')->name('reset');
+    Route::post('/doReset', 'UserController@getForget')->name('doReset');
+
 });
+
+
+/**
+ * 资源请求或上传路由
+ * 需要验证域名只有指定的域名才可以使用
+ */
+Route::group(['middleware' => 'CheckHost'/*,'domain' => '*.omwteam.com'*/], function () {
+
+    // 公共路由
+    Route::any('/common/mdEditorUpload', 'CommonController@mdEditorUpload');
+    Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
+    Route::any('/common/upload', 'CommonController@upload');
+
+
+});
+
+
+Route::any('/common/prompt', 'CommonController@prompt')->name('prompt');
+Route::any('checkLogin', 'Notes\UserController@checkLogin')->name('checkLogin');
+Route::any('/test', 'TestController@test');
+
+
+
+
+/**
+ * 测试路由
+ */
+
+
+
+

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notes;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Folder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\BaseController;
 
 class FolderController extends BaseController
 {

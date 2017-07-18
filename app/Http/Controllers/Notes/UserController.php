@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notes;
 
+use App\Http\Controllers\BaseController;
 use App\Mail\ResetPassword;
 use Illuminate\Support\Facades\Mail;
 use App\ForgetToken;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     //
     public function getModify()
@@ -46,6 +47,15 @@ class UserController extends Controller
         $user->save();
         Auth::logout();  //更改完这次密码后，退出这个用户
         return redirect('/login');
+    }
+
+    /**
+     * 验证登录
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkLogin()
+    {
+        return Auth::check() ? $this->ajaxSuccess('正处于登录状态',user()) : $this->ajaxError('登录过期');
     }
 
     /**
