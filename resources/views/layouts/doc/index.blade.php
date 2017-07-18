@@ -19,10 +19,10 @@
 <body>
 <section id="skin" class="">
     <header class="header">
-        <div class="logo">云笔记</div>
+        <div class="logo">{{ config('app.name', '共享笔记') }}</div>
         <ul class="menu">
             <li>
-                <a href="./" target="_blank">首页</a>
+                <a href="{{route('root')}}" >首页</a>
             </li>
         </ul>
         <div class="user-info" onclick="main.userDropDown(this,event)">
