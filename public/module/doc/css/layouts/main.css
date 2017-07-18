@@ -5,7 +5,9 @@
 html, body, #skin{
     height: 100%;
 }
-
+#skin{
+    opacity: 0;
+}
 body {
     color: #333;
     font-family: '微软雅黑';
@@ -113,7 +115,7 @@ ul, ol{
 .user-info span{
     padding: 0 20px 0 10px;
     cursor: pointer;
-    user-select: none;
+    -webkit-user-select: none;
 }
 .user-info.active .user-down-list{
     display: block;
@@ -141,6 +143,46 @@ ul, ol{
     color: #999;
     display: block;
 }
+.theme-box{
+    position: relative;
+    float: right;
+    width: 60px;
+    height: 50px;
+    background: url("../../imgs/icon/color.png") 20px 13px no-repeat;
+    cursor: pointer;
+}
+.theme-box.active .theme-ul{
+    display: block;
+}
+.theme-box .theme-ul{
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100px;
+    background: #fff;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
+    z-index: 20;
+}
+
+.theme-li{
+    position: relative;
+    padding-left: 30px;
+    line-height: 30px;
+    cursor: pointer;
+    -webkit-user-select: none;
+}
+.theme-li:before{
+    position: absolute;
+    top:7px;
+    left:7px;
+    content: '';
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+}
+
+
 #layout,
 #nav,
 #list,
@@ -231,7 +273,7 @@ ul, ol{
 }
 .new-doc-box span, .new-doc-box .add-icon img{
     float: left;
-    user-select: none;
+    -webkit-user-select: none;
 }
 .new-doc-box .add-icon{
     width: 20px;
@@ -364,8 +406,6 @@ ul, ol{
     line-height: 20px;
     height: 20px;
 }
-
-
 .child-item.add-dir a{
     padding-left: 0;
 }
@@ -396,10 +436,10 @@ ul, ol{
     width: 100px;
     display: none;
     background: #fff;
-    border: 1px solid #ddd;
     z-index: 5;
     font-size: 12px;
     transition: top .3s;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
 }
 
 .down-box p {

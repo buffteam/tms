@@ -10,7 +10,8 @@ var $window = $(window),
 
 
 var AUTO_TIME = 10 * 60 * 1000,
-    NEW_TITLE = '新建笔记';
+    NEW_TITLE = '新建笔记',
+    DEFAULE_SKIN = 'blue';
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
@@ -85,7 +86,7 @@ var folder = {
         // 收起侧边栏
         $menuBtn.on('click', function () {
             var isEdit = $doc_box.hasClass('is-edit-1');
-            if(isEdit){
+            if (isEdit) {
                 var $code = $('.CodeMirror'),
                     $preview = $('.editormd-preview'),
                     width = $code.width();
@@ -94,18 +95,18 @@ var folder = {
                 $layout.removeClass('middle');
                 $menuBtn.removeClass('right');
                 $firstParent.data('switch', 'on').siblings('ul').slideDown(300);
-                if(isEdit){
-                    $code.animate({'width': width-100},300);
-                    $preview.animate({'width': width-100},300);
+                if (isEdit) {
+                    $code.animate({'width': width - 100}, 300);
+                    $preview.animate({'width': width - 100}, 300);
                 }
                 folder.navScrollResize();
             } else {
                 $layout.addClass('middle');
                 $menuBtn.addClass('right');
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
-                if(isEdit){
-                    $code.animate({'width': width+100},300);
-                    $preview.animate({'width': width+100},300);
+                if (isEdit) {
+                    $code.animate({'width': width + 100}, 300);
+                    $preview.animate({'width': width + 100}, 300);
                 }
             }
         });
@@ -220,7 +221,7 @@ var folder = {
                 switch (type) {
                     // 新建子文件夹
                     case 'add':
-                        text = $('#add-input-tpl').html().replace('##idx##', idx+1);
+                        text = $('#add-input-tpl').html().replace('##idx##', idx + 1);
                         if (elem.find('.child-list').length === 0) {
                             elem.append('<ul class="child-list">' + text + '</ul>');
                         } else {
@@ -259,7 +260,7 @@ var folder = {
                                     }
                                 })
                             } else {
-                                if(value.length > 12){
+                                if (value.length > 12) {
                                     layer.msg('文件夹名称不能超过12个字符');
                                 }
                                 $menu_a.parent().remove();
@@ -296,7 +297,7 @@ var folder = {
                                     }
                                 })
                             } else {
-                                if(value.length > 12){
+                                if (value.length > 12) {
                                     layer.msg('文件夹名称不能超过12个字符');
                                 }
                                 elem.html(text);
@@ -381,10 +382,10 @@ var folder = {
         }
         self.val('').parent().hide();
     },
-    navScrollResize: function(){
+    navScrollResize: function () {
         setTimeout(function () {
             $nav.getNiceScroll().resize();
-        },300);
+        }, 300);
     }
 };
 
@@ -505,7 +506,7 @@ var note = {
             if (res.code === 200) {
                 $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
-                    .on('click','img', function () {
+                    .on('click', 'img', function () {
                         var $self = $(this),
                             json = {
                                 "title": "",
@@ -532,7 +533,7 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
-            }else{
+            } else {
                 layer.msg(res.msg);
                 $('.doc-item.active').remove();
                 $doc_box.addClass('null');
@@ -679,13 +680,13 @@ var note = {
                     height: height,
                     markdown: value || '',
                     disabledKeyMaps: ["Ctrl-S"],
-                    taskList : true,
+                    taskList: true,
                     tocm: true,
-                    codeFold : true,
-                    tex : true,
-                    flowChart : true,
-                    sequenceDiagram  : true,
-                    searchReplace  : true,
+                    codeFold: true,
+                    tex: true,
+                    flowChart: true,
+                    sequenceDiagram: true,
+                    searchReplace: true,
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                     imageUploadURL: "./common/mdEditorUpload",
@@ -699,15 +700,15 @@ var note = {
                         theme: '切换主题 '
                     },
                     toolbarHandlers: {
-                        theme: function(){
+                        theme: function () {
                             var $theme = $('.editor-theme'),
                                 $document = $(document);
-                            if($theme.hasClass('active')){
+                            if ($theme.hasClass('active')) {
                                 $theme.removeClass('active');
                                 $document.off('click');
-                            }else{
+                            } else {
                                 $theme.addClass('active');
-                                $document.one('click', function(){
+                                $document.one('click', function () {
                                     $theme.removeClass('active');
                                 })
                             }
@@ -720,11 +721,11 @@ var note = {
                             }
                         };
                         this.addKeyMap(keyMap);
-                        $('.editor-theme li').each(function (index,item) {
+                        $('.editor-theme li').each(function (index, item) {
                             var $self = $(this),
                                 theme = localStorage.getItem('editor_theme') || 'default',
                                 text = $self.text();
-                            if(theme === text){
+                            if (theme === text) {
                                 $self.addClass('active');
                                 mdeditor.setEditorTheme(theme);
                             }
@@ -923,6 +924,7 @@ var main = {
                 }
             }
         });
+        $('#skin').attr('class', localStorage.getItem('local_skin') || DEFAULE_SKIN ).animate({'opacity': 1},1000);
         // 禁止保存网站
         $(document).keydown(function (e) {
             if (e.ctrlKey == true && e.keyCode == 83) {
@@ -930,6 +932,7 @@ var main = {
             }
         });
         folder.init();
+        main.switchTheme();
     },
     // 监听窗口关闭
     bindUnload: function () {
@@ -966,18 +969,38 @@ var main = {
             if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
         })
     },
     // 用户名下拉
-    userDropDown: function (elem,event) {
+    userDropDown: function (elem, event) {
         event.stopPropagation();
         var $self = $(elem);
+        $self.siblings().removeClass('active');
         $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
-        $(document).off('click').one('click',function(){
+        $(document).off('click').one('click', function () {
             $self.removeClass('active');
+        })
+    },
+    // 切换主题
+    switchTheme: function () {
+        $('.theme-li').on('click', function (e) {
+            e.stopPropagation();
+            var $self = $(this),
+                theme = $self.find('.theme-span').text();
+            $('#skin').attr('class', theme);
+            localStorage.setItem('local_skin', theme);
+        });
+        $('.theme-box').on('click', function (e) {
+            e.stopPropagation();
+            var $self = $(this);
+            $self.siblings().removeClass('active');
+            $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
+            $(document).off('click').one('click', function () {
+                $self.removeClass('active');
+            })
         })
     }
 };

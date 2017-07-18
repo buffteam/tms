@@ -17,7 +17,7 @@
     @yield('style')
 </head>
 <body>
-<section id="skin" class="purple">
+<section id="skin" class="">
     <header class="header">
         <div class="logo">云笔记</div>
         <ul class="menu">
@@ -40,6 +40,19 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>
+            </ul>
+        </div>
+        <div class="theme-box">
+            <ul class="theme-ul">
+                <li class="theme-li blue-color"><span class="theme-span">blue</span></li>
+                <li class="theme-li purple-color"><span class="theme-span">purple</span></li>
+                <li class="theme-li green-color"><span class="theme-span">green</span></li>
+                <li class="theme-li brown-color"><span class="theme-span">brown</span></li>
+                <li class="theme-li cyan-color"><span class="theme-span">cyan</span></li>
+                <li class="theme-li indigo-color"><span class="theme-span">indigo</span></li>
+                <li class="theme-li teal-color"><span class="theme-span">teal</span></li>
+                <li class="theme-li red-color"><span class="theme-span">red</span></li>
+                <li class="theme-li dark-color"><span class="theme-span">dark</span></li>
             </ul>
         </div>
     </header>
