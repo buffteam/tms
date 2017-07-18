@@ -186,7 +186,7 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $downIcon.removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 140 + scrollTop);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 150 + scrollTop);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
                     if (idx == '4') {
@@ -830,7 +830,7 @@ var note = {
             origin_content: md_cnt
         }, function (res) {
             if (res.code === 200) {
-                $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(title);
+                $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(res.data.title);
                 layer.msg('保存成功');
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');

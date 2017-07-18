@@ -1,0 +1,154 @@
+/* blue */
+.blue .header {
+  background: #2196f3; }
+.blue .nav-newest-item.active a:hover,
+.blue .nav-newest-item.active,
+.blue .child-item.active > a,
+.blue .child-item.active > a:hover {
+  background-color: #bbdefb; }
+.blue .child-item.add-dir a {
+  color: #2196f3; }
+.blue .pure-menu-item a:hover,
+.blue .doc-item.active {
+  background-color: #e3f2fd; }
+.blue .new-doc-box .add-list li:hover,
+.blue .more-list li:hover,
+.blue .sort-down-menu li:hover,
+.blue .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #e3f2fd; }
+.blue .user-info.active {
+  background: #1e88e5; }
+
+/* purple */
+.purple .header {
+  background: #673ab7; }
+.purple .nav-newest-item.active a:hover,
+.purple .nav-newest-item.active,
+.purple .child-item.active > a,
+.purple .child-item.active > a:hover {
+  background-color: #d1c4e9; }
+.purple .child-item.add-dir a {
+  color: #673ab7; }
+.purple .pure-menu-item a:hover,
+.purple .doc-item.active {
+  background-color: #ede7f6; }
+.purple .new-doc-box .add-list li:hover,
+.purple .more-list li:hover,
+.purple .sort-down-menu li:hover,
+.purple .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #ede7f6; }
+.purple .user-info.active {
+  background: #311b92; }
+
+/* green */
+.green .header {
+  background: #1ABC9C; }
+.green .nav-newest-item.active a:hover,
+.green .nav-newest-item.active,
+.green .child-item.active > a,
+.green .child-item.active > a:hover {
+  background-color: #4ceece; }
+.green .child-item.add-dir a {
+  color: #1ABC9C; }
+.green .pure-menu-item a:hover,
+.green .doc-item.active {
+  background-color: #d0fcf3; }
+.green .new-doc-box .add-list li:hover,
+.green .more-list li:hover,
+.green .sort-down-menu li:hover,
+.green .user-down-list li:hover {
+  background-color: #d0fcf3; }
+.green .user-info.active {
+  background: #17ad8f; }
+
+/* green */
+.green .header {
+  background: #009688; }
+.green .nav-newest-item.active a:hover,
+.green .nav-newest-item.active,
+.green .child-item.active > a,
+.green .child-item.active > a:hover {
+  background-color: #b2dfdb; }
+.green .child-item.add-dir a {
+  color: #009688; }
+.green .pure-menu-item a:hover,
+.green .doc-item.active {
+  background-color: #e0f2f1; }
+.green .new-doc-box .add-list li:hover,
+.green .more-list li:hover,
+.green .sort-down-menu li:hover,
+.green .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #e0f2f1; }
+.green .user-info.active {
+  background: #17ad8f; }
+
+/* brown */
+.brown .header {
+  background: #795548; }
+.brown .nav-newest-item.active a:hover,
+.brown .nav-newest-item.active,
+.brown .child-item.active > a,
+.brown .child-item.active > a:hover {
+  background-color: #d7ccc8; }
+.brown .child-item.add-dir a {
+  color: #795548; }
+.brown .pure-menu-item a:hover,
+.brown .doc-item.active {
+  background-color: #efebe9; }
+.brown .new-doc-box .add-list li:hover,
+.brown .more-list li:hover,
+.brown .sort-down-menu li:hover,
+.brown .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #efebe9; }
+.brown .user-info.active {
+  background: #6d4c41; }
+
+/* cyan */
+.cyan .header {
+  background: #00bcd4; }
+.cyan .nav-newest-item.active a:hover,
+.cyan .nav-newest-item.active,
+.cyan .child-item.active > a,
+.cyan .child-item.active > a:hover {
+  background-color: #b2ebf2; }
+.cyan .child-item.add-dir a {
+  color: #00bcd4; }
+.cyan .pure-menu-item a:hover,
+.cyan .doc-item.active {
+  background-color: #e0f7fa; }
+.cyan .new-doc-box .add-list li:hover,
+.cyan .more-list li:hover,
+.cyan .sort-down-menu li:hover,
+.cyan .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #e0f7fa; }
+.cyan .user-info.active {
+  background: #00acc1; }
+
+/* indigo */
+.indigo .header {
+  background: #3f51b5; }
+.indigo .nav-newest-item.active a:hover,
+.indigo .nav-newest-item.active,
+.indigo .child-item.active > a,
+.indigo .child-item.active > a:hover {
+  background-color: #c5cae9; }
+.indigo .child-item.add-dir a {
+  color: #3f51b5; }
+.indigo .pure-menu-item a:hover,
+.indigo .doc-item.active {
+  background-color: #e8eaf6; }
+.indigo .new-doc-box .add-list li:hover,
+.indigo .more-list li:hover,
+.indigo .sort-down-menu li:hover,
+.indigo .user-down-list li:hover {
+  color: #76b0f3;
+  background-color: #e8eaf6; }
+.indigo .user-info.active {
+  background: #3949ab; }
+
+/*# sourceMappingURL=skin.css.map */

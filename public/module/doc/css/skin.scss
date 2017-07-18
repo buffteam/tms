@@ -1,0 +1,218 @@
+/* blue */
+.blue{
+  $deep_blue: #2196f3;
+  $light_blue: #e3f2fd;
+  .header{
+    background: $deep_blue;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #bbdefb;
+  }
+  .child-item.add-dir a {
+    color: $deep_blue;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_blue;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_blue;
+  }
+  .user-info.active {
+    background: #1e88e5;
+  }
+}
+
+/* purple */
+.purple{
+  $deep_purple: #673ab7;
+  $light_purple: #ede7f6;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #d1c4e9;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #311b92;
+  }
+}
+
+/* green */
+.green{
+  $deep_purple: #1ABC9C;
+  $light_purple: #d0fcf3;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #4ceece;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #17ad8f;
+  }
+}
+/* green */
+.green{
+  $deep_purple: #009688;
+  $light_purple: #e0f2f1;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #b2dfdb;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #17ad8f;
+  }
+}
+/* brown */
+.brown{
+  $deep_purple: #795548;
+  $light_purple: #efebe9;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #d7ccc8;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #6d4c41;
+  }
+}
+/* cyan */
+.cyan{
+  $deep_purple: #00bcd4;
+  $light_purple: #e0f7fa;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #b2ebf2;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #00acc1;
+  }
+}
+/* indigo */
+.indigo{
+  $deep_purple: #3f51b5;
+  $light_purple: #e8eaf6;
+  .header{
+    background: $deep_purple;
+  }
+  .nav-newest-item.active a:hover,
+  .nav-newest-item.active,
+  .child-item.active > a,
+  .child-item.active > a:hover{
+    background-color: #c5cae9;
+  }
+  .child-item.add-dir a {
+    color: $deep_purple;
+  }
+  .pure-menu-item a:hover,
+  .doc-item.active{
+    background-color: $light_purple;
+  }
+  .new-doc-box .add-list li:hover,
+  .more-list li:hover,
+  .sort-down-menu li:hover,
+  .user-down-list li:hover{
+    color: #76b0f3;
+    background-color: $light_purple;
+  }
+  .user-info.active {
+    background: #3949ab;
+  }
+}

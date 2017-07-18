@@ -17,30 +17,31 @@
     @yield('style')
 </head>
 <body>
-<header class="header">
-    <div class="logo">云笔记</div>
-    <ul class="menu">
-        <li>
-            <a href="./" target="_blank">首页</a>
-        </li>
-    </ul>
-    <div class="user-info" onclick="main.userDropDown(this,event)">
-        <span>{{ Auth::user()->name }}</span>
-        <ul class="user-down-list">
-            <li><a href="{{ route('modify') }}">修改密码</a></li>
-            <li><a class="logout" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                    退出登录
-                </a>
+<section id="skin" class="purple">
+    <header class="header">
+        <div class="logo">云笔记</div>
+        <ul class="menu">
+            <li>
+                <a href="./" target="_blank">首页</a>
             </li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
         </ul>
-    </div>
-</header>
-@yield('content')
-
+        <div class="user-info" onclick="main.userDropDown(this,event)">
+            <span>{{ Auth::user()->name }}</span>
+            <ul class="user-down-list">
+                <li><a href="{{ route('modify') }}">修改密码</a></li>
+                <li><a class="logout" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        退出登录
+                    </a>
+                </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </ul>
+        </div>
+    </header>
+    @yield('content')
+</section>
 <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('/libs/template/template-native.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
