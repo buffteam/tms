@@ -1,8 +1,4 @@
 @extends('layouts.doc.index')
-@section('style')
-    <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
-    <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
-@endsection
 @section('content')
 <div class="content">
 

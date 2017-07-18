@@ -10,8 +10,7 @@ var $window = $(window),
 
 
 var AUTO_TIME = 10 * 60 * 1000,
-    NEW_TITLE = '新建笔记',
-    DEFAULE_SKIN = 'blue';
+    NEW_TITLE = '新建笔记';
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
@@ -924,7 +923,6 @@ var main = {
                 }
             }
         });
-        $('#skin').attr('class', localStorage.getItem('local_skin') || DEFAULE_SKIN ).animate({'opacity': 1},1000);
         // 禁止保存网站
         $(document).keydown(function (e) {
             if (e.ctrlKey == true && e.keyCode == 83) {
@@ -932,7 +930,6 @@ var main = {
             }
         });
         folder.init();
-        main.switchTheme();
     },
     // 监听窗口关闭
     bindUnload: function () {
@@ -972,35 +969,6 @@ var main = {
             } else {
                 layer.msg(res.msg);
             }
-        })
-    },
-    // 用户名下拉
-    userDropDown: function (elem, event) {
-        event.stopPropagation();
-        var $self = $(elem);
-        $self.siblings().removeClass('active');
-        $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
-        $(document).off('click').one('click', function () {
-            $self.removeClass('active');
-        })
-    },
-    // 切换主题
-    switchTheme: function () {
-        $('.theme-li').on('click', function (e) {
-            e.stopPropagation();
-            var $self = $(this),
-                theme = $self.find('.theme-span').text();
-            $('#skin').attr('class', theme);
-            localStorage.setItem('local_skin', theme);
-        });
-        $('.theme-box').on('click', function (e) {
-            e.stopPropagation();
-            var $self = $(this);
-            $self.siblings().removeClass('active');
-            $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
-            $(document).off('click').one('click', function () {
-                $self.removeClass('active');
-            })
         })
     }
 };

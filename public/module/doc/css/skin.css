@@ -1,5 +1,6 @@
 /* blue */
-.blue .header {
+.blue .header,
+.blue .list-content-null span.new-note {
   background-color: #2196f3; }
 .blue .nav-newest-item.active a:hover,
 .blue .nav-newest-item.active,
@@ -28,7 +29,8 @@
     background-color: #2196f3; }
 
 /* purple */
-.purple .header {
+.purple .header,
+.purple .list-content-null span.new-note {
   background-color: #673ab7; }
 .purple .nav-newest-item.active a:hover,
 .purple .nav-newest-item.active,
@@ -57,7 +59,8 @@
     background-color: #673ab7; }
 
 /* green */
-.green .header {
+.green .header,
+.green .list-content-null span.new-note {
   background-color: #1ABC9C; }
 .green .nav-newest-item.active a:hover,
 .green .nav-newest-item.active,
@@ -86,7 +89,8 @@
     background-color: #1ABC9C; }
 
 /* teal */
-.teal .header {
+.teal .header,
+.teal .list-content-null span.new-note {
   background-color: #009688; }
 .teal .nav-newest-item.active a:hover,
 .teal .nav-newest-item.active,
@@ -115,7 +119,8 @@
     background-color: #009688; }
 
 /* brown */
-.brown .header {
+.brown .header,
+.brown .list-content-null span.new-note {
   background-color: #795548; }
 .brown .nav-newest-item.active a:hover,
 .brown .nav-newest-item.active,
@@ -144,7 +149,8 @@
     background-color: #795548; }
 
 /* cyan */
-.cyan .header {
+.cyan .header,
+.cyan .list-content-null span.new-note {
   background-color: #00bcd4; }
 .cyan .nav-newest-item.active a:hover,
 .cyan .nav-newest-item.active,
@@ -173,7 +179,8 @@
     background-color: #00bcd4; }
 
 /* indigo */
-.indigo .header {
+.indigo .header,
+.indigo .list-content-null span.new-note {
   background-color: #3f51b5; }
 .indigo .nav-newest-item.active a:hover,
 .indigo .nav-newest-item.active,
@@ -202,7 +209,8 @@
     background-color: #3f51b5; }
 
 /* red */
-.red .header {
+.red .header,
+.red .list-content-null span.new-note {
   background-color: #f44336; }
 .red .nav-newest-item.active a:hover,
 .red .nav-newest-item.active,
@@ -231,7 +239,8 @@
     background-color: #f44336; }
 
 /* dark */
-.dark .header {
+.dark .header,
+.dark .list-content-null span.new-note {
   background-color: #34495E; }
 .dark .nav-newest-item.active a:hover,
 .dark .nav-newest-item.active,
