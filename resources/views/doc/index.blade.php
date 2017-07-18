@@ -1,6 +1,6 @@
 @extends('layouts.doc.index')
 @section('title')
-    <title>云笔记</title>
+    <title>{{ config('app.name', '共享笔记') }}</title>
 @endsection
 
 @section('style')
