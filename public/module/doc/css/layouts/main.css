@@ -2,7 +2,7 @@
  * -- BASE STYLES --
  * Most of these are inherited from Base, but I want to change a few.
  */
-html, body {
+html, body, #skin{
     height: 100%;
 }
 
@@ -60,8 +60,8 @@ ul, ol{
     top: 0;
     width: 100%;
     height: 50px;
-    background: #48a6ef;
     z-index: 99;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
 }
 
 .logo {
@@ -100,7 +100,7 @@ ul, ol{
 }
 .user-info:after{
     position: absolute;
-    right: 0;
+    right: 5px;
     top: 24px;
     width: 0;
     height: 0;
@@ -111,7 +111,7 @@ ul, ol{
 
 }
 .user-info span{
-    padding: 0 15px;
+    padding: 0 20px 0 10px;
     cursor: pointer;
     user-select: none;
 }
@@ -129,9 +129,6 @@ ul, ol{
     font-size: 14px;
     text-align: left;
     box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
-}
-.user-down-list li:hover {
-    background: #f4f9ff;
 }
 .user-down-list li:hover a{
     color: #76b0f3;
@@ -159,11 +156,11 @@ ul, ol{
 }
 
 #layout.middle #list {
-    left: 40px;
+    left: 55px;
 }
 
 #layout.middle #main {
-    left: 360px;
+    left: 390px;
 }
 
 #layout.middle .nav-menu-button {
@@ -255,10 +252,7 @@ ul, ol{
     padding-left: 15px;
     color: #999;
 }
-.new-doc-box .add-list li:hover{
-    color: #76b0f3;
-    background: #f4f9ff;
-}
+
 .new-doc-box.active .add-list{
     display: block;
 }
@@ -273,12 +267,7 @@ ul, ol{
     padding: 8px 30px 8px 40px;
 }
 
-.pure-menu-item a:hover {
-    background-color: #e4e4e4;
-}
-.nav-newest-item.active a:hover {
-    background-color: #c0e2f2;
-}
+
 
 .first-menu-a {
     line-height: 20px;
@@ -297,10 +286,6 @@ ul, ol{
 .nav-del-item .first-menu-a {
     background: url(../../imgs/icon/del.png) 10px 7px no-repeat;
 }
-.nav-newest-item.active{
-    background: #c0e2f2;
-}
-
 .first-menu-down, .child-menu-down {
     position: absolute;
     right: 10px;
@@ -345,10 +330,7 @@ ul, ol{
     display: block;
 }
 
-.first-menu-down:hover, .child-menu-down:hover, .child-menu-down.active {
-    background-image: url(../../imgs/icon/down1.png);
-    border-color: #1b98f8;
-}
+
 
 .child-menu-icon {
     position: absolute;
@@ -383,23 +365,18 @@ ul, ol{
     height: 20px;
 }
 
-.child-item.active > a {
-    background-color: #c0e2f2;
+
+.child-item.add-dir a{
+    padding-left: 0;
+}
+.child-item.add-dir span {
+    font-size: 18px;
+    line-height: 20px;
+    margin-right: 5px;
+    /*background: url(../../imgs/icon/add.png) 0 10px no-repeat;*/
+    /*background-size: 16px;*/
 }
 
-.child-item.active > a:hover {
-    background: #c0e2f2;
-}
-
-.child-item.add-dir a {
-    padding-left: 15px;
-    background: url(../../imgs/icon/add.png) 0 10px no-repeat;
-    background-size: 16px;
-}
-
-.child-item.add-dir a {
-    color: #1b98f8;
-}
 .child-item .item-name{
     display: inline-block;
     width:100%;
@@ -510,10 +487,6 @@ ul, ol{
     color: #999;
     cursor: pointer;
 }
-.more-list li:hover{
-    color: #76b0f3;
-    background: #f4f9ff;
-}
 
 .feedback{
     position: fixed;
@@ -523,14 +496,14 @@ ul, ol{
     line-height: 40px;
     text-align: center;
     border-top: 1px solid #ddd;
-    background: #f3f3f3;
+    background: #fff;
 }
 .feedback a{
     display: block;
     color: #666;
 }
 .feedback a:hover{
-    background-color: #e4e4e4;
+    background-color: #fff;
 }
 .feedback span{
     display: inline-block;
@@ -555,26 +528,27 @@ ul, ol{
     padding-top: 50px;
     height: 100%;
     box-sizing: border-box;
+    background: #f3f3f3;
 }
 
 #nav,
 #list {
     position: absolute;
-    top: 50px;;
+    top: 65px;;
     bottom: 0;
+    background: #fff;
 }
 
 #nav {
     left: 0;
     width: 240px;
-    background: #f3f3f3;
     border-right: 1px solid #ddd;
     transition: width .3s;
     overflow: hidden;
 }
 
 #list {
-    left: 240px;
+    left: 255px;
     width: 320px;
     border-right: 1px solid #ddd;
     transition: left .3s;
@@ -645,10 +619,7 @@ ul, ol{
     color: #999;
     cursor: pointer;
 }
-.sort-down-menu li:hover{
-    color: #76b0f3;
-    background: #f4f9ff;
-}
+
 .sort-down-menu li.active.desc{
     background-image: url('../../imgs/icon/sort_down.png');
     background-position: 10px 11px;
@@ -753,9 +724,7 @@ ul, ol{
 .doc-hover-icon .list-del-icon{
     background-image: url("../../imgs/icon/del.png");
 }
-.doc-item.active {
-    background: #c5e7ff;
-}
+
 .doc-item:hover .doc-hover-icon{
     display: block;
 }
@@ -765,13 +734,14 @@ ul, ol{
 /* Doc Content Styles */
 #main {
     position: absolute;
-    left: 560px;
+    left: 590px;
     right: 0;
-    top: 50px;
+    top: 65px;
     bottom: 0;
     margin: 0;
     padding: 0;
     transition: left .3s;
+    background: #fff;
 }
 .doc-content.null .doc-content-header, .doc-content.null .doc-content-body{
     display: none;
@@ -838,6 +808,7 @@ ul, ol{
 .doc-edit-body{
     display: none;
     animation: show .3s ease;
+    border-left: 1px solid #ddd;
 }
 .doc-preview-body{
     display: none;
@@ -906,7 +877,6 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 
 .editor-2 .w-e-toolbar{
     border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
 }
 .editor-2 .w-e-toolbar .w-e-menu{
     padding: 10px;
@@ -927,7 +897,7 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
     margin: 0;
     padding: 5px 10px;
 }
-.editormd-html-preview code, .editormd-preview-container code{
+.editormd-html-preview code, .editormd-preview-container code, .editormd{
     border: 0;
 }
 /* wangeditor */

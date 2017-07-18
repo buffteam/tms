@@ -5,7 +5,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
-    {{--<link rel="stylesheet" href="{{asset('module/doc/css/dialog.css')}}">--}}
+    <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
 @endsection
 
 @section('content')
@@ -39,7 +39,9 @@
                                 <li class="child-item child-item-input">
                                     <input type="text" name="add_dir1">
                                 </li>
-                                <li class="child-item add-dir"><a href="#" class="">新建文件夹</a></li>
+                                <li class="child-item add-dir">
+                                    <a href="#"><span>+</span>新建文件夹</a>
+                                </li>
                             </ul>
                             <div class="down-box">
                                 <p data-type="add">新建子文件夹</p>
