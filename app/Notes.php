@@ -59,4 +59,14 @@ class Notes extends Model
     {
         return $query->where($field,'like', '%'.$value.'%');
     }
+
+    /**
+     *  通过条件获取数量
+     * @param array $where
+     * @return mixed
+     */
+    public function getCountByCondition ($where = [])
+    {
+        return $this->where($where)->count();
+    }
 }

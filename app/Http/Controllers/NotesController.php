@@ -254,22 +254,43 @@ class NotesController extends BaseController
 
         // 每页数量
         $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : $this->pagesize;
+
+        // 第一步查询出总页数
+        $noteModel = $this->notesModel;
+        $totalNum = $noteModel->isPrivate()
+            ->where('title','like','%'.$params['keywords'].'%')
+            ->orWhere('content','like','%'.$params['keywords'].'%')->count();
+        $totalPage = ceil($totalNum/$params['pagesize']);
+
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
-//        $results = Search::search(array('title', 'content'), 'test')->get();
-//
-//        dump($results);
 
-        $condition = $this->notesModel->isPrivate()
-                        ->where('title','like','%'.$params['keywords'].'%')
-                        ->orWhere('content','like','%'.$params['keywords'].'%');
+        // 查询title页数 如果不足就查询匹配content的内容补足
+        $titleCondition = [['title','like','%'.$params['keywords'].'%']];
+        $titleCount = $noteModel->getCountByCondition($titleCondition);
+        $titlePage = floor($titleCount/$params['pagesize']);
+        $titleData = [];
+        if ($params['page'] <= $titlePage) {
+            $titleData = $noteModel->where($titleCondition)
+                ->offset($start)
+                ->orderBy($params['field'],$params['order'])
+                ->limit($params['pagesize'])
+                ->get()->toArray();
+        }
 
-        $list = $condition->orderBy($params['field'],$params['order'])
-                    ->offset($start)
-                    ->limit($params['pagesize'])
-                    ->get();
-        $totalNum = $condition->count();
-        $totalPage = ceil($totalNum/$params['pagesize']);
+        // 匹配content的数据
+        $contentData = [];
+        if ($params['page'] >= $titlePage) {
+            $initPage = $params['page'] - $titlePage;
+            $startContent = $initPage == 0 ? 0 : $initPage*$params['pagesize'];
+            $contentData = $noteModel->isPrivate()
+                ->where('content','like','%'.$params['keywords'].'%')
+                ->orderBy($params['field'],$params['order'])
+                ->offset($startContent)
+                ->limit($params['pagesize'])
+                ->get()->toArray();
+        }
+        $list = array_merge($titleData,$contentData);
         return $this->ajaxSuccess('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
 
