@@ -266,7 +266,7 @@ class NotesController extends BaseController
         // 查询title页数 如果不足就查询匹配content的内容补足
         $titleCondition = [['title','like','%'.$params['keywords'].'%']];
         $titleCount = $noteModel->getCountByCondition($titleCondition);
-        $titlePage = floor($titleCount/$params['pagesize']);
+        $titlePage = ceil($titleCount/$params['pagesize']);
         $titleData = [];
         if ($params['page'] <= $titlePage) {
             $titleData = $noteModel->where($titleCondition)
