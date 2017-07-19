@@ -16,7 +16,7 @@ Route::get('/', function () {
 })->name('root');
 
 Route::get('getReadme', function () {
-    return file_get_contents(base_path().'/README.md');
+    return file_get_contents(base_path().'/desc.md');
 })->name('getReadme');
 
 /**
@@ -27,13 +27,13 @@ Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
 });
 
 /**
- * Home前端用户界面相关的路由
+ * admin用户界面相关的路由
  */
 Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
 
 
-    Route::any('/admin', 'FeedbackController@index');
+    Route::any('/admin', 'DashboardController@index');
 });
 
 
