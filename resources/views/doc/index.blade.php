@@ -100,7 +100,7 @@
                 <div class="doc-content-header">
                     <div class="doc-content-title">
                         <input class="doc-title-input" type="text" placeholder="这里是标题">
-                        <span class="doc-title-span" contenteditable="true"></span>
+                        <span class="doc-title-span" contenteditable="plaintext-only"></span>
                     </div>
 
                     <div class="doc-content-controls">

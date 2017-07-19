@@ -1,7 +1,7 @@
 /**
  * Created by linxin on 2017/7/18.
  */
-var DEFAULE_SKIN = 'blue';
+var DEFAULE_SKIN = 'purple';
 var header = {
     init: function () {
         $('#skin').attr('class', localStorage.getItem('local_skin') || DEFAULE_SKIN ).animate({'opacity': 1},1000);
