@@ -46,6 +46,9 @@ class FeedbackController extends BaseController
         if (Auth::check()) {
             $params['user_id'] = Auth::id();
         }
+        if (!isset($params['action'])) {
+            $params['action'] = 'root';
+        }
         $flag = Feeds::create($params);
         if (null != $flag) {
             return redirect(route('prompt'))->with(['message'=>'提交成功，感谢您的反馈！','url' =>route($params['action']), 'jumpTime'=>2,'status'=>true]);

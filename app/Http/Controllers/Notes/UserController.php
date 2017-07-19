@@ -21,9 +21,11 @@ class UserController extends BaseController
     }
     public function postModify(Request $request)
     {
+
         $oldpassword = $request->input('oldpassword');
         $password = $request->input('password');
         $data = $request->all();
+        dump($data);
         $rules = [
             'oldpassword'=>'required|between:6,20',
             'password'=>'required|between:6,20|confirmed',
