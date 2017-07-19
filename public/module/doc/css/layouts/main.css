@@ -435,6 +435,7 @@ body {
     top: 65px;;
     bottom: 0;
     background: #fff;
+    box-shadow: 5px 5px 10px #ddd;
 }
 
 #nav {
@@ -636,6 +637,8 @@ body {
     padding: 0;
     transition: left .3s;
     background: #fff;
+    box-shadow: -5px 5px 10px #ddd;
+
 }
 .doc-content.null .doc-content-header, .doc-content.null .doc-content-body{
     display: none;

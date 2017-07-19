@@ -668,7 +668,7 @@ var note = {
     },
     // 初始化编辑器
     initEditor: function (type, value) {
-        var height = $window.height() - $('.doc-content-header').outerHeight() - 50;
+        var height = $window.height() - $('.doc-content-header').outerHeight() - 65;
         if (type === '1') {
             if (!!mdeditor) {
                 value ? mdeditor.setMarkdown(value) : mdeditor.clear();
@@ -890,9 +890,12 @@ var note = {
     },
     // 保存标题
     saveTitle: function () {
-        var title = $('.doc-title-span').html();
+        var $span = $('.doc-title-span'),
+            title = $span.html();
         if (title === cur_note.title) {
             return false;
+        }else if (title.length === 0){
+            $span.html(cur_note.title)
         }
         $.post('./note/update', {
             id: cur_note.id,
