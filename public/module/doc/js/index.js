@@ -895,7 +895,8 @@ var note = {
         if (title === cur_note.title) {
             return false;
         }else if (title.length === 0){
-            $span.html(cur_note.title)
+            $span.html(cur_note.title);
+            return false;
         }
         $.post('./note/update', {
             id: cur_note.id,
