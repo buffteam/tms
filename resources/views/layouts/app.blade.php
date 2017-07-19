@@ -83,6 +83,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('script')
     <script>
         var _hmt = _hmt || [];
         (function() {

@@ -12,22 +12,18 @@ class NotesTableSeeder extends Seeder
     public function run()
     {
         //
-        $mdNotes = file_get_contents(base_path().'/README.md');
-        //
-        DB::table('notes')->insert([
-            [
-                'title' => 'README',
-                'origin_content' => $mdNotes,
-                'u_id' => 2,
-                'f_id' => 1,
-            ],
-            [
-                'title' => '欢迎使用',
-                'content' => '欢迎使用',
-                'u_id' => 2,
-                'f_id' => 1,
-            ]
-
-        ]);
+        $container = [];
+        for ($i = 0; $i < 100; $i++) {
+            array_push(
+                $container,
+                [
+                    'title' => str_random(12),
+                    'content' => 'js-'.str_random(30),
+                    'u_id' => rand(1,2),
+                    'f_id' => rand(1,20)
+                ]
+            );
+        }
+        DB::table('notes')->insert($container);
     }
 }

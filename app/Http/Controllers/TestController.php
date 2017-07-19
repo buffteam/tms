@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\ForgetToken;
+use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Mail;
 use App\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +18,9 @@ class TestController extends Controller
         $log = DB::getQueryLog();
         dd($log);
     }
-    public function test (Request $request)
+    public function test ()
     {
-//        $data = Notes::find(19);
-//        return view('test',['list'=>$data]);
+
+
     }
 }

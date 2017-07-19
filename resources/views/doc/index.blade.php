@@ -1,11 +1,12 @@
 @extends('layouts.doc.index')
 @section('title')
-    <title>云笔记</title>
+    <title>{{ config('app.name', '共享笔记') }}</title>
 @endsection
 
 @section('style')
+    <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/wangEditor-3.0.3/wangEditor.min.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
-    {{--<link rel="stylesheet" href="{{asset('module/doc/css/dialog.css')}}">--}}
 @endsection
 
 @section('content')
@@ -39,7 +40,9 @@
                                 <li class="child-item child-item-input">
                                     <input type="text" name="add_dir1">
                                 </li>
-                                <li class="child-item add-dir"><a href="#" class="">新建文件夹</a></li>
+                                <li class="child-item add-dir">
+                                    <a href="#"><span>+</span>新建文件夹</a>
+                                </li>
                             </ul>
                             <div class="down-box">
                                 <p data-type="add">新建子文件夹</p>
@@ -62,6 +65,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div id="list" class="">
@@ -93,13 +97,13 @@
 
         <div id="main">
             <div class="doc-content">
-                <div class="doc-content-header pure-g">
-                    <div class="pure-u-2-3 doc-content-title">
+                <div class="doc-content-header">
+                    <div class="doc-content-title">
                         <input class="doc-title-input" type="text" placeholder="这里是标题">
-                        <span class="doc-title-span" contenteditable="true"></span>
+                        <span class="doc-title-span" contenteditable="plaintext-only"></span>
                     </div>
 
-                    <div class="doc-content-controls pure-u-1-3">
+                    <div class="doc-content-controls">
                         <span class="more-btn" data-type="off"></span>
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
@@ -215,6 +219,9 @@
     </script>
 @endsection
 @section('script')
+    <script src="{{asset('/libs/template/template-native.js')}}"></script>
+    <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
+    <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
+    <script src="{{asset('/libs/wangEditor-3.0.3/wangEditor.min.js')}}"></script>
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
-{{--<script>window._bd_share_config={"common":{onBeforeClick: main.configShare,"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["sqq"],"bdPic":"","bdStyle":"1","bdSize":"32"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>--}}
 @endsection

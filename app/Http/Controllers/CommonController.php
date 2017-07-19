@@ -60,14 +60,6 @@ class CommonController extends BaseController
 
     }
 
-    /**
-     * 验证登录
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function checkLogin()
-    {
-        return Auth::check() ? $this->success('登录成功',user()) : $this->error('登录过期');
-    }
 
     /**
      *  中转页面提示

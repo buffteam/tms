@@ -85,7 +85,7 @@ var folder = {
         // 收起侧边栏
         $menuBtn.on('click', function () {
             var isEdit = $doc_box.hasClass('is-edit-1');
-            if(isEdit){
+            if (isEdit) {
                 var $code = $('.CodeMirror'),
                     $preview = $('.editormd-preview'),
                     width = $code.width();
@@ -94,18 +94,18 @@ var folder = {
                 $layout.removeClass('middle');
                 $menuBtn.removeClass('right');
                 $firstParent.data('switch', 'on').siblings('ul').slideDown(300);
-                if(isEdit){
-                    $code.animate({'width': width-100},300);
-                    $preview.animate({'width': width-100},300);
+                if (isEdit) {
+                    $code.animate({'width': width - 100}, 300);
+                    $preview.animate({'width': width - 100}, 300);
                 }
                 folder.navScrollResize();
             } else {
                 $layout.addClass('middle');
                 $menuBtn.addClass('right');
                 $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
-                if(isEdit){
-                    $code.animate({'width': width+100},300);
-                    $preview.animate({'width': width+100},300);
+                if (isEdit) {
+                    $code.animate({'width': width + 100}, 300);
+                    $preview.animate({'width': width + 100}, 300);
                 }
             }
         });
@@ -186,7 +186,7 @@ var folder = {
                 if (!$self.hasClass('active')) {
                     $downIcon.removeClass('active');
                     $self.addClass('active');
-                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 140 + scrollTop);
+                    $downBox.fadeIn(200).css('top', e.pageY - e.offsetY - 150 + scrollTop);
                     // 如果是第四级目录，则不给添加子文件夹
                     var $add_p = $('.down-box p[data-type="add"]');
                     if (idx == '4') {
@@ -220,7 +220,7 @@ var folder = {
                 switch (type) {
                     // 新建子文件夹
                     case 'add':
-                        text = $('#add-input-tpl').html().replace('##idx##', idx+1);
+                        text = $('#add-input-tpl').html().replace('##idx##', idx + 1);
                         if (elem.find('.child-list').length === 0) {
                             elem.append('<ul class="child-list">' + text + '</ul>');
                         } else {
@@ -259,7 +259,7 @@ var folder = {
                                     }
                                 })
                             } else {
-                                if(value.length > 12){
+                                if (value.length > 12) {
                                     layer.msg('文件夹名称不能超过12个字符');
                                 }
                                 $menu_a.parent().remove();
@@ -296,7 +296,7 @@ var folder = {
                                     }
                                 })
                             } else {
-                                if(value.length > 12){
+                                if (value.length > 12) {
                                     layer.msg('文件夹名称不能超过12个字符');
                                 }
                                 elem.html(text);
@@ -381,10 +381,10 @@ var folder = {
         }
         self.val('').parent().hide();
     },
-    navScrollResize: function(){
+    navScrollResize: function () {
         setTimeout(function () {
             $nav.getNiceScroll().resize();
-        },300);
+        }, 300);
     }
 };
 
@@ -505,7 +505,7 @@ var note = {
             if (res.code === 200) {
                 $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
-                    .on('click','img', function () {
+                    .on('click', 'img', function () {
                         var $self = $(this),
                             json = {
                                 "title": "",
@@ -532,7 +532,7 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
-            }else{
+            } else {
                 layer.msg(res.msg);
                 $('.doc-item.active').remove();
                 $doc_box.addClass('null');
@@ -668,7 +668,7 @@ var note = {
     },
     // 初始化编辑器
     initEditor: function (type, value) {
-        var height = $window.height() - $('.doc-content-header').outerHeight() - 50;
+        var height = $window.height() - $('.doc-content-header').outerHeight() - 65;
         if (type === '1') {
             if (!!mdeditor) {
                 value ? mdeditor.setMarkdown(value) : mdeditor.clear();
@@ -679,13 +679,13 @@ var note = {
                     height: height,
                     markdown: value || '',
                     disabledKeyMaps: ["Ctrl-S"],
-                    taskList : true,
+                    taskList: true,
                     tocm: true,
-                    codeFold : true,
-                    tex : true,
-                    flowChart : true,
-                    sequenceDiagram  : true,
-                    searchReplace  : true,
+                    codeFold: true,
+                    tex: true,
+                    flowChart: true,
+                    sequenceDiagram: true,
+                    searchReplace: true,
                     imageUpload: true,
                     imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                     imageUploadURL: "./common/mdEditorUpload",
@@ -699,15 +699,15 @@ var note = {
                         theme: '切换主题 '
                     },
                     toolbarHandlers: {
-                        theme: function(){
+                        theme: function () {
                             var $theme = $('.editor-theme'),
                                 $document = $(document);
-                            if($theme.hasClass('active')){
+                            if ($theme.hasClass('active')) {
                                 $theme.removeClass('active');
                                 $document.off('click');
-                            }else{
+                            } else {
                                 $theme.addClass('active');
-                                $document.one('click', function(){
+                                $document.one('click', function () {
                                     $theme.removeClass('active');
                                 })
                             }
@@ -720,11 +720,11 @@ var note = {
                             }
                         };
                         this.addKeyMap(keyMap);
-                        $('.editor-theme li').each(function (index,item) {
+                        $('.editor-theme li').each(function (index, item) {
                             var $self = $(this),
                                 theme = localStorage.getItem('editor_theme') || 'default',
                                 text = $self.text();
-                            if(theme === text){
+                            if (theme === text) {
                                 $self.addClass('active');
                                 mdeditor.setEditorTheme(theme);
                             }
@@ -830,7 +830,7 @@ var note = {
             origin_content: md_cnt
         }, function (res) {
             if (res.code === 200) {
-                $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(title);
+                $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(res.data.title);
                 layer.msg('保存成功');
                 $('.doc-preview-body').html(html_cnt);
                 $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
@@ -890,8 +890,12 @@ var note = {
     },
     // 保存标题
     saveTitle: function () {
-        var title = $('.doc-title-span').html();
+        var $span = $('.doc-title-span'),
+            title = $span.html();
         if (title === cur_note.title) {
+            return false;
+        }else if (title.length === 0){
+            $span.html(cur_note.title);
             return false;
         }
         $.post('./note/update', {
@@ -929,7 +933,6 @@ var main = {
                 return false;
             }
         });
-
         folder.init();
     },
     // 监听窗口关闭
@@ -967,16 +970,10 @@ var main = {
             if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
         })
-    },
-    // configShare: function (cmd, config) {
-    //     if(share_title){
-    //         config.bdText = share_title;
-    //     }
-    //     return config;
-    // }
+    }
 };
 main.init();
