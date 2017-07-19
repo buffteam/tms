@@ -16,9 +16,10 @@ class CheckAuth
      */
     public function handle($request, Closure $next)
     {
-//        dump(session());
+        if (!Auth::check()) {
+            return redirect(route('login'));
+        }
         if (Auth::user()->auth != 2 ) {
-
             return redirect(route('prompt'))->with(['message'=>'没有权限进入！','url' =>'/', 'jumpTime'=>2,'status'=>false]);
         }
         return $next($request);
