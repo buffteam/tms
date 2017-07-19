@@ -31,11 +31,8 @@ Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
  */
 Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
-    /**
-     * 问题反馈相关
-     */
-    Route::any('/feedback', 'FeedbackController@create')->name('feedback');
-    Route::any('/feedback/store', 'FeedbackController@store')->name('feedback.store');
+
+
     Route::any('/admin', 'FeedbackController@index');
 });
 
@@ -97,13 +94,8 @@ Route::group(['middleware' => 'CheckHost'/*,'domain' => '*.omwteam.com'*/], func
 Route::any('/common/prompt', 'CommonController@prompt')->name('prompt');
 Route::any('checkLogin', 'Notes\UserController@checkLogin')->name('checkLogin');
 Route::any('/test', 'TestController@test');
-
-
-
-
-/**
- * 测试路由
- */
+Route::any('/feedback', 'Admin\FeedbackController@create')->name('feedback');
+Route::any('/feedback/store', 'Admin\FeedbackController@store')->name('feedback.store');
 
 
 
