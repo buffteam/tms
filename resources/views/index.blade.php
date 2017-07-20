@@ -82,7 +82,7 @@
 
             @else
                 <span><a href="{{ url('/login') }}">登录</a></span>
-                <span><a href="{{ url('/register') }}">注册</a></span>
+                <span><a href="{{ url('/login') }}">登录</a></span>
             @endif
         @endif
 
