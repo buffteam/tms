@@ -17,7 +17,7 @@ class UserController extends BaseController
     //
     public function getModify()
     {
-        return view('auth.setting');
+        return view('auth.modify');
     }
     public function postModify(Request $request)
     {

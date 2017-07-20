@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    $md = file_get_contents(base_path().'/desc.md');
+    return view('welcome',['md'=>$md]);
 })->name('root');
 
 
@@ -35,6 +36,7 @@ Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
 
     Route::any('/admin', 'DashboardController@index');
+    Route::any('admin/feedback', 'FeedbackController@index');
 });
 
 
@@ -74,8 +76,8 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/reset', 'UserController@getForget')->name('reset');
     Route::post('/doReset', 'UserController@getForget')->name('doReset');
 
-    Route::get('avatar', 'UserController@getAvatar')->name('avatar');
-
+    Route::get('avatar', 'AvatarsController@index')->name('avatar');
+    Route::post('avatar', 'AvatarsController@upload');
 });
 
 

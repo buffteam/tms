@@ -8,6 +8,14 @@
     <title> {{ config('app.name', '共享笔记') }}</title>
     <link rel="stylesheet" href="{{asset('module/doc/css/header.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/mdui/css/mdui.css')}}">
+    <link rel="stylesheet" href="{{asset('module/doc/css/mdui-alert.css')}}">
+    <style>
+        .mdui-form,.mdui-form fieldset {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+    </style>
     @yield('style')
 </head>
 <body>
@@ -23,21 +31,21 @@
 
             @if (Auth::check())
                 @if (request()->path() == "/")
-                <div class="user-info" onclick="header.userDropDown(this,event)">
-                    <span>{{ Auth::user()->name }}</span>
-                    <ul class="user-down-list">
-                        <li><a href="{{ route('dashboard') }}">进入主页</a></li>
-                        <li><a class="logout" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                退出登录
-                            </a>
-                        </li>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            {{ csrf_field() }}
-                        </form>
-                    </ul>
+                    <div class="user-info" onclick="header.userDropDown(this,event)">
+                        <span>{{ Auth::user()->name }}</span>
+                        <ul class="user-down-list">
+                            <li><a href="{{ route('dashboard') }}">进入主页</a></li>
+                            <li><a class="logout" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    退出登录
+                                </a>
+                            </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </ul>
 
-                </div>
+                    </div>
                 @else
                     <div class="user-info" onclick="header.userDropDown(this,event)">
                         <span>{{ Auth::user()->name }}</span>
@@ -84,8 +92,13 @@
 
 </section>
 <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>
 <script src="{{asset('/module/doc/js/header.js')}}"></script>
+<script src="{{ asset('libs/mdui/js/mdui.min.js') }}"></script>
+<script>
+    $('.mdui-close').on('click',function () {
+        $(this).parent().fadeOut();
+    });
+</script>
 @yield('script')
 <script>
     var _hmt = _hmt || [];

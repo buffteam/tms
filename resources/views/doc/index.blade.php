@@ -1,7 +1,4 @@
 @extends('layouts.doc.index')
-@section('title')
-    <title>{{ config('app.name', '共享笔记') }}</title>
-@endsection
 
 @section('style')
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">

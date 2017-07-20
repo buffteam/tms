@@ -62,4 +62,9 @@ class Feeds extends Model
         $active = ["未处理","已知悉未处理","处理中","处理完毕","废弃"];
         return $this->attributes['active'] = $active[$value];
     }
+    public function getTypeAttribute($value)
+    {
+        $type = ["问题","建议","其他"];
+        return $this->attributes['type'] = $type[$value];
+    }
 }

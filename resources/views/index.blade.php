@@ -9,49 +9,7 @@
     <link rel="stylesheet" href="{{asset('module/doc/css/header.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
-    <style>
-        .feedback {
-            position: fixed;
-            top: 50%;
-            right: 30px;
-            box-sizing: content-box;
-            width: 100px;
-            height: 25px;
-            padding: 10px;
-            text-align: center;
-            border-radius: 4px;
-            line-height: 25px;
 
-        }
-        .feedback:hover {
-            background-color: gainsboro;
-            cursor: pointer;
-        }
-        .main-content {
-            margin-top: 64px;
-        }
-        .container {
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-        @media (min-width: 768px) {
-            .container {
-                width: 750px;
-            }
-        }
-        @media (min-width: 992px) {
-            .container {
-                width: 970px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .container {
-                width: 1170px;
-            }
-        }
-    </style>
 </head>
 <body>
 <section id="skin">
@@ -81,8 +39,10 @@
                 </div>
 
             @else
-                <span><a href="{{ url('/login') }}">登录</a></span>
-                <span><a href="{{ url('/register') }}">注册</a></span>
+                <ul class="menu menu-float-right">
+                    <li><a href="{{ url('/login') }}">登录</a></li>
+                    <li><a href="{{ url('/register') }}">注册</a></li>
+                </ul>
             @endif
         @endif
 
@@ -106,14 +66,13 @@
     </div>
 </section>
 
-<a class="feedback" href="{{route('feedback')}}" title="问题反馈与建议">问题反馈与建议</a>
+{{--<a class="feedback" href="{{route('feedback')}}" title="问题反馈与建议">问题反馈与建议</a>--}}
 <script src="{{asset('libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>
 <script src="{{asset('/module/doc/js/header.js')}}"></script>
 <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
 <script>
-
-    $.get("@php echo route('getReadme'); @endphp", function(md){
+   $.get("@php echo route('getReadme'); @endphp", function(md){
         var testEditor = editormd("test-editormd", {
             width: "100%",
             height: 900,
@@ -121,44 +80,12 @@
             readOnly: true,
             markdown : md,
             taskList : true,
-//        theme : "dark",
-//        previewTheme : "dark",
-//        editorTheme : "pastel-on-dark",
-
-//        codeFold : true,
-
-            //syncScrolling : false,
-//        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
-//        searchReplace : true,
-//        watch : false,                // 关闭实时预览
-//        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
-//        toolbar  : true,             //关闭工具栏
-//        previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
-//        emoji : true,
-
-//        tocm            : true,         // Using [TOCM]
-//        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
-//        flowChart : true,             // 开启流程图支持，默认关闭
-//        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
-//        dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-//        dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-//        dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-//        dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-//        dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-//        imageUpload : true,
-//        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-//        imageUploadURL : "./php/upload.php",
-
             onload : function() {
                 testEditor.previewing();
                 console.log('onload', this);
             }
         });
     });
-
-
-
-
 </script>
 <script>
     var _hmt = _hmt || [];

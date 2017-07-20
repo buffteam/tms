@@ -20,17 +20,28 @@
     <div class="mdui-toolbar mdui-color-theme">
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#mdui-drawer'}"><i
                     class="mdui-icon material-icons">menu</i></span>
-        <a href="./" class="mdui-typo-headline mdui-hidden-xs">{{ config('app.name', '管理界面') }}</a>
+        <a href="{{route('dashboard')}}" class="mdui-typo-headline mdui-hidden-xs">{{ config('app.name', '管理界面') }}</a>
         {{--<a href="" class="mdui-typo-title">抽屉式导航栏</a>--}}
         <div class="mdui-toolbar-spacer"></div>
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-docs-theme'}"
-              mdui-tooltip="{content: '设置主题'}"><i class="mdui-icon material-icons">color_lens</i></span>
+        <button id="open" class="mdui-btn mdui-color-theme-accent mdui-ripple">{{ Auth::user()->name }}<i class="mdui-icon material-icons">&#xe5cf;</i></button>
+        <ul class="mdui-menu" id="menu">
+            <li class="mdui-menu-item">
+                <a href="{{ url('/admin') }}"><i class="mdui-icon material-icons">&#xe8b8;</i>系统设置</a>
+            </li>
+            <li class="mdui-menu-item">
+                <a href="{{ route('modify') }}"><i class="mdui-icon material-icons">&#xe32a;</i>修改密码</a>
+            </li>
+            {{--<li class="mdui-menu-item"><a href="{{ route('avatar') }}">上传头像</a></li>--}}
+            <li class="mdui-menu-item"><a class="logout" href="{{ route('logout') }}"
+                                          onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <i class="mdui-icon material-icons">&#xe879;</i> 退出登录
+                </a>
+            </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+        </ul>
 
-        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white"><i class="mdui-icon material-icons">settings</i></span>
-        {{--<a href="https://github.com/zdhxiong/mdui" target="_blank"--}}
-           {{--class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-tooltip="{content: '查看 Github'}">--}}
-
-        {{--</a>--}}
     </div>
 </header>
 
@@ -38,13 +49,13 @@
     <ul class="mdui-list" mdui-collapse="{accordion: true}">
 
         <li class="mdui-list-item mdui-ripple">
-            <i class="mdui-list-item-icon mdui-icon material-icons">home</i>
-            <div class="mdui-list-item-content">主页</div>
+            <i class="mdui-icon material-icons">&#xe88a;</i>
+            <div class="mdui-list-item-content"><a href="{{url('/')}}">主页</a></div>
         </li>
 
         <li class="mdui-list-item mdui-ripple">
-            <i class="mdui-list-item-icon mdui-icon material-icons">dashboard</i>
-            <div class="mdui-list-item-content">Dashboard</div>
+            <i class="mdui-icon material-icons">&#xe871;</i>
+            <div class="mdui-list-item-content"><a href="{{url('/admin')}}">Dashboard</a></div>
         </li>
 
         <li class="mdui-collapse-item mdui-collapse-item-open">
@@ -61,30 +72,25 @@
             </ul>
         </li>
 
-        <li class="mdui-collapse-item">
-            <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                <i class="mdui-list-item-icon mdui-icon material-icons">device_hub</i>
-                <div class="mdui-list-item-content">问题反馈</div>
-                <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-            </div>
-            <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <li class="mdui-list-item mdui-ripple">list</li>
-                {{--<li class="mdui-list-item mdui-ripple"></li>--}}
-                <li class="mdui-list-item mdui-ripple">Direct Traffic</li>
-                <li class="mdui-list-item mdui-ripple">Search Overview</li>
-            </ul>
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-icon material-icons">&#xe87f;</i>
+            <div class="mdui-list-item-content"><a href="{{url('admin/feedback')}}">问题反馈</a></div>
         </li>
 
     </ul>
 </div>
 
 <div class="mdui-container-fluid main-content">
-    <h1>主要内容</h1>
+    @yield('content')
 </div>
 
 
 <!-- Scripts -->
 <script src="{{ asset('libs/mdui/js/mdui.min.js') }}"></script>
+<script>
+    var inst = new mdui.Menu('#open', '#menu');
+
+</script>
 @yield('script')
 </body>
 </html>

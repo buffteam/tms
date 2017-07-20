@@ -1,66 +1,62 @@
-@extends('layouts.app')
+@extends('layouts.md')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">重置密码</div>
-
-                <div class="panel-body">
+    <div class="mdui-container" style="margin-top: 80px;">
+        <div class="mdui-panel">
+            <div class="mdui-panel-item mdui-panel-item-open">
+                <div class="mdui-panel-item-header"><h2>修改密码</h2></div>
+                <div class="mdui-panel-item-body">
                     @if (session('status'))
-                        <div class="alert alert-success">
+                        <div class="mdui-alert mdui-alert-success">
                             {{ session('status') }}
                         </div>
                     @endif
-                        <form class="login-form" action="" method="post">
-                            <h3 class="font-green">修改密码</h3>
-                            @if (count($errors) > 0)
-                                <div class="alert alert-danger">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li><span>{{ $error }}</span></li>
-                                        @endforeach
-                                    </ul>
-
-                                </div>
-                            @endif
-                            {!! csrf_field() !!}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="" class="control-label">头像</label>--}}
-                                {{--<input type="file" class="form-control" id="dropz">--}}
+                    <form action="" method="post">
+                        {!! csrf_field() !!}
+                        {{--@if (count($errors) > 0)--}}
+                            {{--<div class="mdui-alert  mdui-alert-danger">--}}
+                                {{--<span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i--}}
+                                            {{--class="mdui-icon material-icons" data-dismiss="alert">&#xe14c;</i></span>--}}
+                                {{--<ul class="mdui-list">--}}
+                                    {{--@foreach ($errors->all() as $error)--}}
+                                        {{--<li class="mdui-list-item">{{ $error }}</li>--}}
+                                    {{--@endforeach--}}
+                                {{--</ul>--}}
                             {{--</div>--}}
-                            <div class="form-group">
-                                <label class="control-label visible-ie8 visible-ie9">原始密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" minlength="6" maxlength="20" placeholder="原始密码" name="oldpassword"> </div>
-                            <div class="form-group">
-                                <label class="control-label visible-ie8 visible-ie9">新密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="新密码" name="password"> </div>
-                            <div class="form-group">
-                                <label class="control-label visible-ie8 visible-ie9">重复密码</label>
-                                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="重复新密码" name="password_confirmation"> </div>
-                            <div class="form-actions">
-                                <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">确定</button>
-                            </div>
-                        </form>
+                        {{--@endif--}}
+                        <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('oldpassword') ? ' mdui-textfield-invalid' : '' }}">
+                            <label class="mdui-textfield-label">原密码</label>
+                            <input class="mdui-textfield-input" type="password" name="oldpassword" required/>
+                            <div class="mdui-textfield-error">{{ $errors->has('oldpassword') ? $errors->first('oldpassword') : '原始密码不正确'}}</div>
+                        </div>
+
+                        <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('password') ? ' mdui-textfield-invalid' : '' }}">
+                            <label class="mdui-textfield-label">新密码</label>
+                            <input class="mdui-textfield-input" type="password" name="password" autocomplete="off"
+                                   minlength="6"  required/>
+                            <div class="mdui-textfield-error">{{ $errors->has('password') ? $errors->first('password') : '密码至少6位'}}</div>
+                        </div>
+
+                        <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('password_confirmation') ? ' mdui-textfield-invalid' : '' }}">
+                            <label class="mdui-textfield-label">确认新密码</label>
+                            <input class="mdui-textfield-input" type="password" name="password_confirmation"
+                                   autocomplete="off" minlength="6"  required/>
+                            <div class="mdui-textfield-error">{{ $errors->has('password_confirmation') ? $errors->first('password_confirmation') : '密码至少6位'}}</div>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <button type="submit"
+                                    class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-blue mdui-ripple "
+                                    id="modify">
+                                保存
+                            </button>
+                        </div>
+
+                    </form>
                 </div>
             </div>
+
         </div>
+
     </div>
-</div>
 @endsection
-{{--@section('script')
-    <script src="{{asset('module/doc/js/dropzone.js')}}"></script>
-    <script>
-        var dropz = new Dropzone("#dropz", {
-            url: "handle-upload.php",
-            maxFiles: 10,
-            maxFilesize: 512,
-            acceptedFiles: ".js,.obj,.dae"
-        });
-    </script>
-    @endsection--}}
 
 

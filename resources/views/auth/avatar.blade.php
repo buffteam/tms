@@ -1,85 +1,83 @@
-@extends('layouts.doc.index')
+@extends('layouts.md')
 @section('style')
-    <link rel="stylesheet" href="{{asset('libs/mdui/css/mdui.min.css')}}">
     <style>
-        .main-content {
-            position: relative;
-            top:80px;
-        }
-        .form-fieldset {
-            margin-top: 25px;
-            padding: 20px;
+        .avatar-list img {
+            /*width: 100%;*/
+            height: 150px;
         }
     </style>
-@endsection
+    @endsection
 @section('content')
-<div class="mdui-container main-content" >
-    @if (session('status'))
-        <div class="mdui-alert mdui-alert-success">
-            {{ session('status') }}
+<div class="mdui-container" style="margin-top: 80px;" >
+
+        <div class="mdui-panel" mdui-panel>
+
+
+            <div class="mdui-panel-item mdui-panel-item-open">
+                <div class="mdui-panel-item-header">上传头像</div>
+                <div class="mdui-panel-item-body">
+                    @if (isset($status))
+                        <div class="mdui-alert mdui-alert-success">
+                             <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i
+                                         class="mdui-icon material-icons"
+                                         data-dismiss="alert">&#xe14c;</i></span>
+                            {{ $status }}
+                        </div>
+                    @endif
+                    @if(count($errors))
+                        <div class="mdui-alert  mdui-alert-danger">
+                                    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i
+                                                class="mdui-icon material-icons"
+                                                data-dismiss="alert">&#xe14c;</i></span>
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                    @endif
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="mdui-textfield">
+                            <label class="mdui-textfield-label">选择图像</label>
+                            <input class="mdui-textfield-input" type="file" name="avatar"/>
+                        </div>
+                        <div class="mdui-textfield mdui-textfield-floating-label">
+                            <button type="submit"
+                                    class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-blue mdui-ripple ">
+                                上传
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mdui-panel-item">
+                <div class="mdui-panel-item-header">头像管理</div>
+                <div class="mdui-panel-item-body">
+                    <div class="mdui-row avatar-list">
+                        @foreach($list as $items)
+                            <div class="mdui-col-md-3 mdui-card">
+                                <div class="mdui-card-media">
+                                    <img src="{{asset($items->url)}}"/>
+                                    <div class="mdui-card-actions">
+                                        <button class="mdui-btn mdui-ripple mdui-ripple-white">
+                                            <label class="mdui-checkbox">
+                                                <input type="checkbox"/>
+                                                <i class="mdui-checkbox-icon"></i>
+                                            </label>
+                                        </button>
+                                        <button class="mdui-btn mdui-ripple mdui-color-blue mdui-ripple-white">选取为头像</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endforeach
+
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-    @endif
-    <form action="" method="post">
-
-        <fieldset class="form-fieldset">
-            <legend><h2>更换头像</h2></legend>
-
-
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                {{--<label class="mdui-textfield-label">上传头像</label>--}}
-                <input class="mdui-textfield-input" type="file" name="avatar" placeholder="请选择图片" required/>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <button type="button" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-blue mdui-ripple " id="upload">上传</button>
-            </div>
-
-        </fieldset>
-
-        <fieldset>
-            <legend><h2>已上传图片列表</h2></legend>
-            <div class="mdui-row ">
-                <div class="mdui-col-md-3" >
-                    <label class="mdui-list-item mdui-ripple" >
-                        <div class="mdui-checkbox">
-                            <input type="checkbox" checked/>
-                            <i class="mdui-checkbox-icon"></i>
-                        </div>
-                        <div class="mdui-list-item-content"> <img src="{{asset('/uploads/49f81bcf3b900c9495dd2f85157b453f.png')}}"/></div>
-                    </label>
-                </div>
-                <div class="mdui-col-md-3" >
-                    <label class="mdui-list-item mdui-ripple" >
-                        <div class="mdui-checkbox">
-                            <input type="checkbox" checked/>
-                            <i class="mdui-checkbox-icon"></i>
-                        </div>
-                        <div class="mdui-list-item-content"> <img src="{{asset('/uploads/49f81bcf3b900c9495dd2f85157b453f.png')}}"/></div>
-                    </label>
-                </div>
-                <div class="mdui-col-md-3" >
-                    <label class="mdui-list-item mdui-ripple" >
-                        <div class="mdui-checkbox">
-                            <input type="checkbox" checked/>
-                            <i class="mdui-checkbox-icon"></i>
-                        </div>
-                        <div class="mdui-list-item-content"> <img src="{{asset('/uploads/49f81bcf3b900c9495dd2f85157b453f.png')}}"/></div>
-                    </label>
-                </div>
-                <div class="mdui-col-md-3" >
-                    <label class="mdui-list-item mdui-ripple" >
-                        <div class="mdui-checkbox">
-                            <input type="checkbox" checked/>
-                            <i class="mdui-checkbox-icon"></i>
-                        </div>
-                        <div class="mdui-list-item-content"> <img src="{{asset('/uploads/49f81bcf3b900c9495dd2f85157b453f.png')}}"/></div>
-                    </label>
-                </div>
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <button type="button" class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-blue mdui-ripple " id="upload">保存</button>
-            </div>
-        </fieldset>
-    </form>
 </div>
 @endsection
 @section('script')
