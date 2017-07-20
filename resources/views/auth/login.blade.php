@@ -1,7 +1,7 @@
 @extends('layouts.md')
 
 @section('content')
-    <div class="mdui-container" >
+    <div class="mdui-container" style="margin-top: 80px;">
         <div class="mdui-row">
             <div class="mdui-col-md-8 mdui-col-offset-md-2">
                 <div class="mdui-panel">
