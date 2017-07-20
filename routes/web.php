@@ -12,8 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 })->name('root');
+
 
 Route::get('getReadme', function () {
     return file_get_contents(base_path().'/desc.md');
