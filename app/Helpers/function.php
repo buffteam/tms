@@ -20,3 +20,17 @@ if(! function_exists('user')){
         return app('auth')->user();
     }
 }
+if(! function_exists('jump')){
+
+    /**
+     * @param string $msg
+     * @param $route
+     * @param int $time
+     * @param bool $type
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function jump($msg = '默认提示信息', $route = 'root',$time = 2 ,$type = true){
+        return redirect(route('prompt'))->with([$msg,'url' =>route($route), 'jumpTime'=>$time,'status'=>$type]);
+    }
+}
+

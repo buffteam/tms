@@ -26,6 +26,7 @@
                     <li><a href="{{ route('modify') }}">系统管理</a></li>
                 @endif
                 <li><a href="{{ route('modify') }}">修改密码</a></li>
+                <li><a href="{{ route('avatar') }}">修改头像</a></li>
                 <li><a class="logout" href="{{ route('logout') }}"
                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         退出登录

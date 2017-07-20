@@ -65,13 +65,15 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');
-    Route::post('modify', 'UserController@postModify');
+    Route::post('modify', 'UserController@postModify')->name('modify');
 
     Route::any('/forget', 'UserController@checkEmail')->name('forget');
     Route::post('/doForget', 'UserController@handleEmail')->name('doForget');
 
     Route::any('/reset', 'UserController@getForget')->name('reset');
     Route::post('/doReset', 'UserController@getForget')->name('doReset');
+
+    Route::get('avatar', 'UserController@getAvatar')->name('avatar');
 
 });
 

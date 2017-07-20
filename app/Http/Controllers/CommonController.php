@@ -36,7 +36,7 @@ class CommonController extends BaseController
         $upload = new upload('editormd-image-file','uploads');
         $param = $upload->uploadFile();
         if ( $param['status'] ) {
-            return response()->json(array('success'=>1,'message'=>'上传成功','url'=>$this->uploads.$param['data'],'data'=>[$this->uploads.$param['data']]));
+            return response()->json(array('success'=>1,'message'=>'上传成功','url'=>asset($param['data']),'data'=>[asset($param['data'])]));
         }
         return response()->json(array('success'=>0,'message'=>'上传失败','url'=>$param['data'],'data'=>$param['data']));
 
@@ -53,7 +53,7 @@ class CommonController extends BaseController
         $upload = new upload('image-file','uploads');
         $param = $upload->uploadFile();
         if ( $param['status'] ) {
-            return response()->json(array('errno'=>0,'message'=>'上传成功','data'=>[$this->uploads.$param['data']]));
+            return response()->json(array('errno'=>0,'message'=>'上传成功','data'=>[asset($param['data'])]));
         }
         return response()->json(array('errno'=>1,'message'=>'上传失败','data'=>$param['data']));
 
