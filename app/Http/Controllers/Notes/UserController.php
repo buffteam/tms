@@ -25,7 +25,6 @@ class UserController extends BaseController
         $oldpassword = $request->input('oldpassword');
         $password = $request->input('password');
         $data = $request->all();
-        dump($data);
         $rules = [
             'oldpassword'=>'required|between:6,20',
             'password'=>'required|between:6,20|confirmed',
@@ -146,5 +145,10 @@ class UserController extends BaseController
     public function sendEmail ($email,$tokenModel)
     {
         return Mail::to($email)->send(new ResetPassword($tokenModel));
+    }
+
+    public function getAvatar ()
+    {
+        return view('auth.avatar');
     }
 }

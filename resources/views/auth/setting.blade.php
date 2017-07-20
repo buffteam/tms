@@ -12,17 +12,17 @@
                     @endif
                     <form action="" method="post">
                         {!! csrf_field() !!}
-                        {{--@if (count($errors) > 0)--}}
-                            {{--<div class="mdui-alert  mdui-alert-danger">--}}
-                                {{--<span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i--}}
-                                            {{--class="mdui-icon material-icons" data-dismiss="alert">&#xe14c;</i></span>--}}
-                                {{--<ul class="mdui-list">--}}
-                                    {{--@foreach ($errors->all() as $error)--}}
-                                        {{--<li class="mdui-list-item">{{ $error }}</li>--}}
-                                    {{--@endforeach--}}
-                                {{--</ul>--}}
-                            {{--</div>--}}
-                        {{--@endif--}}
+                        @if (count($errors) > 0)
+                            <div class="mdui-alert  mdui-alert-danger">
+                                <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i
+                                            class="mdui-icon material-icons" data-dismiss="alert">&#xe14c;</i></span>
+                                <ul class="mdui-list">
+                                    @foreach ($errors->all() as $error)
+                                        <li class="mdui-list-item">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('oldpassword') ? ' mdui-textfield-invalid' : '' }}">
                             <label class="mdui-textfield-label">原密码</label>
                             <input class="mdui-textfield-input" type="password" name="oldpassword" required/>

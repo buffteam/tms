@@ -12,12 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    $md = file_get_contents(base_path().'/desc.md');
+    return view('welcome',['md'=>$md]);
 })->name('root');
 
 
 Route::get('getReadme', function () {
-    return file_get_contents(base_path().'/README.md');
+    return file_get_contents(base_path().'/desc.md');
 })->name('getReadme');
 
 /**
@@ -28,13 +29,14 @@ Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
 });
 
 /**
- * Home前端用户界面相关的路由
+ * admin用户界面相关的路由
  */
 Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
 
 
-    Route::any('/admin', 'FeedbackController@index');
+    Route::any('/admin', 'DashboardController@index');
+    Route::any('admin/feedback', 'FeedbackController@index');
 });
 
 
@@ -66,7 +68,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');
-    Route::post('modify', 'UserController@postModify');
+    Route::post('modify', 'UserController@postModify')->name('modify');
 
     Route::any('/forget', 'UserController@checkEmail')->name('forget');
     Route::post('/doForget', 'UserController@handleEmail')->name('doForget');
@@ -74,6 +76,8 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/reset', 'UserController@getForget')->name('reset');
     Route::post('/doReset', 'UserController@getForget')->name('doReset');
 
+    Route::get('avatar', 'AvatarsController@index')->name('avatar');
+    Route::post('avatar', 'AvatarsController@upload');
 });
 
 

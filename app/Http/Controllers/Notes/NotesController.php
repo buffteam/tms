@@ -149,7 +149,8 @@ class NotesController extends BaseController
         // 验证
         $rules =  [
             'id' => 'required',
-            'f_id' => 'required'
+            'f_id' => 'required',
+            'title' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);

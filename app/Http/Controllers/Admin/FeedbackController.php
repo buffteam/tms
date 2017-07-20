@@ -18,7 +18,7 @@ class FeedbackController extends BaseController
     {
         //
         $list = Feeds::all();
-        return view('feedback.index',['list'=>$list]);
+        return view('admin.feedback',['list'=>$list]);
     }
 
     /**

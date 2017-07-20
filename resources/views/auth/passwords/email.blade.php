@@ -1,46 +1,44 @@
-@extends('layouts.app')
+@extends('layouts.md')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">重置密码</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+    <div class="mdui-container" style="margin-top: 80px;">
+        <div class="mdui-row">
+            <div class="mdui-col-md-8 mdui-col-offset-md-2">
+                <div class="mdui-panel">
+                    <div class="mdui-panel-item mdui-panel-item-open">
+                        <div class="mdui-panel-item-header"><h2>重置密码</h2></div>
+                        <div class="mdui-panel-item-body">
+                            @if (session('status'))
+                                <div class="mdui-alert  mdui-alert-success">
+                                    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white mdui-close"><i
+                                                class="mdui-icon material-icons"
+                                                data-dismiss="alert">&#xe14c;</i></span>
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            <form class="mdui-form" method="POST" action="{{ route('password.email') }}">
+                                {{ csrf_field() }}
+
+                                <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
+                                    <label class="mdui-textfield-label">邮箱</label>
+                                    <input class="mdui-textfield-input" type="email" name="email"
+                                           value="{{ old('email') }}" required/>
+                                    <div class="mdui-textfield-error">{{ $errors->has('email') ? $errors->first('email') : '邮箱不能为空'}}</div>
+                                </div>
+                                <div class="mdui-textfield mdui-textfield-floating-label">
+                                    <button type="submit"
+                                            class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-blue mdui-ripple ">
+                                        发送密码重置邮件
+                                    </button>
+                                </div>
+
+                            </form>
                         </div>
-                    @endif
+                    </div>
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">邮箱地址</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    发送密码重置邮件
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
+
             </div>
         </div>
     </div>
-</div>
 @endsection
