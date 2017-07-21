@@ -39,7 +39,9 @@
 
                 </div>
                 @else
+
                     <div class="user-info" onclick="header.userDropDown(this,event)">
+
                         <span>{{ Auth::user()->name }}</span>
                         <ul class="user-down-list">
                             <li><a href="{{ url('/admin') }}">系统设置</a></li>
@@ -56,6 +58,7 @@
                         </ul>
 
                     </div>
+                    <img src="{{Auth::user()->avatar}}" class="avatar" alt="" >
                     <div class="theme-box">
                         <ul class="theme-ul">
                             <li class="theme-li blue-color"><span class="theme-span">blue</span></li>
