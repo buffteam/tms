@@ -10,12 +10,6 @@
     <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
     <link rel="stylesheet" href="{{asset('libs/mdui/css/mdui.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/mdui-alert.css')}}">
-    <style>
-        .mdui-form,.mdui-form fieldset {
-            box-sizing: border-box;
-            padding: 20px;
-        }
-    </style>
     @yield('style')
 </head>
 <body>

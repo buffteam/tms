@@ -12,7 +12,7 @@
     <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
     <script>
 
-        $.get("@php echo route('getReadme'); @endphp", function(md){
+        $.get("{{asset('/getReadme')}}", function(md){
             testEditor = editormd("test-editormd", {
                 width: "100%",
                 height: 900,

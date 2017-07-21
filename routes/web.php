@@ -78,6 +78,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     Route::get('avatar', 'AvatarsController@index')->name('avatar');
     Route::post('avatar', 'AvatarsController@upload');
+    Route::post('avatar/select', 'AvatarsController@selectAvatar');
+    Route::post('avatar/del', 'AvatarsController@deleteAvatar');
+
 });
 
 

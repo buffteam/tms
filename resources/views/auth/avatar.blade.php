@@ -2,7 +2,6 @@
 @section('style')
     <style>
         .avatar-list img {
-            /*width: 100%;*/
             height: 150px;
         }
     </style>
@@ -11,10 +10,11 @@
 <div class="mdui-container" style="margin-top: 80px;" >
 
         <div class="mdui-panel" mdui-panel>
-
-
             <div class="mdui-panel-item mdui-panel-item-open">
-                <div class="mdui-panel-item-header">上传头像</div>
+                <div class="mdui-panel-item-header">
+                    <div class="mdui-panel-item-title">上传头像</div>
+                    <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                </div>
                 <div class="mdui-panel-item-body">
                     @if (isset($status))
                         <div class="mdui-alert mdui-alert-success">
@@ -50,26 +50,39 @@
                 </div>
             </div>
 
-            <div class="mdui-panel-item">
-                <div class="mdui-panel-item-header">头像管理</div>
-                <div class="mdui-panel-item-body">
-                    <div class="mdui-row avatar-list">
+            <div class="mdui-panel-item mdui-panel-item-open" id="avatarManage">
+                <div class="mdui-panel-item-header ">
+                    <div class="mdui-panel-item-title">头像管理</div>
+                     <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                </div>
+                <div class="mdui-panel-item-body mdui-color-theme-50" >
+                   <div class="" style="margin-bottom: 25px;">
+                       <button class="mdui-btn mdui-btn-dense mdui-color-deep-orange mdui-ripple" id="del">删除</button>
+                       {{--<button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-red mdui-ripple" id="empty">清空</button>--}}
+                   </div>
+                    <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list avatar-list">
                         @foreach($list as $items)
-                            <div class="mdui-col-md-3 mdui-card">
-                                <div class="mdui-card-media">
-                                    <img src="{{asset($items->url)}}"/>
-                                    <div class="mdui-card-actions">
-                                        <button class="mdui-btn mdui-ripple mdui-ripple-white">
-                                            <label class="mdui-checkbox">
+                                <div class="mdui-col" data-id="{{$items->id}}">
+                                    <div class="mdui-grid-tile" >
+                                        <a href="javascript:;">  <img src="{{asset($items->url)}}"/></a>
+                                        <div class="mdui-grid-tile-actions" style="display:flex;justify-content: center;align-items: center;">
+                                            @if ($items->u_id != 0)
+                                            <label class="mdui-checkbox check" data-id="{{$items->id}}" data-url="{{$items->url}}" >
                                                 <input type="checkbox"/>
                                                 <i class="mdui-checkbox-icon"></i>
                                             </label>
-                                        </button>
-                                        <button class="mdui-btn mdui-ripple mdui-color-blue mdui-ripple-white">选取为头像</button>
+                                            @endif
+                                            @if($items->active == 1)
+                                                    <div class="mdui-grid-tile-title">当前头像</div>
+                                                @else
+                                                    <button class="mdui-btn  mdui-color-purple mdui-ripple setting" data-url="{{$items->url}}">
+                                                        设置为头像
+                                                    </button>
+                                                @endif
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
                         @endforeach
 
 
@@ -80,17 +93,94 @@
         </div>
 </div>
 @endsection
+
 @section('script')
-    <script src="{{ asset('libs/mdui/js/mdui.min.js') }}"></script>
-    <script src="{{asset('module/doc/js/dropzone.js')}}"></script>
+    <script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>
     <script>
-//        var dropz = new Dropzone("#dropz", {
-//            url: "handle-upload.php",
-//            maxFiles: 10,
-//            maxFilesize: 512,
-//            acceptedFiles: ".js,.obj,.dae"
-//        });
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var avatarManage = $('#avatarManage'),
+            urlList = [],
+            idList = [];
+        // 设置头像
+        avatarManage.on('click','.setting',function () {
+            var url = $(this).data('url');
+            $.post('./avatar/select',{url:url},function (res) {
+                if (res.code == 200) {
+                    layer.msg(res.msg,{time:2000});
+                } else {
+                    layer.msg(res.msg,{time:2000});
+                }
+            });
+
+        });
+        // 选择图片删除
+        avatarManage.on('click','.check',function (e) {
+
+            if (e.target.nodeName != "I" && e.target.nodeName != "LABEL") {
+                var $this = $(this),
+                    url = $this.data('url'),
+                    id = $this.data('id'),
+                    urlIndex = $.inArray(url,urlList),
+                    idIndex = $.inArray(id,idList);
+                var checked = $this.find(':checkbox').prop('checked');
+
+                if (checked) {
+                    urlList.push(url);
+                    idList.push(id);
+                } else {
+                    urlList.splice(urlIndex,1);
+                    idList.splice(idIndex,1);
+                }
+            }
+        });
+
+        // 删除头像
+        avatarManage.on('click','#del',function () {
+            var url = $(this).data('url');
+            $.post('./avatar/del',{idList:idList,urlList:urlList},function (res) {
+                if (res.code == 200) {
+                    layer.msg(res.msg,{time:2000,success:function () {
+                        delTargetElement(idList);
+                    }});
+
+                } else {
+                    layer.msg(res.msg,{time:2000});
+                }
+            });
+
+        });
+        function delTargetElement(arr) {
+            var i = 0,
+                l = arr.length;
+            avatarManage.find('.mdui-col').each(function () {
+                var $this = $(this),
+                    id = $this.data('id');
+                for (; i < l; i++) {
+                    if (id == arr[i]) {
+                        $this.remove();
+                        break;
+                    }
+                }
+            })
+
+        }
+
+        // 清空
+//        avatarManage.on('click','#empty',function () {
+//            var url = $(this).data('url');
+//            $.post('./avatar/del',{url:url},function (res) {
+//                if (res.code == 200) {
+//                    layer.msg(res.msg,{time:2000});
+//                    delTargetElement(idList);
+//                } else {
+//                    layer.msg(res.msg,{time:2000});
+//                }
+//            });
+//
+//        })
     </script>
-    @endsection
-
-
+@endsection
