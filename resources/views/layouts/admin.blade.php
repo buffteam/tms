@@ -65,9 +65,9 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <li class="mdui-list-item mdui-ripple">导航栏入口</li>
-                <li class="mdui-list-item mdui-ripple">主题改版</li>
-                <li class="mdui-list-item mdui-ripple">修改</li>
+                <li class="mdui-list-item mdui-ripple"><a href="{{url('admin/navSetting')}}">导航栏设置</a></li>
+                <li class="mdui-list-item mdui-ripple"> <a href="{{url('admin/account')}}">账号审核</a></li>
+                {{--<li class="mdui-list-item mdui-ripple">修改</li>--}}
                 {{--<li class="mdui-list-item mdui-ripple">New vs Returning</li>--}}
             </ul>
         </li>

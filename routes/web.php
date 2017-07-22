@@ -37,6 +37,9 @@ Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
     Route::any('/admin', 'DashboardController@index');
     Route::any('admin/feedback', 'FeedbackController@index');
+
+    Route::any('admin/account', 'AccountVerifyController@index')/*->name('account')*/;
+//    Route::any('admin/account', 'AccountVerifyController@index');
 });
 
 

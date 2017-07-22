@@ -151,4 +151,7 @@ class UserController extends BaseController
     {
         return view('auth.avatar');
     }
+    public function changeStatus () {
+        
+    }
 }
