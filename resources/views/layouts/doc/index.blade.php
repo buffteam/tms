@@ -58,7 +58,9 @@
                         </ul>
 
                     </div>
-                    <img src="{{Auth::user()->avatar}}" class="avatar" alt="" >
+                    @if (!empty(Auth::user()->avatar))
+                        <img src="{{Auth::user()->avatar}}" class="avatar" alt="" >
+                    @endif
                     <div class="theme-box">
                         <ul class="theme-ul">
                             <li class="theme-li blue-color"><span class="theme-span">blue</span></li>
