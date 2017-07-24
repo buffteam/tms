@@ -22,6 +22,7 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序类型
     sort_order = localStorage.getItem('sort_order') || 'desc',      // 排序方式
     share_title = null,         // 分享标题
+    isCtrlS = false,            // 是否按了Ctrl-S
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
     isSearch = false,           // 是否为搜索结果列表
@@ -551,12 +552,16 @@ var note = {
                 note.getNoteDetail(note_id);
             }
         });
-        // 点击列表删除图表
+        // 点击列表删除笔记
         $list_ul.on('click', '.list-del-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
                 note_id = elem.data('id');
-            note.delNote(note_id, elem);
+            layer.confirm('是否确定删除？', {
+                btn: ['确定', '取消']
+            }, function () {
+                note.delNote(note_id, elem);
+            });
         });
         // 点击列表分享图标
         $list_ul.on('click', '.list-share-icon', function (e) {
@@ -716,7 +721,7 @@ var note = {
                     onload: function () {
                         var keyMap = {
                             "Ctrl-S": function (cm) {
-                                note.saveNote();
+                                note.ctrlSNote();
                             }
                         };
                         this.addKeyMap(keyMap);
@@ -744,7 +749,7 @@ var note = {
                 $('.w-e-text-container').height(height - 41);
                 $('.w-e-text').keydown(function (e) {
                     if (e.ctrlKey == true && e.keyCode == 83) {
-                        note.saveNote();
+                        note.ctrlSNote();
                         return false;
                     }
                 });
@@ -801,7 +806,6 @@ var note = {
             } else {
                 layer.msg(res.msg);
             }
-
         })
     },
     // 编辑笔记
@@ -845,6 +849,39 @@ var note = {
                 layer.msg(res.msg);
             }
         })
+    },
+    // ctrl-s 保存笔记
+    ctrlSNote: function () {
+        if(!isCtrlS){
+            var title = $('.doc-title-input').val().trim() || cur_note.title,
+                md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim() : '',
+                html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
+                note_id = cur_note.id;
+            if (cur_note.title == title && (cur_note.content || '') == html_cnt) {
+                return false;
+            }
+            isCtrlS = true;
+            $.post('./note/update', {
+                id: note_id,
+                f_id: cur_note.f_id,
+                title: title,
+                content: html_cnt,
+                origin_content: md_cnt
+            }, function (res) {
+                isCtrlS = false;
+                if (res.code === 200) {
+                    $('.doc-item.is-edit .list-title-text').text(res.data.title);
+                    $('.doc-preview-body').html(html_cnt);
+                    $('.doc-title-span').html(res.data.title);
+                    cur_note = res.data;
+                    local_note = null;
+                    localStorage.removeItem('local_note');
+                    main.unbindUnload();
+                } else if (res.code === 403) {
+                    layer.msg(res.msg);
+                }
+            })
+        }
     },
     // 自动保存笔记
     autoSaveNote: function () {
