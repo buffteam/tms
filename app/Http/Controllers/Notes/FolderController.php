@@ -10,7 +10,11 @@ use App\Http\Controllers\BaseController;
 
 class FolderController extends BaseController
 {
-    //
+    /**
+     * 创建文件夹
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         // 验证规则

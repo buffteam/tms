@@ -20,6 +20,7 @@
             <li>
                 <a href="{{route('root')}}" >首页</a>
             </li>
+            <li><a href="http://172.28.10.23" target="_blank">Gitlab</a></li>
         </ul>
         @if (Route::has('login'))
 

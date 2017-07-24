@@ -8,7 +8,7 @@ var $window = $(window),
     $list_box = $('.list-content'),                 // 笔记列表盒子
     $doc_box = $('.doc-content');                   // 笔记详情盒子
 
-
+// 自动保存时间
 var AUTO_TIME = 10 * 60 * 1000,
     NEW_TITLE = '新建笔记';
 
@@ -399,6 +399,7 @@ var note = {
             }
         });
     },
+    // 获取最新笔记
     getNewList: function () {
         isNewest = true;
         $.get('./note/latest', function (res) {
