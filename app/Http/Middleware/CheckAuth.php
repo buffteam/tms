@@ -19,7 +19,11 @@ class CheckAuth
         if (!Auth::check()) {
             return redirect(route('login'));
         }
-        if (Auth::user()->auth != 2 ) {
+        $auth = Auth::user()->auth;
+        if ($auth== 1) {
+            return redirect(route('prompt'))->with(['message'=>'此用户还未激活！','url' =>'/', 'jumpTime'=>3,'status'=>false]);
+        }
+        if ($auth != 2 ) {
             return redirect(route('prompt'))->with(['message'=>'没有权限进入！','url' =>'/', 'jumpTime'=>2,'status'=>false]);
         }
         return $next($request);

@@ -47,17 +47,22 @@ class FolderController extends BaseController
     }
 
     /**
+     * 列表
      * @return array
      */
     public function listAll()
     {
-        //
+
         $categories = Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
         $allCategories = Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
         return $this->ajaxSuccess('请求成功',compact('categories','allCategories'));
     }
 
-
+    /**
+     * 更新数据
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
         // 验证规则
@@ -86,7 +91,11 @@ class FolderController extends BaseController
         return $this->ajaxSuccess('修改成功',Folder::find($params['id']));
     }
 
-
+    /**
+     * 删除
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function del(Request $request)
     {
         // 验证规则

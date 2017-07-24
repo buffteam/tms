@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn {{ $data['status']?'btn-success':'btn-danger' }} ">点击立即跳转</button>
+                                <a href="{{route('root')}}" class="btn {{ $data['status']?'btn-success':'btn-danger' }} ">点击立即跳转首页</a>
                             </span>
                         </div>
                     </div>
