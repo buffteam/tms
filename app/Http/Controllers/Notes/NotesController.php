@@ -319,7 +319,9 @@ class NotesController extends BaseController
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
-        $list = $condition->skip($start)->take($params['pagesize'])->get();
+        $list = $condition->join('users','notes.u_id','=','users.id')
+                ->select('notes.*', 'users.name as author')
+                ->skip($start)->take($params['pagesize'])->get();
 
         return $this->ajaxSuccess('获取数据成功',['totalPage'=>$totalPage,'data'=>$list]);
 
