@@ -51,7 +51,6 @@ Auth::routes();
 Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-    Route::get('/myshare', 'DashboardController@share')->name('myshare');
 
     // 文件夹相关的路由
     Route::post('/folder/add', 'FolderController@store');

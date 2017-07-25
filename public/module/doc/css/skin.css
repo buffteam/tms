@@ -2,8 +2,8 @@
 .blue .header,
 .blue .list-content-null span.new-note {
   background-color: #2196f3; }
-.blue .nav-newest-item.active a:hover,
-.blue .nav-newest-item.active,
+.blue .pure-menu-item.active a:hover,
+.blue .pure-menu-item.active,
 .blue .child-item.active > a,
 .blue .child-item.active > a:hover {
   background-color: #bbdefb; }
@@ -33,8 +33,8 @@
 .purple .header,
 .purple .list-content-null span.new-note {
   background-color: #673ab7; }
-.purple .nav-newest-item.active a:hover,
-.purple .nav-newest-item.active,
+.purple .pure-menu-item.active a:hover,
+.purple .pure-menu-item.active,
 .purple .child-item.active > a,
 .purple .child-item.active > a:hover {
   background-color: #d1c4e9; }
@@ -64,8 +64,8 @@
 .green .header,
 .green .list-content-null span.new-note {
   background-color: #1ABC9C; }
-.green .nav-newest-item.active a:hover,
-.green .nav-newest-item.active,
+.green .pure-menu-item.active a:hover,
+.green .pure-menu-item.active,
 .green .child-item.active > a,
 .green .child-item.active > a:hover {
   background-color: #4ceece; }
@@ -95,8 +95,8 @@
 .teal .header,
 .teal .list-content-null span.new-note {
   background-color: #009688; }
-.teal .nav-newest-item.active a:hover,
-.teal .nav-newest-item.active,
+.teal .pure-menu-item.active a:hover,
+.teal .pure-menu-item.active,
 .teal .child-item.active > a,
 .teal .child-item.active > a:hover {
   background-color: #b2dfdb; }
@@ -126,8 +126,8 @@
 .brown .header,
 .brown .list-content-null span.new-note {
   background-color: #795548; }
-.brown .nav-newest-item.active a:hover,
-.brown .nav-newest-item.active,
+.brown .pure-menu-item.active a:hover,
+.brown .pure-menu-item.active,
 .brown .child-item.active > a,
 .brown .child-item.active > a:hover {
   background-color: #d7ccc8; }
@@ -157,8 +157,8 @@
 .cyan .header,
 .cyan .list-content-null span.new-note {
   background-color: #00bcd4; }
-.cyan .nav-newest-item.active a:hover,
-.cyan .nav-newest-item.active,
+.cyan .pure-menu-item.active a:hover,
+.cyan .pure-menu-item.active,
 .cyan .child-item.active > a,
 .cyan .child-item.active > a:hover {
   background-color: #b2ebf2; }
@@ -188,8 +188,8 @@
 .indigo .header,
 .indigo .list-content-null span.new-note {
   background-color: #3f51b5; }
-.indigo .nav-newest-item.active a:hover,
-.indigo .nav-newest-item.active,
+.indigo .pure-menu-item.active a:hover,
+.indigo .pure-menu-item.active,
 .indigo .child-item.active > a,
 .indigo .child-item.active > a:hover {
   background-color: #c5cae9; }
@@ -219,8 +219,8 @@
 .red .header,
 .red .list-content-null span.new-note {
   background-color: #f44336; }
-.red .nav-newest-item.active a:hover,
-.red .nav-newest-item.active,
+.red .pure-menu-item.active a:hover,
+.red .pure-menu-item.active,
 .red .child-item.active > a,
 .red .child-item.active > a:hover {
   background-color: #ffcdd2; }
@@ -250,8 +250,8 @@
 .dark .header,
 .dark .list-content-null span.new-note {
   background-color: #34495E; }
-.dark .nav-newest-item.active a:hover,
-.dark .nav-newest-item.active,
+.dark .pure-menu-item.active a:hover,
+.dark .pure-menu-item.active,
 .dark .child-item.active > a,
 .dark .child-item.active > a:hover {
   background-color: #cfd8dc; }

@@ -50,9 +50,9 @@
                         {{--<li class="pure-menu-item nav-share-item">--}}
                             {{--<a href="#" class="first-menu-a">我的分享</a>--}}
                         {{--</li>--}}
-                        {{--<li class="pure-menu-item nav-del-item">--}}
-                            {{--<a href="#" class="first-menu-a">回收站</a>--}}
-                        {{--</li>--}}
+                        <li class="pure-menu-item nav-del-item">
+                            <a href="#" class="first-menu-a">回收站</a>
+                        </li>
                     </ul>
                     <div class="feedback">
                         <a href="{{route('feedback',['action'=> 'dashboard'])}}" target="_blank">
@@ -89,8 +89,7 @@
                 <ul class="list-content-ul"></ul>
                 <div class="list-content-null">
                     <div class="list-null">
-                        <p>该目录下没有文档</p>
-                        <span class="new-note" onclick="note.newNote('1')">新建文档</span>
+                        <p>没有内容哦！</p>
                     </div>
                     <div class="search-null">
                         <p>搜索结果为空</p>
@@ -111,6 +110,7 @@
                         <span class="more-btn" data-type="off"></span>
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
+                        <span class="restore-btn" onclick="note.restoreNote()">还原</span>
                         <ul class="more-list">
                             <li onclick="note.htmlToPDF()">导出PDF</li>
                         </ul>
@@ -185,6 +185,25 @@
             <p class="doc-hover-icon">
 <!--               <span class="list-share-icon" title="分享"></span>-->
                 <span class="list-del-icon" title="删除"></span>
+            </p>
+        </li>
+        <% } %>
+    </script>
+    <script id="recycle-tpl" type="text/html">
+        <% for(var i = 0; i < list.length; i++) { %>
+        <li class="doc-item" data-id="<%= list[i].id %>" data-fid="<%= list[i].f_id %>">
+            <p class="doc-title">
+                <% if(list[i].type === '1') {%><span class="icon-md"></span>
+                <% }else{ %><span class="icon-note"></span>
+                <% } %>
+                <span class="list-title-text"><%= list[i].title %></span>
+            </p>
+            <p class="doc-time">
+                <span><%= list[i].updated_at %></span>
+                <span class="doc-author"> <%= list[i].author %></span>
+            </p>
+            <p class="doc-hover-icon">
+                <span class="list-restore-icon" title="还原"></span>
             </p>
         </li>
         <% } %>

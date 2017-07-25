@@ -346,7 +346,8 @@ body {
     line-height: 35px;
 }
 .doc-content-controls .edit-btn,
-.doc-content-controls .save-btn{
+.doc-content-controls .save-btn,
+.doc-content-controls .restore-btn {
     display: none;
     float: right;
     width: 50px;
@@ -674,7 +675,9 @@ body {
     margin: 0;
     display: none;
 }
-.doc-hover-icon .list-share-icon, .doc-hover-icon .list-del-icon{
+.doc-hover-icon .list-share-icon,
+.doc-hover-icon .list-restore-icon,
+.doc-hover-icon .list-del-icon{
     float: left;
     width: 20px;
     height:20px;
@@ -687,6 +690,9 @@ body {
 }
 .doc-hover-icon .list-del-icon{
     background-image: url("../../imgs/icon/del.png");
+}
+.doc-hover-icon .list-restore-icon{
+    background-image: url("../../imgs/icon/restore.png");
 }
 
 .doc-item:hover .doc-hover-icon{
@@ -753,22 +759,27 @@ body {
     outline: 0;
     animation: show .3s ease;
 }
+.is-recycle .doc-content-title .doc-title-span{
+    -webkit-user-modify: read-only !important;
+}
 .is-edit .doc-title-input,
 .is-edit .save-btn,
 .is-edit .doc-edit-body,
 .no-edit .doc-preview-body,
 .no-edit .doc-title-span,
-.no-edit .edit-btn{
+.no-edit .edit-btn,
+.is-edit-1 .editor-1,
+.is-edit-2 .editor-2,
+.is-recycle .restore-btn{
     display: block;
 }
-.editor-1, .editor-2{
+.editor-1,
+.editor-2,
+.is-recycle .save-btn,
+.is-recycle .edit-btn,
+.is-recycle .doc-content-controls .more-btn{
     display: none;
 }
-.is-edit-1 .editor-1,
-.is-edit-2 .editor-2{
-    display: block;
-}
-
 ::-webkit-input-placeholder {
     color: #ccc;
 }

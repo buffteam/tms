@@ -16,6 +16,7 @@ var AUTO_TIME = 10 * 60 * 1000,
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
+    niceScroll = null,
     mdeditor = null,            // md 编辑器
     wangeditor = null,          // wangeditor 编辑器
     timeId = null,
@@ -29,6 +30,7 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     totalPage = null,           // 笔记列表总页码
     isSearch = false,           // 是否为搜索结果列表
     isNewest = false,           // 是否为最新笔记列表
+    isRecycle = false,          // 是否为回收站列表
     isLoading = false;          // 是否正在加载列表
 
 var folder = {
@@ -168,8 +170,7 @@ var folder = {
                 $('.child-item.active,.nav-newest-item').removeClass('active');
                 $self.parent().addClass('active');
                 cur_page = 1;
-                isSearch = false;
-                isNewest = false;
+                isRecycle = isNewest = isSearch = false;
                 $search.val('');
                 note.getList(g_id);
             })
@@ -317,20 +318,19 @@ var folder = {
                         break;
                 }
             })
-            // 打开我的分享
-            // .on('click', '.nav-share-item', function () {
-            //     var layer_share = layer.open({
-            //         type: 2,
-            //         title: '我的分享',
-            //         content: '/myshare',
-            //         area: ['100%', '100%'],
-            //         maxmin: false
-            //     });
-            //     layer.full(layer_share);
-            // })
+            //打开回收站
+            .on('click', '.nav-del-item', function () {
+                $(this).addClass('active').siblings().removeClass('active');
+                $('.child-item.active').removeClass('active');
+                $doc_box.addClass('null');
+                cur_page = 1;
+                isRecycle = true;
+                isSearch = isNewest = false;
+                note.getRecycle();
+            })
             // 打开最新笔记
             .on('click', '.nav-newest-item', function () {
-                $(this).addClass('active');
+                $(this).addClass('active').siblings().removeClass('active');
                 $('.child-item.active').removeClass('active');
                 note.getNewList();
             });
@@ -404,6 +404,7 @@ var note = {
     // 获取最新笔记
     getNewList: function () {
         isNewest = true;
+        isSearch = isRecycle = false;
         $.get('./note/latest', function (res) {
             isLoading = false;
             if (res.code === 200) {
@@ -412,7 +413,7 @@ var note = {
                     $list_box.removeClass('null is-search-null');
                     var html = template('list-tpl', {list: res.data, active: res.data[0].id});
                     $list_ul.html(html);
-                    note.scorllHandle();
+                    niceScroll ? $list_box.getNiceScroll().resize() : note.scorllHandle();
                     note.getNoteDetail(res.data[0].id);
                 } else {
                     $doc_box.addClass('null');
@@ -446,7 +447,7 @@ var note = {
                     } else {
                         html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
-                        $(".list-content").getNiceScroll().resize()
+                        $list_box.getNiceScroll().resize()
                     }
                     cur_page++;
                 } else {
@@ -457,6 +458,43 @@ var note = {
                         mdeditor && mdeditor.clear();
                     }
                 }
+            }else{
+                layer.msg(res.msg);
+            }
+        })
+    },
+    // 获取回收站列表
+    getRecycle: function () {
+        $.get('/note/recycle', {
+            page: cur_page,
+            field: sort_type,
+            order: sort_order
+        }, function (res) {
+            isLoading = false;
+            console.log(res);
+            if(res.code === 200){
+                if (res.data.data.length) {
+                    $list_box.removeClass('null is-search-null');
+                    var html = template('recycle-tpl', {list: res.data.data});
+                    if (cur_page === 1) {
+                        $list_ul.html(html);
+                        note.scorllHandle();
+                        totalPage = res.data.totalPage;
+                    } else {
+                        $list_ul.append(html);
+                        $list_box.getNiceScroll().resize()
+                    }
+                    cur_page++;
+                } else {
+                    if (cur_page === 1) {
+                        $doc_box.addClass('null');
+                        $list_box.addClass('null').removeClass('is-search-null');
+                        $list_ul.html('');
+                        mdeditor && mdeditor.clear();
+                    }
+                }
+            }else{
+                layer.msg(res.msg);
             }
         })
     },
@@ -488,7 +526,7 @@ var note = {
                     } else {
                         html = template('list-tpl', {list: res.data.data, active: null});
                         $list_ul.append(html);
-                        $(".list-content").getNiceScroll().resize()
+                        $list_box.getNiceScroll().resize()
                     }
                     cur_page++;
                 } else {
@@ -504,7 +542,7 @@ var note = {
     },
     // 显示笔记内容
     getNoteDetail: function (note_id) {
-        $.get('./note/find', {id: note_id}, function (res) {
+        $.get('./note/find', {id: note_id, active:isRecycle?'0':'1'}, function (res) {
             if (res.code === 200) {
                 $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
@@ -535,6 +573,11 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
+                if(isRecycle){
+                    $doc_box.addClass('is-recycle');
+                }else{
+                    $doc_box.removeClass('is-recycle');
+                }
             } else {
                 layer.msg(res.msg);
                 $('.doc-item.active').remove();
@@ -556,7 +599,7 @@ var note = {
                 note.getNoteDetail(note_id);
             }
         });
-        // 点击列表删除笔记
+        // 点击列表删除图标
         $list_ul.on('click', '.list-del-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
@@ -566,6 +609,13 @@ var note = {
             }, function () {
                 note.delNote(note_id, elem);
             });
+        });
+        // 点击列表还原图标
+        $list_ul.on('click', '.list-restore-icon', function (e) {
+            e.stopPropagation();
+            var elem = $(this).parent().parent(),
+                note_id = elem.data('id');
+            note.restoreNote(note_id, elem);
         });
         // 点击列表分享图标
         $list_ul.on('click', '.list-share-icon', function (e) {
@@ -591,6 +641,10 @@ var note = {
                 layer.msg('最新笔记不需要排序哦！');
                 return '';
             }
+            if (isRecycle) {
+                layer.msg('回收站不需要排序哦！');
+                return '';
+            }
             var $self = $(this),
                 type = $self.data('type');
             if (type === sort_type) {
@@ -612,14 +666,14 @@ var note = {
                 }
             }
             cur_page = 1;
-            isSearch ? note.getSearch() : note.getList(g_id);
+            isSearch ? note.getSearch() : (isRecycle ? note.getRecycle() : note.getList(g_id));
         });
         // 监听搜索框回车事件
         $search.on('keydown', function (e) {
             if (e.keyCode === 13) {
                 cur_page = 1;
                 isSearch = true;
-                isNewest = false;
+                isRecycle = isNewest = false;
                 note.getSearch();
             }
         })
@@ -658,14 +712,18 @@ var note = {
             $searchClose.hide();
             $search.val('');
             if(isSearch){
+                isSearch = false;
+                cur_page = 1;
                 if($('.nav-newest-item').hasClass('active')){
+                    isNewest = true;
                     note.getNewList();
+                }else if($('.nav-del-item').hasClass('active')){
+                    isRecycle = true;
+                    note.getRecycle();
                 }else{
-                    cur_page = 1;
+                    isRecycle = isNewest = false;
                     note.getList(g_id);
                 }
-            }else{
-                isSearch = false;
             }
         });
         // 标题失去焦点事件
@@ -708,12 +766,12 @@ var note = {
                     box_height = $list_box.height();
                 if (totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading) {
                     isLoading = true;
-                    isSearch ? note.getSearch() : note.getList(g_id);
+                    isSearch ? note.getSearch() : (isRecycle ? note.getRecycle() : note.getList(g_id));
                 }
             });
         }
 
-        var niceScroll = $('.list-content').niceScroll({
+        niceScroll = $list_box.niceScroll({
             cursorcolor: '#aaa',
             autohidemode: 'leave',
             horizrailenabled: false,
@@ -852,6 +910,20 @@ var note = {
                 if (!$list_ul.find('.doc-item').length) {
                     $list_box.addClass('null');
                 }
+            } else {
+                layer.msg(res.msg);
+            }
+        })
+    },
+    // 还原已删笔记
+    restoreNote: function (note_id, elem) {
+        var id = note_id || cur_note.id,
+            e = elem || $('.doc-item.active');
+        $.post('/note/recovery',{id: id}, function (res) {
+            if (res.code === 200) {
+                layer.msg('还原笔记成功');
+                e.remove();
+                $doc_box.addClass('null');
             } else {
                 layer.msg(res.msg);
             }
