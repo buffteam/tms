@@ -469,19 +469,88 @@ body {
     box-sizing: border-box;
 }
 .search-input-box{
+    position: relative;
+    height: 37px;
     padding-right: 50px;
     box-sizing: border-box;
+    font-size: 14px;
+    color: #999;
+}
+.search-input-box .search-type{
+    float: left;
+    width: 50px;
+    line-height: 35px;
+    padding: 0 10px;
+    border: 1px solid #ededed;
+    box-sizing: border-box;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.search-input-box .search-type-ul{
+    display: none;
+    position: absolute;
+    top: 37px;
+    left: 0;
+    width: 50px;
+    background: #fff;
+    font-size: 14px;
+    text-align: left;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
+    z-index: 11;
+}
+.search-input-box .search-type-ul li {
+    padding: 0 10px;
+    line-height: 30px;
+    color: #999;
+    cursor: pointer;
 }
 .search-input-box input.search-input{
+    float: left;
     border: 1px solid #ededed;
-    width: 100%;
+    border-left: 0;
+    width: 200px;
     height: 37px;
-    padding: 5px 15px;
-    border-radius: 20px;
+    padding: 5px 30px 5px 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     box-sizing: border-box;
+    font-size: 14px;
+    color: #999;
 }
 .search-input-box input.search-input:focus {
     outline: 0;
+}
+.search-input-box .search-close{
+    display: none;
+    position: absolute;
+    right: 55px;
+    top: 10px;
+    width: 18px;
+    height: 18px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.search-input-box .search-close:before,
+.search-input-box .search-close:after{
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    content: '';
+    width: 2px;
+    height: 10px;
+    background: #fff;
+}
+.search-input-box .search-close:before{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+.search-input-box .search-close:after{
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
 }
 .sort-box{
     position: absolute;

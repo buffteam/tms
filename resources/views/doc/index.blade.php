@@ -68,7 +68,14 @@
         <div id="list" class="">
             <div class="list-head">
                 <div class="search-input-box">
+                    <span class="search-type" data-type="title">标题</span>
+                    <ul class="search-type-ul">
+                        <li data-type="title">标题</li>
+                        <li data-type="content">内容</li>
+                        <li data-type="name">作者</li>
+                    </ul>
                     <input type="text" class="search-input" placeholder="搜索笔记">
+                    <span class="search-close"></span>
                 </div>
                 <div class="sort-box">
                     <span class="sort-box-icon"></span>
