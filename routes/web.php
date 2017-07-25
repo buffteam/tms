@@ -68,6 +68,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/note/show', 'NotesController@show');
     Route::any('/note/latest', 'NotesController@latest');
     Route::any('/note/search', 'NotesController@search');
+    Route::any('/note/recycle', 'NotesController@getRecycle');
+    Route::any('/note/recovery', 'NotesController@recoveryNote');
+
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');

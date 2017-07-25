@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notes;
 use App\Folder;
 use App\Notes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
@@ -49,12 +50,7 @@ class NotesController extends BaseController
         if (!$this->findFolderId($params['f_id'])) {
             return $this->ajaxError('文件夹ID不存在');
         }
-//        DB::connection()->enableQueryLog();
         $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
-//        $log = DB::getQueryLog();
-//        dd($log);
-//        dump($count);
-//        exit();
         if ($count > 0) {
             $params['title'] = $params['title'].'('.$count.')';
         }
@@ -254,6 +250,9 @@ class NotesController extends BaseController
         // 每页数量
         $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : $this->pagesize;
 
+        // 选择搜索字段
+        $params['type'] = isset($params['type']) ? $params['type'] : 'title';
+
         // 第一步查询出总页数
         $noteModel = $this->notesModel;
         $totalNum = $noteModel->isPrivate()
@@ -265,31 +264,17 @@ class NotesController extends BaseController
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         // 查询title页数 如果不足就查询匹配content的内容补足
-        $titleCondition = [['title','like','%'.$params['keywords'].'%']];
+        $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
         $titleCount = $noteModel->getCountByCondition($titleCondition);
-        $titlePage = ceil($titleCount/$params['pagesize']);
-        $titleData = [];
-        if ($params['page'] <= $titlePage) {
-            $titleData = $noteModel->where($titleCondition)
-                ->offset($start)
-                ->orderBy($params['field'],$params['order'])
-                ->limit($params['pagesize'])
-                ->get()->toArray();
-        }
 
-        // 匹配content的数据
-        $contentData = [];
-        if ($params['page'] >= $titlePage) {
-            $initPage = $params['page'] - $titlePage;
-            $startContent = $initPage == 0 ? 0 : $initPage*$params['pagesize'];
-            $contentData = $noteModel->isPrivate()
-                ->where('content','like','%'.$params['keywords'].'%')
-                ->orderBy($params['field'],$params['order'])
-                ->offset($startContent)
-                ->limit($params['pagesize'])
-                ->get()->toArray();
-        }
-        $list = array_merge($titleData,$contentData);
+        $totalPage = ceil($titleCount/$params['pagesize']);
+
+        $list = $noteModel->where($titleCondition)
+            ->offset($start)
+            ->orderBy($params['field'],$params['order'])
+            ->limit($params['pagesize'])
+            ->get()->toArray();
+
         return $this->ajaxSuccess('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
 
@@ -301,5 +286,53 @@ class NotesController extends BaseController
     private function findFolderId($id)
     {
         return Folder::find($id) ? true : false;
+    }
+
+    /**
+     * 获取回收站列表
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getRecycle ()
+    {
+        // 分页页码
+        $params['page'] = isset($params['page']) ? $params['page'] : 1;
+
+        // 每页数量
+        $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : $this->pagesize;
+
+        $condition = Notes::withoutGlobalScopes()->where('active','0');
+
+        $totalNum = $condition->count();
+
+        $totalPage = ceil($totalNum/$params['pagesize']);
+
+        // 起始页
+        $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
+
+        $list = $condition->skip($start)->take($params['pagesize'])->get();
+
+        return $this->ajaxSuccess('获取数据成功',['totalPage'=>$totalPage,'data'=>$list]);
+
+    }
+
+    /**
+     * 恢复笔记
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function recoveryNote (Request $request)
+    {
+        if (!$request->has('id')) {
+            return $this->ajaxError('参数ID未传');
+        }
+        $id = $request->input('id');
+
+        $note = Notes::withoutGlobalScopes()->where('id',$id)->update(['active'=>'1']);
+
+        if (!$note) {
+            return $this->ajaxError('恢复失败,请刷新重试');
+        }
+        return $this->ajaxSuccess('恢复成功');
+
     }
 }
