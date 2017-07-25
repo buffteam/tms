@@ -57,6 +57,7 @@ class NotesController extends BaseController
         $params['u_id'] = user()->id;
 
         $data = $this->notesModel->create($params);
+        $data->author = Auth::user()->name;
         if (null != $data) {
             return $this->ajaxSuccess('新增成功',$data);
         }
@@ -251,25 +252,34 @@ class NotesController extends BaseController
         $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : $this->pagesize;
 
         // 选择搜索字段
-        $params['type'] = isset($params['type']) ? $params['type'] : 'title';
+        $params['type'] = isset($params['type']) ? $params['type'] : 'name';
+
+
 
         // 第一步查询出总页数
         $noteModel = $this->notesModel;
-        $totalNum = $noteModel->isPrivate()
-            ->where('title','like','%'.$params['keywords'].'%')
-            ->orWhere('content','like','%'.$params['keywords'].'%')->count();
-        $totalPage = ceil($totalNum/$params['pagesize']);
-
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         // 查询title页数 如果不足就查询匹配content的内容补足
         $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
+        $titleCondition = [];
+        if ($params['type'] == 'name') {
+            $user = DB::table('users')->where('name',$params['keywords'])->first();
+            if (null !== $user) {
+                $titleCondition = [['u_id',$user->id]];
+            }
+        } else {
+            $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
+        }
+
         $titleCount = $noteModel->getCountByCondition($titleCondition);
 
         $totalPage = ceil($titleCount/$params['pagesize']);
 
         $list = $noteModel->where($titleCondition)
+            ->join('users','notes.u_id','=','users.id')
+            ->select('notes.*', 'users.name as author')
             ->offset($start)
             ->orderBy($params['field'],$params['order'])
             ->limit($params['pagesize'])

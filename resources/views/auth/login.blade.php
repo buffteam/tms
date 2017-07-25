@@ -31,7 +31,7 @@
                                 <div class="mdui-textfield mdui-textfield-floating-label ">
                                     <label class="mdui-textfield-label">邮箱</label>
                                     <input class="mdui-textfield-input" type="email" name="email"
-                                           value="{{ old('email') }}" required autofocus/>
+                                           value="{{ old('email') }}" placeholder="请使用OA邮箱：@oaserver.dw.gdbbk.com" required autofocus/>
                                     <div class="mdui-textfield-error">邮箱不能为空</div>
                                 </div>
 
