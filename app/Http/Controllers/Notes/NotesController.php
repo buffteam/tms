@@ -127,8 +127,18 @@ class NotesController extends BaseController
      */
     public function find (Request $request)
     {
-        $id = $request->input('id');
-        $data = Notes::find($id);
+        if (!$request->has('id')) {
+            return $this->ajaxError('请传入ID');
+        }
+        if (!$request->has('active')) {
+            return $this->ajaxError('请传入active');
+        }
+        $params = $request->input();
+        $data = Notes::withoutGlobalScopes()->where('active',$params['active'])
+            ->leftJoin('users','notes.u_id','=','users.id')
+            ->select('notes.*', 'users.name as author')
+            ->find($params['id']);
+
         if (null != $data) {
             return $this->ajaxSuccess('获取成功',$data);
         }
