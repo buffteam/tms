@@ -481,7 +481,7 @@ body {
     float: left;
     width: 50px;
     line-height: 35px;
-    padding: 0 10px;
+    padding: 0 13px 0 7px;
     border: 1px solid #ededed;
     box-sizing: border-box;
     border-top-left-radius: 5px;
@@ -489,6 +489,17 @@ body {
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
+}
+.search-input-box .search-type:after{
+    position: absolute;
+    left: 39px;
+    top: 18px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-top: 4px solid #bbb;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
 }
 .search-input-box .search-type-ul{
     display: none;
