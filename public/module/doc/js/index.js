@@ -4,6 +4,8 @@
 var $window = $(window),
     $nav = $('#nav'),
     $menuBtn = $('.nav-menu-button'),
+    $search = $('.search-input'),
+    $searchClose = $('.search-close'),
     $list_ul = $('.list-content-ul'),               // 笔记列表
     $list_box = $('.list-content'),                 // 笔记列表盒子
     $doc_box = $('.doc-content');                   // 笔记详情盒子
@@ -26,7 +28,7 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
     isSearch = false,           // 是否为搜索结果列表
-    isNewest = false,            // 是否为最新笔记列表
+    isNewest = false,           // 是否为最新笔记列表
     isLoading = false;          // 是否正在加载列表
 
 var folder = {
@@ -81,8 +83,7 @@ var folder = {
             $newDocBtn = $('.new-doc-box'),
             $addDir = $('.add-dir'),
             $input = $('.child-item-input input'),
-            $firstParent = $('.first-menu-a.is-parent'),
-            $search = $('.search-input');
+            $firstParent = $('.first-menu-a.is-parent');
         // 收起侧边栏
         $menuBtn.on('click', function () {
             var isEdit = $doc_box.hasClass('is-edit-1');
@@ -461,13 +462,13 @@ var note = {
     },
     // 搜索功能
     getSearch: function () {
-        var $search = $('.search-input'),
-            value = $search.val();
+        var value = $search.val();
         if (!value.trim()) {
             return false;
         }
         $.get('./note/search', {
             keywords: value,
+            type: $('.search-type').data('type'),
             field: sort_type,
             order: sort_order,
             page: cur_page
@@ -543,6 +544,8 @@ var note = {
     },
     // 监听事件
     clickListEvent: function () {
+        var $searchType = $('.search-type'),
+            $searchTypeUl = $('.search-type-ul');
         // 点击列表
         $list_ul.on('click', '.doc-item', function () {
             var $self = $(this);
@@ -612,12 +615,57 @@ var note = {
             isSearch ? note.getSearch() : note.getList(g_id);
         });
         // 监听搜索框回车事件
-        $('.search-input').on('keypress', function (e) {
+        $search.on('keydown', function (e) {
             if (e.keyCode === 13) {
                 cur_page = 1;
                 isSearch = true;
                 isNewest = false;
                 note.getSearch();
+            }
+        })
+            .on('cut paste',function(){
+                var $self = $(this);
+                setTimeout(function () {
+                    $self.val().trim()?$searchClose.show():'';
+                },0)
+            })
+            .on('input',function(){
+            var $self = $(this);
+            $self.val().trim()?$searchClose.show():'';
+        });
+        // 搜索类型事件
+        $searchType.on('click', function (e) {
+            e.stopPropagation();
+            if($searchTypeUl.is(':visible')){
+                $searchTypeUl.hide();
+            }else{
+                $searchTypeUl.show();
+                $(document).off('click').one('click', function () {
+                    $searchTypeUl.hide();
+                })
+            }
+        });
+        // 选择搜索类型
+        $searchTypeUl.on('click', 'li', function () {
+            var $self = $(this),
+                type = $self.data('type'),
+                text = $self.text();
+            $searchType.data('type',type).text(text);
+            $searchTypeUl.hide();
+        });
+        // 关闭搜索事件
+        $searchClose.on('click', function(){
+            $searchClose.hide();
+            $search.val('');
+            if(isSearch){
+                if($('.nav-newest-item').hasClass('active')){
+                    note.getNewList();
+                }else{
+                    cur_page = 1;
+                    note.getList(g_id);
+                }
+            }else{
+                isSearch = false;
             }
         });
         // 标题失去焦点事件
@@ -637,7 +685,7 @@ var note = {
                 $self.data('type', 'off');
                 $moreList.hide();
             }
-            $(document).one('click', function () {
+            $(document).off('click').one('click', function () {
                 $moreList.hide();
             })
         });

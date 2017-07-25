@@ -16,7 +16,8 @@
 .blue .more-list li:hover,
 .blue .sort-down-menu li:hover,
 .blue .user-down-list li:hover,
-.blue .down-box p:hover {
+.blue .down-box p:hover,
+.blue .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #e3f2fd; }
 .blue .user-info.active,
@@ -46,7 +47,8 @@
 .purple .more-list li:hover,
 .purple .sort-down-menu li:hover,
 .purple .user-down-list li:hover,
-.purple .down-box p:hover {
+.purple .down-box p:hover,
+.purple .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #ede7f6; }
 .purple .user-info.active,
@@ -76,7 +78,8 @@
 .green .more-list li:hover,
 .green .sort-down-menu li:hover,
 .green .user-down-list li:hover,
-.green .down-box p:hover {
+.green .down-box p:hover,
+.green .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #d0fcf3; }
 .green .user-info.active,
@@ -106,7 +109,8 @@
 .teal .more-list li:hover,
 .teal .sort-down-menu li:hover,
 .teal .user-down-list li:hover,
-.teal .down-box p:hover {
+.teal .down-box p:hover,
+.teal .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #e0f2f1; }
 .teal .user-info.active,
@@ -136,7 +140,8 @@
 .brown .more-list li:hover,
 .brown .sort-down-menu li:hover,
 .brown .user-down-list li:hover,
-.brown .down-box p:hover {
+.brown .down-box p:hover,
+.brown .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #efebe9; }
 .brown .user-info.active,
@@ -166,7 +171,8 @@
 .cyan .more-list li:hover,
 .cyan .sort-down-menu li:hover,
 .cyan .user-down-list li:hover,
-.cyan .down-box p:hover {
+.cyan .down-box p:hover,
+.cyan .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #e0f7fa; }
 .cyan .user-info.active,
@@ -196,7 +202,8 @@
 .indigo .more-list li:hover,
 .indigo .sort-down-menu li:hover,
 .indigo .user-down-list li:hover,
-.indigo .down-box p:hover {
+.indigo .down-box p:hover,
+.indigo .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #e8eaf6; }
 .indigo .user-info.active,
@@ -226,7 +233,8 @@
 .red .more-list li:hover,
 .red .sort-down-menu li:hover,
 .red .user-down-list li:hover,
-.red .down-box p:hover {
+.red .down-box p:hover,
+.red .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #ffebee; }
 .red .user-info.active,
@@ -256,7 +264,8 @@
 .dark .more-list li:hover,
 .dark .sort-down-menu li:hover,
 .dark .user-down-list li:hover,
-.dark .down-box p:hover {
+.dark .down-box p:hover,
+.dark .search-input-box .search-type-ul li:hover {
   color: #76b0f3;
   background-color: #ECF0F1; }
 .dark .user-info.active,
