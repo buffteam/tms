@@ -2,14 +2,15 @@
 .blue .header,
 .blue .list-content-null span.new-note {
   background-color: #2196f3; }
-.blue .pure-menu-item.active a:hover,
+.blue .pure-menu-item.active .first-menu-a:hover,
 .blue .pure-menu-item.active,
-.blue .child-item.active > a,
-.blue .child-item.active > a:hover {
+.blue .child-item.active > .second-menu-a,
+.blue .child-item.active > .second-menu-a:hover {
   background-color: #bbdefb; }
-.blue .child-item.add-dir a {
+.blue .child-item.add-dir {
   color: #2196f3; }
-.blue .pure-menu-item a:hover,
+.blue .pure-menu-item .first-menu-a:hover,
+.blue .pure-menu-item .second-menu-a:hover,
 .blue .doc-item.active {
   background-color: #e3f2fd; }
 .blue .new-doc-box .add-list li:hover,
@@ -33,14 +34,15 @@
 .purple .header,
 .purple .list-content-null span.new-note {
   background-color: #673ab7; }
-.purple .pure-menu-item.active a:hover,
+.purple .pure-menu-item.active .first-menu-a:hover,
 .purple .pure-menu-item.active,
-.purple .child-item.active > a,
-.purple .child-item.active > a:hover {
+.purple .child-item.active > .second-menu-a,
+.purple .child-item.active > .second-menu-a:hover {
   background-color: #d1c4e9; }
-.purple .child-item.add-dir a {
+.purple .child-item.add-dir {
   color: #673ab7; }
-.purple .pure-menu-item a:hover,
+.purple .pure-menu-item .first-menu-a:hover,
+.purple .pure-menu-item .second-menu-a:hover,
 .purple .doc-item.active {
   background-color: #ede7f6; }
 .purple .new-doc-box .add-list li:hover,
@@ -64,14 +66,15 @@
 .green .header,
 .green .list-content-null span.new-note {
   background-color: #1ABC9C; }
-.green .pure-menu-item.active a:hover,
+.green .pure-menu-item.active .first-menu-a:hover,
 .green .pure-menu-item.active,
-.green .child-item.active > a,
-.green .child-item.active > a:hover {
+.green .child-item.active > .second-menu-a,
+.green .child-item.active > .second-menu-a:hover {
   background-color: #4ceece; }
-.green .child-item.add-dir a {
+.green .child-item.add-dir {
   color: #1ABC9C; }
-.green .pure-menu-item a:hover,
+.green .pure-menu-item .first-menu-a:hover,
+.green .pure-menu-item .second-menu-a:hover,
 .green .doc-item.active {
   background-color: #d0fcf3; }
 .green .new-doc-box .add-list li:hover,
@@ -95,14 +98,15 @@
 .teal .header,
 .teal .list-content-null span.new-note {
   background-color: #009688; }
-.teal .pure-menu-item.active a:hover,
+.teal .pure-menu-item.active .first-menu-a:hover,
 .teal .pure-menu-item.active,
-.teal .child-item.active > a,
-.teal .child-item.active > a:hover {
+.teal .child-item.active > .second-menu-a,
+.teal .child-item.active > .second-menu-a:hover {
   background-color: #b2dfdb; }
-.teal .child-item.add-dir a {
+.teal .child-item.add-dir {
   color: #009688; }
-.teal .pure-menu-item a:hover,
+.teal .pure-menu-item .first-menu-a:hover,
+.teal .pure-menu-item .second-menu-a:hover,
 .teal .doc-item.active {
   background-color: #e0f2f1; }
 .teal .new-doc-box .add-list li:hover,
@@ -126,14 +130,15 @@
 .brown .header,
 .brown .list-content-null span.new-note {
   background-color: #795548; }
-.brown .pure-menu-item.active a:hover,
+.brown .pure-menu-item.active .first-menu-a:hover,
 .brown .pure-menu-item.active,
-.brown .child-item.active > a,
-.brown .child-item.active > a:hover {
+.brown .child-item.active > .second-menu-a,
+.brown .child-item.active > .second-menu-a:hover {
   background-color: #d7ccc8; }
-.brown .child-item.add-dir a {
+.brown .child-item.add-dir {
   color: #795548; }
-.brown .pure-menu-item a:hover,
+.brown .pure-menu-item .first-menu-a:hover,
+.brown .pure-menu-item .second-menu-a:hover,
 .brown .doc-item.active {
   background-color: #efebe9; }
 .brown .new-doc-box .add-list li:hover,
@@ -157,14 +162,15 @@
 .cyan .header,
 .cyan .list-content-null span.new-note {
   background-color: #00bcd4; }
-.cyan .pure-menu-item.active a:hover,
+.cyan .pure-menu-item.active .first-menu-a:hover,
 .cyan .pure-menu-item.active,
-.cyan .child-item.active > a,
-.cyan .child-item.active > a:hover {
+.cyan .child-item.active > .second-menu-a,
+.cyan .child-item.active > .second-menu-a:hover {
   background-color: #b2ebf2; }
-.cyan .child-item.add-dir a {
+.cyan .child-item.add-dir {
   color: #00bcd4; }
-.cyan .pure-menu-item a:hover,
+.cyan .pure-menu-item .first-menu-a:hover,
+.cyan .pure-menu-item .second-menu-a:hover,
 .cyan .doc-item.active {
   background-color: #e0f7fa; }
 .cyan .new-doc-box .add-list li:hover,
@@ -188,14 +194,15 @@
 .indigo .header,
 .indigo .list-content-null span.new-note {
   background-color: #3f51b5; }
-.indigo .pure-menu-item.active a:hover,
+.indigo .pure-menu-item.active .first-menu-a:hover,
 .indigo .pure-menu-item.active,
-.indigo .child-item.active > a,
-.indigo .child-item.active > a:hover {
+.indigo .child-item.active > .second-menu-a,
+.indigo .child-item.active > .second-menu-a:hover {
   background-color: #c5cae9; }
-.indigo .child-item.add-dir a {
+.indigo .child-item.add-dir {
   color: #3f51b5; }
-.indigo .pure-menu-item a:hover,
+.indigo .pure-menu-item .first-menu-a:hover,
+.indigo .pure-menu-item .second-menu-a:hover,
 .indigo .doc-item.active {
   background-color: #e8eaf6; }
 .indigo .new-doc-box .add-list li:hover,
@@ -219,14 +226,15 @@
 .red .header,
 .red .list-content-null span.new-note {
   background-color: #f44336; }
-.red .pure-menu-item.active a:hover,
+.red .pure-menu-item.active .first-menu-a:hover,
 .red .pure-menu-item.active,
-.red .child-item.active > a,
-.red .child-item.active > a:hover {
+.red .child-item.active > .second-menu-a,
+.red .child-item.active > .second-menu-a:hover {
   background-color: #ffcdd2; }
-.red .child-item.add-dir a {
+.red .child-item.add-dir {
   color: #f44336; }
-.red .pure-menu-item a:hover,
+.red .pure-menu-item .first-menu-a:hover,
+.red .pure-menu-item .second-menu-a:hover,
 .red .doc-item.active {
   background-color: #ffebee; }
 .red .new-doc-box .add-list li:hover,
@@ -250,14 +258,15 @@
 .dark .header,
 .dark .list-content-null span.new-note {
   background-color: #34495E; }
-.dark .pure-menu-item.active a:hover,
+.dark .pure-menu-item.active .first-menu-a:hover,
 .dark .pure-menu-item.active,
-.dark .child-item.active > a,
-.dark .child-item.active > a:hover {
+.dark .child-item.active > .second-menu-a,
+.dark .child-item.active > .second-menu-a:hover {
   background-color: #cfd8dc; }
-.dark .child-item.add-dir a {
+.dark .child-item.add-dir {
   color: #34495E; }
-.dark .pure-menu-item a:hover,
+.dark .pure-menu-item .first-menu-a:hover,
+.dark .pure-menu-item .second-menu-a:hover,
 .dark .doc-item.active {
   background-color: #ECF0F1; }
 .dark .new-doc-box .add-list li:hover,

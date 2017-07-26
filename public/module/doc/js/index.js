@@ -167,7 +167,7 @@ var folder = {
             .on('click', '.second-menu-a', function () {
                 var $self = $(this);
                 g_id = $self.data('id');
-                $('.child-item.active,.nav-newest-item').removeClass('active');
+                $('.child-item.active,.pure-menu-item').removeClass('active');
                 $self.parent().addClass('active');
                 cur_page = 1;
                 isRecycle = isNewest = isSearch = false;
@@ -458,7 +458,7 @@ var note = {
                         mdeditor && mdeditor.clear();
                     }
                 }
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
         })
@@ -472,7 +472,7 @@ var note = {
         }, function (res) {
             isLoading = false;
             console.log(res);
-            if(res.code === 200){
+            if (res.code === 200) {
                 if (res.data.data.length) {
                     $list_box.removeClass('null is-search-null');
                     var html = template('recycle-tpl', {list: res.data.data});
@@ -493,7 +493,7 @@ var note = {
                         mdeditor && mdeditor.clear();
                     }
                 }
-            }else{
+            } else {
                 layer.msg(res.msg);
             }
         })
@@ -542,7 +542,7 @@ var note = {
     },
     // 显示笔记内容
     getNoteDetail: function (note_id) {
-        $.get('./note/find', {id: note_id, active:isRecycle?'0':'1'}, function (res) {
+        $.get('./note/find', {id: note_id, active: isRecycle ? '0' : '1'}, function (res) {
             if (res.code === 200) {
                 $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
@@ -573,9 +573,9 @@ var note = {
                 $('.doc-title-span').html(res.data.title);
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
-                if(isRecycle){
+                if (isRecycle) {
                     $doc_box.addClass('is-recycle');
-                }else{
+                } else {
                     $doc_box.removeClass('is-recycle');
                 }
             } else {
@@ -677,22 +677,22 @@ var note = {
                 note.getSearch();
             }
         })
-            .on('cut paste',function(){
+            .on('cut paste', function () {
                 var $self = $(this);
                 setTimeout(function () {
-                    $self.val().trim()?$searchClose.show():'';
-                },0)
+                    $self.val().trim() ? $searchClose.show() : '';
+                }, 0)
             })
-            .on('input',function(){
-            var $self = $(this);
-            $self.val().trim()?$searchClose.show():'';
-        });
+            .on('input', function () {
+                var $self = $(this);
+                $self.val().trim() ? $searchClose.show() : '';
+            });
         // 搜索类型事件
         $searchType.on('click', function (e) {
             e.stopPropagation();
-            if($searchTypeUl.is(':visible')){
+            if ($searchTypeUl.is(':visible')) {
                 $searchTypeUl.hide();
-            }else{
+            } else {
                 $searchTypeUl.show();
                 $(document).off('click').one('click', function () {
                     $searchTypeUl.hide();
@@ -704,23 +704,23 @@ var note = {
             var $self = $(this),
                 type = $self.data('type'),
                 text = $self.text();
-            $searchType.data('type',type).text(text);
+            $searchType.data('type', type).text(text);
             $searchTypeUl.hide();
         });
         // 关闭搜索事件
-        $searchClose.on('click', function(){
+        $searchClose.on('click', function () {
             $searchClose.hide();
             $search.val('');
-            if(isSearch){
+            if (isSearch) {
                 isSearch = false;
                 cur_page = 1;
-                if($('.nav-newest-item').hasClass('active')){
+                if ($('.nav-newest-item').hasClass('active')) {
                     isNewest = true;
                     note.getNewList();
-                }else if($('.nav-del-item').hasClass('active')){
+                } else if ($('.nav-del-item').hasClass('active')) {
                     isRecycle = true;
                     note.getRecycle();
-                }else{
+                } else {
                     isRecycle = isNewest = false;
                     note.getList(g_id);
                 }
@@ -889,6 +889,8 @@ var note = {
                 $('.doc-title-input').val('');
                 $('.doc-title-span').html(res.data.title);
                 $('.doc-preview-body').html(res.data.content || '');
+                var $count = $('.child-item.active>.second-menu-a>.item-count');
+                main.navCountHandle($count);
                 cur_note = res.data;
                 note.initEditor(type);
             } else {
@@ -919,7 +921,7 @@ var note = {
     restoreNote: function (note_id, elem) {
         var id = note_id || cur_note.id,
             e = elem || $('.doc-item.active');
-        $.post('/note/recovery',{id: id}, function (res) {
+        $.post('/note/recovery', {id: id}, function (res) {
             if (res.code === 200) {
                 layer.msg('还原笔记成功');
                 e.remove();
@@ -973,7 +975,7 @@ var note = {
     },
     // ctrl-s 保存笔记
     ctrlSNote: function () {
-        if(!isCtrlS){
+        if (!isCtrlS) {
             var title = $('.doc-title-input').val().trim() || cur_note.title,
                 md_cnt = cur_note.type === '1' ? mdeditor.getMarkdown().trim() : '',
                 html_cnt = cur_note.type === '1' ? mdeditor.getPreviewedHTML().trim() : wangeditor.txt.html().trim(),
@@ -1052,7 +1054,7 @@ var note = {
             title = $span.html();
         if (title === cur_note.title) {
             return false;
-        }else if (title.length === 0){
+        } else if (title.length === 0) {
             $span.html(cur_note.title);
             return false;
         }
@@ -1132,6 +1134,21 @@ var main = {
                 layer.msg(res.msg);
             }
         })
+    },
+    // 目录下笔记数量操作
+    navCountHandle: function (elem, type) {
+        var text = elem.text().replace('(', '').replace(')', ''),
+            idx = text.indexOf('/');
+        if (idx === -1) {
+            text = parseInt(text) + 1;
+            elem.text('(' + text + ')');
+            var pElem = elem.parents('.child-list').prev('[data-pid="0"]').eq(0).find('.item-count');
+            main.navCountHandle(pElem, true)
+        } else {
+            var first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1,
+                last = parseInt(text.substring(idx + 1)) + 1;
+            elem.text('(' + first + '/' + last + ')');
+        }
     }
 };
 main.init();
