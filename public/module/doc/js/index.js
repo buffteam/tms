@@ -956,6 +956,7 @@ var note = {
             content: html_cnt,
             origin_content: md_cnt
         }, function (res) {
+
             if (res.code === 200) {
                 $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(res.data.title);
                 layer.msg('保存成功');
