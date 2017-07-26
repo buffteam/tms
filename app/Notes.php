@@ -18,7 +18,7 @@ class Notes extends Model
      * @var bool
      */
     public $timestamps = true;
-    protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active'];
+    protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active','last_updated_name'];
 //    protected $guarded = ['created_at','updated_at'];
 
     public function user()
