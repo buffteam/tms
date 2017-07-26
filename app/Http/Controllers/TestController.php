@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ForgetToken;
 use App\Mail\ResetPassword;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Notes;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class TestController extends Controller
     }
     public function test ()
     {
-
+        dd(url());
+        return response()->json();
 
     }
 }

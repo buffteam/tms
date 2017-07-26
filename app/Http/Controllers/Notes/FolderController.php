@@ -55,26 +55,6 @@ class FolderController extends BaseController
         $list = Folder::all();
         $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
         $allCategories = [];//Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
-        /**
-         * 处理子菜单
-         * @param $data
-         * @return int
-         */
-        function dealSub($data) {
-            $totalCount = 0;
-            foreach ($data as $subItems) {
-                $subItems->currentCount = $subItems->notes()->count();
-                $totalCount = $totalCount + $subItems->currentCount;
-                $subCondition = Folder::where('p_id',$subItems->id);
-                $subMenuCount = $subCondition->count();
-                if ($subMenuCount > 0) {
-                    $subMenu = $subCondition->get();
-                    $totalCount = $totalCount + dealSub($subMenu);
-                }
-            }
-            return $totalCount;
-        }
-
         foreach($list as $items) {
             // 开始处理显示目录下的文件数量
             $totalCount = 0;//文件夹及其所属的子文件下笔记总数量
@@ -83,7 +63,7 @@ class FolderController extends BaseController
             $subCondition = Folder::where('p_id',$items->id);
             $subMenuCount = $subCondition->count();
             if ($subMenuCount > 0) {
-                $delSubCount = dealSub($subCondition->get());
+                $delSubCount = $this->dealSub($subCondition->get());
                 $totalCount = $totalCount + $delSubCount;
             }
             if ($items->p_id == 0) {
@@ -175,5 +155,24 @@ class FolderController extends BaseController
 
         return $this->ajaxSuccess('删除成功');
 
+    }
+    /**
+     * 处理子菜单
+     * @param $data
+     * @return int
+     */
+    function dealSub($data) {
+        $totalCount = 0;
+        foreach ($data as $subItems) {
+            $subItems->currentCount = $subItems->notes()->count();
+            $totalCount = $totalCount + $subItems->currentCount;
+            $subCondition = Folder::where('p_id',$subItems->id);
+            $subMenuCount = $subCondition->count();
+            if ($subMenuCount > 0) {
+                $subMenu = $subCondition->get();
+                $totalCount = $totalCount + $this->dealSub($subMenu);
+            }
+        }
+        return $totalCount;
     }
 }
