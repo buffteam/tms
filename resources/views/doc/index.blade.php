@@ -26,19 +26,19 @@
                             </div>
                         </li>
                         <li class="pure-menu-item nav-newest-item active">
-                            <a href="#" class="first-menu-a">最新笔记</a>
+                            <div class="first-menu-a">最新笔记</div>
                         </li>
                         <li class="pure-menu-item nav-doc-item">
-                            <a href="#" class="nav-doc-a first-menu-a is-parent" data-switch="on">
+                            <div class="nav-doc-a first-menu-a is-parent" data-switch="on">
                                 <span>我的文档</span>
-                            </a>
+                            </div>
                             <ul class="child-list first-child-list">
 
                                 <li class="child-item child-item-input">
                                     <input type="text" name="add_dir1">
                                 </li>
                                 <li class="child-item add-dir">
-                                    <a href="#"><span>+</span>新建文件夹</a>
+                                    <span>+</span>新建文件夹
                                 </li>
                             </ul>
                             <div class="down-box">
@@ -51,7 +51,7 @@
                             {{--<a href="#" class="first-menu-a">我的分享</a>--}}
                         {{--</li>--}}
                         <li class="pure-menu-item nav-del-item">
-                            <a href="#" class="first-menu-a">回收站</a>
+                            <div class="first-menu-a">回收站</div>
                         </li>
                     </ul>
                     <div class="feedback">
@@ -210,11 +210,12 @@
     </script>
     <script id="add-input-tpl" type="text/html">
         <li class="child-item">
-            <a href="#" class="last-menu-a" data-id="" data-pid="">
+            <div class="second-menu-a" data-id="" data-pid="">
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><input type="text"></span>
+                <span class="item-count">(0)</span>
                 <span class="child-menu-down" data-idx="##idx##"></span>
-            </a>
+            </div>
         </li>
     </script>
 
@@ -222,15 +223,16 @@
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
         <li class="child-item">
         <% if(list[i].child) {%> 
-			<a href="#" class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
+			<div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
         <% }else{ %>
-            <a href="#" class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
+            <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
         <% } %>
             	<span class="child-menu-open"></span>
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><%= list[i].title %></span>
+                <span class="item-count">(<%= list[i].currentCount %><% if(list[i].totalCount) {%>/<%= list[i].totalCount %><% } %>)</span>
                 <span class="child-menu-down" data-idx="<%= idx %>"></span>
-            </a>
+            </div>
 
             <% if(list[i].child) {%>
             	<ul class="child-list">

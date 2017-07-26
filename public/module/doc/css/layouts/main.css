@@ -194,6 +194,7 @@ body {
     height: 14px;
     background: url(../../imgs/icon/down.png) 1px 2px no-repeat;
     background-size: 12px;
+    background-color: #fff;
     border: 1px solid #aaa;
     border-radius: 50%;
 }
@@ -259,33 +260,50 @@ body {
     animation: show .3s ease;
 }
 
-.child-item a {
+.child-item .second-menu-a {
     padding: 8px 30px 8px 38px;
     line-height: 20px;
     height: 20px;
 }
-.child-item.add-dir a{
-    padding-left: 0;
+.child-item.add-dir{
+    padding: 8px 0;
+    cursor: pointer;
 }
 .child-item.add-dir span {
     font-size: 18px;
     line-height: 20px;
     margin-right: 5px;
-    /*background: url(../../imgs/icon/add.png) 0 10px no-repeat;*/
-    /*background-size: 16px;*/
 }
 
 .child-item .item-name{
     display: inline-block;
-    width:100%;
+    max-width:100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    vertical-align: top;
+}
+.child-item .item-name input{
+    float: left;
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+.child-item .item-count{
+    display: inline-block;
+    color: #999;
+    font-size: 12px;
+    vertical-align: top;
 }
 
-.pure-menu-item a {
+.pure-menu-item .second-menu-a,
+.pure-menu-item .first-menu-a
+{
     display: block;
     color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+
 }
 
 .down-box {

@@ -6,16 +6,17 @@ $light_blue: #e3f2fd;
   .list-content-null span.new-note{
     background-color: $deep_blue;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #bbdefb;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_blue;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_blue;
   }
@@ -48,16 +49,17 @@ $light_purple: #ede7f6;
   .list-content-null span.new-note{
     background-color: $deep_purple;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #d1c4e9;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_purple;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_purple;
   }
@@ -90,16 +92,17 @@ $light_green: #d0fcf3;
   .list-content-null span.new-note{
     background-color: $deep_green;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #4ceece;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_green;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_green;
   }
@@ -132,16 +135,17 @@ $light_teal: #e0f2f1;
   .list-content-null span.new-note{
     background-color: $deep_teal;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #b2dfdb;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_teal;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_teal;
   }
@@ -174,16 +178,17 @@ $light_brown: #efebe9;
   .list-content-null span.new-note{
     background-color: $deep_brown;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #d7ccc8;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_brown;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_brown;
   }
@@ -216,16 +221,17 @@ $light_cyan: #e0f7fa;
   .list-content-null span.new-note{
     background-color: $deep_cyan;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #b2ebf2;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_cyan;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_cyan;
   }
@@ -258,16 +264,17 @@ $light_indigo: #e8eaf6;
   .list-content-null span.new-note{
     background-color: $deep_indigo;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #c5cae9;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_indigo;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_indigo;
   }
@@ -300,16 +307,17 @@ $light_red: #ffebee;
   .list-content-null span.new-note{
     background-color: $deep_red;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #ffcdd2;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_red;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_red;
   }
@@ -342,16 +350,17 @@ $light_dark: #ECF0F1;
   .list-content-null span.new-note{
     background-color: $deep_dark;
   }
-  .pure-menu-item.active a:hover,
+  .pure-menu-item.active .first-menu-a:hover,
   .pure-menu-item.active,
-  .child-item.active > a,
-  .child-item.active > a:hover{
+  .child-item.active > .second-menu-a,
+  .child-item.active > .second-menu-a:hover{
     background-color: #cfd8dc;
   }
-  .child-item.add-dir a{
+  .child-item.add-dir{
     color: $deep_dark;
   }
-  .pure-menu-item a:hover,
+  .pure-menu-item .first-menu-a:hover,
+  .pure-menu-item .second-menu-a:hover,
   .doc-item.active{
     background-color: $light_dark;
   }
