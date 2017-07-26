@@ -273,13 +273,16 @@ class NotesController extends BaseController
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         // 查询title页数 如果不足就查询匹配content的内容补足
-        $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
+//        $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
         $titleCondition = [];
         if ($params['type'] == 'name') {
             $user = DB::table('users')->where('name',$params['keywords'])->first();
             if (null !== $user) {
                 $titleCondition = [['u_id',$user->id]];
+            } else {
+                return $this->ajaxSuccess('搜索成功',['totalPage'=>0,'data'=>[]]);
             }
+
         } else {
             $titleCondition = [[$params['type'],'like','%'.$params['keywords'].'%']];
         }
