@@ -167,7 +167,7 @@ var folder = {
             .on('click', '.second-menu-a', function () {
                 var $self = $(this);
                 g_id = $self.data('id');
-                $('.child-item.active,.nav-newest-item').removeClass('active');
+                $('.child-item.active,.pure-menu-item').removeClass('active');
                 $self.parent().addClass('active');
                 cur_page = 1;
                 isRecycle = isNewest = isSearch = false;

@@ -178,12 +178,16 @@
                 <% } %>
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
+            <p class="doc-author">
+                <span>创建人：<%= list[i].author %></span>
+                <% if(list[i].last_updated_name) {%>
+                <span>最后修改人：<%= list[i].last_updated_name %></span>
+                <% } %>
+            </p>
             <p class="doc-time">
                 <span><%= list[i].updated_at %></span>
-                <span class="doc-author"> <%= list[i].author %></span>
             </p>
             <p class="doc-hover-icon">
-<!--               <span class="list-share-icon" title="分享"></span>-->
                 <span class="list-del-icon" title="删除"></span>
             </p>
         </li>
@@ -198,9 +202,14 @@
                 <% } %>
                 <span class="list-title-text"><%= list[i].title %></span>
             </p>
+            <p class="doc-author">
+                <span>创建人：<%= list[i].author %></span>
+                <% if(list[i].last_updated_name) {%>
+                <span>删除人：<%= list[i].last_updated_name %></span>
+                <% } %>
+            </p>
             <p class="doc-time">
-                <span><%= list[i].updated_at %></span>
-                <span class="doc-author"> <%= list[i].author %></span>
+                <span>删除时间：<%= list[i].updated_at %></span>
             </p>
             <p class="doc-hover-icon">
                 <span class="list-restore-icon" title="还原"></span>

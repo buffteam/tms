@@ -663,7 +663,7 @@ body {
 }
 .doc-item {
     position: relative;
-    padding: 0.9em 1em;
+    padding: 14px 15px 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     animation: show .3s ease;
@@ -688,13 +688,13 @@ body {
 .doc-title .icon-note{
     background-image: url("../../imgs/icon/note.png");
 }
-.doc-time {
-    font-size: 80%;
-    margin: 0.4em 0;
+.doc-time, .doc-author{
+    font-size: 12px;
     color: #aaa;
+    margin: 5px 0;
 }
-.doc-author{
-    margin-left: 10px;
+.doc-author span{
+    margin-right: 10px;
 }
 .doc-hover-icon{
     position: absolute;
