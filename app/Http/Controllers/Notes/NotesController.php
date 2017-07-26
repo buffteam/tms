@@ -333,7 +333,7 @@ class NotesController extends BaseController
                 ->select('notes.*', 'users.name as author')
                 ->skip($start)->take($params['pagesize'])->get();
 
-        return $this->ajaxSuccess('获取数据成功',['totalPage'=>$totalPage,'data'=>$list]);
+        return $this->ajaxSuccess('获取数据成功',['totalPage'=>$totalPage,'$totalCount'=>$totalNum,'data'=>$list]);
 
     }
 
