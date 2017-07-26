@@ -52,9 +52,50 @@ class FolderController extends BaseController
      */
     public function listAll()
     {
+        $list = Folder::all();
+        $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
+        $allCategories = [];//Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
+        /**
+         * 处理子菜单
+         * @param $data
+         * @return int
+         */
+        function dealSub($data) {
+            $totalCount = 0;
+            foreach ($data as $subItems) {
+                $subItems->currentCount = $subItems->notes()->count();
+                $totalCount = $totalCount + $subItems->currentCount;
+                $subCondition = Folder::where('p_id',$subItems->id);
+                $subMenuCount = $subCondition->count();
+                if ($subMenuCount > 0) {
+                    $subMenu = $subCondition->get();
+                    $totalCount = dealSub($subMenu);
+                }
+            }
+            return $totalCount;
+        }
 
-        $categories = Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
-        $allCategories = Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
+        foreach($list as $items) {
+            // 开始处理显示目录下的文件数量
+            $totalCount = 0;//文件夹及其所属的子文件下笔记总数量
+            $items->currentCount = $items->notes()->count();// 当前文件夹下笔记数量
+            $totalCount = $totalCount + $items->currentCount;
+            $subCondition = Folder::where('p_id',$items->id);
+            $subMenuCount = $subCondition->count();
+            if ($subMenuCount > 0) {
+                $delSubCount = dealSub($subCondition->get());
+                $totalCount = $totalCount + $delSubCount;
+            }
+            if ($items->p_id == 0) {
+                $items->totalCount = $totalCount;
+            }
+            // 这里分流数据分为一级目录和其他目录
+            if ($items->p_id == 0) {
+                array_push($categories,$items->toArray());
+            } else {
+                array_push($allCategories,$items->toArray());
+            }
+        }
         return $this->ajaxSuccess('请求成功',compact('categories','allCategories'));
     }
 
