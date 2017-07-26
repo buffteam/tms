@@ -206,7 +206,7 @@ class NotesController extends BaseController
         }
         $params = $request->input();
 
-        $data = Notes::where('id',$params['id'])->update(array('active'=>'0','updated_id'=>Auth::id()));
+        $data = Notes::where('id',$params['id'])->update(array('active'=>'0','last_updated_name'=>user()->name));
 
         if ($data != 1) {
             return $this->ajaxError('数据在另一端已经被删除了，请刷新页面');
