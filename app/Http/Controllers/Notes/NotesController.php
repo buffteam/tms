@@ -56,6 +56,7 @@ class NotesController extends BaseController
         }
         $params['u_id'] = user()->id;
         $params['last_updated_name'] = user()->name;
+//        dd($params);
         $data = $this->notesModel->create($params);
         $data->author = Auth::user()->name;
         if (null != $data) {
