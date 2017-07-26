@@ -1082,10 +1082,18 @@ var main = {
             },
             complete: function (XMLHttpRequest) {
                 if (XMLHttpRequest.status === 401) {
-                    location.href = './login';
+                    layer.msg('登录信息验证失败，请重新登录', function () {
+                        location.href = './login';
+                    });
+                }else if (XMLHttpRequest.status === 503) {
+                    var res = JSON.parse(XMLHttpRequest.responseText);
+                    layer.msg(res.msg, function () {
+                        location.href = './login';
+                    });
                 } else if (XMLHttpRequest.status !== 200) {
                     layer.msg('服务器出错了 ' + XMLHttpRequest.status);
                 }
+                console.log(XMLHttpRequest)
             }
         });
         // 禁止保存网站
