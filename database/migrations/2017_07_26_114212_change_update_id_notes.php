@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActiveToAvatar extends Migration
+class ChangeUpdateIdNotes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddActiveToAvatar extends Migration
      */
     public function up()
     {
-        Schema::table('avatars', function (Blueprint $table) {
+        Schema::table('notes', function (Blueprint $table) {
             //
-            $table->tinyInteger('active')->default(1);
+            $table->dropColumn('updated_id');
+            $table->string('last_updated_name');
         });
     }
 
@@ -26,7 +27,7 @@ class AddActiveToAvatar extends Migration
      */
     public function down()
     {
-        Schema::table('avatrs', function (Blueprint $table) {
+        Schema::table('notes', function (Blueprint $table) {
             //
         });
     }

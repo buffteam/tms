@@ -55,7 +55,7 @@ class NotesController extends BaseController
             $params['title'] = $params['title'].'('.$count.')';
         }
         $params['u_id'] = user()->id;
-
+        $params['last_updated_name'] = user()->name;
         $data = $this->notesModel->create($params);
         $data->author = Auth::user()->name;
         if (null != $data) {
@@ -114,7 +114,7 @@ class NotesController extends BaseController
                     ->orderBy($params['field'],$params['order'])
                     ->skip($start)
                     ->take($params['pagesize'])
-                    ->get()->toArray();
+                    ->get();
 
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
         return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
@@ -178,7 +178,7 @@ class NotesController extends BaseController
         }
 
 
-        $params['updated_id'] = user()->id;
+        $params['last_updated_name'] = user()->name;
 
         $data = $this->notesModel->where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
         if ($data != 1) {
