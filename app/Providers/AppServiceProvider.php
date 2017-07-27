@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        view()->share('column', config('page.column'));
     }
 
     /**

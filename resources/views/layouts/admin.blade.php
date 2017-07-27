@@ -21,6 +21,9 @@
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#mdui-drawer'}"><i
                     class="mdui-icon material-icons">menu</i></span>
         <a href="{{route('dashboard')}}" class="mdui-typo-headline mdui-hidden-xs">{{ config('app.name', '管理界面') }}</a>
+        @for($i = 0; $i < count($column); $i++)
+            <a href="{{ $column[$i]['url'] }}"  class="mdui-typo-headline mdui-hidden-xs" target="_blank">{{ $column[$i]['name'] }}</a>
+        @endfor
         {{--<a href="" class="mdui-typo-title">抽屉式导航栏</a>--}}
         <div class="mdui-toolbar-spacer"></div>
         <button id="open" class="mdui-btn mdui-color-theme-accent mdui-ripple">{{ Auth::user()->name }}<i class="mdui-icon material-icons">&#xe5cf;</i></button>
@@ -65,9 +68,9 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                <li class="mdui-list-item mdui-ripple"><a href="{{url('admin/navSetting')}}">导航栏设置</a></li>
+                {{--<li class="mdui-list-item mdui-ripple"><a href="{{url('admin/columnSetting')}}">导航栏入口设置</a></li>--}}
                 <li class="mdui-list-item mdui-ripple"> <a href="{{url('admin/account')}}">账号审核</a></li>
-                {{--<li class="mdui-list-item mdui-ripple">修改</li>--}}
+                <li class="mdui-list-item mdui-ripple"><a href="{{url('updateLog/index')}}">版本规划与更新日志</a></li>
                 {{--<li class="mdui-list-item mdui-ripple">New vs Returning</li>--}}
             </ul>
         </li>

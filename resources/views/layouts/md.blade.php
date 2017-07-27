@@ -20,7 +20,12 @@
             <li>
                 <a href="{{route('root')}}" >首页</a>
             </li>
-            <li><a href="http://172.28.10.23" target="_blank">Gitlab</a></li>
+
+            @for($i = 0; $i < count($column); $i++)
+                <li>
+                    <a href="{{ $column[$i]['url'] }}" target="_blank">{{ $column[$i]['name'] }}</a>
+                </li>
+            @endfor
         </ul>
         @if (Route::has('login'))
 
@@ -45,7 +50,9 @@
                     <div class="user-info" onclick="header.userDropDown(this,event)">
                         <span>{{ Auth::user()->name }}</span>
                         <ul class="user-down-list">
-                            <li><a href="{{ url('/admin') }}">系统设置</a></li>
+                            @if(Auth::user()->auth == 2)
+                                <li><a href="{{ url('/admin') }}">系统设置</a></li>
+                            @endif
                             <li><a href="{{ route('modify') }}">修改密码</a></li>
                             <li><a href="{{ route('avatar') }}">上传头像</a></li>
                             <li><a class="logout" href="{{ route('logout') }}"

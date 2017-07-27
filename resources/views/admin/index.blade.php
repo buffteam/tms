@@ -5,6 +5,7 @@
 
     </div>
     <div class="mdui-divider" style="margin-bottom: 15px;"></div>
+
     <div class="mdui-table-fluid">
         <table class="mdui-table mdui-table-hoverable mdui-table-selectable">
             <thead>
@@ -37,4 +38,5 @@
             </tbody>
         </table>
     </div>
+
 @endsection

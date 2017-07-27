@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Notes;
 use App\Folder;
-use App\Notes;
+use App\Model\Notes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;

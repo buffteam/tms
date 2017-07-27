@@ -1,5 +1,19 @@
 <?php
+/**
+ * 页面配置信息
+ */
 return [
-    "pagesize"=> 15,
-    "uploads" => env('APP_ENV') === 'production' ? 'http://172.28.2.228/stip/public/' : '/uploads'
+    //分页数量
+    'pagesize'=> 15,
+    // 导航栏入口列表
+    'column' => [
+        [
+            'name' => 'Gitlab',
+            'url' => 'http://172.28.10.23'
+        ],
+        [
+            'name' => '吐槽论坛',
+            'url' => 'http://172.28.10.23'
+        ]
+    ]
 ];

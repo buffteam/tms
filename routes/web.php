@@ -11,21 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    $md = file_get_contents(base_path().'/desc.md');
-    return view('welcome',['md'=>$md]);
-})->name('root');
+//Route::get('/', 'HomeController')->name('root');
 
 
 Route::get('getReadme', function () {
     return file_get_contents(base_path().'/desc.md');
 })->name('getReadme');
 
+Route::get('getUpdate', function () {
+    return file_get_contents(base_path().'/update-log.md');
+})->name('getUpdate');
+
 /**
  * Home前端用户界面相关的路由
  */
 Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
-    Route::any('/home', 'HomeController@index')->name('home');
+    Route::any('/', 'HomeController@index')->name('root');
+    Route::get('updateLog', 'HomeController@updateLog')->name('updateLog');
+    Route::get('getDesc', 'HomeController@getDesc')->name('getDesc');
 });
 
 /**
@@ -33,13 +36,19 @@ Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
  */
 Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
-
-
     Route::any('/admin', 'DashboardController@index');
     Route::any('admin/feedback', 'FeedbackController@index');
 
     Route::any('admin/account', 'AccountVerifyController@index')/*->name('account')*/;
     Route::any('account/verify', 'AccountVerifyController@verify');
+
+    Route::any('admin/columnSetting', 'ColumnSettingController@index')->name('columnSetting');
+
+    Route::any('updateLog/index', 'updateLogController@index');
+    Route::any('updateLog/add', 'updateLogController@store');
+    Route::any('updateLog/create', 'updateLogController@create');
+    Route::any('updateLog/show','updateLogController@show');
+    Route::any('updateLog/update','updateLogController@update');
 });
 
 
