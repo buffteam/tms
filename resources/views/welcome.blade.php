@@ -22,24 +22,27 @@
 
                 <div id="updateContent" >
                     <div class="mdui-panel" mdui-panel id="descContent">
-                        @if (count($data['desc']) > 0)
-                            @for($i = 0; $i < count($data['desc']); $i++)
-                                <div class="mdui-panel-item mdui-panel-item-open">
-                                    <div class="mdui-panel-item-header">
-                                        <h4>{{$data['desc'][$i]->title}}</h4>
-                                        <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-                                    </div>
-                                    <div class="mdui-panel-item-body">
-                                        <div class="markdown-body">
-                                            <?php echo $data['desc'][$i]->html_doc;?>
-                                        </div>
 
-                                    </div>
+                            <div class="mdui-panel-item mdui-panel-item-open">
+                                @if (count($data['desc']) > 0)
+                                <div class="mdui-panel-item-header">
+                                    <h4>{{$data['desc'][0]->title}}</h4>
+                                    <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                                 </div>
-                            @endfor
-                        @else
-                            <h3>暂无使用说明</h3>
-                        @endif
+                                <div class="mdui-panel-item-body">
+                                    <div class="markdown-body">
+                                        <?php echo $data['desc'][0]->html_doc;?>
+                                    </div>
+
+                                </div>
+                                @else
+                                    <div class="mdui-panel-item-body">
+                                        <h3>暂无使用说明</h3>
+                                    </div>
+
+                                @endif
+                            </div>
+
                     </div>
                     <div class="mdui-panel" mdui-panel id="logsContent">
                         <div class="mdui-panel-item ">

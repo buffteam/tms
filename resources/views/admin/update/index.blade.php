@@ -39,7 +39,7 @@
                  <tr  onclick="document.getElementById('form{{$item->id}}').submit();">
                      <td>{{$item->id}}</td>
                      <td>{{$item->title}}</td>
-                     <td>{{$item->type}}</td>
+                     <td>{{['日志','说明','计划'][$item->type-1]}}</td>
                      <td>{{$item->version}}</td>
                      <td>{{substr($item->html_doc,0,20)}}</td>
                      <td>{{$item->created_at}}</td>
