@@ -44,7 +44,7 @@ class AvatarsController extends BaseController
     }
     public function insertAvatar ($url,$userId)
     {
-        return Avatars::create(['url'=>$url,'u_id'=>$userId,'active'=>1]) ? '上传成功' : '上传失败';
+        return Avatars::create(['url'=>$url,'u_id'=>$userId,'active'=>9]) ? '上传成功' : '上传失败';
     }
     public function findAvatars ($userId)
     {

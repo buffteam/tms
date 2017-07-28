@@ -33,7 +33,7 @@
                                         @for($i = 0; $i < count($data['logs']); $i++)
                                             <div class="mdui-panel" mdui-panel>
 
-                                                <div class="mdui-panel-item ">
+                                                <div class="mdui-panel-item mdui-panel-item-open">
                                                     <div class="mdui-panel-item-header"><h3></h3>
                                                         <div class="mdui-panel-item-header">
                                                             <div class="mdui-panel-item-title">{{$data['desc'][$i]->title}}</div>
@@ -69,7 +69,7 @@
                                     @for($i = 0; $i < count($data['logs']); $i++)
                                         <div class="mdui-panel" mdui-panel>
 
-                                            <div class="mdui-panel-item ">
+                                            <div class="mdui-panel-item {{$i == 0 ? 'mdui-panel-item-open' : ''}}">
                                                 <div class="mdui-panel-item-header"><h3></h3>
                                                     <div class="mdui-panel-item-header">
                                                         <div class="mdui-panel-item-title">{{$data['logs'][$i]->title}}</div>
@@ -104,7 +104,7 @@
                                     @for($i = 0; $i < count($data['version']); $i++)
                                         <div class="mdui-panel" mdui-panel>
 
-                                            <div class="mdui-panel-item ">
+                                            <div class="mdui-panel-item {{$i == 0 ? 'mdui-panel-item-open' : ''}}">
                                                 <div class="mdui-panel-item-header"><h3></h3>
                                                     <div class="mdui-panel-item-header">
                                                         <div class="mdui-panel-item-title">{{$data['version'][$i]->title}}</div>
