@@ -2,7 +2,29 @@
 @section('style')
 <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
 <link rel="stylesheet" href="{{asset('module/doc/css/mdui-alert.css')}}">
+<style>
+    .mdui-select {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+    .mdui-select option {
 
+    }
+</style>
 @endsection
 @section('content')
     <div class="mdui-bread-crumb ">
@@ -32,6 +54,15 @@
             </div>
         </div>
         <div class="mdui-row">
+            <div class="mdui-textfield mdui-col-md-1 mdui-col-offset-md-1">
+                <select name="type" id="" class="mdui-select">
+                    <option value="1">日志</option>
+                    <option value="2">说明</option>
+                    <option value="3">计划</option>
+                </select>
+            </div>
+        </div>
+        <div class="mdui-row">
             <div class="mdui-textfield mdui-col-md-9 mdui-col-offset-md-1">
                 <div id="content">
                     {{--<textarea class="editormd-markdown-textarea" name="content-markdown-doc" required></textarea>--}}
@@ -47,17 +78,6 @@
         </div>
 
     </form>
-    <div class="mdui-dialog" id="addDialog" >
-        <div class="mdui-dialog-title">新增入口表单</div>
-        <div class="mdui-dialog-content">
-            <textarea></textarea>
-        </div>
-        <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-color-theme-accent mdui-ripple" mdui-dialog-close>关闭</button>
-            <button class="mdui-btn mdui-ripple  mdui-color-blue" id="addBtn">保存</button>
-        </div>
-    </div>
-
 @endsection
 @section('script')
     <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
@@ -74,7 +94,6 @@
             path : "/libs/editormd/lib/",
             readOnly: false,
             markdown : '',
-//            taskList : true,
             saveHTMLToTextarea : true,
             toolbar  : true,
             onload : function() {

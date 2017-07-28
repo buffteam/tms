@@ -11,22 +11,15 @@
 |
 */
 
-//Route::get('/', 'HomeController')->name('root');
+Route::get('/', 'Home\HomeController@index')->name('root');
 
 
-Route::get('getReadme', function () {
-    return file_get_contents(base_path().'/desc.md');
-})->name('getReadme');
-
-Route::get('getUpdate', function () {
-    return file_get_contents(base_path().'/update-log.md');
-})->name('getUpdate');
 
 /**
  * Home前端用户界面相关的路由
  */
 Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
-    Route::any('/', 'HomeController@index')->name('root');
+
     Route::get('updateLog', 'HomeController@updateLog')->name('updateLog');
     Route::get('getDesc', 'HomeController@getDesc')->name('getDesc');
 });

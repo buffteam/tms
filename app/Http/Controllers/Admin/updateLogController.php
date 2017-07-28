@@ -25,15 +25,17 @@ class updateLogController extends BaseController
         $this->validate($request,[
                 'title'=>'required|max:50',
                 'version'=>'required|max:30',
-                'content-markdown-doc'=> 'required'
+                'content-markdown-doc'=> 'required',
+                'type' => 'required'
             ]
         );
         $params = $request->input();
         $data = [
-            'title'=>$params['title'],
-            'version'=>$params['version'],
-            'md_doc'=>$params['content-markdown-doc'],
-            'html_doc'=>$params['content-html-code']
+            'title' => $params['title'],
+            'type' => $params['type'],
+            'version' => $params['version'],
+            'md_doc' => $params['content-markdown-doc'],
+            'html_doc' => $params['content-html-code']
         ];
         Updatelogs::create($data);
         return redirect(url('updateLog/index'));
