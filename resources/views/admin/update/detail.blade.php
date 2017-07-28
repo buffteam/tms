@@ -32,6 +32,15 @@
             </div>
         </div>
         <div class="mdui-row">
+            <div class="mdui-textfield mdui-col-md-1 mdui-col-offset-md-1">
+                <select name="type" id="" class="mdui-select">
+                    <option value="1">日志</option>
+                    <option value="2">说明</option>
+                    <option value="3">计划</option>
+                </select>
+            </div>
+        </div>
+        <div class="mdui-row">
             <div class="mdui-textfield mdui-col-md-9 mdui-col-offset-md-1">
                 <div id="content">
                     {{--<textarea class="editormd-markdown-textarea" name="content-markdown-doc" required></textarea>--}}

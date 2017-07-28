@@ -32,7 +32,7 @@ class updateLogController extends BaseController
         $params = $request->input();
         $data = [
             'title' => $params['title'],
-            'type' => $params['type'],
+            'type' =>  intval($params['type']),
             'version' => $params['version'],
             'md_doc' => $params['content-markdown-doc'],
             'html_doc' => $params['content-html-code']

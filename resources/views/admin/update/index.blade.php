@@ -15,14 +15,15 @@
     </div>
     <div class="mdui-divider" style="margin-bottom: 15px;"></div>
     <div class="module-section" >
-        <a href="{{url('updateLog/create')}}" class="mdui-btn mdui-color-theme-accent  mdui-color-blue mdui-ripple">添加更新日志</a>
+        <a href="{{url('updateLog/create')}}" class="mdui-btn mdui-color-theme-accent  mdui-color-blue mdui-ripple">添加记录</a>
     </div>
     <div class="mdui-table-fluid">
         <table class="mdui-table mdui-table-hoverable ">
             <thead>
             <tr>
                 <th>序号</th>
-                <th>标题</th>
+                <th>主题</th>
+                <th>类型</th>
                 <th>版本号</th>
                 <th>更新内容</th>
                 <th>创建时间</th>
@@ -38,6 +39,7 @@
                  <tr  onclick="document.getElementById('form{{$item->id}}').submit();">
                      <td>{{$item->id}}</td>
                      <td>{{$item->title}}</td>
+                     <td>{{$item->type}}</td>
                      <td>{{$item->version}}</td>
                      <td>{{substr($item->html_doc,0,20)}}</td>
                      <td>{{$item->created_at}}</td>
