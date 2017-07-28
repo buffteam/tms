@@ -24,23 +24,37 @@
                     <div class="mdui-panel" mdui-panel id="descContent">
 
                             <div class="mdui-panel-item mdui-panel-item-open">
-                                @if (count($data['desc']) > 0)
                                 <div class="mdui-panel-item-header">
-                                    <h4>{{$data['desc'][0]->title}}</h4>
+                                    <h4>使用说明</h4>
                                     <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                                 </div>
                                 <div class="mdui-panel-item-body">
-                                    <div class="markdown-body">
-                                        <?php echo $data['desc'][0]->html_doc;?>
-                                    </div>
+                                    @if (count($data['desc']) > 0)
+                                        @for($i = 0; $i < count($data['logs']); $i++)
+                                            <div class="mdui-panel" mdui-panel>
 
-                                </div>
-                                @else
-                                    <div class="mdui-panel-item-body">
+                                                <div class="mdui-panel-item ">
+                                                    <div class="mdui-panel-item-header"><h3></h3>
+                                                        <div class="mdui-panel-item-header">
+                                                            <div class="mdui-panel-item-title">{{$data['desc'][$i]->title}}</div>
+                                                            <div class="mdui-panel-item-summary">{{$data['desc'][$i]->version}}</div>
+                                                            <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mdui-panel-item-body">
+                                                        <div class="markdown-body">
+                                                            <?php echo $data['desc'][$i]->html_doc;?>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endfor
+                                    @else
                                         <h3>暂无使用说明</h3>
-                                    </div>
+                                    @endif
+                                </div>
 
-                                @endif
                             </div>
 
                     </div>
