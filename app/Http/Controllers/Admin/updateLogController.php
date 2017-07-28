@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Model\updatelogs;
+use App\Model\Updatelogs;
 use Illuminate\Http\Request;
 
 class updateLogController extends BaseController
