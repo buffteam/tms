@@ -239,7 +239,7 @@
             	<span class="child-menu-open"></span>
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><%= list[i].title %></span>
-                <span class="item-count">(<%= list[i].currentCount %><% if(list[i].totalCount) {%>/<%= list[i].totalCount %><% } %>)</span>
+                <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
                 <span class="child-menu-down" data-idx="<%= idx %>"></span>
             </div>
 

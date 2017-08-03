@@ -1152,7 +1152,7 @@ var main = {
             text = parseInt(text) + 1;
             elem.text('(' + text + ')');
             var pElem = elem.parents('.child-list').prev('[data-pid="0"]').eq(0).find('.item-count');
-            main.navCountHandle(pElem, true)
+            main.navCountHandle(pElem, true);
         } else {
             var first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1,
                 last = parseInt(text.substring(idx + 1)) + 1;
