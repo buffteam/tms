@@ -32,8 +32,8 @@
                                 <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('name') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">昵称</label>
                                     <input class="mdui-textfield-input" type="text" name="name"
-                                           value="{{ old('name') }}" autocomplete="on" minlength="3" required/>
-                                    <div class="mdui-textfield-error">{{ $errors->has('name') ? $errors->first('name') : '昵称至少3位'}}</div>
+                                           value="{{ old('name') }}" autocomplete="on"  required/>
+                                    <div class="mdui-textfield-error">{{ $errors->has('name') ? $errors->first('name') : '昵称不能为空'}}</div>
                                 </div>
                                 <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">邮箱</label>

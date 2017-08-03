@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title> {{ config('app.name', '共享笔记') }}</title>
+    <title> {{ config('app.name', 'STIP') }}</title>
     <link rel="stylesheet" href="{{asset('module/doc/css/header.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/skin.css')}}">
     <link rel="stylesheet" href="{{asset('libs/mdui/css/mdui.css')}}">
@@ -15,7 +15,7 @@
 <body>
 <section id="skin">
     <header class="header">
-        <div class="logo"><a href="{{route('dashboard')}}">{{ config('app.name', '共享笔记') }}</a></div>
+        <div class="logo"><a href="{{route('dashboard')}}">{{ config('app.name', 'STIP') }}</a></div>
         <ul class="menu">
             <li>
                 <a href="{{route('root')}}" >首页</a>
@@ -54,7 +54,7 @@
                                 <li><a href="{{ url('/admin') }}">系统设置</a></li>
                             @endif
                             <li><a href="{{ route('modify') }}">修改密码</a></li>
-                            <li><a href="{{ route('avatar') }}">上传头像</a></li>
+                            {{--<li><a href="{{ route('avatar') }}">上传头像</a></li>--}}
                             <li><a class="logout" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                     退出登录
@@ -66,9 +66,7 @@
                         </ul>
 
                     </div>
-                    @if (!empty(Auth::user()->avatar))
-                        <img src="{{Auth::user()->avatar}}" class="avatar" alt="" >
-                    @endif
+                    <img src="{{Auth::user()->avatar ? asset(Auth::user()->avatar) : asset(config('page.avatar'))}}" class="avatar" alt="" >
                     <div class="theme-box">
                         <ul class="theme-ul">
                             <li class="theme-li blue-color"><span class="theme-span">blue</span></li>

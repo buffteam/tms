@@ -67,9 +67,7 @@
                         </ul>
 
                     </div>
-                    @if (!empty(Auth::user()->avatar))
-                        <img src="{{Auth::user()->avatar}}" class="avatar" alt="" >
-                    @endif
+                    <img src="{{Auth::user()->avatar ? asset(Auth::user()->avatar) : asset(config('page.avatar'))}}" class="avatar" alt="" >
                     <div class="theme-box">
                         <ul class="theme-ul">
                             <li class="theme-li blue-color"><span class="theme-span">blue</span></li>

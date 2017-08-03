@@ -15,5 +15,6 @@ return [
 //            'name' => '吐槽论坛',
 //            'url' => 'http://172.28.10.23'
 //        ]
-    ]
+    ],
+    'avatar' => 'uploads/avatar/default/avatar02.png'
 ];

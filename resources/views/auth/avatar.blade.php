@@ -56,29 +56,31 @@
                      <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                 </div>
                 <div class="mdui-panel-item-body mdui-color-theme-50" >
-                   <div class="" style="margin-bottom: 25px;">
-                       <button class="mdui-btn mdui-btn-dense mdui-color-deep-orange mdui-ripple" id="del">删除</button>
-                       {{--<button class="mdui-btn mdui-btn-raised mdui-btn-dense mdui-color-red mdui-ripple" id="empty">清空</button>--}}
-                   </div>
+                    <div class="current-avatar">
+                        <h3>当前头像</h3>
+                        @if (!empty(Auth::user()->avatar))
+                            <img src="{{Auth::user()->avatar}}" class="" id="currentAvatar" alt="" style="width: 140px;height: 120px;">
+                        @endif
+                    </div><br/>
+                    <h3>图片列表</h3>
                     <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list avatar-list">
                         @foreach($list as $items)
                                 <div class="mdui-col" data-id="{{$items->id}}">
                                     <div class="mdui-grid-tile" >
                                         <a href="javascript:;">  <img src="{{asset($items->url)}}"/></a>
-                                        <div class="mdui-grid-tile-actions" style="display:flex;justify-content: center;align-items: center;">
+                                        <div class="mdui-grid-tile-actions"  data-url="{{$items->url}}" data-id="{{$items->id}}" data-active="{{$items->active}}">
+                                            {{--@if ($items->active != 1 )--}}
                                             @if ($items->u_id != 0)
-                                            <label class="mdui-checkbox check" data-id="{{$items->id}}" data-url="{{$items->url}}" >
-                                                <input type="checkbox"/>
-                                                <i class="mdui-checkbox-icon"></i>
-                                            </label>
+
+                                            <button class="mdui-fab mdui-fab-mini mdui-color-red mdui-ripple del" title="删除图片"><i class="mdui-icon material-icons">delete_forever</i></button>
                                             @endif
-                                            @if($items->active == 1)
-                                                    <div class="mdui-grid-tile-title">当前头像</div>
-                                                @else
-                                                    <button class="mdui-btn  mdui-color-purple mdui-ripple setting" data-url="{{$items->url}}">
-                                                        设置为头像
-                                                    </button>
-                                                @endif
+                                            <button class="mdui-fab mdui-fab-mini mdui-color-blue mdui-ripple setting" title="设置头像"><i class="mdui-icon material-icons">account_box</i></button>
+
+                                            {{--@else--}}
+                                                {{--<h3 >当前头像</h3>--}}
+                                            {{--@endif--}}
+
+
 
                                         </div>
                                     </div>
@@ -102,50 +104,38 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        var avatarManage = $('#avatarManage'),
-            urlList = [],
-            idList = [];
+        var $avatarManage = $('#avatarManage'),
+            $currentAvatar = $('#currentAvatar');
         // 设置头像
-        avatarManage.on('click','.setting',function () {
-            var url = $(this).data('url');
-            $.post('./avatar/select',{url:url},function (res) {
+        $avatarManage.on('click','.setting',function () {
+            var $p = $(this).parent(),
+                url = $p.data('url'),
+                id = $p.data('id');
+            $.post('./avatar/select',{url:url,id:id},function (res) {
                 if (res.code == 200) {
                     layer.msg(res.msg,{time:2000});
+                    $currentAvatar.attr('src',url);
                 } else {
                     layer.msg(res.msg,{time:2000});
                 }
             });
 
-        });
-        // 选择图片删除
-        avatarManage.on('click','.check',function (e) {
-
-            if (e.target.nodeName != "I" && e.target.nodeName != "LABEL") {
-                var $this = $(this),
-                    url = $this.data('url'),
-                    id = $this.data('id'),
-                    urlIndex = $.inArray(url,urlList),
-                    idIndex = $.inArray(id,idList);
-                var checked = $this.find(':checkbox').prop('checked');
-
-                if (checked) {
-                    urlList.push(url);
-                    idList.push(id);
-                } else {
-                    urlList.splice(urlIndex,1);
-                    idList.splice(idIndex,1);
-                }
-            }
         });
 
         // 删除头像
-        avatarManage.on('click','#del',function () {
-            var url = $(this).data('url');
-            $.post('./avatar/del',{idList:idList,urlList:urlList},function (res) {
+        $avatarManage.on('click','.del',function () {
+            var $this = $(this),
+                $p = $this.parent(),
+                id = $p.data('id'),
+                url = $p.data('url');
+            $.post('./avatar/del',{id:id,url:url},function (res) {
                 if (res.code == 200) {
-                    layer.msg(res.msg,{time:2000,success:function () {
-                        delTargetElement(idList);
-                    }});
+                    layer.msg(res.msg,{
+                        time:2000,
+                        success:function () {
+                            $('.avatar-list').find('.mdui-col[data-id='+id+']').remove();
+                        }
+                    });
 
                 } else {
                     layer.msg(res.msg,{time:2000});
@@ -153,34 +143,5 @@
             });
 
         });
-        function delTargetElement(arr) {
-            var i = 0,
-                l = arr.length;
-            avatarManage.find('.mdui-col').each(function () {
-                var $this = $(this),
-                    id = $this.data('id');
-                for (; i < l; i++) {
-                    if (id == arr[i]) {
-                        $this.remove();
-                        break;
-                    }
-                }
-            })
-
-        }
-
-        // 清空
-//        avatarManage.on('click','#empty',function () {
-//            var url = $(this).data('url');
-//            $.post('./avatar/del',{url:url},function (res) {
-//                if (res.code == 200) {
-//                    layer.msg(res.msg,{time:2000});
-//                    delTargetElement(idList);
-//                } else {
-//                    layer.msg(res.msg,{time:2000});
-//                }
-//            });
-//
-//        })
     </script>
 @endsection
