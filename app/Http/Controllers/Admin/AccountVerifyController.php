@@ -12,7 +12,7 @@ class AccountVerifyController extends BaseController
     //
     public function index()
     {
-        $list = User::where('auth',1)->get();
+        $list = User::where('auth',0)->get();
         return view('admin.account',['list'=>$list]);
     }
     public function verify(Request $request)
