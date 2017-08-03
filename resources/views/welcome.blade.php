@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="mdui-panel-item-body">
                                     @if (count($data['desc']) > 0)
-                                        @for($i = 0; $i < count($data['logs']); $i++)
+                                        @for($i = 0; $i < count($data['desc']); $i++)
                                             <div class="mdui-panel" mdui-panel>
 
                                                 <div class="mdui-panel-item mdui-panel-item-open">
