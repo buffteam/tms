@@ -32,7 +32,7 @@
                                 <div class="mdui-textfield  {{ $errors->has('name') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">昵称</label>
                                     <input class="mdui-textfield-input" type="text" name="name"
-                                           value="{{ old('name') }}" autocomplete="on"  required/>
+                                           value="{{ old('name') }}" autocomplete="on"  placeholder="请使用中文姓名，以便协同合作" required/>
                                     <div class="mdui-textfield-error">{{ $errors->has('name') ? $errors->first('name') : '昵称不能为空'}}</div>
                                 </div>
                                 <div class="mdui-textfield  {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
