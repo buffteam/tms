@@ -11,7 +11,7 @@ var $window = $(window),
     $doc_box = $('.doc-content');                   // 笔记详情盒子
 
 // 自动保存时间
-var AUTO_TIME = 10 * 60 * 1000,
+var AUTO_TIME = 60 * 1000,
     NEW_TITLE = '新建笔记';
 
 var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
