@@ -16,7 +16,7 @@ class DashboardController extends BaseController
     }
 
 
-    public function notesStatic ()
+    public function getNotesClass ()
     {
         $list = Folder::all();
         $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
@@ -44,12 +44,26 @@ class DashboardController extends BaseController
         return $this->ajaxSuccess('获取成功',$categories);
     }
 
+    /**
+     * 获取用户数量、笔记数量、回收站数量
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getNumCount()
+    {
+        $users = DB::table('users')->count();
+        $notes = DB::table('notes');
+        $notesCount = $notes->count();
+        $recycleCount = $notes->where('active',0)->count();
 
-    public function usersCount()
+        return $this->ajaxSuccess('获取成功',['userTotal'=>$users,'notesTotal'=>$notesCount,'recycleCount'=>$recycleCount]);
+
+    }
+
+    public function getNotesGrowth()
     {
 
-        $usersCount = DB::table('users')->count();
     }
+
     /**
      * 处理子菜单
      * @param $data
