@@ -42,6 +42,8 @@ Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
     Route::any('updateLog/create', 'updateLogController@create');
     Route::any('updateLog/show','updateLogController@show');
     Route::any('updateLog/update','updateLogController@update');
+
+    Route::any('admin/notesStatic','DashboardController@notesStatic');
 });
 
 
