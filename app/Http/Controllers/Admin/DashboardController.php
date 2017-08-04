@@ -53,7 +53,7 @@ class DashboardController extends BaseController
         $users = DB::table('users')->count();
         $notes = DB::table('notes');
         $notesCount = $notes->count();
-        $recycleCount = $notes->where('actvive',0)->count();
+        $recycleCount = $notes->where('active',0)->count();
 
         return $this->ajaxSuccess('获取成功',['userTotal'=>$users,'notesTotal'=>$notesCount,'recycleCount'=>$recycleCount]);
 
