@@ -53,7 +53,9 @@ class updateLogController extends BaseController
         $params = $request->input();
         $id = $params['id'];
         $data = Updatelogs::find($id);
-        $data->update($params);
+        if (!$data->update($params)) {
+
+        }
         return redirect(url('updateLog/index'));
     }
 }

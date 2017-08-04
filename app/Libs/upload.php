@@ -24,7 +24,7 @@ class upload
      * @param array $allowMime
      * @param bool $uploadStatus
      */
-    public function __construct($fileName = 'myFile', $uploadPath = '/uploads', $imgFlag = true, $maxSize = 5242880, $allowExt = array('jpeg', 'jpg', 'png', 'gif'), $allowMime = array('image/jpeg', 'image/png', 'image/gif'),$uploadStatus = false)
+    public function __construct($fileName = 'myFile', $uploadPath = '/uploads', $imgFlag = true, $maxSize = 5242880, $allowExt = array('jpeg', 'jpg', 'png', 'gif','webp'), $allowMime = array('image/jpeg', 'image/png', 'image/gif','image/webp'),$uploadStatus = false)
     {
         $this->fileName = $fileName;
         $this->maxSize = $maxSize;

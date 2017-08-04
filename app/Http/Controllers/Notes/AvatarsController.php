@@ -36,6 +36,7 @@ class AvatarsController extends BaseController
             return back()->withErrors([['avatar'=>'上传文件为空！']]);
         }
         $file = $request->file('avatar');
+//        dd($file->getClientOriginalExtension());
         //判断文件上传过程中是否出错
         if(!$file->isValid()){
             return back()->withErrors([['avatar'=>'文件上传出错！']]);

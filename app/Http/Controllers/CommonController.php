@@ -11,52 +11,64 @@ use Illuminate\Support\Facades\Auth;
 
 class CommonController extends BaseController
 {
-    protected $uploads;
-    public function __construct(Request $request)
-    {
-        $host = $request->getHost();
-        $protocol = 'http://';
-        if (env('APP_ENV') === 'production') {
-            $this->uploads = filter_var($request->getHost(), FILTER_VALIDATE_IP) ? $protocol.$host.'/stip/public/' : $protocol.$host.'/' ;
-        } else {
-            $this->uploads = '127.0.0.1:8000/' ;
-        }
-
-    }
 
     /**
-     * md笔记上传图片
+     * md上传图片
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mdEditorUpload () {
+    public function mdEditorUpload (Request $request) {
 
-        if (!isset($_FILES['editormd-image-file'])) {
-            return $this->error('参数错误');
+
+        //判断请求中是否包含name=file的上传文件
+        if(!$request->hasFile('editormd-image-file')){
+            return response()->json(array('success'=>0,'message'=>'上传失败,上传文件为空','url'=>null,'data'=>null));
         }
-        $upload = new upload('editormd-image-file','uploads');
-        $param = $upload->uploadFile();
-        if ( $param['status'] ) {
-            return response()->json(array('success'=>1,'message'=>'上传成功','url'=>asset($param['data']),'data'=>[asset($param['data'])]));
+        $file = $request->file('editormd-image-file');
+//        dd($file->getClientOriginalExtension());
+        //判断文件上传过程中是否出错
+        if(!$file->isValid()){
+            return response()->json(array('success'=>0,'message'=>'上传失败,文件上传出错','url'=>null,'data'=>null));
         }
-        return response()->json(array('success'=>0,'message'=>'上传失败','url'=>$param['data'],'data'=>$param['data']));
+        $uploadPath = 'uploads/';
+        if(!file_exists($uploadPath)) {
+            mkdir($uploadPath,0777,true);
+        }
+        $renameFilename = md5(uniqid(microtime(true), true)).'.'.$file->getClientOriginalExtension();
+        $flag = $file->move($uploadPath,$renameFilename);
+        if(!$flag){
+            return response()->json(array('success'=>0,'message'=>'上传失败','url'=>null,'data'=>null));
+        }
+        return response()->json(array('success'=>1,'message'=>'上传成功','url'=>asset($uploadPath.$renameFilename),'data'=>[asset($uploadPath.$renameFilename)]));
 
     }
-
     /**
      * 普通笔记上传图片
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function wangEditorUpload () {
-        if (!isset($_FILES['image-file'])) {
-            return $this->error('参数错误');
-        }
-        $upload = new upload('image-file','uploads');
-        $param = $upload->uploadFile();
-        if ( $param['status'] ) {
-            return response()->json(array('errno'=>0,'message'=>'上传成功','data'=>[asset($param['data'])]));
-        }
-        return response()->json(array('errno'=>1,'message'=>'上传失败','data'=>$param['data']));
+    public function wangEditorUpload (Request $request) {
 
+        //判断请求中是否包含name=file的上传文件
+        if(!$request->hasFile('image-file')){
+            return response()->json(array('errno'=>1,'message'=>'上传失败,上传文件为空','data'=>null));
+        }
+        $file = $request->file('image-file');
+//        dd($file->getClientOriginalExtension());
+        //判断文件上传过程中是否出错
+        if(!$file->isValid()){
+            return response()->json(array('errno'=>1,'message'=>'上传失败,文件上传出错','data'=>null));
+        }
+        $uploadPath = 'uploads/';
+        if(!file_exists($uploadPath)) {
+            mkdir($uploadPath,0777,true);
+        }
+        $renameFilename = md5(uniqid(microtime(true), true)).'.'.$file->getClientOriginalExtension();
+        $flag = $file->move($uploadPath,$renameFilename);
+        if(!$flag){
+            return response()->json(array('errno'=>1,'message'=>'上传失败','data'=>null));
+        }
+        return response()->json(array('errno'=>0,'message'=>'上传成功','data'=>[asset($uploadPath.$renameFilename)]));
 
     }
 
