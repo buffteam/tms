@@ -20,7 +20,6 @@ class DashboardController extends BaseController
     {
         $list = Folder::all();
         $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
-        $allCategories = [];//Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
         foreach($list as $items) {
 
             // 开始处理显示目录下的文件数量
@@ -29,6 +28,7 @@ class DashboardController extends BaseController
             $totalCount = $totalCount + $items->currentCount;
             $subCondition = Folder::where('p_id',$items->id);
             $subMenuCount = $subCondition->count();
+            $items->name = $items->title;
             if ($subMenuCount > 0) {
                 $delSubCount = $this->dealSub($subCondition->get());
                 $totalCount = $totalCount + $delSubCount;
@@ -61,7 +61,7 @@ class DashboardController extends BaseController
 
     public function getNotesGrowth()
     {
-
+        return DB::table('users')->get();
     }
 
     /**
