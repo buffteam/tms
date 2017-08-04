@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('libs/mdui/css/mdui.min.css') }}" >
-    <link rel="stylesheet" href="{{ asset('module/admin/dashboard.css') }}" >
+    <link rel="stylesheet" href="{{ asset('module/admin/css/dashboard.css') }}" >
     @yield('style')
 </head>
 <body class="mdui-theme-primary-deep-purple  mdui-drawer-body-left">

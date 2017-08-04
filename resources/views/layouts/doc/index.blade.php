@@ -93,7 +93,6 @@
 
     </header>
     @yield('content')
-
 </section>
 <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('/libs/layer-v3.0.3/layer.js')}}"></script>

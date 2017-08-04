@@ -13,8 +13,8 @@ var $window = $(window),
 // 自动保存时间
 var AUTO_TIME = 60 * 1000,
     NEW_TITLE = '新建笔记';
-
-var g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
+var host = window.location.host,
+    g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
     $g_folder = null,
     niceScroll = null,
     mdeditor = null,            // md 编辑器
@@ -33,6 +33,17 @@ var g_id = null,                // 定义一个全局id 用来存储当前操作
     isRecycle = false,          // 是否为回收站列表
     isLoading = false;          // 是否正在加载列表
 
+switch (host) {
+    case 'stip.omwteam.com':
+        host = 'http://stip.omwteam.com';
+        break;
+    case '172.28.2.228':
+        host = 'http://172.28.2.228/stip/public';
+        break;
+    case '127.0.0.1:8000':
+        host = 'http://127.0.0.1:8000';
+        break;
+}
 var folder = {
     init: function () {
         folder.initNav();
@@ -42,7 +53,7 @@ var folder = {
     initNav: function () {
         var tpl = $('#nav-tpl').html();
         var list = [];
-        $.get('./folder/list', function (res) {
+        $.get(host + '/folder/list', function (res) {
             list = res.data.categories;
             var allList = res.data.allCategories, allLen = allList.length;
             if (allLen) {
@@ -240,7 +251,7 @@ var folder = {
                                 return;
                             }
                             if (value && value.length < 13) {
-                                $.post('./folder/add', {
+                                $.post(host + '/folder/add', {
                                     title: value,
                                     p_id: g_id
                                 }, function (res) {
@@ -285,7 +296,7 @@ var folder = {
                                 return;
                             }
                             if (value && value !== text && value.length < 13) {
-                                $.post('./folder/update', {
+                                $.post(host + '/folder/update', {
                                     title: value,
                                     id: g_id,
                                     pid: pid
@@ -365,7 +376,7 @@ var folder = {
     addFirstFolder: function (self) {
         var value = self.val();
         if (value) {
-            $.post('./folder/add', {title: value, p_id: 0}, function (res) {
+            $.post(host + '/folder/add', {title: value, p_id: 0}, function (res) {
                 if (res.code === 200) {
                     var list = [
                         {
@@ -405,7 +416,7 @@ var note = {
     getNewList: function () {
         isNewest = true;
         isSearch = isRecycle = false;
-        $.get('./note/latest', function (res) {
+        $.get(host + '/note/latest', function (res) {
             isLoading = false;
             if (res.code === 200) {
                 if (res.data.length) {
@@ -426,7 +437,7 @@ var note = {
     },
     // 加载笔记列表
     getList: function (folder_id) {
-        $.get('./note/show', {
+        $.get(host + '/note/show', {
             id: folder_id,
             field: sort_type,
             order: sort_order,
@@ -465,7 +476,7 @@ var note = {
     },
     // 获取回收站列表
     getRecycle: function () {
-        $.get('/note/recycle', {
+        $.get(host + '/note/recycle', {
             page: cur_page,
             field: sort_type,
             order: sort_order
@@ -504,7 +515,7 @@ var note = {
         if (!value.trim()) {
             return false;
         }
-        $.get('./note/search', {
+        $.get(host + '/note/search', {
             keywords: value,
             type: $('.search-type').data('type'),
             field: sort_type,
@@ -542,7 +553,7 @@ var note = {
     },
     // 显示笔记内容
     getNoteDetail: function (note_id) {
-        $.get('./note/find', {id: note_id, active: isRecycle ? '0' : '1'}, function (res) {
+        $.get(host + '/note/find', {id: note_id, active: isRecycle ? '0' : '1'}, function (res) {
             if (res.code === 200) {
                 $doc_box.removeClass('null');
                 $('.doc-preview-body').html(res.data.content)
@@ -873,7 +884,7 @@ var note = {
             layer.msg('新建笔记需要先选择目录哦！');
             return false;
         }
-        $.post('./note/add', {
+        $.post(host + '/note/add', {
             title: NEW_TITLE,
             f_id: g_id,
             type: type
@@ -900,7 +911,7 @@ var note = {
     },
     // 删除笔记
     delNote: function (note_id, elem) {
-        $.post('./note/del', {id: note_id}, function (res) {
+        $.post(host + '/note/del', {id: note_id}, function (res) {
             if (res.code === 200) {
                 layer.msg('删除成功');
                 elem.remove();
@@ -921,7 +932,7 @@ var note = {
     restoreNote: function (note_id, elem) {
         var id = note_id || cur_note.id,
             e = elem || $('.doc-item.active');
-        $.post('/note/recovery', {id: id}, function (res) {
+        $.post(host + '/note/recovery', {id: id}, function (res) {
             if (res.code === 200) {
                 layer.msg('还原笔记成功');
                 e.remove();
@@ -949,7 +960,7 @@ var note = {
             $doc_box.removeClass('is-edit is-edit-1 is-edit-2').addClass('no-edit');
             return false;
         }
-        $.post('./note/update', {
+        $.post(host + '/note/update', {
             id: note_id,
             f_id: cur_note.f_id,
             title: title,
@@ -985,7 +996,7 @@ var note = {
                 return false;
             }
             isCtrlS = true;
-            $.post('./note/update', {
+            $.post(host + '/note/update', {
                 id: note_id,
                 f_id: cur_note.f_id,
                 title: title,
@@ -1059,7 +1070,7 @@ var note = {
             $span.html(cur_note.title);
             return false;
         }
-        $.post('./note/update', {
+        $.post(host + '/note/update', {
             id: cur_note.id,
             f_id: cur_note.f_id,
             title: title
@@ -1083,17 +1094,16 @@ var main = {
             complete: function (XMLHttpRequest) {
                 if (XMLHttpRequest.status === 401) {
                     layer.msg('登录信息验证失败，请重新登录', function () {
-                        location.href = './login';
+                        location.href = host + '/login';
                     });
-                }else if (XMLHttpRequest.status === 503) {
+                } else if (XMLHttpRequest.status === 503) {
                     var res = JSON.parse(XMLHttpRequest.responseText);
                     layer.msg(res.msg, function () {
-                        location.href = './login';
+                        location.href = host + '/login';
                     });
                 } else if (XMLHttpRequest.status !== 200) {
                     layer.msg('服务器出错了 ' + XMLHttpRequest.status);
                 }
-                console.log(XMLHttpRequest)
             }
         });
         // 禁止保存网站
@@ -1135,7 +1145,7 @@ var main = {
     },
     // 删除目录事件
     delFolder: function () {
-        $.post('./folder/del', {id: g_id}, function (res) {
+        $.post(host + '/folder/del', {id: g_id}, function (res) {
             if (res.code === 200) {
                 $g_folder.remove();
                 layer.msg('删除成功');
@@ -1160,4 +1170,5 @@ var main = {
         }
     }
 };
+
 main.init();
