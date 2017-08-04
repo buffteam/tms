@@ -19,9 +19,10 @@ var main = {
     init: function () {
         main.initPie();
         main.initBar();
+        main.initCount();
     },
     initPie: function(){
-        $.get(host + '/admin/notesStatic', function(res){
+        $.get(host + '/static/getNotesClass', function(res){
             var title = [], value = [];
             for(var i = 0; i < res.data.length; i++){
                 title.push(res.data[i].title);
@@ -112,7 +113,33 @@ var main = {
         myChart2.setOption(option2);
     },
     initCount: function () {
+        $.get(host+ '/static/getNumCount', function (res) {
+            var $userTotal = $('#userTotal'),
+                $notesTotal = $('#notesTotal'),
+                $recycleCount = $('#recycleCount'),
+                data = res.data;
+            $userTotal.animateNumber({
+                number: data.userTotal,
+                numberStep: function(now) {
+                    $userTotal.text(Math.floor(now));
+                }
+            }, 1000);
+            $notesTotal.animateNumber({
+                number: data.notesTotal,
+                numberStep: function(now) {
+                    $notesTotal.text(Math.floor(now));
+                }
+            }, 1000);
+            $recycleCount.animateNumber({
+                number: data.recycleCount,
+                numberStep: function(now) {
+                    $recycleCount.text(Math.floor(now));
+                }
+            }, 1000);
+            // $notesTotal.text(data.notesTotal);
+            // $recycleCount.text(data.recycleCount);
 
+        })
     }
 };
 main.init();
