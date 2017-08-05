@@ -382,7 +382,9 @@ var folder = {
                         {
                             id: res.data.id,
                             title: value,
-                            p_id: 0
+                            p_id: 0,
+                            currentCount: 0,
+                            totalCount: 0
                         }
                     ];
                     var html = template('nav-tpl', {list: list, idx: 0});
@@ -755,6 +757,7 @@ var note = {
                 $moreList.hide();
             }
             $(document).off('click').one('click', function () {
+                $self.data('type', 'off');
                 $moreList.hide();
             })
         });

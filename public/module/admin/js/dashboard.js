@@ -37,6 +37,7 @@ var main = {
                     text: '笔记分布情况',
                     x: 'center'
                 },
+                // color: ['#2196f3', '#673ab7', '#1ABC9C', '#795548', '#00bcd4', '#3f51b5', '#009688', '#f44336'],
                 tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -68,77 +69,63 @@ var main = {
         })
     },
     initBar: function () {
-        var myChart2 = echarts.init($('#noteTopList')[0]);
-        var option2 = {
-            title: {
-                text: '笔记排行榜前七',
-                x: 'center'
-            },
-            color: ['#3398DB'],
-            tooltip : {
-                trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis : [
-                {
-                    type : 'category',
-                    data : ['vue', 'react', 'angular', 'html5', 'css', 'jquery', 'zepto'],
-                    axisTick: {
-                        alignWithLabel: true
+        $.get(host+'/static/getRankingList', function (res) {
+            var title = [], value = [];
+            for(var i = 0; i < res.data.length; i++){
+                title.push(res.data[i].name);
+                value.push(res.data[i].num);
+            }
+            var myChart2 = echarts.init($('#noteTopList')[0]);
+            var option2 = {
+                title: {
+                    text: 'Top Writer',
+                    x: 'center'
+                },
+                color: ['#3398DB'],
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                     }
-                }
-            ],
-            yAxis : [
-                {
-                    type : 'value'
-                }
-            ],
-            series : [
-                {
-                    name:'笔记数量',
-                    type:'bar',
-                    barWidth: '60%',
-                    data:[71, 60, 50, 40, 30, 20, 10]
-                }
-            ]
-        };
-        myChart2.setOption(option2);
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : title,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'笔记数量',
+                        type:'bar',
+                        barWidth: '50px',
+                        data:value
+                    }
+                ]
+            };
+            myChart2.setOption(option2);
+        });
+
     },
     initCount: function () {
         $.get(host+ '/static/getNumCount', function (res) {
-            var $userTotal = $('#userTotal'),
-                $notesTotal = $('#notesTotal'),
-                $recycleCount = $('#recycleCount'),
-                data = res.data;
-            $userTotal.animateNumber({
-                number: data.userTotal,
-                numberStep: function(now) {
-                    $userTotal.text(Math.floor(now));
-                }
-            }, 1000);
-            $notesTotal.animateNumber({
-                number: data.notesTotal,
-                numberStep: function(now) {
-                    $notesTotal.text(Math.floor(now));
-                }
-            }, 1000);
-            $recycleCount.animateNumber({
-                number: data.recycleCount,
-                numberStep: function(now) {
-                    $recycleCount.text(Math.floor(now));
-                }
-            }, 1000);
-            // $notesTotal.text(data.notesTotal);
-            // $recycleCount.text(data.recycleCount);
-
+            $('#userTotal').animateNumber({ number: res.data.userTotal }, 800);
+            $('#notesTotal').animateNumber({ number: res.data.notesTotal }, 800);
+            $('#recycleCount').animateNumber({ number: res.data.recycleCount }, 800);
         })
     }
 };
