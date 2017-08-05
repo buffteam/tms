@@ -156,6 +156,7 @@ class NotesController extends BaseController
      */
     public function update (Request $request)
     {
+
         // 验证
         $rules =  [
             'id' => 'required',
@@ -172,6 +173,11 @@ class NotesController extends BaseController
         }
 
         $params = $request->input();
+
+        if ($this->isLocked($params['id'])) {
+            return $this->ajaxSuccess('保存失败，此笔记已经被创建人锁住');
+        };
+
         if (isset($params['title'])) {
             $count = $this->notesModel->like('title',$params['title'])
                 ->where(['f_id'=>$params['f_id']])
@@ -372,5 +378,71 @@ class NotesController extends BaseController
         }
         return $this->ajaxSuccess('恢复成功');
 
+    }
+
+    /**
+     * 启动锁
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function LockNote (Request $request)
+    {
+        $flag = $this->setLock($request,1);
+
+        return $flag ? $this->ajaxSuccess('操作成功') : $this->ajaxError('操作失败,服务器错误');
+
+    }
+
+    /**
+     * 解锁
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unlockNote (Request $request)
+    {
+        $flag = $this->setLock($request,0);
+
+        return $flag ? $this->ajaxSuccess('操作成功') : $this->ajaxError('操作失败,服务器错误');
+
+    }
+
+    /**
+     * 设置锁
+     * @param $request
+     * @param int $status
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function setLock ($request,$status = 0)
+    {
+        if ($request->has('id')) {
+            return $this->ajaxError('操作失败，参数不存在');
+        }
+        $id = $request->input('id');
+
+        $notes = Notes::find($id);
+
+        if (!$notes) {
+            return $this->ajaxError('操作失败,参数错误');
+        }
+
+        if ( !(isAdmin() || $notes->u_id == user()->id) ) {
+            return $this->ajaxError('操作失败,没有权限操作');
+        }
+
+
+        return $notes->where('id',$id)->update(['lock'=>$status]);
+
+    }
+
+    /**
+     * 获取锁值
+     * @param $id
+     * @return mixed
+     */
+    protected function isLocked ($id)
+    {
+        $lock = $this->notesModel->where('id',$id)->select('lock')->first();
+
+        return $lock->lock == 1;
     }
 }

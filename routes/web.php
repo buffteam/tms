@@ -78,6 +78,9 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/note/recycle', 'NotesController@getRecycle');
     Route::any('/note/recovery', 'NotesController@recoveryNote');
 
+    Route::post('/note/lockNote', 'NotesController@lockNote');
+    Route::post('/note/unlockNote', 'NotesController@unlockNote');
+
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');

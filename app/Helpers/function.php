@@ -20,6 +20,12 @@ if(! function_exists('user')){
         return app('auth')->user();
     }
 }
+if(! function_exists('isAdmin')){
+
+    function isAdmin(){
+        return user()->auth == 2;
+    }
+}
 if(! function_exists('jump')){
 
     /**
