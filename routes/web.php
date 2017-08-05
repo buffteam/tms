@@ -46,6 +46,8 @@ Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
     Route::any('static/getNotesClass','DashboardController@getNotesClass');
     Route::any('static/getNumCount','DashboardController@getNumCount');
     Route::any('static/getNotesGrowth','DashboardController@getNotesGrowth');
+    Route::any('static/getRankingList','DashboardController@getRankingList');
+
 });
 
 

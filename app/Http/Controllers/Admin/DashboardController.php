@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Model\Notes;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -50,18 +52,18 @@ class DashboardController extends BaseController
      */
     public function getNumCount()
     {
-        $users = DB::table('users')->count();
-        $notes = DB::table('notes');
-        $notesCount = $notes->count();
-        $recycleCount = $notes->where('active',0)->count();
 
+        $users = DB::table('users')->count();
+        $notesCount = DB::table('notes')->where('active','1')->count();
+        $recycleCount = DB::table('notes')->where('active','0')->count();
         return $this->ajaxSuccess('获取成功',['userTotal'=>$users,'notesTotal'=>$notesCount,'recycleCount'=>$recycleCount]);
 
     }
 
-    public function getNotesGrowth()
+    public function getRankingList()
     {
-        return DB::table('users')->get();
+        $list = DB::select('SELECT u.name,COUNT(*) AS num FROM tms_users u RIGHT JOIN tms_notes n ON u.id = n.u_id GROUP BY u.name ORDER BY num desc');
+        return $this->ajaxSuccess('获取榜单数据成功',$list);
     }
 
     /**

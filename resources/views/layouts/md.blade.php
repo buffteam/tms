@@ -51,7 +51,7 @@
                         <span>{{ Auth::user()->name }}</span>
                         <ul class="user-down-list">
                             @if(Auth::user()->auth == 2)
-                                <li><a href="{{ url('/admin') }}">系统设置</a></li>
+                                <li><a href="{{ url('/admin') }}">统计与审核</a></li>
                             @endif
                             <li><a href="{{ route('modify') }}">修改密码</a></li>
                             {{--<li><a href="{{ route('avatar') }}">上传头像</a></li>--}}
