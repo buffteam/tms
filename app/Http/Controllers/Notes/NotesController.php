@@ -36,7 +36,9 @@ class NotesController extends BaseController
         // 验证规则
         $rules =  [
             'title' => 'required',
-            'f_id' => 'required'
+            'f_id' => 'required',
+            'content' => 'max:'.(pow(2,32)-10),
+            'origin_content' => 'max:'.(pow(2,32)-10)
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -158,7 +160,9 @@ class NotesController extends BaseController
         $rules =  [
             'id' => 'required',
             'f_id' => 'required',
-            'title' => 'required'
+            'title' => 'required',
+            'content' => 'max:'.(pow(2,32)-10),
+            'origin_content' => 'max:'.(pow(2,32)-10)
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -206,6 +210,14 @@ class NotesController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
+
+        $user = Auth::user();
+        $note = Notes::find($params['id']);
+
+        if (!($user->auth == 2 || $note->u_id == $user->id)) {
+            return $this->ajaxError('删除失败,没有权限删除此笔记');
+        }
+
 
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0','last_updated_name'=>user()->name));
 

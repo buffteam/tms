@@ -148,6 +148,10 @@ class FolderController extends BaseController
             return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
 
+        if (!( user()->auth == 2 || $Folder->u_id ==  user()->id)) {
+            return $this->ajaxError('删除失败,没有权限删除此文件夹');
+        }
+
         $flag = $Folder->where('id',$params['id'])->update(array('active'=> '0'));
         if (1 != $flag) {
             return $this->ajaxError('删除失败');
