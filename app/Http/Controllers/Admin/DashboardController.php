@@ -62,7 +62,7 @@ class DashboardController extends BaseController
 
     public function getRankingList()
     {
-        $list = DB::select('SELECT u.name,COUNT(*) AS num FROM tms_users u RIGHT JOIN tms_notes n ON u.id = n.u_id GROUP BY u.name ORDER BY num desc');
+        $list = DB::select('SELECT u.name,COUNT(*) AS num FROM tms_users u RIGHT JOIN tms_notes n ON u.id = n.u_id GROUP BY u.name ORDER BY num desc limit 10');
         return $this->ajaxSuccess('获取榜单数据成功',$list);
     }
 
