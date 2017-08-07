@@ -32,7 +32,7 @@
                 @if (request()->path() == "/")
                 <div class="user-info" onclick="header.userDropDown(this,event)">
                     <span>{{ Auth::user()->name }}</span>
-                    <ul class="user-down-list">
+                    <ul class="more-ul user-down-list">
                         <li><a href="{{ route('dashboard') }}">进入主页</a></li>
                         <li><a class="logout" href="{{ route('logout') }}"
                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -50,7 +50,7 @@
                     <div class="user-info" onclick="header.userDropDown(this,event)">
 
                         <span>{{ Auth::user()->name }}</span>
-                        <ul class="user-down-list">
+                        <ul class="more-ul user-down-list">
                             @if(Auth::user()->auth == 2)
                             <li><a href="{{ url('/admin') }}">统计与审核</a></li>
                             @endif

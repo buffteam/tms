@@ -19,7 +19,7 @@
                             <div class="new-doc-box">
                                 <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
                                 <span class="add-text">新建文档</span>
-                                <ul class="add-list">
+                                <ul class="more-ul add-list">
                                     <li onclick="note.newNote('1')">新建md文档</li>
                                     <li onclick="note.newNote('2')">新建笔记</li>
                                 </ul>
@@ -41,7 +41,7 @@
                                     <span>+</span>新建文件夹
                                 </li>
                             </ul>
-                            <div class="down-box">
+                            <div class="more-ul down-box">
                                 <p data-type="add">新建子文件夹</p>
                                 <p data-type="rename">重命名</p>
                                 <p data-type="del">删除文件夹</p>
@@ -69,7 +69,7 @@
             <div class="list-head">
                 <div class="search-input-box">
                     <span class="search-type" data-type="title">标题</span>
-                    <ul class="search-type-ul">
+                    <ul class="more-ul search-type-ul">
                         <li data-type="title">标题</li>
                         <li data-type="content">内容</li>
                         <li data-type="name">作者</li>
@@ -111,7 +111,7 @@
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
                         <span class="restore-btn" onclick="note.restoreNote()">还原</span>
-                        <ul class="more-list">
+                        <ul class="more-ul more-list">
                             <li onclick="note.htmlToPDF()">导出PDF</li>
                         </ul>
                     </div>
@@ -187,9 +187,14 @@
             <p class="doc-time">
                 <span><%= list[i].updated_at %></span>
             </p>
-            <p class="doc-hover-icon">
-                <span class="list-del-icon" title="删除"></span>
-            </p>
+            <div class="doc-hover-icon">
+                <ul class="more-ul doc-item-more" data-id="<%= list[i].id %>">
+                    <li class="list-lock" <% if(list[i].lock === 1) {%> style="display:none" <% } %> >上锁</li>
+                    <li class="list-unlock" <% if(list[i].lock === 0) {%> style="display:none" <% } %> >解锁</li>
+                    <li class="list-del">删除</li>
+                </ul>
+                <!-- <span class="list-del-icon" title="删除"></span>-->
+            </div>
         </li>
         <% } %>
     </script>
