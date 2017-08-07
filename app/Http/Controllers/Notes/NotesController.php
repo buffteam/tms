@@ -414,7 +414,7 @@ class NotesController extends BaseController
      */
     protected function setLock ($request,$status = 0)
     {
-        if ($request->has('id')) {
+        if (!$request->has('id')) {
             return $this->ajaxError('操作失败，参数不存在');
         }
         $id = $request->input('id');

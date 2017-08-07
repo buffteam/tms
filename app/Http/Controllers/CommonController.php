@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Folder;
+use App\Notes;
 use App\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -97,4 +98,19 @@ class CommonController extends BaseController
         return view('common.prompt',['data' => $data]);
     }
 
+    public function exportmd(Request $request)
+    {
+        $id = $request->input('id');
+
+        $notes = Notes::find($id);
+
+        $md = $notes->origin_content;
+        if (empty($md)){
+            return  back()->withInput(['error'=>'内容不能为空']);
+        }
+        file_put_contents('exout.md',$md);
+
+        return response()->download('exout.md');
+
+    }
 }
