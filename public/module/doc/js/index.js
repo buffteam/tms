@@ -1061,6 +1061,7 @@ var note = {
             }, function (res) {
                 isCtrlS = false;
                 if (res.code === 200) {
+                    layer.msg('保存成功');
                     $('.doc-item.is-edit .list-title-text').text(res.data.title);
                     $('.doc-preview-body').html(html_cnt);
                     $('.doc-title-span').html(res.data.title);
