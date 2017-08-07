@@ -24,7 +24,7 @@ var host = window.location.host,
     local_note = null,
     sort_type = localStorage.getItem('sort_type') || 'updated_at',  // 排序类型
     sort_order = localStorage.getItem('sort_order') || 'desc',      // 排序方式
-    share_title = null,         // 分享标题
+    // share_title = null,          分享标题
     isCtrlS = false,            // 是否按了Ctrl-S
     cur_page = 1,               // 当前笔记列表的页码
     totalPage = null,           // 笔记列表总页码
@@ -138,11 +138,16 @@ var folder = {
         // 点击新建文档事件
         $newDocBtn.on('click', function (e) {
             e.stopPropagation();
-            var $self = $(this);
-            $self.hasClass('active') ? $self.removeClass('active') : $self.addClass('active');
+            var $list = $('.add-list');
+            if($list.is(':visible')){
+                $list.hide();
+            }else{
+                $('.more-ul').hide();
+                $list.show();
+            }
             folder.navScrollResize();
-            $(document).one('click', function () {
-                $self.hasClass('active') ? $self.removeClass('active') : '';
+            $(document).off('click').one('click', function () {
+                $list.hide();
             })
         });
 
@@ -601,7 +606,8 @@ var note = {
     // 监听事件
     clickListEvent: function () {
         var $searchType = $('.search-type'),
-            $searchTypeUl = $('.search-type-ul');
+            $searchTypeUl = $('.search-type-ul'),
+            $itemMore = null;
         // 点击列表
         $list_ul.on('click', '.doc-item', function () {
             var $self = $(this);
@@ -612,18 +618,66 @@ var note = {
                 note.getNoteDetail(note_id);
             }
         });
-        // 点击列表删除图标
-        $list_ul.on('click', '.list-del-icon', function (e) {
+        // 点击列表更多更能
+        $list_ul.on('click', '.doc-hover-icon', function (e) {
             e.stopPropagation();
-            var elem = $(this).parent().parent(),
-                note_id = elem.data('id');
+            var $self = $(this);
+            $itemMore = $self.find('.doc-item-more');
+            if($itemMore.is(':visible')){
+                $itemMore.hide();
+                $itemMore = null;
+            }else{
+                $('.more-ul').hide();
+                $itemMore.show();
+                $(document).off('click').one('click', function () {
+                    $itemMore ? $itemMore.hide() : '';
+                    $itemMore = null;
+                })
+            }
+        });
+        // 点击列表删除功能
+        $list_ul.on('click', '.list-del', function (e) {
+            e.stopPropagation();
+            $itemMore.hide();
+            var elem = $(this).parent().parent().parent(),
+                note_id = $(this).parent().data('id');
             layer.confirm('是否确定删除？', {
                 btn: ['确定', '取消']
             }, function () {
                 note.delNote(note_id, elem);
             });
         });
-        // 点击列表还原图标
+        // 点击列表上锁功能
+        $list_ul.on('click', '.list-lock', function (e) {
+            e.stopPropagation();
+            $itemMore.hide();
+            $itemMore = null;
+            var $self = $(this), _id = $self.data('id');
+            $.post(host+'/note/lockNote', {id: _id}, function (res) {
+                if(res.code === 200){
+                    $self.hide().next('.list-unlock').show();
+                    layer.msg('上锁成功，其他人无法进行操作');
+                }else{
+                    layer.msg(res.msg);
+                }
+            })
+        });
+        // 点击列表解锁功能
+        $list_ul.on('click', '.list-unlock', function (e) {
+            e.stopPropagation();
+            $itemMore.hide();
+            $itemMore = null;
+            var $self = $(this), _id = $self.data('id');
+            $.post(host+'/note/unlockNote', {id: _id}, function (res) {
+                if(res.code === 200){
+                    $self.hide().prev('.list-lock').show();
+                    layer.msg('解锁成功，其他人可以进行操作');
+                }else{
+                    layer.msg(res.msg);
+                }
+            })
+        });
+        // 点击列表还原功能
         $list_ul.on('click', '.list-restore-icon', function (e) {
             e.stopPropagation();
             var elem = $(this).parent().parent(),
@@ -631,23 +685,23 @@ var note = {
             note.restoreNote(note_id, elem);
         });
         // 点击列表分享图标
-        $list_ul.on('click', '.list-share-icon', function (e) {
-            e.stopPropagation();
-            var elem = $(this).parent().parent(),
-                note_id = elem.data('id'),
-                title = elem.find('.list-title-text').text();
-            $('.mask,.share-dialog').show();
-            var g_url = window.location.href;
-            $('.share-copy-c input').val(g_url);
-            new ZeroClipboard(document.getElementById("btnCopy"));
-
-            share_title = title + ' -- 来自云笔记';
-
-            $('.share-close').on('click', function () {
-                $('.mask,.share-dialog').hide();
-                $(this).off('click');
-            })
-        });
+        // $list_ul.on('click', '.list-share-icon', function (e) {
+        //     e.stopPropagation();
+        //     var elem = $(this).parent().parent(),
+        //         note_id = elem.data('id'),
+        //         title = elem.find('.list-title-text').text();
+        //     $('.mask,.share-dialog').show();
+        //     var g_url = window.location.href;
+        //     $('.share-copy-c input').val(g_url);
+        //     new ZeroClipboard(document.getElementById("btnCopy"));
+        //
+        //     share_title = title + ' -- 来自云笔记';
+        //
+        //     $('.share-close').on('click', function () {
+        //         $('.mask,.share-dialog').hide();
+        //         $(this).off('click');
+        //     })
+        // });
         // 选择排序方式
         $('.sort-down-menu li').on('click', function () {
             if (isNewest) {
@@ -706,6 +760,7 @@ var note = {
             if ($searchTypeUl.is(':visible')) {
                 $searchTypeUl.hide();
             } else {
+                $('.more-ul').hide();
                 $searchTypeUl.show();
                 $(document).off('click').one('click', function () {
                     $searchTypeUl.hide();
@@ -746,20 +801,16 @@ var note = {
         // 点击更多按钮
         $('.more-btn').on('click', function (e) {
             e.stopPropagation();
-            var $self = $(this),
-                type = $self.data('type'),
-                $moreList = $('.more-list');
-            if (type === 'off') {
-                $self.data('type', 'on');
-                $moreList.show();
+            var $moreList = $('.more-list');
+            if ($moreList.is(':visible')) {
+                $moreList.hide();
             } else {
-                $self.data('type', 'off');
-                $moreList.hide();
+                $('.more-ul').hide();
+                $moreList.show();
+                $(document).off('click').one('click', function () {
+                    $moreList.hide();
+                })
             }
-            $(document).off('click').one('click', function () {
-                $self.data('type', 'off');
-                $moreList.hide();
-            })
         });
         // 切换主题
         $('.editor-theme li').on('click', function (e) {

@@ -13,12 +13,8 @@
 .blue .pure-menu-item .second-menu-a:hover,
 .blue .doc-item.active {
   background-color: #e3f2fd; }
-.blue .new-doc-box .add-list li:hover,
-.blue .more-list li:hover,
-.blue .sort-down-menu li:hover,
-.blue .user-down-list li:hover,
-.blue .down-box p:hover,
-.blue .search-input-box .search-type-ul li:hover {
+.blue .more-ul li:hover,
+.blue .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #e3f2fd; }
 .blue .user-info.active,
@@ -45,12 +41,8 @@
 .purple .pure-menu-item .second-menu-a:hover,
 .purple .doc-item.active {
   background-color: #ede7f6; }
-.purple .new-doc-box .add-list li:hover,
-.purple .more-list li:hover,
-.purple .sort-down-menu li:hover,
-.purple .user-down-list li:hover,
-.purple .down-box p:hover,
-.purple .search-input-box .search-type-ul li:hover {
+.purple .more-ul li:hover,
+.purple .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #ede7f6; }
 .purple .user-info.active,
@@ -77,12 +69,8 @@
 .green .pure-menu-item .second-menu-a:hover,
 .green .doc-item.active {
   background-color: #d0fcf3; }
-.green .new-doc-box .add-list li:hover,
-.green .more-list li:hover,
-.green .sort-down-menu li:hover,
-.green .user-down-list li:hover,
-.green .down-box p:hover,
-.green .search-input-box .search-type-ul li:hover {
+.green .more-ul li:hover,
+.green .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #d0fcf3; }
 .green .user-info.active,
@@ -109,12 +97,8 @@
 .teal .pure-menu-item .second-menu-a:hover,
 .teal .doc-item.active {
   background-color: #e0f2f1; }
-.teal .new-doc-box .add-list li:hover,
-.teal .more-list li:hover,
-.teal .sort-down-menu li:hover,
-.teal .user-down-list li:hover,
-.teal .down-box p:hover,
-.teal .search-input-box .search-type-ul li:hover {
+.teal .more-ul li:hover,
+.teal .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #e0f2f1; }
 .teal .user-info.active,
@@ -141,12 +125,8 @@
 .brown .pure-menu-item .second-menu-a:hover,
 .brown .doc-item.active {
   background-color: #efebe9; }
-.brown .new-doc-box .add-list li:hover,
-.brown .more-list li:hover,
-.brown .sort-down-menu li:hover,
-.brown .user-down-list li:hover,
-.brown .down-box p:hover,
-.brown .search-input-box .search-type-ul li:hover {
+.brown .more-ul li:hover,
+.brown .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #efebe9; }
 .brown .user-info.active,
@@ -173,12 +153,8 @@
 .cyan .pure-menu-item .second-menu-a:hover,
 .cyan .doc-item.active {
   background-color: #e0f7fa; }
-.cyan .new-doc-box .add-list li:hover,
-.cyan .more-list li:hover,
-.cyan .sort-down-menu li:hover,
-.cyan .user-down-list li:hover,
-.cyan .down-box p:hover,
-.cyan .search-input-box .search-type-ul li:hover {
+.cyan .more-ul li:hover,
+.cyan .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #e0f7fa; }
 .cyan .user-info.active,
@@ -205,12 +181,8 @@
 .indigo .pure-menu-item .second-menu-a:hover,
 .indigo .doc-item.active {
   background-color: #e8eaf6; }
-.indigo .new-doc-box .add-list li:hover,
-.indigo .more-list li:hover,
-.indigo .sort-down-menu li:hover,
-.indigo .user-down-list li:hover,
-.indigo .down-box p:hover,
-.indigo .search-input-box .search-type-ul li:hover {
+.indigo .more-ul li:hover,
+.indigo .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #e8eaf6; }
 .indigo .user-info.active,
@@ -237,12 +209,8 @@
 .red .pure-menu-item .second-menu-a:hover,
 .red .doc-item.active {
   background-color: #ffebee; }
-.red .new-doc-box .add-list li:hover,
-.red .more-list li:hover,
-.red .sort-down-menu li:hover,
-.red .user-down-list li:hover,
-.red .down-box p:hover,
-.red .search-input-box .search-type-ul li:hover {
+.red .more-ul li:hover,
+.red .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #ffebee; }
 .red .user-info.active,
@@ -269,12 +237,8 @@
 .dark .pure-menu-item .second-menu-a:hover,
 .dark .doc-item.active {
   background-color: #ECF0F1; }
-.dark .new-doc-box .add-list li:hover,
-.dark .more-list li:hover,
-.dark .sort-down-menu li:hover,
-.dark .user-down-list li:hover,
-.dark .down-box p:hover,
-.dark .search-input-box .search-type-ul li:hover {
+.dark .more-ul li:hover,
+.dark .sort-down-menu li:hover {
   color: #76b0f3;
   background-color: #ECF0F1; }
 .dark .user-info.active,

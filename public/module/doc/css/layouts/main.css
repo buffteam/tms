@@ -700,9 +700,31 @@ body {
     position: absolute;
     right: 10px;
     top: 15px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin: 0;
+    background: url(../../imgs/icon/more.png) no-repeat;
+    border: 1px solid #888;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.doc-item-more{
     display: none;
+    position: absolute;
+    width: 45px;
+    right: -10px;
+    top: 22px;
+    line-height: 30px;
+    text-align: center;
+    background: #fff;
+    font-size: 12px;
+    box-shadow: 0 1px 16px 0 rgba(90, 109, 122, 0.41);
+    z-index: 11;
+}
+.doc-item-more li{
+    padding-left: 0;
 }
 .doc-hover-icon .list-share-icon,
 .doc-hover-icon .list-restore-icon,
