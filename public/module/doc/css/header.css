@@ -103,7 +103,7 @@ a {
     position: absolute;
     top: 55px;
     right: 0;
-    width: 90px;
+    min-width: 90px;
     background: #fff;
     z-index: 20;
     font-size: 14px;
@@ -114,8 +114,9 @@ a {
     color: #76b0f3;
 }
 .user-down-list li{
+    text-align: center;
     line-height: 36px;
-    padding-left: 15px;
+    padding:0 10px;
 }
 .user-down-list li a{
     color: #999;

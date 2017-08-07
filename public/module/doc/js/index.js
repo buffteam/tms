@@ -589,6 +589,7 @@ var note = {
                 clearInterval(timeId);
                 timeId = null;
                 $('.doc-title-span').html(res.data.title);
+                res.data.lock ? $('.list-lock').show() : $('.list-unlock').show();
                 cur_note = res.data;
                 mdeditor && mdeditor.clear();
                 if (isRecycle) {
@@ -606,7 +607,8 @@ var note = {
     // 监听事件
     clickListEvent: function () {
         var $searchType = $('.search-type'),
-            $searchTypeUl = $('.search-type-ul'),
+            $searchTypeUl = $('.search-type-ul')
+            $moreList = $('.more-list'),
             $itemMore = null;
         // 点击列表
         $list_ul.on('click', '.doc-item', function () {
@@ -619,24 +621,24 @@ var note = {
             }
         });
         // 点击列表更多更能
-        $list_ul.on('click', '.doc-hover-icon', function (e) {
-            e.stopPropagation();
-            var $self = $(this);
-            $itemMore = $self.find('.doc-item-more');
-            if($itemMore.is(':visible')){
-                $itemMore.hide();
-                $itemMore = null;
-            }else{
-                $('.more-ul').hide();
-                $itemMore.show();
-                $(document).off('click').one('click', function () {
-                    $itemMore ? $itemMore.hide() : '';
-                    $itemMore = null;
-                })
-            }
-        });
+        // $list_ul.on('click', '.doc-hover-icon', function (e) {
+        //     e.stopPropagation();
+        //     var $self = $(this);
+        //     $itemMore = $self.find('.doc-item-more');
+        //     if($itemMore.is(':visible')){
+        //         $itemMore.hide();
+        //         $itemMore = null;
+        //     }else{
+        //         $('.more-ul').hide();
+        //         $itemMore.show();
+        //         $(document).off('click').one('click', function () {
+        //             $itemMore ? $itemMore.hide() : '';
+        //             $itemMore = null;
+        //         })
+        //     }
+        // });
         // 点击列表删除功能
-        $list_ul.on('click', '.list-del', function (e) {
+        $moreList.on('click', '.list-del', function (e) {
             e.stopPropagation();
             $itemMore.hide();
             var elem = $(this).parent().parent().parent(),
@@ -648,11 +650,11 @@ var note = {
             });
         });
         // 点击列表上锁功能
-        $list_ul.on('click', '.list-lock', function (e) {
+        $moreList.on('click', '.list-lock', function (e) {
             e.stopPropagation();
             $itemMore.hide();
             $itemMore = null;
-            var $self = $(this), _id = $self.data('id');
+            var $self = $(this), _id = $self.parent().data('id');
             $.post(host+'/note/lockNote', {id: _id}, function (res) {
                 if(res.code === 200){
                     $self.hide().next('.list-unlock').show();
@@ -663,11 +665,11 @@ var note = {
             })
         });
         // 点击列表解锁功能
-        $list_ul.on('click', '.list-unlock', function (e) {
+        $moreList.on('click', '.list-unlock', function (e) {
             e.stopPropagation();
             $itemMore.hide();
             $itemMore = null;
-            var $self = $(this), _id = $self.data('id');
+            var $self = $(this), _id = $self.parent().data('id');
             $.post(host+'/note/unlockNote', {id: _id}, function (res) {
                 if(res.code === 200){
                     $self.hide().prev('.list-lock').show();
