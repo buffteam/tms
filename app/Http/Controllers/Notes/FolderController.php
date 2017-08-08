@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Notes;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Folder;
+use App\Model\Folder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Notes;
-use App\Folder;
+use App\Model\Folder;
 use App\Model\Notes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -389,7 +389,7 @@ class NotesController extends BaseController
     {
         $flag = $this->setLock($request,1);
 
-        return $flag ? $this->ajaxSuccess('操作成功') : $this->ajaxError('操作失败,服务器错误');
+        return $flag === true ? $this->ajaxSuccess('操作成功') : $flag;
 
     }
 
@@ -402,7 +402,7 @@ class NotesController extends BaseController
     {
         $flag = $this->setLock($request,0);
 
-        return $flag ? $this->ajaxSuccess('操作成功') : $this->ajaxError('操作失败,服务器错误');
+        return $flag === true ? $this->ajaxSuccess('操作成功') : $flag;
 
     }
 
@@ -410,13 +410,14 @@ class NotesController extends BaseController
      * 设置锁
      * @param $request
      * @param int $status
-     * @return \Illuminate\Http\JsonResponse
+     * @return bool|\Illuminate\Http\JsonResponse
      */
     protected function setLock ($request,$status = 0)
     {
         if (!$request->has('id')) {
             return $this->ajaxError('操作失败，参数不存在');
         }
+
         $id = $request->input('id');
 
         $notes = Notes::find($id);
@@ -429,8 +430,7 @@ class NotesController extends BaseController
             return $this->ajaxError('操作失败,没有权限操作');
         }
 
-
-        return $notes->where('id',$id)->update(['lock'=>$status]);
+        return  $notes->where('id',$id)->update(['lock'=>$status]) ? true : false;
 
     }
 

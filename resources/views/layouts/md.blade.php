@@ -17,9 +17,16 @@
     <header class="header">
         <div class="logo"><a href="{{route('dashboard')}}">{{ config('app.name', 'STIP') }}</a></div>
         <ul class="menu">
-            <li>
-                <a href="{{route('root')}}" >首页</a>
-            </li>
+            @if(Route::has('login') && Auth::check())
+                <li>
+                    <a href="{{route('dashborad')}}" >文档主页</a>
+                </li>
+            @else
+                <li>
+                    <a href="{{route('root')}}" >首页</a>
+                </li>
+            @endif
+
 
             @for($i = 0; $i < count($column); $i++)
                 <li>

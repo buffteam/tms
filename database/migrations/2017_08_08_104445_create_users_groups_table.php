@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFolderTable extends Migration
+class CreateUsersGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateFolderTable extends Migration
      */
     public function up()
     {
-        //
-        Schema::create('folders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title',80);
-            $table->integer('u_id');
-            $table->integer('p_id');
-            $table->enum('active',[0,1])->default('1');
+        Schema::create('user_groups', function (Blueprint $table) {
+
+            $table->integer('u_id')->comment('用户ID');
+            $table->integer('g_id')->comment('群组ID');
+            $table->softDeletes();
             $table->timestamps();
+
         });
     }
 
@@ -31,7 +30,6 @@ class CreateFolderTable extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('folders');
+        Schema::dropIfExists('user_groups');
     }
 }

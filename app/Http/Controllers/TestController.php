@@ -6,7 +6,7 @@ use App\ForgetToken;
 use App\Mail\ResetPassword;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Mail;
-use App\Notes;
+use App\Model\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

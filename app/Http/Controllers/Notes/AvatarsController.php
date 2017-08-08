@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Model\Avatars;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
-use App\Libs\upload;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class AvatarsController extends BaseController
 {

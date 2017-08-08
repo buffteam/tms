@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Folder;
-use App\Notes;
+use App\Model\Folder;
+use App\Model\Notes;
 use App\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;

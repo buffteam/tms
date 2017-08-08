@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-class UserTableSeeder extends Seeder
+
+class UserGroupsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,12 +13,11 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('users')->insert([
+
+        DB::table('user_groups')->insert([
             [
-               'name' => 'admin',
-               'email' => 'admin@163.com',
-               'password' => bcrypt('admin'),
-               'auth' => 2,
+                'u_id' => 1,
+                'g_id' => 1,
             ]
         ]);
     }

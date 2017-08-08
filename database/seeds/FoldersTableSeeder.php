@@ -18,42 +18,49 @@ class FoldersTableSeeder extends Seeder
                'u_id' => 1,
                'p_id' => 0,
                'active' => '1',
+               'g_id' => 1
            ],
             [
                 'title' => 'IOS技术',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
             [
                 'title' => 'C/C++语言',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
             [
                 'title' => 'Web前端',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
             [
                 'title' => '服务器技术开发',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
             [
                 'title' => '效率工具',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
             [
                 'title' => '产品设计',
                 'u_id' => 1,
                 'p_id' => 0,
                 'active' => '1',
+                'g_id' => 1
             ],
         ]);
     }

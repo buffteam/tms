@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Notes;
 use App\Http\Controllers\BaseController;
 use App\Mail\ResetPassword;
 use Illuminate\Support\Facades\Mail;
-use App\ForgetToken;
+use App\Model\ForgetToken;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;

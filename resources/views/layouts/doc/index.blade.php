@@ -15,9 +15,15 @@
     <header class="header">
         <div class="logo"><a href="{{route('dashboard')}}">{{ config('app.name', '共享笔记') }}</a></div>
         <ul class="menu">
-            <li>
-                <a href="{{route('root')}}" >首页</a>
-            </li>
+            @if(Route::has('login') && Auth::check())
+                <li>
+                    <a href="{{route('dashboard')}}" >文档主页</a>
+                </li>
+            @else
+                <li>
+                    <a href="{{route('root')}}" >首页</a>
+                </li>
+            @endif
             @for($i = 0; $i < count($column); $i++)
                 <li>
                     <a href="{{ $column[$i]['url'] }}" target="_blank">{{ $column[$i]['name'] }}</a>

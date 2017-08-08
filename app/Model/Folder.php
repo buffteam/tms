@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use App\Scopes\PublicScope;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +34,6 @@ class Folder extends Model
     }
     public function notes()
     {
-        return $this->hasMany('App\Notes','f_id','id');
+        return $this->hasMany('App\Model\Notes','f_id','id');
     }
 }
