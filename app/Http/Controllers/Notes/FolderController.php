@@ -57,9 +57,27 @@ class FolderController extends BaseController
 
         foreach ($list as $item) {
             if ($item->folders) {
+
+                foreach ($item->folders as $folder) {
+                    $totalCount = 0;
+                    $folder->currentCount = $folder->notes->count();
+                    $totalCount = $totalCount + $folder->currentCount;
+                    $subCondition = Folder::where('p_id',$folder->id);
+                    $subMenuCount = $subCondition->count();
+                    if ($subMenuCount > 0) {
+                        $delSubCount = $this->recursion($subCondition->get());
+                        $totalCount = $totalCount + $delSubCount;
+                    }
+                    // 返回数据中加上笔记总数
+                    if ($folder->p_id == 0) {
+                        $folder->totalCount = $totalCount;
+                    }
+                    unset($folder->notes);
+                }
                 array_push($result,$item->toArray());
             }
         }
+        dd($result);
         return $this->ajaxSuccess('请求成功',$result);
     }
 
