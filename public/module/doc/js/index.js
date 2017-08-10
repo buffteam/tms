@@ -53,7 +53,7 @@ var folder = {
     initNav: function () {
         var tpl = $('#nav-tpl').html();
         var list = [];
-        $.get(host + '/folder/list', function (res) {
+        $.get(host + '/group/list', function (res) {
             list = res.data.categories;
             var allList = res.data.allCategories, allLen = allList.length;
             if (allLen) {
@@ -620,29 +620,11 @@ var note = {
                 note.getNoteDetail(note_id);
             }
         });
-        // 点击列表更多更能
-        // $list_ul.on('click', '.doc-hover-icon', function (e) {
-        //     e.stopPropagation();
-        //     var $self = $(this);
-        //     $itemMore = $self.find('.doc-item-more');
-        //     if($itemMore.is(':visible')){
-        //         $itemMore.hide();
-        //         $itemMore = null;
-        //     }else{
-        //         $('.more-ul').hide();
-        //         $itemMore.show();
-        //         $(document).off('click').one('click', function () {
-        //             $itemMore ? $itemMore.hide() : '';
-        //             $itemMore = null;
-        //         })
-        //     }
-        // });
         // 点击列表删除功能
         $moreList.on('click', '.list-del', function (e) {
             e.stopPropagation();
-            $itemMore.hide();
-            var elem = $(this).parent().parent().parent(),
-                note_id = $(this).parent().data('id');
+            var elem = $('.doc-item.active'),
+                note_id = cur_note.id;
             layer.confirm('是否确定删除？', {
                 btn: ['确定', '取消']
             }, function () {
@@ -652,9 +634,7 @@ var note = {
         // 点击列表上锁功能
         $moreList.on('click', '.list-lock', function (e) {
             e.stopPropagation();
-            $itemMore.hide();
-            $itemMore = null;
-            var $self = $(this), _id = $self.parent().data('id');
+            var $self = $(this), _id = cur_note.id;
             $.post(host+'/note/lockNote', {id: _id}, function (res) {
                 if(res.code === 200){
                     $self.hide().next('.list-unlock').show();
@@ -667,12 +647,10 @@ var note = {
         // 点击列表解锁功能
         $moreList.on('click', '.list-unlock', function (e) {
             e.stopPropagation();
-            $itemMore.hide();
-            $itemMore = null;
-            var $self = $(this), _id = $self.parent().data('id');
+            var $self = $(this), _id = cur_note.id;
             $.post(host+'/note/unlockNote', {id: _id}, function (res) {
                 if(res.code === 200){
-                    $self.hide().prev('.list-lock').show();
+                    $self.hide().prev('.list-lock').show().parent().hide();
                     layer.msg('解锁成功，其他人可以进行操作');
                 }else{
                     layer.msg(res.msg);
@@ -870,12 +848,16 @@ var note = {
                     imageUploadURL: "./common/mdEditorUpload",
                     toolbarIcons: function () {
                         return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
-                            "|", "list-ul", "list-ol", "link", "image", "code-block", "table", "datetime",
-                            "watch", "preview", "fullscreen", "clear", "search", "||", "theme"
+                            "|", "list-ul", "list-ol", "link", "table", "datetime", "clear", "image", "code-block", "preview", "fullscreen", "search",  "theme"
                         ]
                     },
+                    toolbarIconsClass:{
+                        search: '',  fullscreen: '', preview: '', image: '', 'code-block': ''
+
+                    },
                     toolbarIconTexts: {
-                        theme: '切换主题 '
+                        theme: '切换主题 ', search: '搜索',  fullscreen: '全屏', preview: '预览',
+                        image: '上传图片', 'code-block': '插入代码'
                     },
                     toolbarHandlers: {
                         theme: function () {
