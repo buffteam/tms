@@ -14,16 +14,31 @@ class Notes extends Model
     protected $table = 'notes';
     /**
      * 表明模型是否应该被打上时间戳
-     *
      * @var bool
      */
     public $timestamps = true;
+    /**
+     * 允许被填充的字段
+     * @var array
+     */
     protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active','last_updated_name'];
-//    protected $guarded = ['created_at','updated_at'];
 
+    /**
+     * 关联所属的用户
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user()
     {
         return $this->hasOne('App\User','id','u_id');
+    }
+
+    /**
+     * 关联所属的文件夹
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function folder()
+    {
+        return $this->hasOne('App\Model\Folder','id','f_id');
     }
     /**
      * 添加全局条件

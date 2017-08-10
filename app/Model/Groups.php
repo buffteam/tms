@@ -20,4 +20,9 @@ class Groups extends Model
      * @var array
      */
     protected $fillable = ['name','owner_name','u_id','type'];
+
+    public function folders()
+    {
+        return $this->hasMany('App\Model\Folder','g_id','id');
+    }
 }

@@ -61,14 +61,16 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     // 文件夹相关的路由
-    Route::post('/folder/add', 'FolderController@store');
+    Route::any('/folder/add', 'FolderController@store');
     Route::post('/folder/del', 'FolderController@del');
     Route::post('/folder/update', 'FolderController@update');
     Route::get('/folder/list', 'FolderController@listAll');
 
+    Route::get('/group/list', 'FolderController@getGroups');
+
     // 笔记相关路由
     Route::any('/note/index', 'NotesController@index');
-    Route::post('/note/add', 'NotesController@add');
+    Route::any('/note/add', 'NotesController@add');
     Route::post('/note/del', 'NotesController@del');
     Route::post('/note/update', 'NotesController@update');
     Route::any('/note/find', 'NotesController@find');

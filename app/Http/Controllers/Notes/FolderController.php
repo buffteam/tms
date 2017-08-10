@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Notes;
 
+use App\Model\Groups;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Model\Folder;
 use Illuminate\Http\Request;
+use App\Http\Traits\CreateFolders;
 use App\Http\Controllers\BaseController;
 
 class FolderController extends BaseController
 {
+    use CreateFolders;
     /**
      * 创建文件夹
      * @param Request $request
@@ -18,65 +21,135 @@ class FolderController extends BaseController
     public function store(Request $request)
     {
         // 验证规则
-        $rules =  [
-            'title' => 'required|max:80',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return $this->ajaxError('参数验证输错',$validator->errors());
+        $validateData = $this->validateData($request->all());
+        if (true !== $validateData) {
+            return $validateData;
         }
+
         $params = $request->input();
+        $data = null;
+        // 创建私人群组的文件夹
+        if ($params['active'] == 0) {
+            $data = $this->insertFolder($params);
+        }
+        // 创建公开群组的文件夹
+        else {
 
-        // 只有管理员才有权限创建一级菜单
-        if (user()->auth != 2 &&  $params['p_id'] == 0) {
-            return $this->ajaxError('创建失败，没有权限创建一级菜单');
+            if (user()->auth != 2 ) {// 只有管理员才有权限创建一级菜单
+                return $this->ajaxError('只有管理员才有权限创建菜单');
+            }
+            $data = $this->insertFolder($params);
         }
 
-        $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->count();
-        if ($num > 0) {
-            return $this->ajaxError('文件夹名称重复');
+        return (null !== $data) ? $this->ajaxSuccess('新增成功',$data) : $this->ajaxError('新增失败');
+
+    }
+
+    /**
+     * 获取群组和文件夹
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getGroups()
+    {
+
+        $list = Groups::where('u_id',user()->id)->orWhere('type',1)->get();
+        $result = [];
+
+        foreach ($list as $item) {
+            if ($item->folders) {
+                array_push($result,$item->toArray());
+            }
         }
-        $params['u_id'] = user()->id;
-        $data = Folder::create($params);
-        if (null != $data) {
-            return $this->ajaxSuccess('新增成功',$data);
-        }
-        return $this->ajaxError('新增失败');
+        return $this->ajaxSuccess('请求成功',$result);
     }
 
     /**
      * 列表
      * @return array
      */
-    public function listAll()
+    public function listAll($list)
     {
-        $list = Folder::all();
-        $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
-        $allCategories = [];//Folder::where([['p_id','>',0]])->select('id','title','p_id','u_id')->get();
-        foreach($list as $items) {
+//        $list = Folder::all();
+
+        $public = [
+            'categories' => [],
+            'allCategories' => []
+
+        ];
+        $private = [
+            'categories' => [],
+            'allCategories' => []
+        ];
+
+        $data = [];
+
+        foreach($list as $index => $items) {
+
             // 开始处理显示目录下的文件数量
-            $totalCount = 0;//文件夹及其所属的子文件下笔记总数量
-            $items->currentCount = $items->notes()->count();// 当前文件夹下笔记数量
+
+            //文件夹及其所属的子文件下笔记总数量
+            $totalCount = 0;
+//            $needFolder = $items->select('id','title','p_id','g_id')->first()->toArray();
+            $data[$index] = [
+                'id' => $items->id,
+                'title' => $items->title,
+                'p_id' => $items->p_id,
+                'g_id' => $items->g_id,
+                'currentCount' => $items->notes->count(),
+//                'title' => $items->title,
+//                'title' => $items->title
+            ];
+            // 当前文件夹下笔记数量
+            $items->currentCount = $items->notes->count();
+//            dd(array_push($data[$index],['currentCount'=>$items->currentCount]));
+//            $data[$index] = ;
+//            dd($data);
+            // 计算总数量
             $totalCount = $totalCount + $items->currentCount;
+
+            // 判断有么有没有子菜单
             $subCondition = Folder::where('p_id',$items->id);
             $subMenuCount = $subCondition->count();
             if ($subMenuCount > 0) {
-                $delSubCount = $this->dealSub($subCondition->get());
+                $delSubCount = $this->recursion($subCondition->get());
                 $totalCount = $totalCount + $delSubCount;
             }
+            // 返回数据中加上笔记总数
             if ($items->p_id == 0) {
                 $items->totalCount = $totalCount;
             }
+//            dd($items->get());
             // 这里分流数据分为一级目录和其他目录
-            if ($items->p_id == 0) {
-                array_push($categories,$items->toArray());
-            } else {
-                array_push($allCategories,$items->toArray());
+            if ( $items->p_id == 0 ) {
+
+
+                if ($items->group->type == 0) { // 公开目录
+
+                    array_push($public['categories'],$items);
+
+
+                } else if ($items->group->type == 1) { // 私有目录
+
+
+                    array_push($private['categories'],$items);
+
+                }
+
+            } else { // 如果非一级目录
+
+                if ($items->group->type == 0) {
+
+                    array_push($public['allCategories'],$items);
+
+                } else if ($items->group->type == 1) {
+
+                    array_push($public['allCategories'],$items);
+
+                }
             }
+
         }
-        return $this->ajaxSuccess('请求成功',compact('categories','allCategories'));
+        return $this->ajaxSuccess('请求成功',compact('public','private'));
     }
 
     /**
@@ -98,8 +171,8 @@ class FolderController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
-        if (Auth::user()->auth != 2 && $params['pid'] == 0) {
-            return $this->ajaxError('没有权限更改一级菜名称');
+        if (user()->auth != 2 ) {
+            return $this->ajaxError('没有权限更改菜单名称');
         }
         $exist = Folder::where(array('p_id'=>$params['pid'],'title'=>$params['title']))->count();
         if ($exist > 0) {
@@ -136,6 +209,10 @@ class FolderController extends BaseController
             return $this->ajaxError('数据不存在');
         }
 
+        if ( user()->auth !== 2 ) {
+            return $this->ajaxError('删除失败，没有权限删除一级菜单');
+        }
+
         if ($Folder->notes()->count() > 0) {
             return $this->ajaxError('删除失败，必须删除文件夹下所有笔记');
         }
@@ -144,13 +221,6 @@ class FolderController extends BaseController
             return $this->ajaxError('删除失败，必须删除该文件夹下面的子文件夹');
         }
 
-        if ( $Folder->p_id === 0 && user()->auth !== 2 ) {
-            return $this->ajaxError('删除失败，没有权限删除一级菜单');
-        }
-
-        if (!( user()->auth == 2 || $Folder->u_id ==  user()->id)) {
-            return $this->ajaxError('删除失败,没有权限删除此文件夹');
-        }
 
         $flag = $Folder->where('id',$params['id'])->update(array('active'=> '0'));
         if (1 != $flag) {
@@ -165,7 +235,7 @@ class FolderController extends BaseController
      * @param $data
      * @return int
      */
-    function dealSub($data) {
+    function recursion($data) {
         $totalCount = 0;
         foreach ($data as $subItems) {
             $subItems->currentCount = $subItems->notes()->count();

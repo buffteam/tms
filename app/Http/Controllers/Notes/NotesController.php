@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Notes;
+
+use App\Http\Traits\NotesTrait;
 use App\Model\Folder;
 use App\Model\Notes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Http\Controllers\BaseController;
 
 class NotesController extends BaseController
 {
+    use NotesTrait;
     /**
      * 每页显示数量
      */
@@ -34,33 +36,18 @@ class NotesController extends BaseController
     public function add (Request $request)
     {
         // 验证规则
-        $rules =  [
-            'title' => 'required',
-            'f_id' => 'required',
-            'content' => 'max:'.(pow(2,32)-10),
-            'origin_content' => 'max:'.(pow(2,32)-10)
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return $this->ajaxError('参数验证输错',$validator->errors());
+        $validateData = $this->validateData($request->all());
+        if (true !== $validateData) {
+            return $validateData;
         }
+
         $params = $request->input();
 
-        //TODO 验证关联表 某个数据是否存在表数据中
-        if (!$this->findFolderId($params['f_id'])) {
-            return $this->ajaxError('文件夹ID不存在');
-        }
-        $count = $this->notesModel->like('title',$params['title'])->where(['f_id'=>$params['f_id']])->count();
-        if ($count > 0) {
-            $params['title'] = $params['title'].'('.$count.')';
-        }
-        $params['u_id'] = user()->id;
-        $params['last_updated_name'] = user()->name;
-//        dd($params);
-        $data = $this->notesModel->create($params);
-        $data->author = Auth::user()->name;
+        $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
+
+        $params['lock'] = $isPrivate ? 0 : 1;
+
+        $data = $this->insertNote($params);
         if (null != $data) {
             return $this->ajaxSuccess('新增成功',$data);
         }
@@ -110,17 +97,24 @@ class NotesController extends BaseController
 
         // 获取用户ID
         // TODO 私人可见笔记待做 查询数据
+        $folder = Folder::where('p_id',$params['id'])->get()->toArray();
 
-        $list = $this->notesModel->isPrivate()->where([ 'f_id'=>$params['id'] ])
+        $list = Notes::where([ 'f_id'=>$params['id'] ])->isPrivate()
                     ->join('users','notes.u_id','=','users.id')
                     ->select('notes.*', 'users.name as author')
-                    ->orderBy($params['field'],$params['order'])
                     ->skip($start)
                     ->take($params['pagesize'])
+                    ->orderBy($params['field'],$params['order'])
                     ->get();
 
+
+//        $all = Notes::where([ 'f_id'=>$params['id'] ])->isPrivate()->get();
+
+
+
+
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
-        return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list));
+        return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>$folder));
     }
 
     /**
@@ -175,7 +169,7 @@ class NotesController extends BaseController
         $params = $request->input();
 
         if ($this->isLocked($params['id'])) {
-            return $this->ajaxSuccess('保存失败，此笔记已经被创建人锁住');
+            return $this->ajaxSuccess('保存失败，此笔记已经被创建人锁住,不允许修改');
         };
 
         if (isset($params['title'])) {
@@ -216,8 +210,7 @@ class NotesController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
-
-        $user = Auth::user();
+        $user = user();
         $note = Notes::find($params['id']);
 
         if (!($user->auth == 2 || $note->u_id == $user->id)) {
@@ -320,15 +313,7 @@ class NotesController extends BaseController
         return $this->ajaxSuccess('搜索成功',['totalPage'=>$totalPage,'data'=>$list]);
     }
 
-    /**
-     * 验证文档Id是否存在
-     * @param $id
-     * @return bool
-     */
-    private function findFolderId($id)
-    {
-        return Folder::find($id) ? true : false;
-    }
+
 
     /**
      * 获取回收站列表
