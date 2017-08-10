@@ -107,12 +107,15 @@
                     </div>
 
                     <div class="doc-content-controls">
-                        <span class="more-btn" data-type="off"></span>
+                        <span class="more-btn">更多</span>
                         <span class="edit-btn" onclick="note.editNote()">编辑</span>
                         <span class="save-btn" onclick="note.saveNote()">保存</span>
                         <span class="restore-btn" onclick="note.restoreNote()">还原</span>
                         <ul class="more-ul more-list">
+                            <li class="list-lock" style="display: none;">上锁</li>
+                            <li class="list-unlock" style="display: none;">解锁</li>
                             <li onclick="note.htmlToPDF()">导出PDF</li>
+                            <li class="list-del">删除笔记</li>
                         </ul>
                     </div>
                 </div>
@@ -187,14 +190,6 @@
             <p class="doc-time">
                 <span><%= list[i].updated_at %></span>
             </p>
-            <div class="doc-hover-icon">
-                <ul class="more-ul doc-item-more" data-id="<%= list[i].id %>">
-                    <li class="list-lock" <% if(list[i].lock === 1) {%> style="display:none" <% } %> >上锁</li>
-                    <li class="list-unlock" <% if(list[i].lock === 0) {%> style="display:none" <% } %> >解锁</li>
-                    <li class="list-del">删除</li>
-                </ul>
-                <!-- <span class="list-del-icon" title="删除"></span>-->
-            </div>
         </li>
         <% } %>
     </script>
@@ -215,9 +210,6 @@
             </p>
             <p class="doc-time">
                 <span>删除时间：<%= list[i].updated_at %></span>
-            </p>
-            <p class="doc-hover-icon">
-                <span class="list-restore-icon" title="还原"></span>
             </p>
         </li>
         <% } %>
