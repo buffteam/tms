@@ -46,7 +46,7 @@ class NotesController extends BaseController
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
         $params['lock'] = $isPrivate ? 0 : 1;
-
+        $params['isPrivate'] = $isPrivate ? 0 : 1;
         $data = $this->insertNote($params);
         if (null != $data) {
             return $this->ajaxSuccess('新增成功',$data);
@@ -106,13 +106,6 @@ class NotesController extends BaseController
                     ->take($params['pagesize'])
                     ->orderBy($params['field'],$params['order'])
                     ->get();
-
-
-//        $all = Notes::where([ 'f_id'=>$params['id'] ])->isPrivate()->get();
-
-
-
-
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
         return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>$folder));
     }
@@ -168,25 +161,13 @@ class NotesController extends BaseController
 
         $params = $request->input();
 
-        if ($this->isLocked($params['id'])) {
+        $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
+
+        if (!$isPrivate && $this->isLocked($params['id'])) {
             return $this->ajaxSuccess('保存失败，此笔记已经被创建人锁住,不允许修改');
         };
-
-        if (isset($params['title'])) {
-            $count = $this->notesModel->like('title',$params['title'])
-                ->where(['f_id'=>$params['f_id']])
-                ->where('id','!=',$params['id'])
-                ->count();
-            if ($count > 0) {
-                $params['title'] = $params['title'].'('.($count+1).')';
-            }
-        }
-
-
-        $params['last_updated_name'] = user()->name;
-
-        $data = $this->notesModel->where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
-        if ($data != 1) {
+        $updateData = $this->updateData($params);
+        if ($updateData != 1) {
             return $this->ajaxError('更新失败，数据不存在');
         }
         return $this->ajaxSuccess('更新成功',Notes::find($params['id']));
@@ -233,12 +214,7 @@ class NotesController extends BaseController
      */
     public function latest ()
     {
-        $latest = $this->notesModel->isPrivate()
-            ->join('users','notes.u_id','=','users.id')
-            ->select('notes.*', 'users.name as author')
-            ->orderBy('updated_at','desc')
-            ->limit($this->pagesize)
-            ->get()->toArray();
+        $latest = $this->getLatest();
         return $this->ajaxSuccess('获取成功',$latest);
     }
 

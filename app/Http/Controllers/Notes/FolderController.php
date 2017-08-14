@@ -77,7 +77,6 @@ class FolderController extends BaseController
                 array_push($result,$item->toArray());
             }
         }
-        dd($result);
         return $this->ajaxSuccess('请求成功',$result);
     }
 

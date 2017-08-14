@@ -36,7 +36,7 @@ trait NotesTrait
     }
 
     /**
-     * 插入文件夹
+     * 插入笔记
      * @param $params
      * @return \Illuminate\Http\JsonResponse
      */
@@ -50,12 +50,36 @@ trait NotesTrait
         $username = user()->name;
         $params['u_id'] = user()->id;
         $params['last_updated_name'] = $username;
-//        dd($params);
         $data = $notes->create($params);
         $data->author = $username;
         return $data;
 
     }
+
+    /**
+     * 更新数据
+     * @param $params
+     * @return mixed
+     */
+    protected function updateData ($params)
+    {
+
+        if (isset($params['title'])) {
+            $count = Notes::where(['f_id'=>$params['f_id']])
+                ->where('id','!=',$params['id'])
+                ->like('title',$params['title'])
+                ->count();
+            if ($count > 0) {
+                $params['title'] = $params['title'].'('.($count+1).')';
+            }
+        }
+        $params['last_updated_name'] = user()->name;
+
+        $data = Notes::where(array('id'=>$params['id'],'f_id'=>$params['f_id']))->update($params);
+        return $data;
+    }
+
+
     /**
      * 验证文档Id是否存在
      * @param $id
@@ -74,5 +98,18 @@ trait NotesTrait
     protected function checkFolderIsPrivate($id)
     {
         return Folder::find($id)->type == 0;
+    }
+
+    protected function getLatest()
+    {
+        $notes = new Notes();
+
+        $latest = $notes->isPrivate()
+            ->join('users','notes.u_id','=','users.id')
+            ->select('notes.*', 'users.name as author')
+            ->orderBy('updated_at','desc')
+            ->limit($this->pagesize)
+            ->get()->toArray();
+        return $latest;
     }
 }
