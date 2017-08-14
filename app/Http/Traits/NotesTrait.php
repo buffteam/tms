@@ -22,7 +22,6 @@ trait NotesTrait
         // 验证规则
         $rules =  [
             'title' => 'required',
-            'f_id' => 'required',
             'content' => 'max:'.(pow(2,32)-10),
             'origin_content' => 'max:'.(pow(2,32)-10)
         ];
@@ -33,6 +32,19 @@ trait NotesTrait
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         return true;
+    }
+
+    /**
+     * 查找默认新建目录ID
+     * @return mixed
+     */
+    protected function findFid ()
+    {
+        // 查询用户私有群组和默认分类
+        $user = user();
+        $gid = $user->groups[0]->first()->id;
+        $data = Folder::where([ ['g_id' , $gid], ['p_id' , 0], ['title' , '默认分类'] ])->select('id')->first();
+        return $data->id;
     }
 
     /**

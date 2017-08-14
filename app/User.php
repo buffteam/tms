@@ -33,4 +33,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Model\Notes','u_id');
     }
+
+    /**
+     * 用户创建的群组
+     */
+    public function groups()
+    {
+        return $this->hasMany('App\Model\Groups','u_id');
+    }
 }

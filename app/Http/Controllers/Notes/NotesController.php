@@ -42,8 +42,16 @@ class NotesController extends BaseController
         }
 
         $params = $request->input();
+        $isPrivate = null;
+        if (!$request->has('f_id')) {
+            $params['f_id'] = $this->findFid();
+            $isPrivate = true;
+        }
 
-        $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
+        if (null !== $isPrivate) {
+            $isPrivate =  $this->checkFolderIsPrivate($params['f_id']);
+        }
+
 
 
         $params['lock'] = $isPrivate ? 0 : 1;
