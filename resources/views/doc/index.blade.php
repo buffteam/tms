@@ -20,15 +20,15 @@
                                 <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
                                 <span class="add-text">新建文档</span>
                                 <ul class="more-ul add-list">
-                                    <li onclick="note.newNote('1')">新建md文档</li>
-                                    <li onclick="note.newNote('2')">新建笔记</li>
+                                    <li data-idx="1">新建md文档</li>
+                                    <li data-idx="2">新建笔记</li>
                                 </ul>
                             </div>
                         </li>
                         <li class="pure-menu-item nav-newest-item active">
                             <div class="first-menu-a">最新笔记</div>
                         </li>
-                        <li class="pure-menu-item nav-doc-item">
+                        <!-- <li class="pure-menu-item nav-doc-item">
                             <div class="nav-doc-a first-menu-a is-parent" data-switch="on">
                                 <span>我的文档</span>
                             </div>
@@ -46,13 +46,18 @@
                                 <p data-type="rename">重命名</p>
                                 <p data-type="del">删除文件夹</p>
                             </div>
-                        </li>
+                        </li> -->
                         {{--<li class="pure-menu-item nav-share-item">--}}
                             {{--<a href="#" class="first-menu-a">我的分享</a>--}}
                         {{--</li>--}}
                         <li class="pure-menu-item nav-del-item">
                             <div class="first-menu-a">回收站</div>
                         </li>
+                        <div class="more-ul down-box">
+                            <p data-type="add">新建子文件夹</p>
+                            <p data-type="rename">重命名</p>
+                            <p data-type="del">删除文件夹</p>
+                        </div>
                     </ul>
                     <div class="feedback">
                         <a href="{{route('feedback',['action'=> 'dashboard'])}}" target="_blank">
@@ -108,13 +113,13 @@
 
                     <div class="doc-content-controls">
                         <span class="more-btn">更多</span>
-                        <span class="edit-btn" onclick="note.editNote()">编辑</span>
-                        <span class="save-btn" onclick="note.saveNote()">保存</span>
-                        <span class="restore-btn" onclick="note.restoreNote()">还原</span>
+                        <span class="edit-btn">编辑</span>
+                        <span class="save-btn">保存</span>
+                        <span class="restore-btn">还原</span>
                         <ul class="more-ul more-list">
                             <li class="list-lock" style="display: none;">上锁</li>
                             <li class="list-unlock" style="display: none;">解锁</li>
-                            <li onclick="note.htmlToPDF()">导出PDF</li>
+                            <li class="list-topdf">导出PDF</li>
                             <li class="list-del">删除笔记</li>
                         </ul>
                     </div>
@@ -217,42 +222,81 @@
     <script id="add-input-tpl" type="text/html">
         <li class="child-item">
             <div class="second-menu-a" data-id="" data-pid="">
+                <span class="child-menu-open"></span>
                 <span class="child-menu-icon"></span>
                 <span class="item-name"><input type="text"></span>
                 <span class="item-count">(0)</span>
-                <span class="child-menu-down" data-idx="##idx##"></span>
+                <span class="child-menu-down" data-idx="##idx##" data-type="##type##" data-gid="##gid##"></span>
             </div>
         </li>
+    </script>
+
+    <script id="group-tpl" type="text/html">
+    <% for(var j = 0; j < group.length; j++) { %>
+        <li class="pure-menu-item nav-doc-item group-<%= j %>">
+            <div class="nav-doc-a first-menu-a is-parent" data-switch="on">
+                <span><%= group[j].name %></span>
+            </div>
+            <ul class="child-list first-child-list">
+                <% idx = 1; for(var i = 0, list = renderNav(group[j].folders); i < list.length; i++) { %>
+                    <li class="child-item">
+                    <% if(list[i].child) {%> 
+                        <div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
+                    <% }else{ %>
+                        <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
+                    <% } %>
+                            <span class="child-menu-open"></span>
+                            <span class="child-menu-icon"></span>
+                            <span class="item-name"><%= list[i].title %></span>
+                            <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
+                            <span class="child-menu-down" data-idx="<%= idx %>" data-type="<%= group[j].type %>" data-gid="<%= group[j].id %>"></span>
+                        </div>
+
+                        <% if(list[i].child) {%>
+                            <ul class="child-list">
+                            <% include('nav-tpl', {list:list[i].child, idx: idx, type: group[j].type, gid: group[j].id})  %>
+                            </ul>
+                        <% } %>
+                    </li>
+                <% } %>
+                <li class="child-item child-item-input">
+                    <input type="text" name="add_dir<%= group[j].id %>" data-type="<%= group[j].type %>" data-gid="<%= group[j].id %>">
+                </li>
+                <li class="child-item add-dir">
+                    <span>+</span>新建文件夹
+                </li>
+            </ul>
+            
+        </li>
+    <% } %>
     </script>
 
     <script id="nav-tpl" type="text/html">
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
-        <li class="child-item">
-        <% if(list[i].child) {%> 
-			<div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
-        <% }else{ %>
-            <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
-        <% } %>
-            	<span class="child-menu-open"></span>
-                <span class="child-menu-icon"></span>
-                <span class="item-name"><%= list[i].title %></span>
-                <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
-                <span class="child-menu-down" data-idx="<%= idx %>"></span>
-            </div>
-
-            <% if(list[i].child) {%>
-            	<ul class="child-list">
-            	<% include('nav-tpl', {list:list[i].child, idx: idx})  %>
-            	</ul>
+            <li class="child-item">
+            <% if(list[i].child) {%> 
+    			<div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
+            <% }else{ %>
+                <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
             <% } %>
-        </li>
+                	<span class="child-menu-open"></span>
+                    <span class="child-menu-icon"></span>
+                    <span class="item-name"><%= list[i].title %></span>
+                    <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
+                    <span class="child-menu-down" data-idx="<%= idx %>" data-type="<%= type %>" data-gid="<%= gid %>"></span>
+                </div>
+
+                <% if(list[i].child) {%>
+                	<ul class="child-list">
+                	<% include('nav-tpl', {list:list[i].child, idx: idx, type: type, gid: gid})  %>
+                	</ul>
+                <% } %>
+            </li>
         <% } %>
     </script>
 @endsection
 @section('script')
-    <script src="{{asset('/libs/template/template-native.js')}}"></script>
-    <script src="{{asset('/libs/editormd/editormd.min.js')}}"></script>
-    <script src="{{asset('/libs/nicescroll/jquery.nicescroll.min.js')}}"></script>
-    <script src="{{asset('/libs/wangEditor-3.0.3/wangEditor.min.js')}}"></script>
+    <script src="{{asset('/libs/editormd/lib/raphael.min.js')}}"></script>
+    <script src="{{asset('/libs/seajs/sea.js')}}"></script>
     <script src="{{asset('/module/doc/js/index.js')}}"></script>
 @endsection

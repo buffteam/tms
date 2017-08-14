@@ -2702,7 +2702,7 @@
             path = settings.pluginPath + path;
             
             if (typeof define === "function") 
-            {            
+            {
                 if (typeof this[name] === "undefined")
                 {
                     alert("Error: " + name + " plugin is not found, you are not load this plugin.");
