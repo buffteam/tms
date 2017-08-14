@@ -63,6 +63,10 @@ class Notes extends Model
         return $query->where('isPrivate', $type);
     }
 
+    public function scopeBelongMy($query)
+    {
+        return $query->orWhere('u_id',user()->id);
+    }
     /**
      * 动态模糊匹配
      * @param $query
