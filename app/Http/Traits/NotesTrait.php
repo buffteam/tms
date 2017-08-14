@@ -117,6 +117,7 @@ trait NotesTrait
         $notes = new Notes();
 
         $latest = $notes->isPrivate()
+            ->where('u_id',user()->id)
             ->join('users','notes.u_id','=','users.id')
             ->select('notes.*', 'users.name as author')
             ->orderBy('updated_at','desc')
