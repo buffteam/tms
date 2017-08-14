@@ -260,7 +260,7 @@ class FolderController extends BaseController
             $subMenuCount = $subCondition->count();
             if ($subMenuCount > 0) {
                 $subMenu = $subCondition->get();
-                $totalCount = $totalCount + $this->dealSub($subMenu);
+                $totalCount = $totalCount + $this->recursion($subMenu);
             }
         }
         return $totalCount;
