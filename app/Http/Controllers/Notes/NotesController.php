@@ -106,7 +106,7 @@ class NotesController extends BaseController
         // TODO 私人可见笔记待做 查询数据
         $folder = Folder::where('p_id',$params['id'])->get()->toArray();
 
-        $list = Notes::where([ 'f_id'=>$params['id'] ])->isPrivate()->BelongMy()
+        $list = Notes::where([ 'f_id'=>$params['id'] ])->isPrivate()
                     ->join('users','notes.u_id','=','users.id')
                     ->select('notes.*', 'users.name as author')
                     ->skip($start)
@@ -317,6 +317,8 @@ class NotesController extends BaseController
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
 
         $list = $condition->join('users','notes.u_id','=','users.id')
+                ->BelongMy()
+                ->isPrivate()
                 ->select('notes.*', 'users.name as author')
                 ->skip($start)->take($params['pagesize'])->get();
 
