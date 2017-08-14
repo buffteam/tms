@@ -29,7 +29,7 @@ class FolderController extends BaseController
         $params = $request->input();
         $data = null;
         // 创建私人群组的文件夹
-        if ($params['active'] == 0) {
+        if ($params['type'] == 0) {
             $data = $this->insertFolder($params);
         }
         // 创建公开群组的文件夹

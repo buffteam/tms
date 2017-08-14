@@ -97,6 +97,7 @@ trait NotesTrait
      */
     protected function checkFolderIsPrivate($id)
     {
+        dd(Folder::find($id)->toArray());
         return Folder::find($id)->type == 0;
     }
 

@@ -45,8 +45,10 @@ class NotesController extends BaseController
 
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
+
         $params['lock'] = $isPrivate ? 0 : 1;
-        $params['isPrivate'] = $isPrivate ? 0 : 1;
+        $params['isPrivate'] = $isPrivate ? '0' : '1';
+        dd( $params['isPrivate']);
         $data = $this->insertNote($params);
         if (null != $data) {
             return $this->ajaxSuccess('新增成功',$data);

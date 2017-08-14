@@ -19,8 +19,8 @@ class Folder extends Model
      * @var bool
      */
     public $timestamps = true;
-//    protected $fillable = ['title','u_id','p_id','active','g_id'];
-    protected $guarded = ['created_at','updated_at'];
+    protected $fillable = ['title','u_id','p_id','active','g_id','type'];
+//    protected $guarded = ['created_at','updated_at'];
     /**
      * 添加全局条件
      *
