@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Notes;
 
 use App\Model\Groups;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Model\Folder;
 use Illuminate\Http\Request;

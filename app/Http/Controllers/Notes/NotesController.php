@@ -48,12 +48,9 @@ class NotesController extends BaseController
 
         $params['lock'] = $isPrivate ? 0 : 1;
         $params['isPrivate'] = $isPrivate ? '0' : '1';
-        dd( $params['isPrivate']);
         $data = $this->insertNote($params);
-        if (null != $data) {
-            return $this->ajaxSuccess('新增成功',$data);
-        }
-        return $this->ajaxError('新增失败');
+
+        return (null != $data) ? $this->ajaxSuccess('新增成功',$data) : $this->ajaxError('新增失败');
 
     }
 
@@ -203,10 +200,7 @@ class NotesController extends BaseController
 
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0','last_updated_name'=>user()->name));
 
-        if ($data != 1) {
-            return $this->ajaxError('数据在另一端已经被删除了，请刷新页面');
-        }
-        return $this->ajaxSuccess('删除成功');
+        return ($data != 1) ? $this->ajaxError('数据在另一端已经被删除了，请刷新页面') : $this->ajaxSuccess('删除成功');
 
     }
 
@@ -336,10 +330,7 @@ class NotesController extends BaseController
 
         $note = Notes::withoutGlobalScopes()->where('id',$id)->update(['active'=>'1']);
 
-        if (!$note) {
-            return $this->ajaxError('恢复失败,请刷新重试');
-        }
-        return $this->ajaxSuccess('恢复成功');
+        return !$note ? $this->ajaxError('恢复失败,请刷新重试') : $this->ajaxSuccess('恢复成功');
 
     }
 
