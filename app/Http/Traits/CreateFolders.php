@@ -40,11 +40,11 @@ trait CreateFolders
      */
     protected function insertFolder ($params)
     {
-
-        $num = Folder::where(['title'=>$params['title'],'p_id'=>$params['p_id']])->count();
+        // 群组下面 没有
+        $num = Folder::where('p_id',$params['p_id'])->where('title','like','%'.$params['title'].'%')->count();
 
         if ($num > 0) {
-            return $this->ajaxError('文件夹名称重复');
+            $params['title'] = $params['title'].'('.$num.')';
         }
 
         $params['u_id'] = user()->id;

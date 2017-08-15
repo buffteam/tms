@@ -227,7 +227,12 @@ class FolderController extends BaseController
         if ( user()->auth !== 2 ) {
             return $this->ajaxError('删除失败，没有权限删除一级菜单');
         }
+        $groupId = $Folder->group->id;
 
+        $countFolder = $Folder->where('g_id',$groupId)->count();
+        if ($countFolder === 1) {
+            return $this->ajaxError('删除失败，只剩下唯一的文件夹不允许删除！');
+        }
         if ($Folder->notes()->count() > 0) {
             return $this->ajaxError('删除失败，必须删除文件夹下所有笔记');
         }

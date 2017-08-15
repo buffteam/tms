@@ -43,6 +43,7 @@ class NotesController extends BaseController
 
         $params = $request->input();
         $isPrivate = null;
+        // 检查是否传入目录ID
         if (!$request->has('f_id')) {
             $params['f_id'] = $this->findFid();
             $isPrivate = true;
@@ -51,8 +52,6 @@ class NotesController extends BaseController
         if (null !== $isPrivate) {
             $isPrivate =  $this->checkFolderIsPrivate($params['f_id']);
         }
-
-
 
         $params['lock'] = $isPrivate ? 0 : 1;
         $params['isPrivate'] = $isPrivate ? '0' : '1';
