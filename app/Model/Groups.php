@@ -25,4 +25,15 @@ class Groups extends Model
     {
         return $this->hasMany('App\Model\Folder','g_id','id');
     }
+
+    /**
+     *  是否公开
+     * @param $query
+     * @param int $type 默认是公开
+     * @return mixed
+     */
+    public function scopeIsPrivate($query, $type = 1)
+    {
+        return $query->orWhere('type', $type);
+    }
 }

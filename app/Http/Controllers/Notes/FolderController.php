@@ -50,7 +50,6 @@ class FolderController extends BaseController
      */
     public function getGroups()
     {
-
         $list = Groups::where('u_id',user()->id)->orWhere('type',1)->orderBy('id','desc')->get();
         $result = [];
 
