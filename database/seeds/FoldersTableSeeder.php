@@ -13,6 +13,13 @@ class FoldersTableSeeder extends Seeder
     {
         //
         DB::table('folders')->insert([
+            [
+                'title' => '科室文档',
+                'u_id' => 1,
+                'p_id' => 0,
+                'active' => '1',
+                'g_id' => 1
+            ],
            [
                'title' => 'Andriod技术',
                'u_id' => 1,
