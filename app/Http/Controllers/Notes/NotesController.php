@@ -279,7 +279,7 @@ class NotesController extends BaseController
 
         $totalPage = ceil($titleCount/$params['pagesize']);
 
-        $list = $noteModel->where($titleCondition)->BelongMy()
+        $list = $noteModel->where($titleCondition)
             ->join('users','notes.u_id','=','users.id')
             ->select('notes.*', 'users.name as author')
             ->offset($start)
