@@ -9,6 +9,7 @@
 namespace App\Http\Traits;
 use App\Model\Folder;
 use App\Model\Notes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 trait NotesTrait
 {
@@ -117,7 +118,7 @@ trait NotesTrait
         $notes = new Notes();
 
         $latest = $notes->isPrivate()
-            ->BelongMy()
+            ->orWhere('u_id',user()->id)
             ->join('users','notes.u_id','=','users.id')
             ->select('notes.*', 'users.name as author')
             ->orderBy('updated_at','desc')

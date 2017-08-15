@@ -49,7 +49,7 @@ class NotesController extends BaseController
             $isPrivate = true;
         }
 
-        if (null !== $isPrivate) {
+        if (null === $isPrivate) {
             $isPrivate =  $this->checkFolderIsPrivate($params['f_id']);
         }
 

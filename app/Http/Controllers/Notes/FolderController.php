@@ -186,14 +186,17 @@ class FolderController extends BaseController
             return $this->ajaxError('参数验证输错',$validator->errors());
         }
         $params = $request->input();
-        if (user()->auth != 2 ) {
+
+        $Folder = Folder::find($params['id']);
+
+        if ( !(isAdmin() && user()->id === $Folder->u_id) ) {
             return $this->ajaxError('没有权限更改菜单名称');
         }
         $exist = Folder::where(array('p_id'=>$params['pid'],'title'=>$params['title']))->count();
         if ($exist > 0) {
             return $this->ajaxError('文件夹名称重复');
         }
-        $flag = Folder::where('id',$params['id'])->update(array('title'=>$params['title']));
+        $flag = $Folder->update(array('title'=>$params['title']));
         if (1 != $flag) {
             return $this->ajaxError('修改失败');
         }
@@ -219,9 +222,13 @@ class FolderController extends BaseController
 
         $params = $request->input();
         $Folder = Folder::find($params['id']);
-
+        $user = user();
         if (null === $Folder) {
             return $this->ajaxError('数据不存在');
+        }
+
+        if (!($user->auth == 2 || $Folder->u_id == $user->id)) {
+            return $this->ajaxError('删除失败,没有权限删除此笔记');
         }
 
         if ( user()->auth !== 2 ) {
