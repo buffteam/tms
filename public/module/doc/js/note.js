@@ -454,8 +454,10 @@ define(function (require, exports, module) {
                     $('.doc-title-input').val('');
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-preview-body').html(res.data.content || '');
-                    var $count = $('.child-item.active>.second-menu-a>.item-count');
-                    note.navCountHandle($count);
+                    if(g_id){
+                        var $count = $('.child-item.active>.second-menu-a>.item-count');
+                        note.navCountHandle($count);
+                    }
                     cur_note = res.data;
                     editor.initEditor(type);
                 } else {
