@@ -188,8 +188,7 @@ class FolderController extends BaseController
         $params = $request->input();
 
         $Folder = Folder::find($params['id']);
-
-        if ( !(isAdmin() && user()->id === $Folder->u_id) ) {
+        if ( !(isAdmin() || user()->id === $Folder->u_id) ) {
             return $this->ajaxError('没有权限更改菜单名称');
         }
         $exist = Folder::where(array('p_id'=>$params['pid'],'title'=>$params['title']))->count();
