@@ -170,13 +170,11 @@ class NotesController extends BaseController
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
         if (!$isPrivate && $this->isLocked($params['id'])) {
-            return $this->ajaxSuccess('保存失败，此笔记已经被创建人锁住,不允许修改');
+            return $this->ajaxError('保存失败，此笔记已经被创建人锁住,不允许修改');
         };
         $updateData = $this->updateData($params);
-        if ($updateData != 1) {
-            return $this->ajaxError('更新失败，数据不存在');
-        }
-        return $this->ajaxSuccess('更新成功',Notes::find($params['id']));
+
+        return ($updateData != 1) ? $this->ajaxError('更新失败，数据不存在') : $this->ajaxSuccess('更新成功',Notes::find($params['id']));
     }
 
     /**
@@ -317,7 +315,7 @@ class NotesController extends BaseController
 
         $list = $condition->join('users','notes.u_id','=','users.id')
                 ->BelongMy()
-                ->isPrivate()
+                ->orWhere('isPrivate','1')
                 ->select('notes.*', 'users.name as author')
                 ->skip($start)->take($params['pagesize'])->get();
 

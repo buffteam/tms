@@ -65,7 +65,7 @@ class Notes extends Model
 
     public function scopeBelongMy($query)
     {
-        return $query->orWhere('u_id',user()->id);
+        return $query->where('u_id',user()->id);
     }
     /**
      * 动态模糊匹配
