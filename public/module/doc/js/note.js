@@ -192,7 +192,7 @@ define(function (require, exports, module) {
                     clearInterval(timeId);
                     timeId = null;
                     $('.doc-title-span').html(res.data.title);
-                    res.data.lock ? $('.list-lock').show() : $('.list-unlock').show();
+                    res.data.lock ? $('.list-lock').show().next('.list-unlock').hide() : $('.list-unlock').show().prev('.list-lock').hide();
                     cur_note = res.data;
                     mdeditor && mdeditor.clear();
                     if (isRecycle) {
@@ -242,6 +242,20 @@ define(function (require, exports, module) {
                     }else{
                         note.getNoteDetail(note_id);
                     }
+                }
+            });
+            // 点击更多按钮
+            $('.more-btn').on('click', function (e) {
+                e.stopPropagation();
+                var $moreList = $('.more-list');
+                if ($moreList.is(':visible')) {
+                    $moreList.hide();
+                } else {
+                    $('.more-ul').hide();
+                    $moreList.show();
+                    $(document).off('click').one('click', function () {
+                        $moreList.hide();
+                    })
                 }
             });
             // 点击列表删除功能
@@ -388,20 +402,7 @@ define(function (require, exports, module) {
             $('.doc-title-span').on('blur', function () {
                 note.saveTitle();
             });
-            // 点击更多按钮
-            $('.more-btn').on('click', function (e) {
-                e.stopPropagation();
-                var $moreList = $('.more-list');
-                if ($moreList.is(':visible')) {
-                    $moreList.hide();
-                } else {
-                    $('.more-ul').hide();
-                    $moreList.show();
-                    $(document).off('click').one('click', function () {
-                        $moreList.hide();
-                    })
-                }
-            });
+
             // 切换主题
             $('.editor-theme li').on('click', function (e) {
                 e.stopPropagation();

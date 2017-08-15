@@ -10,7 +10,6 @@
     <div id="layout" class="content pure-g">
         <div id="nav" class="">
             <span class="nav-menu-button"></span>
-
             <div class="nav-inner">
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
@@ -28,28 +27,6 @@
                         <li class="pure-menu-item nav-newest-item active">
                             <div class="first-menu-a">最新笔记</div>
                         </li>
-                        <!-- <li class="pure-menu-item nav-doc-item">
-                            <div class="nav-doc-a first-menu-a is-parent" data-switch="on">
-                                <span>我的文档</span>
-                            </div>
-                            <ul class="child-list first-child-list">
-
-                                <li class="child-item child-item-input">
-                                    <input type="text" name="add_dir1">
-                                </li>
-                                <li class="child-item add-dir">
-                                    <span>+</span>新建文件夹
-                                </li>
-                            </ul>
-                            <div class="more-ul down-box">
-                                <p data-type="add">新建子文件夹</p>
-                                <p data-type="rename">重命名</p>
-                                <p data-type="del">删除文件夹</p>
-                            </div>
-                        </li> -->
-                        {{--<li class="pure-menu-item nav-share-item">--}}
-                            {{--<a href="#" class="first-menu-a">我的分享</a>--}}
-                        {{--</li>--}}
                         <li class="pure-menu-item nav-del-item">
                             <div class="first-menu-a">回收站</div>
                         </li>
@@ -133,33 +110,7 @@
                         <div id="editormd" class="editor-1">
                             <textarea id="page_content" style="display:none;"></textarea>
                             <ul class="editor-theme">
-                                <li>default</li>
-                                <li>3024-day</li>
-                                <li>3024-night</li>
-                                <li>ambiance</li>
-                                <li>base16-dark</li>
-                                <li>base16-light</li>
-                                <li>blackboard</li>
-                                <li>cobalt</li>
-                                <li>eclipse</li>
-                                <li>erlang-dark</li>
-                                <li>lesser-dark</li>
-                                <li>mbo</li>
-                                <li>mdn-like</li>
-                                <li>midnight</li>
-                                <li>monokai</li>
-                                <li>neo</li>
-                                <li>night</li>
-                                <li>paraiso-dark</li>
-                                <li>paraiso-light</li>
-                                <li>pastel-on-dark</li>
-                                <li>rubyblue</li>
-                                <li>solarized</li>
-                                <li>the-matrix</li>
-                                <li>twilight</li>
-                                <li>vibrant-ink</li>
-                                <li>xq-dark</li>
-                                <li>tomorrow-night-eighties</li>
+                                <li>default</li><li>3024-day</li><li>3024-night</li><li>ambiance</li><li>base16-dark</li><li>base16-light</li><li>blackboard</li><li>cobalt</li><li>eclipse</li><li>erlang-dark</li><li>lesser-dark</li><li>mbo</li><li>mdn-like</li><li>midnight</li><li>monokai</li><li>neo</li><li>night</li><li>paraiso-dark</li><li>paraiso-light</li><li>pastel-on-dark</li><li>rubyblue</li><li>solarized</li><li>the-matrix</li><li>twilight</li><li>vibrant-ink</li><li>xq-dark</li><li>tomorrow-night-eighties</li>
                             </ul>
                         </div>
                         <div id="editor" class="editor-2"></div>

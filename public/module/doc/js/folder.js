@@ -169,7 +169,7 @@ define(function (require, exports, module) {
                         $downBox = $('.down-box'),
                         $downIcon = $('.child-menu-down');
 
-                    g_id = $self.parent().data('id');
+                    $('.down-box p').data('id',$self.parent().data('id'));
                     $g_folder = $self.parent().parent();
 
                     if (!$self.hasClass('active')) {
@@ -199,7 +199,7 @@ define(function (require, exports, module) {
                     e.stopPropagation();
                     var $self = $(this),
                         event = $self.data('type'),
-                        id = $self.data('id'),
+                        f_id = $self.data('id'),
                         $icon = $('.child-menu-down.active'),
                         elem = $icon.parent().parent(), text = null,
                         idx = parseInt($icon.data('idx'));
@@ -233,7 +233,7 @@ define(function (require, exports, module) {
                                         title: value,
                                         type: $icon.data('type'),
                                         g_id: $icon.data('gid'),
-                                        p_id: g_id
+                                        p_id: f_id
                                     }, function (res) {
                                         if (res.code === 200) {
                                             layer.msg('添加成功');
@@ -282,11 +282,11 @@ define(function (require, exports, module) {
                                 if (value && value !== text && value.length < 13) {
                                     $.post(host + '/folder/update', {
                                         title: value,
-                                        id: g_id,
+                                        id: f_id,
                                         pid: pid
                                     }, function (res) {
                                         if (res.code === 200) {
-                                            elem.html(value);
+                                            elem.html(res.data.title);
                                             layer.msg('修改成功');
                                         } else {
                                             elem.html(text);
@@ -308,7 +308,7 @@ define(function (require, exports, module) {
                             layer.confirm('删除不可恢复，是否确定删除？', {
                                 btn: ['确定', '取消']
                             }, function () {
-                                folder.delFolder();
+                                folder.delFolder(f_id);
                             });
                             break;
                     }
@@ -384,10 +384,11 @@ define(function (require, exports, module) {
         },
 
         // 删除目录事件
-        delFolder: function () {
-            $.post(host + '/folder/del', {id: g_id}, function (res) {
+        delFolder: function (fid) {
+            $.post(host + '/folder/del', {id: fid}, function (res) {
                 if (res.code === 200) {
                     $g_folder.remove();
+                    g_id = fid === g_id ? null : g_id;
                     layer.msg('删除成功');
                 } else {
                     layer.msg(res.msg);
