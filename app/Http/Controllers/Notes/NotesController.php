@@ -312,9 +312,10 @@ class NotesController extends BaseController
 
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
-
         $list = $condition->join('users','notes.u_id','=','users.id')
-                ->orWhere([['isPrivate','1'],['u_id',user()->id]])
+                ->where(function ($query){
+                    $query->where('isPrivate','1')->orWhere('u_id',user()->id);
+                })
                 ->select('notes.*', 'users.name as author')
                 ->skip($start)->take($params['pagesize'])->get();
 

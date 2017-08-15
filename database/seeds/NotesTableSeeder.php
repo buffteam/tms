@@ -11,9 +11,6 @@ class NotesTableSeeder extends Seeder
      */
     public function run()
     {
-//        //
-//        $container = [];
-//
-//        DB::table('notes')->insert($container);
+
     }
 }

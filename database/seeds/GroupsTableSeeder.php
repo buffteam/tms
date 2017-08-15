@@ -12,7 +12,6 @@ class GroupsTableSeeder extends Seeder
     public function run()
     {
         //
-        Groups::save();
         DB::table('groups')->insert([
             [
                 'name' => '团队文档',
