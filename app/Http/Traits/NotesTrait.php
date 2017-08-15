@@ -42,8 +42,8 @@ trait NotesTrait
     {
         // 查询用户私有群组和默认分类
         $user = user();
-        $gid = $user->groups[0]->first()->id;
-        $data = Folder::where([ ['g_id' , $gid], ['p_id' , 0], ['title' , '默认分类'] ])->select('id')->first();
+        $gid = $user->groups[0]->id;
+        $data = Folder::where([ ['g_id' , $gid], ['p_id' , 0] ])->select('id')->first();
         return $data->id;
     }
 
