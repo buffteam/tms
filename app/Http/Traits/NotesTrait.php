@@ -44,8 +44,6 @@ trait NotesTrait
         $user = user();
         $gid = $user->groups[0]->id;
         $data = Folder::where([ ['g_id' , $gid], ['p_id' , 0] ])->select('id')->first();
-
-        dd($gid);
         return $data->id;
     }
 
