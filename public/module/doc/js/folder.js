@@ -244,7 +244,8 @@ define(function (require, exports, module) {
                                             }
                                             $menu_a.removeClass('last-menu-a')
                                                 .addClass('second-menu-a')
-                                                .data({'id': res.data.id, 'pid': res.data.p_id});
+                                                .data({'id': res.data.id, 'pid': res.data.p_id})
+                                                .find('.item-count').addClass('g_'+res.data.id);
                                             $menu_a = null;
                                         } else if (res.code === 403) {
                                             layer.msg(res.msg);
@@ -259,7 +260,10 @@ define(function (require, exports, module) {
                                     $menu_a.parent().remove();
                                     $menu_a = null;
                                 }
-                            });
+                            })
+                                .on('click', function (e) {
+                                    e.stopPropagation();
+                                });
                             break;
                         // 文件夹重命名
                         case 'rename':
@@ -340,17 +344,6 @@ define(function (require, exports, module) {
                         return;
                     }
                     folder.addFirstFolder($self);
-                    // $self.on('focus', function () {
-                    //     $self.off('blur keypress').on('blur keypress', function (e) {
-                    //         var $self = $(this);
-                    //         if (e.keyCode === 13) {
-                    //             $self.off('blur keypress');
-                    //         } else if (e.type !== 'blur') {
-                    //             return;
-                    //         }
-                    //         folder.addFirstFolder($self);
-                    //     })
-                    // })
                 });
             });
 
@@ -369,13 +362,13 @@ define(function (require, exports, module) {
                         var list = [
                             {
                                 id: res.data.id,
-                                title: value,
+                                title: res.data.title,
                                 p_id: 0,
                                 currentCount: 0,
                                 totalCount: 0
                             }
                         ];
-                        var html = template('nav-tpl', {list: list, idx: 0, type: self.data('type'), gid: self.data('gid')});
+                        var html = template('nav-tpl', {list: list, idx: 0, type: res.data.type, gid: res.data.g_id});
                         self.parent().before(html);
                     } else {
                         layer.msg(res.msg);

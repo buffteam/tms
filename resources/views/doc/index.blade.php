@@ -248,7 +248,7 @@
                             <span class="child-menu-open"></span>
                             <span class="child-menu-icon"></span>
                             <span class="item-name"><%= list[i].title %></span>
-                            <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
+                            <span class="item-count g_<%= list[i].id %>">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
                             <span class="child-menu-down" data-idx="<%= idx %>" data-type="<%= group[j].type %>" data-gid="<%= group[j].id %>"></span>
                         </div>
 
@@ -282,7 +282,7 @@
                 	<span class="child-menu-open"></span>
                     <span class="child-menu-icon"></span>
                     <span class="item-name"><%= list[i].title %></span>
-                    <span class="item-count">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
+                    <span class="item-count g_<%= list[i].id %>">(<%= list[i].currentCount %><% if(list[i].hasOwnProperty('totalCount')) {%>/<%= list[i].totalCount %><% } %>)</span>
                     <span class="child-menu-down" data-idx="<%= idx %>" data-type="<%= type %>" data-gid="<%= gid %>"></span>
                 </div>
 

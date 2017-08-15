@@ -230,7 +230,13 @@ body {
 .second-menu-a:hover .child-menu-down{
     display: block;
 }
-
+.first-menu-a:hover,
+.second-menu-a:hover,
+.doc-item.active,
+.pure-menu-item.active,
+.child-item.active > .second-menu-a{
+    box-shadow: 1px 3px 3px #ccc;
+}
 
 
 .child-menu-icon {

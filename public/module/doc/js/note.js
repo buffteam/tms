@@ -93,7 +93,6 @@ define(function (require, exports, module) {
                 order: sort_order
             }, function (res) {
                 isLoading = false;
-                console.log(res);
                 if (res.code === 200) {
                     if (res.data.data.length) {
                         $list_box.removeClass('null is-search-null');
@@ -454,10 +453,8 @@ define(function (require, exports, module) {
                     $('.doc-title-input').val('');
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-preview-body').html(res.data.content || '');
-                    if(g_id){
-                        var $count = $('.child-item.active>.second-menu-a>.item-count');
-                        note.navCountHandle($count);
-                    }
+                    var $count = $('.g_'+res.data.f_id);
+                    $count && note.navCountHandle($count, 'add');
                     cur_note = res.data;
                     editor.initEditor(type);
                 } else {
@@ -471,6 +468,8 @@ define(function (require, exports, module) {
                 if (res.code === 200) {
                     layer.msg('删除成功');
                     elem.remove();
+                    var $count = $('.g_'+cur_note.f_id);
+                    $count && note.navCountHandle($count, 'minus');
                     clearInterval(timeId);
                     timeId = null;
                     if (!$('.doc-item.active').length) {
@@ -506,17 +505,23 @@ define(function (require, exports, module) {
             cur_note.type === '1' ? editor.initEditor('1', cur_note.origin_content) : editor.initEditor(cur_note.type, cur_note.content);
         },
         // 目录下笔记数量操作
-        navCountHandle: function (elem, type) {
+        navCountHandle: function (elem, event, type) {
             var text = elem.text().replace('(', '').replace(')', ''),
                 idx = text.indexOf('/');
             if (idx === -1) {
-                text = parseInt(text) + 1;
+                text = event == 'add' ? parseInt(text) + 1 : parseInt(text) - 1;
                 elem.text('(' + text + ')');
                 var pElem = elem.parents('.child-list').prev('[data-pid="0"]').eq(0).find('.item-count');
-                note.navCountHandle(pElem, true);
+                pElem && (event == 'add' ? note.navCountHandle(pElem, 'add', true) : note.navCountHandle(pElem, 'minus', true));
             } else {
-                var first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1,
+                var first = null, last = null;
+                if(event == 'add'){
+                    first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1;
                     last = parseInt(text.substring(idx + 1)) + 1;
+                }else{
+                    first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) - 1;
+                    last = parseInt(text.substring(idx + 1)) - 1;
+                }
                 elem.text('(' + first + '/' + last + ')');
             }
         },
