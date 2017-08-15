@@ -128,6 +128,14 @@
             </head><body><div class="markdown-body">##content##</div></body>
         </html>
     </script>
+    <script id="folder-list-tpl" type="text/html">
+        <% for(var i = 0; i < list.length; i++) { %>
+            <li class="folder-item" data-id="<%= list[i].id %>">
+                <p class="folder-title"><span class="icon-folder"></span><%= list[i].title %></p>
+                <p class="folder-time"><%= list[i].updated_at %></p>
+            </li>
+        <% } %>
+    </script>
     <script id="list-tpl" type="text/html">
         <% for(var i = 0; i < list.length; i++) { %>
         <li class="doc-item <% if(list[i].id === active) {%> active <% } %>" data-id="<%= list[i].id %>" data-fid="<%= list[i].f_id %>">

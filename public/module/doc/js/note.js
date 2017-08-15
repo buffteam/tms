@@ -56,20 +56,28 @@ define(function (require, exports, module) {
             }, function (res) {
                 isLoading = false;
                 if (res.code === 200) {
-                    if (res.data.data.length) {
+                    if (res.data.data.length || res.data.folders.length) {
                         $doc_box.removeClass('null');
                         $list_box.removeClass('null is-search-null');
-                        var html = null;
-                        if (cur_page === 1) {
-                            html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                        var html = template('folder-list-tpl', {list: res.data.folders});
+                        if(res.data.data.length){
+                            if (cur_page === 1) {
+                                html += template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
+                                $list_ul.html(html);
+                                note.scorllHandle();
+                                note.getNoteDetail(res.data.data[0].id);
+                                totalPage = res.data.totalPage;
+                            } else {
+                                html += template('list-tpl', {list: res.data.data, active: null});
+                                $list_ul.append(html);
+                                $list_box.getNiceScroll().resize()
+                            }
+                        }else{
                             $list_ul.html(html);
+                            $doc_box.addClass('null');
+                            cur_note = null;
                             note.scorllHandle();
-                            note.getNoteDetail(res.data.data[0].id);
                             totalPage = res.data.totalPage;
-                        } else {
-                            html = template('list-tpl', {list: res.data.data, active: null});
-                            $list_ul.append(html);
-                            $list_box.getNiceScroll().resize()
                         }
                         cur_page++;
                     } else {
@@ -235,14 +243,21 @@ define(function (require, exports, module) {
                 if (!$self.hasClass('active')) {
                     $self.addClass('active').siblings().removeClass('active');
                     var note_id = $self.data('id');
-                    if($doc_box.hasClass('is-edit')){
-                        editor.saveNote(function(){
+                    if ($doc_box.hasClass('is-edit')) {
+                        editor.saveNote(function () {
                             note.getNoteDetail(note_id);
                         })
-                    }else{
+                    } else {
                         note.getNoteDetail(note_id);
                     }
                 }
+            });
+            // 点击文件夹列表
+            $list_ul.on('click', '.folder-item', function () {
+                var id = $(this).data('id');
+                cur_page = 1;
+                isRecycle = isNewest = isSearch = false;
+                note.getList(id);
             });
             // 点击更多按钮
             $('.more-btn').on('click', function (e) {
@@ -273,11 +288,11 @@ define(function (require, exports, module) {
             $moreList.on('click', '.list-lock', function (e) {
                 e.stopPropagation();
                 var $self = $(this), _id = cur_note.id;
-                $.post(host+'/note/lockNote', {id: _id}, function (res) {
-                    if(res.code === 200){
+                $.post(host + '/note/lockNote', {id: _id}, function (res) {
+                    if (res.code === 200) {
                         $self.hide().next('.list-unlock').show();
                         layer.msg('上锁成功，其他人无法进行操作');
-                    }else{
+                    } else {
                         layer.msg(res.msg);
                     }
                 })
@@ -290,11 +305,11 @@ define(function (require, exports, module) {
             $moreList.on('click', '.list-unlock', function (e) {
                 e.stopPropagation();
                 var $self = $(this), _id = cur_note.id;
-                $.post(host+'/note/unlockNote', {id: _id}, function (res) {
-                    if(res.code === 200){
+                $.post(host + '/note/unlockNote', {id: _id}, function (res) {
+                    if (res.code === 200) {
                         $self.hide().prev('.list-lock').show().parent().hide();
                         layer.msg('解锁成功，其他人可以进行操作');
-                    }else{
+                    } else {
                         layer.msg(res.msg);
                     }
                 })
@@ -454,7 +469,7 @@ define(function (require, exports, module) {
                     $('.doc-title-input').val('');
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-preview-body').html(res.data.content || '');
-                    var $count = $('.g_'+res.data.f_id);
+                    var $count = $('.g_' + res.data.f_id);
                     $count && note.navCountHandle($count, 'add');
                     cur_note = res.data;
                     editor.initEditor(type);
@@ -469,10 +484,10 @@ define(function (require, exports, module) {
                 if (res.code === 200) {
                     layer.msg('删除成功');
                     elem.remove();
-                    var $count = $('.g_'+cur_note.f_id);
+                    var $count = $('.g_' + cur_note.f_id);
                     $count && note.navCountHandle($count, 'minus');
                     clearInterval(timeId);
-                    timeId = null;
+                    cur_note = timeId = null;
                     if (!$('.doc-item.active').length) {
                         $doc_box.addClass('null');
                     }
@@ -516,10 +531,10 @@ define(function (require, exports, module) {
                 pElem && (event == 'add' ? note.navCountHandle(pElem, 'add', true) : note.navCountHandle(pElem, 'minus', true));
             } else {
                 var first = null, last = null;
-                if(event == 'add'){
+                if (event == 'add') {
                     first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1;
                     last = parseInt(text.substring(idx + 1)) + 1;
-                }else{
+                } else {
                     first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) - 1;
                     last = parseInt(text.substring(idx + 1)) - 1;
                 }

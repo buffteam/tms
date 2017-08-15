@@ -41,7 +41,7 @@ define(function (require, exports, module) {
         navHelper: function () {
             template.helper('renderNav', function (data) {
                 var list = [];
-                if(data.length){
+                if (data.length) {
                     for (var i = 0; i < data.length - 1; i++) {
                         for (var j = 1; j < data.length; j++) {
                             if (data[i].id === data[j].p_id) {
@@ -105,9 +105,9 @@ define(function (require, exports, module) {
             $newDocBtn.on('click', function (e) {
                 e.stopPropagation();
                 var $list = $('.add-list');
-                if($list.is(':visible')){
+                if ($list.is(':visible')) {
                     $list.hide();
-                }else{
+                } else {
                     $('.more-ul').hide();
                     $list.show();
                 }
@@ -169,7 +169,7 @@ define(function (require, exports, module) {
                         $downBox = $('.down-box'),
                         $downIcon = $('.child-menu-down');
 
-                    $('.down-box p').data('id',$self.parent().data('id'));
+                    $('.down-box p').data('id', $self.parent().data('id'));
                     $g_folder = $self.parent().parent();
 
                     if (!$self.hasClass('active')) {
@@ -245,7 +245,7 @@ define(function (require, exports, module) {
                                             $menu_a.removeClass('last-menu-a')
                                                 .addClass('second-menu-a')
                                                 .data({'id': res.data.id, 'pid': res.data.p_id})
-                                                .find('.item-count').addClass('g_'+res.data.id);
+                                                .find('.item-count').addClass('g_' + res.data.id);
                                             $menu_a = null;
                                         } else if (res.code === 403) {
                                             layer.msg(res.msg);
@@ -333,18 +333,18 @@ define(function (require, exports, module) {
                 });
 
             // 新建文件夹
-            $nav.on('click','.add-dir', function () {
+            $nav.on('click', '.add-dir', function () {
                 $(this).prev('.child-item-input').show().find('input').focus()
                 // 我的文档下级新建文件夹输入框失去焦点时或回车触发
-                .on('blur keypress', function (e) {
-                    var $self = $(this);
-                    if (e.keyCode === 13) {
-                        $self.off('blur keypress');
-                    } else if (e.type !== 'blur') {
-                        return;
-                    }
-                    folder.addFirstFolder($self);
-                });
+                    .on('blur keypress', function (e) {
+                        var $self = $(this);
+                        if (e.keyCode === 13) {
+                            $self.off('blur keypress');
+                        } else if (e.type !== 'blur') {
+                            return;
+                        }
+                        folder.addFirstFolder($self);
+                    });
             });
 
         },

@@ -674,7 +674,7 @@ body {
 .list-content::-webkit-scrollbar{
     width:0;
 }
-.doc-item {
+.doc-item , .folder-item{
     position: relative;
     padding: 14px 15px 10px;
     border-bottom: 1px solid #ddd;
@@ -682,13 +682,25 @@ body {
     animation: show .3s ease;
 }
 
-.doc-title {
+.doc-title ,.folder-title{
     margin: 0;
     font-size: 14px;
     line-height: 22px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.folder-title{
+    font-size: 16px;
+    line-height: 25px;
+}
+.folder-title .icon-folder{
+    float: left;
+    width: 25px;
+    height: 25px;
+    background: url("../../imgs/icon/folder_list.png") no-repeat;
+    background-size: 25px;
+    margin:0 5px 0 0;
 }
 .doc-title .icon-md, .doc-title .icon-note{
     float: left;
@@ -701,7 +713,7 @@ body {
 .doc-title .icon-note{
     background-image: url("../../imgs/icon/note.png");
 }
-.doc-time, .doc-author{
+.doc-time, .doc-author, .folder-time{
     font-size: 12px;
     color: #aaa;
     margin: 5px 0;
