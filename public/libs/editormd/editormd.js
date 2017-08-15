@@ -355,7 +355,7 @@
          */
         
         init : function (id, options) {
-            
+
             options              = options || {};
             
             if (typeof id === "object")
@@ -1259,14 +1259,13 @@
                 }
                 
                 _this.activeIcon = icon;
-
                 if (typeof toolbarIconHandlers[name] !== "undefined") 
                 {
                     $.proxy(toolbarIconHandlers[name], _this)(cm);
                 }
                 else 
                 {
-                    if (typeof settings.toolbarHandlers[name] !== "undefined") 
+                    if (typeof settings.toolbarHandlers[name] !== "undefined")
                     {
                         $.proxy(settings.toolbarHandlers[name], _this)(cm, icon, cursor, selection);
                     }
