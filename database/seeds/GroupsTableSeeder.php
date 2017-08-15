@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Model\Groups;
+use Illuminate\Support\Facades\DB;
 class GroupsTableSeeder extends Seeder
 {
     /**
