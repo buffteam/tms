@@ -24,7 +24,11 @@ class FolderController extends BaseController
         if (true !== $validateData) {
             return $validateData;
         }
-
+        $rules =  [
+            'title' => 'required|max:80',
+            'g_id' => 'required',
+            'type' => 'required'
+        ];
         $params = $request->input();
         $data = null;
         // 创建私人群组的文件夹
@@ -188,18 +192,20 @@ class FolderController extends BaseController
         $params = $request->input();
 
         $Folder = Folder::find($params['id']);
-        if ( !(isAdmin() || user()->id === $Folder->u_id) ) {
+        if ( !(isAdmin() || user()->id == $Folder->u_id) ) {
             return $this->ajaxError('没有权限更改菜单名称');
         }
-        $exist = Folder::where(array('p_id'=>$params['pid'],'title'=>$params['title']))->count();
-        if ($exist > 0) {
-            return $this->ajaxError('文件夹名称重复');
+        // 群组下面 没有
+        $num = Folder::where('p_id',$params['pid'])->where('title','like','%'.$params['title'].'%')->count();
+
+        if ($num > 0) {
+            $params['title'] = $params['title'].'('.$num.')';
         }
         $flag = $Folder->update(array('title'=>$params['title']));
         if (1 != $flag) {
             return $this->ajaxError('修改失败');
         }
-        return $this->ajaxSuccess('修改成功',Folder::find($params['id']));
+        return $this->ajaxSuccess('修改成功',$Folder);
     }
 
     /**
@@ -222,17 +228,11 @@ class FolderController extends BaseController
         $params = $request->input();
         $Folder = Folder::find($params['id']);
         $user = user();
-        if (null === $Folder) {
-            return $this->ajaxError('数据不存在');
-        }
 
         if (!($user->auth == 2 || $Folder->u_id == $user->id)) {
-            return $this->ajaxError('删除失败,没有权限删除此笔记');
+            return $this->ajaxError('删除失败,没有权限删除此文件夹');
         }
 
-        if ( user()->auth !== 2 ) {
-            return $this->ajaxError('删除失败，没有权限删除一级菜单');
-        }
         $groupId = $Folder->group->id;
 
         $countFolder = $Folder->where('g_id',$groupId)->count();

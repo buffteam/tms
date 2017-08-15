@@ -22,7 +22,8 @@ trait CreateFolders
         $rules =  [
             'title' => 'required|max:80',
             'g_id' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'p_id' => 'required'
         ];
 
         $validator = Validator::make($data, $rules);
@@ -41,7 +42,7 @@ trait CreateFolders
     protected function insertFolder ($params)
     {
         // 群组下面 没有
-        $num = Folder::where('p_id',$params['p_id'])->where('title','like','%'.$params['title'].'%')->count();
+        $num = Folder::where('p_id',$params['p_id'])->where('u_id',user()->id)->where('title','like','%'.$params['title'].'%')->count();
 
         if ($num > 0) {
             $params['title'] = $params['title'].'('.$num.')';
