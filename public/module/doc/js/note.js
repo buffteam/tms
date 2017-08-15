@@ -454,8 +454,8 @@ define(function (require, exports, module) {
                     $('.doc-title-input').val('');
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-preview-body').html(res.data.content || '');
-                    // var $count = $('.child-item.active>.second-menu-a>.item-count');
-                    // main.navCountHandle($count);
+                    var $count = $('.child-item.active>.second-menu-a>.item-count');
+                    note.navCountHandle($count);
                     cur_note = res.data;
                     editor.initEditor(type);
                 } else {
@@ -503,9 +503,21 @@ define(function (require, exports, module) {
             $('.doc-item.active').addClass('is-edit');
             cur_note.type === '1' ? editor.initEditor('1', cur_note.origin_content) : editor.initEditor(cur_note.type, cur_note.content);
         },
-
-
-
+        // 目录下笔记数量操作
+        navCountHandle: function (elem, type) {
+            var text = elem.text().replace('(', '').replace(')', ''),
+                idx = text.indexOf('/');
+            if (idx === -1) {
+                text = parseInt(text) + 1;
+                elem.text('(' + text + ')');
+                var pElem = elem.parents('.child-list').prev('[data-pid="0"]').eq(0).find('.item-count');
+                note.navCountHandle(pElem, true);
+            } else {
+                var first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1,
+                    last = parseInt(text.substring(idx + 1)) + 1;
+                elem.text('(' + first + '/' + last + ')');
+            }
+        },
         // 导出PDF
         htmlToPDF: function () {
             var form = document.createElement('form'),

@@ -61,11 +61,11 @@ define(function (require, exports, module) {
         },
         clickHandle: function () {
             var $layout = $('#layout'),
-                $newDocBtn = $('.new-doc-box'),
-                $firstParent = $('.first-menu-a.is-parent');
+                $newDocBtn = $('.new-doc-box');
             // 收起侧边栏
             $menuBtn.on('click', function () {
                 var isEdit = $doc_box.hasClass('is-edit-1');
+                var $firstParent = $('.first-menu-a.is-parent');
                 if (isEdit) {
                     var $code = $('.CodeMirror'),
                         $preview = $('.editormd-preview'),
@@ -115,6 +115,10 @@ define(function (require, exports, module) {
                 $(document).off('click').one('click', function () {
                     $list.hide();
                 })
+            });
+            // 收起侧边栏后点击新建笔记图标，直接创建 type 为 1 的笔记
+            $('.middle-add-item').on('click', function () {
+                note.newNote('1');
             });
 
             // 左边栏目录点击事件
@@ -385,21 +389,7 @@ define(function (require, exports, module) {
                 $nav.getNiceScroll().resize();
             }, 300);
         },
-        // 目录下笔记数量操作
-        navCountHandle: function (elem, type) {
-            var text = elem.text().replace('(', '').replace(')', ''),
-                idx = text.indexOf('/');
-            if (idx === -1) {
-                text = parseInt(text) + 1;
-                elem.text('(' + text + ')');
-                var pElem = elem.parents('.child-list').prev('[data-pid="0"]').eq(0).find('.item-count');
-                folder.navCountHandle(pElem, true);
-            } else {
-                var first = type ? parseInt(text.substring(0, idx)) : parseInt(text.substring(0, idx)) + 1,
-                    last = parseInt(text.substring(idx + 1)) + 1;
-                elem.text('(' + first + '/' + last + ')');
-            }
-        },
+
         // 删除目录事件
         delFolder: function () {
             $.post(host + '/folder/del', {id: g_id}, function (res) {

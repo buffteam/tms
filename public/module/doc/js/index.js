@@ -38,7 +38,7 @@ seajs.config({
     base: "./",
     alias : {
         jquery   : "/libs/jquery/jquery.min",
-        editormd : "/libs/editormd/editormd.min",
+        editormd : "/libs/editormd/editormd",
         wangEditor: "/libs/wangEditor-3.0.3/wangEditor.min",
         template: "/libs/template/template-native",
         nicescroll: "/libs/nicescroll/jquery.nicescroll.min"

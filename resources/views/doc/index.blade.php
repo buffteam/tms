@@ -15,7 +15,7 @@
                 <div class="pure-menu">
                     <ul class="pure-menu-list">
                         <li class="pure-menu-item new-note-item">
-                            <span class="middle-add-item" onclick="note.newNote('1')"></span>
+                            <span class="middle-add-item"></span>
                             <div class="new-doc-box">
                                 <span class="add-icon"><img src="{{asset('module/doc/imgs/icon/add.png')}}"></span>
                                 <span class="add-text">新建文档</span>
