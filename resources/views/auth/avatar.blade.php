@@ -58,9 +58,7 @@
                 <div class="mdui-panel-item-body mdui-color-theme-50" >
                     <div class="current-avatar">
                         <h3>当前头像</h3>
-                        @if (!empty(Auth::user()->avatar))
                             <img src="{{Auth::user()->avatar}}" class="" id="currentAvatar" alt="" style="width: 140px;height: 120px;">
-                        @endif
                     </div><br/>
                     <h3>图片列表</h3>
                     <div class="mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list avatar-list">

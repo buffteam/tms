@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Home'], function () {
  */
 Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
-    Route::any('/admin', 'DashboardController@index');
+    Route::any('/admin', 'DashboardController@index')->name('admin');
     Route::any('admin/feedback', 'FeedbackController@index');
 
     Route::any('admin/account', 'AccountVerifyController@index')/*->name('account')*/;
@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
 
     Route::any('/note/lockNote', 'NotesController@lockNote');
     Route::any('/note/unlockNote', 'NotesController@unlockNote');
-
+    Route::any('/note/move', 'NotesController@move');
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');

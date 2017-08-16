@@ -169,9 +169,11 @@ class NotesController extends BaseController
 
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
-        if (!$isPrivate && $this->isLocked($params['id'])) {
-            return $this->ajaxError('保存失败，此笔记已经被创建人锁住,不允许修改');
-        };
+        if ( !$isPrivate && !( isAdmin() || user()->id == Notes::find($params['id'])->u_id
+                || !$this->isLocked($params['id']) )) {
+            return $this->ajaxError('保存失败，没有权限修改');
+        }
+
         $updateData = $this->updateData($params);
 
         return ($updateData != 1) ? $this->ajaxError('更新失败，数据不存在') : $this->ajaxSuccess('更新成功',Notes::find($params['id']));
@@ -368,42 +370,41 @@ class NotesController extends BaseController
     }
 
     /**
-     * 设置锁
-     * @param $request
-     * @param int $status
-     * @return bool|\Illuminate\Http\JsonResponse
+     * 移动笔记
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function setLock ($request,$status = 0)
+    public function move(Request $request)
     {
-        if (!$request->has('id')) {
-            return $this->ajaxError('操作失败，参数不存在');
+        // 验证
+        $rules =  [
+            'id' => 'required',
+            'f_id' => 'required',
+            'type' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->ajaxError('参数验证输错',$validator->errors());
         }
 
-        $id = $request->input('id');
+        $params = $request->input();
 
-        $notes = Notes::find($id);
+        $notes = Notes::find($params['id']);
 
-        if (!$notes) {
-            return $this->ajaxError('操作失败,参数错误');
+        if ($notes->isPrivate == 1 && $params['type'] == 0) {
+            return $this->ajaxError('请手动复制然后新建私有文档！');
         }
 
-        if ( !(isAdmin() || $notes->u_id == user()->id) ) {
-            return $this->ajaxError('操作失败,没有权限操作');
-        }
-
-        return  $notes->where('id',$id)->update(['lock'=>$status]) ? true : false;
-
+        $data = array(
+            'f_id' => $params['f_id'],
+            'isPrivate' => $params['type'],
+            'lock' => 1
+        );
+        $notes->update($data);
+        return $notes->save($data) ? $this->ajaxSuccess('移动成功',$notes->toArray()) : $this->ajaxError('移动失败');
     }
 
-    /**
-     * 获取锁值
-     * @param $id
-     * @return mixed
-     */
-    protected function isLocked ($id)
-    {
-        $lock = $this->notesModel->where('id',$id)->select('lock')->first();
 
-        return $lock->lock == 1;
-    }
 }

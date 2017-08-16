@@ -19,7 +19,7 @@
         <ul class="menu">
             @if(Route::has('login') && Auth::check())
                 <li>
-                    <a href="{{route('dashborad')}}" >文档主页</a>
+                    <a href="{{route('dashboard')}}" >文档主页</a>
                 </li>
             @else
                 <li>

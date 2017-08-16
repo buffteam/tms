@@ -126,4 +126,43 @@ trait NotesTrait
             ->get()->toArray();
         return $latest;
     }
+
+    /**
+     * 设置锁
+     * @param $request
+     * @param int $status
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    protected function setLock ($request,$status = 0)
+    {
+        if (!$request->has('id')) {
+            return $this->ajaxError('操作失败，参数不存在');
+        }
+
+        $id = $request->input('id');
+
+        $notes = Notes::find($id);
+
+        if (!$notes) {
+            return $this->ajaxError('操作失败,参数错误');
+        }
+
+        if ( !(isAdmin() || $notes->u_id == user()->id) ) {
+            return $this->ajaxError('操作失败,没有权限操作');
+        }
+
+        return  $notes->where('id',$id)->update(['lock'=>$status]) ? true : false;
+
+    }
+    /**
+     * 获取锁值
+     * @param $id
+     * @return mixed
+     */
+    protected function isLocked ($id)
+    {
+        $lock = $this->notesModel->where('id',$id)->select('lock')->first();
+
+        return $lock->lock == 1;
+    }
 }

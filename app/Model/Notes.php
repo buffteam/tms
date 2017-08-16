@@ -21,7 +21,7 @@ class Notes extends Model
      * 允许被填充的字段
      * @var array
      */
-    protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active','last_updated_name'];
+    protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active','last_updated_name','lock'];
 
     /**
      * 关联所属的用户

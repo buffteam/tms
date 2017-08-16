@@ -18,7 +18,8 @@ class AvatarsController extends BaseController
     public function index ()
     {
 
-        $userId = Auth::user()->id;
+        $userId = user()->id;
+//        return $this->findAvatars($userId);
         return view('auth.avatar',['list'=>$this->findAvatars($userId)]);
     }
 
