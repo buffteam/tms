@@ -96,6 +96,7 @@
                         <ul class="more-ul more-list">
                             <li class="list-lock" style="display: none;">上锁</li>
                             <li class="list-unlock" style="display: none;">解锁</li>
+                            <li class="list-move">移动到</li>
                             <li class="list-topdf">导出PDF</li>
                             <li class="list-del">删除笔记</li>
                         </ul>
@@ -122,6 +123,90 @@
             </div>
         </div>
     </div>
+    <div id="move-content">
+        <p>移动到：</p>
+        <div class="folder-box">
+            <div class="folder-group-list folder-parent-list">我的文档</div>
+            <ul>
+                <li class="folder-group-child">
+                    <div class="folder-parent-list">旅行游记</div>
+                    <ul>
+                        <li class="folder-group-child">
+                            <div class="folder-parent-list">三毛流浪记</div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="folder-group-child">
+                    <div class="folder-parent-list">生活日记</div>
+                </li>
+            </ul>
+            <div class="folder-group-list">团队文档</div>
+            <ul>
+                <li class="folder-group-child">web前端</li>
+                <li class="folder-group-child">ios</li>
+                <li class="folder-group-child">andriod</li>
+            </ul>
+        </div>
+    </div>
+
+    <script id="folder-tpl" type="text/html">
+        <div id="move-content">
+            <p>移动到：</p>
+            <div class="folder-box">
+            <% for(var j = 0; j < group.length; j++) { %>
+                <div class="folder-group-list folder-parent-list on">
+                    <span class="folder-group-open"></span>
+                    <span class="folder-group-icon"></span>
+                    <span><%= group[j].name %></span>
+                </div>
+                <ul>
+                    <% for(var i = 0, list = renderNav(group[j].folders); i < list.length; i++) { %>
+                    <li class="folder-group-child">
+                        <% if(list[i].child) {%>
+                            <div class="folder-child-list folder-parent-list on" 
+                                data-type="<%= group[j].type %>" data-fid="<%= list[i].id %>">
+                                <span class="folder-group-open"></span>
+                                <span class="folder-group-icon"></span>
+                                <span><%= list[i].title %></span>
+                            </div>
+                            <ul>
+                                <% include('folder-child-tpl', {list: list[i].child, type: group[j].type})  %>
+                            </ul>
+                        <% } else { %>
+                            <div class="folder-child-list folder-parent-list"
+                                data-type="<%= group[j].type %>" data-fid="<%= list[i].id %>">
+                                <span class="folder-group-icon"></span>
+                                <span><%= list[i].title %></span>
+                            </div>
+                        <% } %>
+                    </li>
+                    <% } %>
+                </ul>
+            <% } %>
+            </div>
+        </div>
+    </script>
+    <script id="folder-child-tpl" type="text/html">
+        <% for(var i = 0; i < list.length; i++) { %>
+            <li class="folder-group-child">
+                <% if(list[i].child) {%>
+                    <div class="folder-child-list folder-parent-list on" data-type="<%= type %>" data-fid="<%= list[i].id %>">
+                        <span class="folder-group-open"></span>
+                        <span class="folder-group-icon"></span>
+                        <span><%= list[i].title %></span>
+                    </div>
+                    <ul>
+                        <% include('folder-child-tpl', {list:list[i].child, type: type})  %>
+                    </ul>
+                <% } else { %>
+                    <div class="folder-child-list folder-parent-list" data-type="<%= type %>" data-fid="<%= list[i].id %>">
+                        <span class="folder-group-icon"></span>
+                        <span><%= list[i].title %></span>
+                    </div>
+                <% } %>
+            </li>
+        <% } %>
+    </script>
     <script id="pdf-tpl" type="text/html">
         <html><head><meta charset="utf-8">
             <style>.markdown-body pre{background-color:#f7f7f7;}</style>

@@ -273,7 +273,7 @@ define(function (require, exports, module) {
                     })
                 }
             });
-            // 点击列表删除功能
+            // 点击删除功能
             $moreList.on('click', '.list-del', function (e) {
                 e.stopPropagation();
                 var elem = $('.doc-item.active'),
@@ -284,7 +284,7 @@ define(function (require, exports, module) {
                     note.delNote(note_id, elem);
                 });
             });
-            // 点击列表上锁功能
+            // 点击上锁功能
             $moreList.on('click', '.list-lock', function (e) {
                 e.stopPropagation();
                 var $self = $(this), _id = cur_note.id;
@@ -301,7 +301,7 @@ define(function (require, exports, module) {
             $moreList.on('click', '.list-topdf', function (e) {
                 note.htmlToPDF();
             });
-            // 点击列表解锁功能
+            // 点击解锁功能
             $moreList.on('click', '.list-unlock', function (e) {
                 e.stopPropagation();
                 var $self = $(this), _id = cur_note.id;
@@ -314,12 +314,30 @@ define(function (require, exports, module) {
                     }
                 })
             });
-            // 点击列表还原功能
-            $list_ul.on('click', '.list-restore-icon', function (e) {
+            // 点击移动功能
+            $moreList.on('click', '.list-move', function (e) {
                 e.stopPropagation();
-                var elem = $(this).parent().parent(),
-                    note_id = elem.data('id');
-                note.restoreNote(note_id, elem);
+                note.getFolderList(function(str){
+                    layer.open({
+                        type: 1,
+                        title: cur_note.title,
+                        content: str,
+                        btn: ['确定','取消'],
+                        area: ['400px', '400px'],
+                        yes: function (index) {
+                            note.moveNote(index);
+                        }
+                    });
+                    $('.folder-parent-list').off('click').on('click', function () {
+                        var $self = $(this);
+                        $self.hasClass('on') ? $self.removeClass('on') : $self.addClass('on');
+                        $self.next('ul').toggle(300);
+                        if(!$self.hasClass('folder-group-list') && !$self.hasClass('active')){
+                            $('.folder-parent-list').removeClass('active');
+                            $self.addClass('active');
+                        }
+                    })
+                });
             });
             // 选择排序方式
             $('.sort-down-menu li').on('click', function () {
@@ -584,6 +602,40 @@ define(function (require, exports, module) {
                         $('.doc-title-span,.doc-item.active .list-title-text').text(res.data.title);
                         cur_note.title = res.data.title;
                     }
+                }
+            })
+        },
+        // 移动笔记获取目录
+        getFolderList: function (callback) {
+            $.get(host + '/group/list', function (res) {
+                var html = template('folder-tpl', {group: res.data});
+                callback && callback(html);
+            });
+        },
+        // 移动笔记
+        moveNote: function (index) {
+            var $folder = $('.folder-parent-list.active'),
+                type = $folder.data('type'),
+                fid = $folder.data('fid');
+            if(cur_note.f_id == fid){
+                layer.close(index);
+                return layer.msg('当前笔记已经在该目录下');
+            }
+            $.post(host + '/note/move', {
+                id: cur_note.id,
+                f_id: fid,
+                type: type
+            }, function (res) {
+                layer.close(index);
+                if(res.code === 200){
+                    layer.msg('移动成功');
+                    var $count1 = $('.g_'+cur_note.f_id),
+                        $count2 = $('.g_'+res.data.f_id);
+                    cur_note = res.data;
+                    note.navCountHandle($count1, 'minus');
+                    note.navCountHandle($count2, 'add');
+                }else{
+                    layer.msg(res.msg);
                 }
             })
         }
