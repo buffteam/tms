@@ -200,7 +200,12 @@ define(function (require, exports, module) {
                     clearInterval(timeId);
                     timeId = null;
                     $('.doc-title-span').html(res.data.title);
-                    res.data.lock ? $('.list-lock').show().next('.list-unlock').hide() : $('.list-unlock').show().prev('.list-lock').hide();
+                    if(res.data.isPrivate === '1'){
+                        res.data.lock ? $('.list-unlock').show().prev('.list-lock').hide() : $('.list-lock').show().next('.list-unlock').hide();
+                    }else{
+                        $('.list-unlock,.list-lock').hide();
+                    }
+
                     cur_note = res.data;
                     mdeditor && mdeditor.clear();
                     if (isRecycle) {
