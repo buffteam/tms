@@ -393,6 +393,10 @@ class NotesController extends BaseController
 
         $notes = Notes::find($params['id']);
 
+        if ( !(isAdmin() || $notes->u_id == user()->id) ) {
+            return $this->ajaxError('没有权限移动！');
+        }
+
         if ($notes->isPrivate == 1 && $params['type'] == 0) {
             return $this->ajaxError('请手动复制然后新建私有文档！');
         }
