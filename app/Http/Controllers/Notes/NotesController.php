@@ -52,7 +52,7 @@ class NotesController extends BaseController
         if (null === $isPrivate) {
             $isPrivate =  $this->checkFolderIsPrivate($params['f_id']);
         }
-
+        // lock值0表示 lock值1表示锁住
         $params['lock'] = $isPrivate ? 0 : 1;
         $params['isPrivate'] = $isPrivate ? '0' : '1';
         $data = $this->insertNote($params);
@@ -298,8 +298,9 @@ class NotesController extends BaseController
      * 获取回收站列表
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getRecycle ()
+    public function getRecycle (Request $request)
     {
+        $params = $request->input();
         // 分页页码
         $params['page'] = isset($params['page']) ? $params['page'] : 1;
 
@@ -314,13 +315,12 @@ class NotesController extends BaseController
 
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
-        $list = $condition->join('users','notes.u_id','=','users.id')
+        $list = $condition->leftJoin('users','notes.u_id','=','users.id')
                 ->where(function ($query){
                     $query->where('isPrivate','1')->orWhere('u_id',user()->id);
                 })
                 ->select('notes.*', 'users.name as author')
                 ->skip($start)->take($params['pagesize'])->get();
-
         return $this->ajaxSuccess('获取数据成功',['totalPage'=>$totalPage,'$totalCount'=>$totalNum,'data'=>$list]);
 
     }
