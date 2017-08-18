@@ -31,7 +31,7 @@
                                 <div class="mdui-textfield ">
                                     <label class="mdui-textfield-label">邮箱</label>
                                     <input class="mdui-textfield-input" type="text" name="email"
-                                           value="{{ old('email') }}" id="email" placeholder="请使用OA邮箱的名字,提示补全" required />
+                                           value="{{ old('email') }}" id="email" placeholder="可省略OA邮箱后缀" required />
                                     {{--<ul class="mdui-list" id="autoContent" style="display: none;"></ul>--}}
 
 

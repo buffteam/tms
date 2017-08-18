@@ -19,9 +19,9 @@ class TestController extends Controller
         $log = DB::getQueryLog();
         dd($log);
     }
-    public function test ()
+    public function test (Request $request)
     {
-        dd(url());
+        dd($request->all());
         return response()->json();
 
     }

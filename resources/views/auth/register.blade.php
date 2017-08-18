@@ -38,7 +38,7 @@
                                 <div class="mdui-textfield  {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">邮箱名称</label>
                                     <input class="mdui-textfield-input" type="text" name="email"
-                                           value="{{ old('email') }}" id="text" placeholder="请使用OA邮箱名称，不需要填写后缀"  required/>
+                                           value="{{ old('email') }}" id="text" placeholder="可省略OA邮箱后缀"  required/>
 
                                     <div class="mdui-textfield-error">{{ $errors->has('email') ? $errors->first('email') : '邮箱不能为空'}}</div>
                                 </div>

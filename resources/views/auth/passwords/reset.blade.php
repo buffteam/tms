@@ -30,20 +30,20 @@
                                     {{--</div>--}}
                                 {{--@endif--}}
                                 <input type="hidden" name="token" value="{{ $token }}">
-                                <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
+                                <div class="mdui-textfield  {{ $errors->has('email') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">邮箱</label>
-                                    <input class="mdui-textfield-input" type="email" name="email"
-                                           value="{{ old('email') }}" required/>
+                                    <input class="mdui-textfield-input" type="text" name="email"
+                                           value="{{ old('email') }}" placeholder="可省略OA邮箱后缀" required/>
                                     <div class="mdui-textfield-error">{{ $errors->has('email') ? $errors->first('email') : '邮箱不能为空'}}</div>
                                 </div>
 
-                                <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('password') ? ' mdui-textfield-invalid' : '' }}">
+                                <div class="mdui-textfield  {{ $errors->has('password') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">新密码</label>
                                     <input class="mdui-textfield-input" type="password" name="password"
                                            autocomplete="off" minlength="6" required/>
                                     <div class="mdui-textfield-error">{{ $errors->has('password') ? $errors->first('password') : '密码至少 6 位'}}</div>
                                 </div>
-                                <div class="mdui-textfield mdui-textfield-floating-label {{ $errors->has('password_confirmation') ? ' mdui-textfield-invalid' : '' }}">
+                                <div class="mdui-textfield  {{ $errors->has('password_confirmation') ? ' mdui-textfield-invalid' : '' }}">
                                     <label class="mdui-textfield-label">确认密码</label>
                                     <input class="mdui-textfield-input" type="password" name="password_confirmation"
                                            autocomplete="off" minlength="6" required/>
