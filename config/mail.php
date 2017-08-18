@@ -120,4 +120,6 @@ return [
         ],
     ],
 
+    'suffix' => '@oaserver.dw.gdbbk.com'
+
 ];

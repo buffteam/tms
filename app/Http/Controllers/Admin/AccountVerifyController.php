@@ -27,8 +27,9 @@ class AccountVerifyController extends BaseController
         if (!$flag) {
             return $this->ajaxError('用户昵称必须是中文名字');
         }
-        if (!preg_match('/^\w+(@oaserver.dw.gdbbk.com)$/',$user[0]['email'])){
-           return $this->ajaxError('必须使用邮箱使用OA邮箱');
+        $suffix = config('mail.suffix');
+        if (strpos($user[0]['email'],$suffix) === false){
+            return $this->ajaxError('必须使用邮箱使用OA邮箱');
         }
 
         if ($condition->update(['auth'=>9])) {

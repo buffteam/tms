@@ -77,7 +77,7 @@ class RegisterController extends Controller
 
     protected function addSuffix(array $data)
     {
-        $suffix = '@oaserver.dw.gdbbk.com';
+        $suffix = config('mail.suffix');
         if (strpos($data['email'],$suffix) === false){
             $data['email'] = $data['email'].$suffix;
         }
