@@ -112,7 +112,7 @@ class NotesController extends BaseController
                     ->take($params['pagesize'])
                     ->orderBy($params['field'],$params['order'])
                     ->get();
-        $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
+        $totalPage = ceil($this->notesModel->where('f_id',$params['id'])->count()/$params['pagesize']);
         if ($params['page'] == 1 ) {
             return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>$folder));
         }
