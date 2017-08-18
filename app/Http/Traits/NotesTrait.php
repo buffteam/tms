@@ -82,8 +82,8 @@ trait NotesTrait
                 ->where('id','!=',$params['id'])
                 ->like('title',$params['title'])
                 ->count();
-            if ($count > 0) {
-                $params['title'] = $params['title'].'('.($count+1).')';
+            if ($count > 1) {
+                $params['title'] = $params['title'].'('.$count.')';
             }
         }
         $params['last_updated_name'] = user()->name;

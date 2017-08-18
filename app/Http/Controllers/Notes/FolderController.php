@@ -198,7 +198,7 @@ class FolderController extends BaseController
         // 群组下面 没有
         $num = Folder::where('p_id',$params['pid'])->where('title','like','%'.$params['title'].'%')->count();
 
-        if ($num > 0) {
+        if ($num > 1) {
             $params['title'] = $params['title'].'('.$num.')';
         }
         $flag = $Folder->update(array('title'=>$params['title']));
