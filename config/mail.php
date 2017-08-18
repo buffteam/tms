@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', '20253754@dw.gdbbk.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'stip@gdbbk.com'),
         'name' => env('MAIL_FROM_NAME', 'STIP'),
     ],
 
@@ -119,7 +119,5 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
     'suffix' => '@oaserver.dw.gdbbk.com'
-
 ];
