@@ -510,7 +510,7 @@ body {
 }
 .search-input-box .search-type{
     float: left;
-    width: 50px;
+    width: 65px;
     line-height: 35px;
     padding: 0 13px 0 7px;
     border: 1px solid #ededed;
@@ -523,7 +523,7 @@ body {
 }
 .search-input-box .search-type:after{
     position: absolute;
-    left: 39px;
+    left: 50px;
     top: 18px;
     width: 0;
     height: 0;
@@ -537,7 +537,7 @@ body {
     position: absolute;
     top: 37px;
     left: 0;
-    width: 50px;
+    width: 65px;
     background: #fff;
     font-size: 14px;
     text-align: left;
@@ -545,6 +545,7 @@ body {
     z-index: 11;
 }
 .search-input-box .search-type-ul li {
+    text-align: center;
     padding: 0 10px;
     line-height: 30px;
     color: #999;
@@ -554,7 +555,7 @@ body {
     float: left;
     border: 1px solid #ededed;
     border-left: 0;
-    width: 200px;
+    width: 185px;
     height: 37px;
     padding: 5px 30px 5px 10px;
     border-top-right-radius: 5px;

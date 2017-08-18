@@ -485,8 +485,8 @@ define(function (require, exports, module) {
                     $('.doc-item.active').removeClass('active');
                     var list = [res.data];
                     var html = template('list-tpl', {list: list, active: res.data.id});
-                    $list_ul.prepend(html);
-                    $('.doc-item.active').addClass('is-edit');
+                    $list_ul.find('.folder-item').length ? $list_ul.find('.folder-item:last').after(html) : $list_ul.prepend(html);
+                    $('.doc-item.active').addClass('is-edit').siblings().removeClass('is-edit');;
                     $doc_box.removeClass('null no-edit').addClass('is-edit is-edit-' + type);
                     $list_box.removeClass('null');
                     $('.doc-title-input').val('');
@@ -540,7 +540,7 @@ define(function (require, exports, module) {
         editNote: function () {
             $('.doc-title-input').val(cur_note.title);
             $doc_box.removeClass('no-edit').addClass('is-edit is-edit-' + cur_note.type);
-            $('.doc-item.active').addClass('is-edit');
+            $('.doc-item.active').addClass('is-edit').siblings().removeClass('is-edit');
             cur_note.type === '1' ? editor.initEditor('1', cur_note.origin_content) : editor.initEditor(cur_note.type, cur_note.content);
         },
         // 目录下笔记数量操作

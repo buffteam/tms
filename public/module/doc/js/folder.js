@@ -238,7 +238,7 @@ define(function (require, exports, module) {
                                         if (res.code === 200) {
                                             layer.msg('添加成功');
                                             var tag = $self.parent().parent().parent().parent().prev('.second-menu-a');
-                                            $self.parent().html(value);
+                                            $self.parent().html(res.data.title);
                                             if (!tag.hasClass('is-parent')) {
                                                 tag.addClass('is-parent on').data('switch', 'on');
                                             }
