@@ -47,9 +47,10 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $params = $this->addSuffix($data);
+        return Validator::make($params, [
             'name' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ],[
             'password.confirmed' => '两次密码输入不一致',
@@ -66,12 +67,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $params = $this->addSuffix($data);
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'name' => $params['name'],
+            'email' => $params['email'],
+            'password' => bcrypt($params['password']),
         ]);
     }
 
+    protected function addSuffix(array $data)
+    {
+        $suffix = '@oaserver.dw.gdbbk.com';
+        if (strpos($data['email'],$suffix) === false){
+            $data['email'] = $data['email'].$suffix;
+        }
+        return $data;
+    }
 
 }
