@@ -113,7 +113,10 @@ class NotesController extends BaseController
                     ->orderBy($params['field'],$params['order'])
                     ->get();
         $totalPage = ceil($this->notesModel->count()/$params['pagesize']);
-        return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>$folder));
+        if ($params['page'] == 1 ) {
+            return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>$folder));
+        }
+        return $this->ajaxSuccess('获取数据成功',array('totalPage'=>$totalPage,'data'=>$list,'folders'=>[]));
     }
 
     /**
