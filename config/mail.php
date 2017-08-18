@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.qq.com'),
+    'host' => env('MAIL_HOST', '172.28.1.29'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 465),
+    'port' => env('MAIL_PORT', 25),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', '1511439775@qq.com'),
-        'name' => env('MAIL_FROM_NAME', 'xtcWebTeam'),
+        'address' => env('MAIL_FROM_ADDRESS', '20253754@dw.gdbbk.com'),
+        'name' => env('MAIL_FROM_NAME', 'STIP'),
     ],
 
     /*
