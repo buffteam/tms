@@ -71,7 +71,6 @@ class FolderController extends BaseController
                     unset($folder->notes);
                 }
             }
-//            dd($item->toArray());
             array_push($result,$item->toArray());
         }
         $finalData = $result;
