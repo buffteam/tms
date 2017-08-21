@@ -26,23 +26,23 @@ var host = window.location.host,
 if (host == '172.28.2.228') {
     host = 'http://172.28.2.228/stip/public';
 } else {
-    host = 'http://'+ host
+    host = 'http://' + host
 }
 
 seajs.config({
     base: "./",
-    alias : {
-        jquery   : "/libs/jquery/jquery.min",
-        editormd : "/libs/editormd/editormd",
-        wangEditor: "/libs/wangEditor-3.0.3/wangEditor.min",
-        template: "/libs/template/template-native",
-        nicescroll: "/libs/nicescroll/jquery.nicescroll.min"
+    alias: {
+        jquery: host + "/libs/jquery/jquery.min",
+        editormd: host + "/libs/editormd/editormd",
+        wangEditor: host + "/libs/wangEditor-3.0.3/wangEditor.min",
+        template: host + "/libs/template/template-native",
+        nicescroll: host + "/libs/nicescroll/jquery.nicescroll.min"
     }
 });
 var deps = [
-    "/module/doc/js/main"
+    host + "/module/doc/js/main"
 ];
 
-seajs.use(deps, function(main) {
+seajs.use(deps, function (main) {
     main.init();
 });
