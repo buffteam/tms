@@ -24,11 +24,6 @@ class FolderController extends BaseController
         if (true !== $validateData) {
             return $validateData;
         }
-        $rules =  [
-            'title' => 'required|max:80',
-            'g_id' => 'required',
-            'type' => 'required'
-        ];
         $params = $request->input();
         $data = null;
         // 创建私人群组的文件夹
@@ -82,94 +77,6 @@ class FolderController extends BaseController
         return $this->ajaxSuccess('请求成功',$result);
     }
 
-    /**
-     * 列表
-     * @return array
-     */
-    public function listAll($list)
-    {
-//        $list = Folder::all();
-
-        $public = [
-            'categories' => [],
-            'allCategories' => []
-
-        ];
-        $private = [
-            'categories' => [],
-            'allCategories' => []
-        ];
-
-        $data = [];
-
-        foreach($list as $index => $items) {
-
-            // 开始处理显示目录下的文件数量
-
-            //文件夹及其所属的子文件下笔记总数量
-            $totalCount = 0;
-//            $needFolder = $items->select('id','title','p_id','g_id')->first()->toArray();
-            $data[$index] = [
-                'id' => $items->id,
-                'title' => $items->title,
-                'p_id' => $items->p_id,
-                'g_id' => $items->g_id,
-                'currentCount' => $items->notes->count(),
-//                'title' => $items->title,
-//                'title' => $items->title
-            ];
-            // 当前文件夹下笔记数量
-            $items->currentCount = $items->notes->count();
-//            dd(array_push($data[$index],['currentCount'=>$items->currentCount]));
-//            $data[$index] = ;
-//            dd($data);
-            // 计算总数量
-            $totalCount = $totalCount + $items->currentCount;
-
-            // 判断有么有没有子菜单
-            $subCondition = Folder::where('p_id',$items->id);
-            $subMenuCount = $subCondition->count();
-            if ($subMenuCount > 0) {
-                $delSubCount = $this->recursion($subCondition->get());
-                $totalCount = $totalCount + $delSubCount;
-            }
-            // 返回数据中加上笔记总数
-            if ($items->p_id == 0) {
-                $items->totalCount = $totalCount;
-            }
-//            dd($items->get());
-            // 这里分流数据分为一级目录和其他目录
-            if ( $items->p_id == 0 ) {
-
-
-                if ($items->group->type == 0) { // 公开目录
-
-                    array_push($public['categories'],$items);
-
-
-                } else if ($items->group->type == 1) { // 私有目录
-
-
-                    array_push($private['categories'],$items);
-
-                }
-
-            } else { // 如果非一级目录
-
-                if ($items->group->type == 0) {
-
-                    array_push($public['allCategories'],$items);
-
-                } else if ($items->group->type == 1) {
-
-                    array_push($public['allCategories'],$items);
-
-                }
-            }
-
-        }
-        return $this->ajaxSuccess('请求成功',compact('public','private'));
-    }
 
     /**
      * 更新数据

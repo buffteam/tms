@@ -22,16 +22,11 @@ var host = window.location.host,
     isNewest = false,           // 是否为最新笔记列表
     isRecycle = false,          // 是否为回收站列表
     isLoading = false;          // 是否正在加载列表
-switch (host) {
-    case 'stip.omwteam.com':
-        host = 'http://stip.omwteam.com';
-        break;
-    case '172.28.2.228':
-        host = 'http://172.28.2.228/stip/public';
-        break;
-    case '127.0.0.1:8000':
-        host = 'http://127.0.0.1:8000';
-        break;
+
+if (host == '172.28.2.228') {
+    host = 'http://172.28.2.228/stip/public';
+} else {
+    host = 'http://'+ host
 }
 
 seajs.config({

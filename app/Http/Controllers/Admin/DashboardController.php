@@ -20,7 +20,7 @@ class DashboardController extends BaseController
 
     public function getNotesClass ()
     {
-        $list = Folder::all();
+        $list = Folder::where('g_id',1)->where('p_id',0)->all();
         $categories = [];//Folder::where(array('p_id'=>0))->select('id','title','p_id')->get();
         foreach($list as $items) {
 
