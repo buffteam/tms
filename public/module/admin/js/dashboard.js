@@ -3,16 +3,10 @@
  */
 var host = window.location.host;
 // 设置 ajax 请求地址前缀
-switch(host){
-    case 'stip.omwteam.com':
-        host = 'http://stip.omwteam.com';
-        break;
-    case '172.28.2.228':
-        host = 'http://172.28.2.228/stip/public';
-        break;
-    case '127.0.0.1:8000':
-        host = 'http://127.0.0.1:8000';
-        break;
+if (host == '172.28.2.228') {
+    host = 'http://172.28.2.228/stip/public';
+} else {
+    host = 'http://'+ host
 }
 
 var main = {
