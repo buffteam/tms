@@ -40,7 +40,7 @@ class NotesController extends BaseController
         if (true !== $validateData) {
             return $validateData;
         }
-
+        // 如果不是管理员 不能创建团队文档必须在
         $params = $request->input();
         $isPrivate = null;
         // 检查是否传入目录ID
@@ -51,6 +51,10 @@ class NotesController extends BaseController
 
         if (null === $isPrivate) {
             $isPrivate =  $this->checkFolderIsPrivate($params['f_id']);
+        }
+
+        if ( !$isPrivate && !isAdmin() ) {
+            return  $this->ajaxError('创建失败，请先在我的文档创建好了后发布至团队文档，团队文档不允许随意创建！');
         }
         // lock值0表示 lock值1表示锁住
         $params['lock'] = $isPrivate ? 0 : 1;

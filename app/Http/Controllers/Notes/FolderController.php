@@ -54,7 +54,6 @@ class FolderController extends BaseController
 
         foreach ($list as $item) {
             if ($item->folders) {
-
                 foreach ($item->folders as $folder) {
                     $totalCount = 0;
                     $folder->currentCount = $folder->notes->count();
@@ -71,10 +70,15 @@ class FolderController extends BaseController
                     }
                     unset($folder->notes);
                 }
-                array_push($result,$item->toArray());
             }
+//            dd($item->toArray());
+            array_push($result,$item->toArray());
         }
-        return $this->ajaxSuccess('请求成功',$result);
+        $finalData = $result;
+        foreach ( $result as $index=>$re ){
+            $finalData[$index]['folders'] = array_merge([],collect($re['folders'])->sortByDesc('order')->toArray());
+        }
+        return $this->ajaxSuccess('请求成功',$finalData);
     }
 
 
