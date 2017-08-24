@@ -8,11 +8,11 @@ class Share extends Model
 {
     //
     protected $table = 'shares';
-    protected $fillable = ['token','note_id','u_id'];
+    protected $fillable = ['token','note_id','u_id','author'];
 
     public function note()
     {
-        return $this->belongsTo('App\Model\notes','id','note_id');
+        return $this->belongsTo('App\Model\notes','note_id','id');
     }
     /**
      * 设置用户的名字

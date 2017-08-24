@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUidShareTable extends Migration
+class AddSharePersonToShare extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddUidShareTable extends Migration
     {
         Schema::table('shares', function (Blueprint $table) {
             //
-            $table->integer('u_id');
+            $table->string('author')->comment('分享人');
         });
     }
 

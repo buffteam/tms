@@ -15,8 +15,9 @@ class CreateShareTable extends Migration
     {
         Schema::create('shares', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('token')->comment('随机字符串');
+            $table->string('token')->unique()->comment('随机字符串');
             $table->integer('note_id')->comment('关联的笔记ID');
+            $table->integer('u_id')->comment('用户ID');
             $table->timestamps();
         });
     }
