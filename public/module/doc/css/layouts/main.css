@@ -417,6 +417,10 @@ body {
     color: #999;
     cursor: pointer;
 }
+.more-list li.list-line{
+    height: 0;
+    border-bottom: 1px solid #c3c3c3;
+}
 
 .feedback{
     position: fixed;
@@ -1031,4 +1035,47 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 }
 .folder-child-list .folder-group-icon{
     background-image: url(../../imgs/icon/folder_list.png);
+}
+
+
+/* 分享弹框 */
+.share-dialog-content{
+    padding: 30px;
+}
+.share-dialog-content .share-text{
+    margin-bottom: 30px;
+}
+.share-dialog-content .share-input{
+    height: 40px;
+}
+.share-dialog-content input{
+    float: left;
+    width: 340px;
+    height: 40px;
+    line-height: 38px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    padding: 0 10px;
+    font-size: 14px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.share-dialog-content .share-btn{
+    float: right;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    background: #4898d5;
+    color: #fff;
+    text-align: center;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+}
+.share-dialog-content .share-handle{
+    font-size: 14px;
+    margin-top: 30px;
+}
+.share-dialog-content .share-handle a{
+    margin-right: 30px;
 }

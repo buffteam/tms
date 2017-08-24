@@ -96,7 +96,11 @@
                         <ul class="more-ul more-list">
                             <li class="list-lock" style="display: none;">上锁</li>
                             <li class="list-unlock" style="display: none;">解锁</li>
+                            <li class="list-line"></li>
                             <li class="list-move">移动到</li>
+                            <li class="list-share">分享</li>
+                            <li class="list-unshare" style="display: none;">取消分享</li>
+                            <li class="list-line"></li>
                             <li class="list-topdf">导出PDF</li>
                             <li class="list-del">删除笔记</li>
                         </ul>
@@ -148,7 +152,19 @@
             </ul>
         </div>
     </div>
-
+    <script id="share-dialog" type="text/html">
+        <div class="share-dialog-content">
+            <div class="share-text">获取分享链接成功，复制链接进行分享!</div>
+            <div class="share-input">
+                <input type="text" id="share_url" value="<%= value %>">
+                <span class="share-btn" data-clipboard-target="#share_url">复制链接</span>
+            </div>
+            <div class="share-handle">
+                <a href="<%= value %>" target="_blank">查看分享</a>
+                <a href="javascript:;" class="cancel-share">取消分享</a>
+            </div>
+        </div>
+    </script>
     <script id="folder-tpl" type="text/html">
         <div id="move-content">
             <p>移动到：</p>

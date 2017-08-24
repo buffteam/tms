@@ -36,11 +36,13 @@ seajs.config({
         editormd: host + "/libs/editormd/editormd",
         wangEditor: host + "/libs/wangEditor-3.0.3/wangEditor.min",
         template: host + "/libs/template/template-native",
+        clipboard: host + "/libs/clipboard/clipboard.min",
         nicescroll: host + "/libs/nicescroll/jquery.nicescroll.min"
     }
 });
 var deps = [
-    host + "/module/doc/js/main"
+    host + "/module/doc/js/main",
+    "clipboard"
 ];
 
 seajs.use(deps, function (main) {

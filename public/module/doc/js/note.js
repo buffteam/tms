@@ -344,6 +344,34 @@ define(function (require, exports, module) {
                     })
                 });
             });
+            // 取消分享
+            function cancelShare() {
+
+            }
+            // 点击分享功能
+            $moreList.on('click', '.list-share', function (e) {
+                var html = template('share-dialog', {value: 'http://127.0.0.1:8000/dashboard'})
+                layer.open({
+                    type: 1,
+                    title: '分享链接',
+                    area: ['500px', '250px'],
+                    content: html,
+                    success: function (layero, index) {
+                        new Clipboard('.share-btn');
+                        $('.share-btn').on('click', function () {
+                            layer.tips('复制成功', '.share-btn');
+                        });
+                        $('.cancel-share').on('click', function () {
+                            cancelShare();
+                            layer.close(index);
+                        })
+                    }
+                });
+            });
+            // 点击取消分享功能
+            $moreList.on('click', '.list-unshare', function (e){
+                cancelShare();
+            });
             // 选择排序方式
             $('.sort-down-menu li').on('click', function () {
                 if (isNewest) {
