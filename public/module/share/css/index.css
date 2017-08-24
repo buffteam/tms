@@ -1,0 +1,34 @@
+body{
+    font-family: 'Microsoft Yahei','Helvetica Neue','Hiragino Sans GB','arial','sans-serif';
+}
+header{
+    background: #fff;
+}
+.wrapper{
+    margin-top: 65px;
+    padding: 10px;
+    background: #f3f3f3;
+}
+.note-wrap{
+    width: 800px;
+    margin: auto;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 50px;
+    box-shadow: 0 1px 10px 2px rgba(0,0,0,.06);
+    border: 1px solid #e5e5e5;
+}
+.note-title{
+    font-size: 24px;
+    color: #222;
+    font-weight: 100;
+    margin-bottom: 50px;
+}
+
+.editormd-html-preview, .editormd-preview-container{
+    padding: 0;
+}
+.editormd-html-preview pre ol.linenums,
+.editormd-preview-container pre ol.linenums{
+    padding-left: 0;
+}

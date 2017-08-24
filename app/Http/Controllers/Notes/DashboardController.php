@@ -12,4 +12,10 @@ class DashboardController extends Controller
     {
         return view('doc.index');
     }
+
+    // 分享
+    public function share()
+    {
+        return view('share.index');
+    }
 }
