@@ -19,7 +19,7 @@ class ShareController extends BaseController
 
         if ($note->share !== null){
             $result = $note->share->toArray();
-            return  $this->ajaxSuccess('分享成功',['token'=>$result['token'],'time'=>$result['created_at']]);
+            return  $this->ajaxSuccess('分享成功',['token'=>asset('share/show?token='.$result['token']),'time'=>$result['created_at'],'author'=>$result['author']]);
         }
 
         $userId = user()->id;
@@ -34,7 +34,8 @@ class ShareController extends BaseController
         $data['author'] = user()->name;
         $flag = Share::create($data);
         $result = $flag->toArray();
-        return $result ? $this->ajaxSuccess('分享成功',['token'=>$result['token'],'time'=>$result['created_at'],'author'=>$result['author']]) : $this->ajaxError('分享失败');
+
+        return $result ? $this->ajaxSuccess('分享成功',['token'=>asset('note/show?token='.$result['token']),'time'=>$result['created_at'],'author'=>$result['author']]) : $this->ajaxError('分享失败');
 
     }
 
