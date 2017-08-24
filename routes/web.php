@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/note/lockNote', 'NotesController@lockNote');
     Route::any('/note/unlockNote', 'NotesController@unlockNote');
     Route::any('/note/move', 'NotesController@move');
+    Route::any('note/share/{id}', 'ShareController@share');
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');

@@ -26,7 +26,7 @@ if(! function_exists('isAdmin')){
         return user()->auth == 2;
     }
 }
-if(! function_exists('jump')){
+if(! function_exists('U')){
 
     /**
      * @param string $msg
@@ -35,7 +35,7 @@ if(! function_exists('jump')){
      * @param bool $type
      * @return \Illuminate\Http\RedirectResponse
      */
-    function jump($msg = '默认提示信息', $route = 'root',$time = 2 ,$type = true){
+    function U($msg = '默认提示信息', $route = 'root',$time = 2 ,$type = true){
         return redirect(route('prompt'))->with([$msg,'url' =>route($route), 'jumpTime'=>$time,'status'=>$type]);
     }
 }

@@ -40,6 +40,15 @@ class Notes extends Model
     {
         return $this->hasOne('App\Model\Folder','id','f_id');
     }
+
+    /**
+     * 关联所属的分享
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function share()
+    {
+        return $this->hasOne('App\Model\Share','note_id','id');
+    }
     /**
      * 添加全局条件
      *
