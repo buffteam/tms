@@ -26,7 +26,7 @@ define(function (require, exports, module) {
         // 获取最新笔记
         getNewList: function () {
             isNewest = true;
-            isSearch = isRecycle = false;
+            isShare = isSearch = isRecycle = false;
             $.get(host + '/note/latest', function (res) {
                 isLoading = false;
                 if (res.code === 200) {
@@ -136,14 +136,15 @@ define(function (require, exports, module) {
                 if (res.code === 200) {
                     if (res.data.data.length) {
                         $list_box.removeClass('null is-search-null');
-                        var html = template('recycle-tpl', {list: res.data.data});
+                        var html = template('list-tpl', {list: res.data.data, active: res.data.data[0].id});
                         if (cur_page === 1) {
                             $list_ul.html(html);
                             note.scorllHandle();
                             totalPage = res.data.totalPage;
+                            note.getNoteDetail(res.data.data[0].id);
                         } else {
                             $list_ul.append(html);
-                            $list_box.getNiceScroll().resize()
+                            $list_box.getNiceScroll().resize();
                         }
                         cur_page++;
                     } else {
@@ -295,7 +296,7 @@ define(function (require, exports, module) {
             $list_ul.on('click', '.folder-item', function () {
                 var id = $(this).data('id');
                 cur_page = 1;
-                isRecycle = isNewest = isSearch = false;
+                isShare = isRecycle = isNewest = isSearch = false;
                 note.getList(id);
             });
             // 点击更多按钮
@@ -431,6 +432,10 @@ define(function (require, exports, module) {
                     layer.msg('回收站不需要排序哦！');
                     return '';
                 }
+                if (isShare) {
+                    layer.msg('我的分享不需要排序哦！');
+                    return '';
+                }
                 var $self = $(this),
                     type = $self.data('type');
                 if (type === sort_type) {
@@ -459,7 +464,7 @@ define(function (require, exports, module) {
                 if (e.keyCode === 13) {
                     cur_page = 1;
                     isSearch = true;
-                    isRecycle = isNewest = false;
+                    isShare = isRecycle = isNewest = false;
                     note.getSearch();
                 }
             })
@@ -507,8 +512,11 @@ define(function (require, exports, module) {
                     } else if ($('.nav-del-item').hasClass('active')) {
                         isRecycle = true;
                         note.getRecycle();
+                    } else if($('.nav-share-item').hasClass('active')){
+                        isShare = true;
+                        note.getMyShare();
                     } else {
-                        isRecycle = isNewest = false;
+                        isShare = isRecycle = isNewest = false;
                         note.getList(g_id);
                     }
                 }
@@ -537,7 +545,7 @@ define(function (require, exports, module) {
                         box_height = $list_box.height();
                     if (totalPage >= cur_page && $list_box.scrollTop() + box_height > ul_height - 50 && !isLoading) {
                         isLoading = true;
-                        isSearch ? note.getSearch() : (isRecycle ? note.getRecycle() : note.getList(g_id));
+                        isSearch ? note.getSearch() : (isRecycle ? note.getRecycle() : (isShare ? note.getMyShare() :note.getList(g_id)));
                     }
                 });
             }

@@ -27,6 +27,9 @@
                         <li class="pure-menu-item nav-newest-item active">
                             <div class="first-menu-a">最新笔记</div>
                         </li>
+                        <li class="pure-menu-item nav-share-item">
+                            <div class="first-menu-a">我的分享</div>
+                        </li>
                         <li class="pure-menu-item nav-del-item">
                             <div class="first-menu-a">回收站</div>
                         </li>

@@ -21,6 +21,7 @@ var host = window.location.host,
     isSearch = false,           // 是否为搜索结果列表
     isNewest = false,           // 是否为最新笔记列表
     isRecycle = false,          // 是否为回收站列表
+    isShare = false,            // 是否为分享列表
     isLoading = false;          // 是否正在加载列表
 
 if (host == '172.28.2.228') {

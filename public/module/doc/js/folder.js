@@ -156,7 +156,7 @@ define(function (require, exports, module) {
                     $('.child-item.active,.pure-menu-item').removeClass('active');
                     $self.parent().addClass('active');
                     cur_page = 1;
-                    isRecycle = isNewest = isSearch = false;
+                    isShare = isRecycle = isNewest = isSearch = false;
                     $search.val('');
                     note.getList(g_id);
                 })
@@ -321,8 +321,18 @@ define(function (require, exports, module) {
                     g_id = null;
                     cur_page = 1;
                     isRecycle = true;
-                    isSearch = isNewest = false;
+                    isShare = isSearch = isNewest = false;
                     note.getRecycle();
+                })
+                //打开我的分享列表
+                .on('click', '.nav-share-item', function () {
+                    $(this).addClass('active').siblings().removeClass('active');
+                    $('.child-item.active').removeClass('active');
+                    g_id = null;
+                    cur_page = 1;
+                    isShare = true;
+                    isRecycle = isSearch = isNewest = false;
+                    note.getMyShare();
                 })
                 // 打开最新笔记
                 .on('click', '.nav-newest-item', function () {
