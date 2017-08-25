@@ -84,6 +84,8 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/note/lockNote', 'NotesController@lockNote');
     Route::any('/note/unlockNote', 'NotesController@unlockNote');
     Route::any('/note/move', 'NotesController@move');
+
+    Route::any('share/index', 'ShareController@index');
     Route::any('share/add/{id}', 'ShareController@share');
     Route::any('share/show', 'ShareController@show');
     Route::any('share/cancel/{id}', 'ShareController@cancel');

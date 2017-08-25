@@ -9,6 +9,28 @@ use Illuminate\Http\Request;
 
 class ShareController extends BaseController
 {
+    /**
+     * 我的分享
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        $params = $request->input();
+        $params['page']  = isset($params['page'] ) ?: 1;
+        // 每页数量
+        $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : config('page.pagesize');
+        // 起始页
+        $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
+        $data = Share::where('u_id',user()->id)->skip($start)->take($params['pagesize'])->get();
+        return $this->ajaxSuccess('获取成功',$data);
+    }
+
+    /**
+     * 增加分享
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function share ($id)
     {
         $note = Notes::find($id);
@@ -19,7 +41,7 @@ class ShareController extends BaseController
 
         if ($note->share !== null){
             $result = $note->share->toArray();
-            return  $this->ajaxSuccess('分享成功',['token'=>asset('share/show?token='.$result['token']),'time'=>$result['created_at'],'author'=>$result['author']]);
+            return  $this->ajaxSuccess('分享成功',['token'=>$result['token'],'time'=>$result['created_at'],'author'=>$result['author']]);
         }
 
         $userId = user()->id;
@@ -35,10 +57,15 @@ class ShareController extends BaseController
         $flag = Share::create($data);
         $result = $flag->toArray();
 
-        return $result ? $this->ajaxSuccess('分享成功',['token'=>asset('note/show?token='.$result['token']),'time'=>$result['created_at'],'author'=>$result['author']]) : $this->ajaxError('分享失败');
+        return $result ? $this->ajaxSuccess('分享成功',['token'=>$result['token'],'time'=>$result['created_at'],'author'=>$result['author']]) : $this->ajaxError('分享失败');
 
     }
 
+    /**
+     * 获取分享的详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Request $request)
     {
         $token = $request->input('token');
@@ -53,6 +80,11 @@ class ShareController extends BaseController
         return $this->ajaxSuccess('获取成功',$data);
     }
 
+    /**
+     * 取消分享
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cancel($id)
     {
         $note = Notes::find($id);
@@ -62,4 +94,6 @@ class ShareController extends BaseController
         $share = $note->share->delete();
         return $this->ajaxSuccess('取消成功',$share);
     }
+
+
 }
