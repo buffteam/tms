@@ -24,6 +24,7 @@ class NotesController extends BaseController
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->pagesize = config('page.pagesize');
         $this->notesModel = new Notes();
     }
@@ -141,9 +142,14 @@ class NotesController extends BaseController
             ->leftJoin('users','notes.u_id','=','users.id')
             ->select('notes.*', 'users.name as author')
             ->find($params['id']);
+        $list = $data->toArray();
+        $list['share'] = null;
+        if ($data->share !== null) {
+            $list['share'] = 1;
+        }
 
         if (null != $data) {
-            return $this->ajaxSuccess('获取成功',$data);
+            return $this->ajaxSuccess('获取成功',$list);
         }
         return $this->ajaxError('数据不存在');
 

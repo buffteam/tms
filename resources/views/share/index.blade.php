@@ -7,11 +7,13 @@
 
 @section('content')
     <div class="note-wrap">
-        @if ($data)
+        @if (isset($list))
+            <div class="note-title">{{$list['title']}}</div>
+            <div class="note-content">
+                {!! $list['content'] !!}
+            </div>
+        @else
 
-        @else()
-        <div class="note-title">{{}}</div>
-        <div class="note-content"></div>
         @endif
     </div>
 @endsection

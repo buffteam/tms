@@ -53,13 +53,19 @@ Route::group(['middleware' => 'CheckAuth','namespace' => 'Admin'], function () {
 
 Auth::routes();
 
+//分享相关
+Route::any('share', 'ShareController@show');
+Route::any('share/index', 'ShareController@index');
+Route::any('share/add/{id}', 'ShareController@share');
+Route::any('share/cancel/{id}', 'ShareController@cancel');
+
 /**
  * 笔记相关的路由
  */
-Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
+Route::group(['namespace' => 'Notes'], function () {
 
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-    Route::get('/share', 'DashboardController@share')->name('share');
+
 
     // 文件夹相关的路由
     Route::any('/folder/add', 'FolderController@store');
@@ -85,10 +91,6 @@ Route::group(['middleware' => 'auth','namespace' => 'Notes'], function () {
     Route::any('/note/unlockNote', 'NotesController@unlockNote');
     Route::any('/note/move', 'NotesController@move');
 
-    Route::any('share/index', 'ShareController@index');
-    Route::any('share/add/{id}', 'ShareController@share');
-    Route::any('share/show', 'ShareController@show');
-    Route::any('share/cancel/{id}', 'ShareController@cancel');
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');

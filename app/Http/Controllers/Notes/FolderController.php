@@ -13,6 +13,15 @@ class FolderController extends BaseController
 {
     use CreateFolders;
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
      * 创建文件夹
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

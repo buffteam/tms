@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Notes;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\BaseController;
 use App\Model\Notes;
 use App\Model\Share;
 use Illuminate\Http\Request;
 
 class ShareController extends BaseController
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+    }
+
     /**
      * 我的分享
      * @param Request $request
@@ -68,8 +72,14 @@ class ShareController extends BaseController
      */
     public function show(Request $request)
     {
+        if (!$request->has('token')) {
+            exit('token不存在');
+        }
         $token = $request->input('token');
         $share = Share::where('token',$token)->first();
+        if ($share == null) {
+            exit('分享不存在了');
+        }
         $note = $share->note->toArray();
         $shareData = collect($share)->toArray();
         $data['title'] = $note['title'];
@@ -77,7 +87,7 @@ class ShareController extends BaseController
         $data['origin_content'] = $note['origin_content'];
         $data['share_time'] = $shareData['created_at'];
         $data['author'] = $shareData['author'];
-        return $this->ajaxSuccess('获取成功',$data);
+        return view('share.index',['list'=>$data]);
     }
 
     /**

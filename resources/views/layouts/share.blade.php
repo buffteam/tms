@@ -20,25 +20,25 @@
 
         <a href="{{route('dashboard')}}" class="mdui-typo-headline mdui-hidden-xs">{{ config('app.name', '管理界面') }}</a>
 
-        <div class="mdui-toolbar-spacer"></div>
-        <button id="open" class="mdui-btn mdui-color-theme-accent mdui-ripple">{{ Auth::user()->name }}<i class="mdui-icon material-icons">&#xe5cf;</i></button>
-        <ul class="mdui-menu" id="menu">
-            <li class="mdui-menu-item">
-                <a href="{{ url('/admin') }}"><i class="mdui-icon material-icons">&#xe8b8;</i>系统设置</a>
-            </li>
-            <li class="mdui-menu-item">
-                <a href="{{ route('modify') }}"><i class="mdui-icon material-icons">&#xe32a;</i>修改密码</a>
-            </li>
+        {{--<div class="mdui-toolbar-spacer"></div>--}}
+        {{--<button id="open" class="mdui-btn mdui-color-theme-accent mdui-ripple">{{ Auth::user()->name }}<i class="mdui-icon material-icons">&#xe5cf;</i></button>--}}
+        {{--<ul class="mdui-menu" id="menu">--}}
+            {{--<li class="mdui-menu-item">--}}
+                {{--<a href="{{ url('/admin') }}"><i class="mdui-icon material-icons">&#xe8b8;</i>系统设置</a>--}}
+            {{--</li>--}}
+            {{--<li class="mdui-menu-item">--}}
+                {{--<a href="{{ route('modify') }}"><i class="mdui-icon material-icons">&#xe32a;</i>修改密码</a>--}}
+            {{--</li>--}}
             {{--<li class="mdui-menu-item"><a href="{{ route('avatar') }}">上传头像</a></li>--}}
-            <li class="mdui-menu-item"><a class="logout" href="{{ route('logout') }}"
-                                          onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                    <i class="mdui-icon material-icons">&#xe879;</i> 退出登录
-                </a>
-            </li>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        </ul>
+            {{--<li class="mdui-menu-item"><a class="logout" href="{{ route('logout') }}"--}}
+                                          {{--onclick="event.preventDefault();document.getElementById('logout-form').submit();">--}}
+                    {{--<i class="mdui-icon material-icons">&#xe879;</i> 退出登录--}}
+                {{--</a>--}}
+            {{--</li>--}}
+            {{--<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
+                {{--{{ csrf_field() }}--}}
+            {{--</form>--}}
+        {{--</ul>--}}
 
     </div>
 </header>
