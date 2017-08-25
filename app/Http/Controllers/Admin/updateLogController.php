@@ -29,6 +29,7 @@ class updateLogController extends BaseController
                 'type' => 'required'
             ]
         );
+
         $params = $request->input();
         $data = [
             'title' => $params['title'],
@@ -53,9 +54,13 @@ class updateLogController extends BaseController
         $params = $request->input();
         $id = $params['id'];
         $data = Updatelogs::find($id);
-        if (!$data->update($params)) {
-
+        $params = $request->input();
+        if (isset($params['content-markdown-doc'])) {
+            $params['md_doc'] = $params['content-markdown-doc'];
         }
-        return redirect(url('updateLog/index'));
+        if (isset($params['content-html-code'])) {
+            $params['html_doc'] = $params['content-html-code'];
+        }
+        return $data->update($params) ? redirect(url('updateLog/index')) : back()->withErrors(['error'=>'服务器错误']);
     }
 }
