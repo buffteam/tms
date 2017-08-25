@@ -214,9 +214,10 @@ define(function (require, exports, module) {
                                 .replace('##type##', $icon.data('type'))
                                 .replace('##gid##', $icon.data('gid'));
                             if (elem.find('.child-list').length === 0) {
-                                elem.append('<ul class="child-list">' + text + '</ul>');
+                                elem.append('<ul class="child-list" style="display: block">' + text + '</ul>');
                             } else {
-                                elem.children('.child-list').append(text);
+                                elem.children('.child-list').show().append(text)
+                                    .prev('.second-menu-a').addClass('on').data('data-switch','on');
                             }
                             // 监听输入框失去焦点和回车事件
                             elem.find('ul input').focus().on('blur keypress', function (e) {

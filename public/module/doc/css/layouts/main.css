@@ -255,10 +255,12 @@ body {
     list-style: none;
     padding-left: 15px;
     font-size: 14px;
+    display: none;
 }
 
 .first-child-list {
     padding-left: 30px;
+    display: block;
 }
 
 .child-item {

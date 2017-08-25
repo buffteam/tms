@@ -304,7 +304,7 @@
                 <% idx = 1; for(var i = 0, list = renderNav(group[j].folders); i < list.length; i++) { %>
                     <li class="child-item">
                     <% if(list[i].child) {%> 
-                        <div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
+                        <div class="second-menu-a is-parent" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="off">
                     <% }else{ %>
                         <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
                     <% } %>
@@ -338,7 +338,7 @@
     	<% idx++; for(var i = 0; i < list.length; i++) { %>
             <li class="child-item">
             <% if(list[i].child) {%> 
-    			<div class="second-menu-a is-parent on" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="on">
+    			<div class="second-menu-a is-parent" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>" data-switch="off">
             <% }else{ %>
                 <div class="second-menu-a" data-id="<%= list[i].id %>" data-pid="<%= list[i].p_id %>">
             <% } %>
