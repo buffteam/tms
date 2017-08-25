@@ -73,12 +73,12 @@ class ShareController extends BaseController
     public function show(Request $request)
     {
         if (!$request->has('token')) {
-            exit('token不存在');
+            return view('share.index',['list'=>null]);
         }
         $token = $request->input('token');
         $share = Share::where('token',$token)->first();
         if ($share == null) {
-            exit('分享不存在了');
+            return view('share.index',['list'=>null]);
         }
         $note = $share->note->toArray();
         $shareData = collect($share)->toArray();
