@@ -97,7 +97,7 @@
                             <li class="list-lock" style="display: none;">上锁</li>
                             <li class="list-unlock" style="display: none;">解锁</li>
                             <li class="list-line"></li>
-                            <li class="list-move">移动到</li>
+                            <li class="list-move">发布到</li>
                             <li class="list-share">分享</li>
                             <li class="list-unshare" style="display: none;">取消分享</li>
                             <li class="list-line"></li>

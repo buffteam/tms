@@ -127,6 +127,38 @@ define(function (require, exports, module) {
                 }
             })
         },
+        // 获取我的分享列表
+        getMyShare: function () {
+            $.get(host + '/share/index', {
+                page: cur_page
+            }, function (res) {
+                isLoading = false;
+                if (res.code === 200) {
+                    if (res.data.data.length) {
+                        $list_box.removeClass('null is-search-null');
+                        var html = template('recycle-tpl', {list: res.data.data});
+                        if (cur_page === 1) {
+                            $list_ul.html(html);
+                            note.scorllHandle();
+                            totalPage = res.data.totalPage;
+                        } else {
+                            $list_ul.append(html);
+                            $list_box.getNiceScroll().resize()
+                        }
+                        cur_page++;
+                    } else {
+                        if (cur_page === 1) {
+                            $doc_box.addClass('null');
+                            $list_box.addClass('null').removeClass('is-search-null');
+                            $list_ul.html('');
+                            mdeditor && mdeditor.clear();
+                        }
+                    }
+                } else {
+                    layer.msg(res.msg);
+                }
+            })
+        },
         // 搜索功能
         getSearch: function () {
             var value = $search.val();
@@ -200,6 +232,8 @@ define(function (require, exports, module) {
                     clearInterval(timeId);
                     timeId = null;
                     $('.doc-title-span').html(res.data.title);
+                    var $unshare = $('.list-unshare');
+                    res.data.share == 1 ? $unshare.show() : $unshare.hide();
                     if(res.data.isPrivate === '1'){
                         res.data.lock ? $('.list-unlock').show().prev('.list-lock').hide() : $('.list-lock').show().next('.list-unlock').hide();
                     }else{
@@ -346,27 +380,42 @@ define(function (require, exports, module) {
             });
             // 取消分享
             function cancelShare() {
-
+                $.post(host+'/share/cancel/'+cur_note.id, function (res) {
+                    if(res.code === 200){
+                        $('.list-unshare').hide();
+                        layer.msg('取消分享成功');
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                })
             }
             // 点击分享功能
             $moreList.on('click', '.list-share', function (e) {
-                var html = template('share-dialog', {value: 'http://127.0.0.1:8000/dashboard'})
-                layer.open({
-                    type: 1,
-                    title: '分享链接',
-                    area: ['500px', '250px'],
-                    content: html,
-                    success: function (layero, index) {
-                        new Clipboard('.share-btn');
-                        $('.share-btn').on('click', function () {
-                            layer.tips('复制成功', '.share-btn');
+                $.post(host + '/share/add/' + cur_note.id, function (res) {
+                    if(res.code === 200){
+                        $('.list-unshare').show();
+                        var skin = localStorage.getItem('local_skin');
+                        var html = template('share-dialog', {value: host + '/share?token=' + res.data.token + '&skin=' + skin});
+                        layer.open({
+                            type: 1,
+                            title: '分享链接',
+                            area: ['500px', '250px'],
+                            content: html,
+                            success: function (layero, index) {
+                                new Clipboard('.share-btn');
+                                $('.share-btn').on('click', function () {
+                                    layer.tips('复制成功', '.share-btn');
+                                });
+                                $('.cancel-share').on('click', function () {
+                                    cancelShare();
+                                    layer.close(index);
+                                })
+                            }
                         });
-                        $('.cancel-share').on('click', function () {
-                            cancelShare();
-                            layer.close(index);
-                        })
+                    }else{
+                        layer.msg(res.msg);
                     }
-                });
+                })
             });
             // 点击取消分享功能
             $moreList.on('click', '.list-unshare', function (e){
@@ -524,6 +573,7 @@ define(function (require, exports, module) {
                     $count && note.navCountHandle($count, 'add');
                     cur_note = res.data;
                     editor.initEditor(type);
+                    $('.list-unshare').hide();
                 } else {
                     layer.msg(res.msg);
                 }

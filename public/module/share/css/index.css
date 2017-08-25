@@ -1,28 +1,86 @@
+html,body{
+    height: 100%;
+}
 body{
     font-family: 'Microsoft Yahei','Helvetica Neue','Hiragino Sans GB','arial','sans-serif';
 }
 header{
     background: #fff;
 }
+header.is-skin{
+    color: #fff;
+}
+header.blue{
+    background: #2196f3;
+}
+header.purple{
+    background: #673ab7;
+}
+header.green{
+    background: #1ABC9C;
+}
+header.brown{
+    background: #795548;
+}
+header.cyan{
+    background: #00bcd4;
+}
+header.indigo{
+    background: #3f51b5;
+}
+header.teal{
+    background: #009688;
+}
+header.red{
+    background: #f44336;
+}
+header.dark{
+    background: #34495E;
+}
 .wrapper{
-    margin-top: 65px;
-    padding: 10px;
+    position: relative;
+    min-height: 100%;
+    padding: 75px 0;
     background: #f3f3f3;
+    z-index:0;
+}
+.note-wrap-bg{
+    position: absolute;
+    top: 75px;
+    bottom: 75px;
+    left: 50%;
+    width: 800px;
+    margin-left: -400px;
+    background: #fff;
+    box-shadow: 0 1px 10px 2px rgba(0,0,0,.06);
+    border: 1px solid #e5e5e5;
+    z-index:-1;
 }
 .note-wrap{
     width: 800px;
     margin: auto;
-    background: #fff;
     box-sizing: border-box;
     padding: 50px;
-    box-shadow: 0 1px 10px 2px rgba(0,0,0,.06);
-    border: 1px solid #e5e5e5;
 }
 .note-title{
     font-size: 24px;
     color: #222;
     font-weight: 100;
     margin-bottom: 50px;
+}
+.note-null{
+    text-align: center;
+    margin-top: 50px;
+    font-size:20px;
+}
+.footer{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width:100%;
+    height:50px;
+    text-align: center;
+    color: #999;
 }
 
 .editormd-html-preview, .editormd-preview-container{

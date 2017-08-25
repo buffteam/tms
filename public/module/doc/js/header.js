@@ -4,7 +4,10 @@
 var DEFAULE_SKIN = 'purple';
 var header = {
     init: function () {
-        $('#skin').attr('class', localStorage.getItem('local_skin') || DEFAULE_SKIN ).animate({'opacity': 1},1000);
+        if(!localStorage.getItem('local_skin')){
+            localStorage.setItem('local_skin', DEFAULE_SKIN);
+        }
+        $('#skin').attr('class', localStorage.getItem('local_skin')).animate({'opacity': 1},1000);
         header.switchTheme();
     },
     // 用户名下拉
