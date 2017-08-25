@@ -32,6 +32,7 @@ class ShareController extends BaseController
         $data = $share->skip($start)->take($params['pagesize'])->get();
         $note = [];
         foreach ($data as $item) {
+            $item->note->author = $item->author;
             array_push($note,$item->note);
         }
         return $this->ajaxSuccess('获取成功',['data'=>$note,'totalPage'=>$totalPage]);
