@@ -80,7 +80,13 @@ class ShareController extends BaseController
         if ($share == null) {
             return view('share.index',['list'=>null]);
         }
-        $note = $share->note->toArray();
+        $note = null;
+        if ($share->note) {
+            $note = $share->note->toArray();
+        } else {
+            exit('note不存在');
+        }
+
         $shareData = collect($share)->toArray();
         $data['title'] = $note['title'];
         $data['content'] = $note['content'];
