@@ -12,7 +12,7 @@ class Share extends Model
 
     public function note()
     {
-        return $this->belongsTo('App\Model\notes','note_id','id');
+        return $this->belongsTo('App\Model\Notes','note_id','id');
     }
     /**
      * 设置用户的名字

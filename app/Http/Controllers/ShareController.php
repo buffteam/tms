@@ -26,8 +26,11 @@ class ShareController extends BaseController
         $params['pagesize'] = isset($params['pagesize']) ? $params['pagesize'] : config('page.pagesize');
         // 起始页
         $start = $params['page'] == 1 ? 0 : ($params['page']-1)*$params['pagesize'];
-        $data = Share::where('u_id',user()->id)->skip($start)->take($params['pagesize'])->get();
-        return $this->ajaxSuccess('获取成功',$data);
+        $share = Share::where('u_id',user()->id);
+        $count = $share->count();
+        $totalPage = ceil($count/$params['pagesize']);
+        $data = $share->skip($start)->take($params['pagesize'])->get();
+        return $this->ajaxSuccess('获取成功',['data'=>$data,'totalPage'=>$totalPage]);
     }
 
     /**
@@ -80,13 +83,7 @@ class ShareController extends BaseController
         if ($share == null) {
             return view('share.index',['list'=>null]);
         }
-        $note = null;
-        if ($share->note) {
-            $note = $share->note->toArray();
-        } else {
-            exit('note不存在');
-        }
-
+        $note = $share->note->toArray();
         $shareData = collect($share)->toArray();
         $data['title'] = $note['title'];
         $data['content'] = $note['content'];
