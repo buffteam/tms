@@ -130,31 +130,7 @@
             </div>
         </div>
     </div>
-    <div id="move-content">
-        <p>移动到：</p>
-        <div class="folder-box">
-            <div class="folder-group-list folder-parent-list">我的文档</div>
-            <ul>
-                <li class="folder-group-child">
-                    <div class="folder-parent-list">旅行游记</div>
-                    <ul>
-                        <li class="folder-group-child">
-                            <div class="folder-parent-list">三毛流浪记</div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="folder-group-child">
-                    <div class="folder-parent-list">生活日记</div>
-                </li>
-            </ul>
-            <div class="folder-group-list">团队文档</div>
-            <ul>
-                <li class="folder-group-child">web前端</li>
-                <li class="folder-group-child">ios</li>
-                <li class="folder-group-child">andriod</li>
-            </ul>
-        </div>
-    </div>
+
     <script id="share-dialog" type="text/html">
         <div class="share-dialog-content">
             <div class="share-text">获取分享链接成功，复制链接进行分享!</div>
