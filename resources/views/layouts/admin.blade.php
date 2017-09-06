@@ -68,7 +68,7 @@
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
             <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
-                {{--<li class="mdui-list-item mdui-ripple"><a href="{{url('admin/columnSetting')}}">导航栏入口设置</a></li>--}}
+                <li class="mdui-list-item mdui-ripple"><a href="{{url('admin/users')}}">所有用户</a></li>
                 <li class="mdui-list-item mdui-ripple"> <a href="{{url('admin/account')}}">注册账号审核</a></li>
                 <li class="mdui-list-item mdui-ripple"><a href="{{url('updateLog/index')}}">版本规划与更新日志</a></li>
                 {{--<li class="mdui-list-item mdui-ripple">New vs Returning</li>--}}
