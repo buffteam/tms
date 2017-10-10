@@ -1,0 +1,180 @@
+.main-content {
+    margin-top: 100px;
+}
+/***
+ * 顶部导航栏系统样式
+ */
+.menu-list {
+    list-style: none;
+}
+.menu-list li {
+    list-style: none;
+    float: left;
+    margin-left: 15px;
+}
+.menu-list li a {
+    display: inline-block;
+    height: 64px;
+    padding: 0 10px;
+    color: white;
+    text-decoration: none;
+}
+.menu-active a {
+    border-bottom: 2px solid ghostwhite;
+}
+.form-inline {
+    display: inline-block;
+}
+
+/**
+ * 弹窗样式
+ */
+.mdui-alert {
+    position: relative;
+    padding: 15px;
+    min-height: 60px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    animation: bounceIn 300ms;
+}
+.mdui-alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+}
+.mdui-alert-success {
+    /*color: #4CAF50;*/
+    background-color: #69F0AE;
+}
+.mdui-close {
+    position: absolute;
+    right: 15px;
+    top:10px;
+}
+
+.mdui-tip {
+    background-color: #E8EAF6;
+}
+
+
+@-webkit-keyframes bounceIn{
+
+    from, 20%, 40%, 60%, 80%, to {
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    }
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3, .3, .3);
+        transform: scale3d(.3, .3, .3);
+    }
+    20% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    40% {
+        -webkit-transform: scale3d(.9, .9, .9);
+        transform: scale3d(.9, .9, .9);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: scale3d(1.03, 1.03, 1.03);
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+    80% {
+        -webkit-transform: scale3d(.97, .97, .97);
+        transform: scale3d(.97, .97, .97);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+.mdui-panel-item-body,.mdui-table th {
+    overflow: visible !important;
+}
+
+
+.module-section {
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px dotted gainsboro;
+}
+
+
+/* *
+ * 分页样式
+ *
+ */
+
+.pagination-container {
+    background: #fdfdfd;
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 0.2rem;
+    counter-reset: pagination;
+    text-align: center;
+}
+.pagination-container:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+.pagination-container ul {
+    width: 100%;
+}
+
+.xlarge {
+    width: 96.6%;
+}
+.pagination-container ul, li {
+    list-style: none;
+    display: inline;
+    padding-left: 0;
+}
+
+.pagination-container li {
+    counter-increment: pagination;
+    margin-right: 3px;
+}
+
+.pagination-container li:hover a {
+    color: #666;
+    border: solid 1px #999;
+
+}
+.pagination-container li.active a {
+    color: #fdfdfd;
+}
+.pagination-container li:first-child {
+    float: left;
+}
+.pagination-container li:first-child a:after {
+    content: "上一页";
+}
+.pagination-container li:nth-child(2) {
+    counter-reset: pagination;
+}
+.pagination-container li:last-child {
+    float: right;
+}
+.pagination-container li:last-child a:after {
+    content: "下一页";
+}
+.pagination-container li a ,
+.pagination-container li.disabled span{
+    border: solid 1px #d6d6d6;
+    border-radius: 0.2rem;
+    color: #7d7d7d;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 0.9rem;
+}
+.pagination-container li.disabled span{
+    background: #f3f3f3;
+    color: #ccc;
+    cursor: not-allowed;
+}

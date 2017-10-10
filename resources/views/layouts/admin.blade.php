@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('libs/mdui/css/mdui.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('module/common/css/common.css') }}" >
     <link rel="stylesheet" href="{{ asset('module/admin/css/dashboard.css') }}" >
     @yield('style')
 </head>
