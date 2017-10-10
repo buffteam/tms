@@ -30,7 +30,6 @@
             @endforeach
             </tbody>
         </table>
-        {{ $list->links() }}
     </div>
     <input type="hidden" value="{{url('account/verify')}}" id="verifyUrl">
 @endsection

@@ -11,7 +11,7 @@ class UserController extends Controller
     //
     public function index()
     {
-        $users = User::whereIn('auth',[2,9])->get();
+        $users = User::whereIn('auth',[2,9])->paginate(15);
         return view('admin.users.index',['list'=>$users]);
     }
 }
