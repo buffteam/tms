@@ -30,7 +30,7 @@
             @endforeach
             </tbody>
         </table>
-        {{ $list->links() }}
+        {{ $list->links('vendor.pagination.mdui') }}
     </div>
     <input type="hidden" value="{{url('account/verify')}}" id="verifyUrl">
 @endsection
