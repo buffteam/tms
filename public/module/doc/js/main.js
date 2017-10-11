@@ -13,14 +13,10 @@ define(function (require, exports, module) {
                 },
                 complete: function (XMLHttpRequest) {
                     if (XMLHttpRequest.status === 401) {
-                        layer.msg('登录信息验证失败，请重新登录', function () {
-                            location.href = host + '/login';
-                        });
+                        layer.msg('登录信息验证失败，请重新登录');
                     } else if (XMLHttpRequest.status === 503) {
                         var res = JSON.parse(XMLHttpRequest.responseText);
-                        layer.msg(res.msg, function () {
-                            location.href = host + '/login';
-                        });
+                        layer.msg(res.msg);
                     } else if (XMLHttpRequest.status !== 200) {
                         layer.msg('服务器出错了 ' + XMLHttpRequest.status);
                     }
