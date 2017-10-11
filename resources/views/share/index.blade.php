@@ -13,6 +13,9 @@
             <div class="note-content markdown-body editormd-preview-container">
                 {!! $list['content'] !!}
             </div>
+            <script>
+                document.title = "{{$list['title']}}";
+            </script>
         @else
             <div class="note-null">文档不存在或分享链接已取消</div>
         @endif
