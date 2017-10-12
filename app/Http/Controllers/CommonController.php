@@ -140,14 +140,16 @@ class CommonController extends BaseController
 
         $originName = $file->getClientOriginalName();
 
+
+
+        $renameFilename = md5(uniqid(microtime(true), true)).'.'.$file->getClientOriginalExtension();
         $fileInfo = [
             'size' => ceil($file->getClientSize()/1024),
             'type' => $file->getClientOriginalExtension(),
-            'url' => $uploadPath.$originName
+            'name' => $originName,
+            'url' => $uploadPath.$renameFilename
         ];
-
-//        $renameFilename = $originName.'.'.$file->getClientOriginalExtension();
-        $flag = $file->move($uploadPath,$originName);
+        $flag = $file->move($uploadPath,$renameFilename);
 
         return $flag ? $this->ajaxSuccess('上传成功',$fileInfo) : $this->ajaxError('移动文件失败');
 
