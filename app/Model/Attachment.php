@@ -15,6 +15,6 @@ class Attachment extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-    protected $fillable = ['url','type','size','note_id'];
+    protected $fillable = ['url','type','size','note_id','name'];
 
 }

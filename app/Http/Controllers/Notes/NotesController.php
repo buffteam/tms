@@ -467,4 +467,5 @@ class NotesController extends BaseController
         return $this->ajaxSuccess('success',$list);
 
     }
+
 }
