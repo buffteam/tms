@@ -910,6 +910,10 @@ body {
 }
 .attachment-content-ul li{
     list-style: initial;
+    line-height: 24px;
+}
+.attachment-content-ul li a:hover{
+    text-decoration: underline;
 }
 .attachment-content-ul .del-span{
     display: none;
@@ -970,7 +974,9 @@ body {
     border-right: 0;
     margin-bottom: 0;
 }
-
+#editormd,#editormd .CodeMirror,#editormd .editormd-preview{
+    transition: height .3s;
+}
 .editormd-fullscreen {
     z-index: 100;
 }
