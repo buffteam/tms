@@ -7,6 +7,7 @@ use App\Model\Attachment;
 use App\Model\Folder;
 use App\Model\Notes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
@@ -468,4 +469,20 @@ class NotesController extends BaseController
 
     }
 
+    /**
+     * 获取笔记关联的附件一般不包括图片
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delAttachment($id)
+    {
+        $attach = Attachment::find(intval($id));
+
+        $distFlag = unlink($attach->url);
+
+        $flag = $attach->delete();
+
+        return $distFlag && $flag ? $this->ajaxSuccess('success',$flag) : $this->ajaxError('failed,server error',503);
+
+    }
 }
