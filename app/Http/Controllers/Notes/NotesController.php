@@ -424,6 +424,11 @@ class NotesController extends BaseController
         return $notes->save($data) ? $this->ajaxSuccess('移动成功',$notes->toArray()) : $this->ajaxError('移动失败');
     }
 
+    /**
+     * 存储笔记关联的附件
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function noteAttach (Request $request) {
         // 验证
         $rules =  [
@@ -447,5 +452,15 @@ class NotesController extends BaseController
 
     }
 
+    /**
+     * 获取笔记关联的附件一般不包括图片
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAttachment($id)
+    {
+        $list = Attachment::where('note_id',$id)->whereNotNull('type')->get();
+        return $this->ajaxSuccess('success',$list);
 
+    }
 }
