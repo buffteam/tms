@@ -1,0 +1,60 @@
+.webuploader-container {
+	position: relative;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+.webuploader-pick {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 10px 15px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.webuploader-pick-hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events:none;
+}
+.uploader-list{
+	padding: 20px 50px;
+}
+.uploader-list .item{
+	margin-bottom: 15px;
+}
+.uploader-list h4.info,.uploader-list p{
+	margin: 0;
+	line-height: 24px;
+}
+#picker ,#ctlBtn{
+    display: inline-block;
+    line-height: 1.428571429;
+    vertical-align: middle;
+    margin: 0 12px 0 0;
+}
+#ctlBtn{
+	padding: 10px 15px;
+    color: #fff;
+    text-align: center;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	background: #ddd;
+	color: #222;
+}
+#ctlBtn:hover{
+	cursor: pointer;
+	border: 1px solid #eee;
+	background: #eee;
+}
+.wu-example-btns{
+	padding: 0 50px;
+}

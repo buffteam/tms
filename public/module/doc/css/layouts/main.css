@@ -805,6 +805,7 @@ body {
 .doc-content-null{
     display: none;
 }
+
 .doc-content-header {
     position: relative;
     padding: 15px 30px;
@@ -870,9 +871,31 @@ body {
 .doc-content-body{
     position: absolute;
     top:70px;
-    bottom: 0;
+    bottom: 130px;
     width: 100%;
     overflow-y: scroll;
+}
+.doc-content-footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.doc-content-footer .attachment-header{
+    background: #dfdfdf;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 30px;
+    font-size: 14px;
+}
+.doc-content-footer .attachment-content{
+    padding: 10px 30px;
+    height: 80px;
+    overflow-y: auto;
+}
+.doc-content-footer .attachment-content-ul li{
+    float: left;
+    margin-right: 50px;
+    list-style: initial;
 }
 .doc-edit-body{
     display: none;
