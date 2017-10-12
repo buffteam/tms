@@ -3,7 +3,8 @@
  */
 define(function (require, exports, module) {
     var $ = require('jquery');
-    var editormd = require('editormd');
+    var editormd = require('editormd'),
+        WebUploader = require('webuploader');
 
     require("libs/editormd/plugins/link-dialog/link-dialog");
     require("libs/editormd/plugins/reference-link-dialog/reference-link-dialog");
@@ -46,7 +47,7 @@ define(function (require, exports, module) {
                         imageUploadURL: "./common/mdEditorUpload",
                         toolbarIcons: function () {
                             return ["undo", "redo", "|", "bold", "del", "italic", "quote", "hr", "|", "h1", "h2", "h3",
-                                "|", "list-ul", "list-ol", "link", "table", "datetime", "clear", "image", "code-block", "preview", "fullscreen", "search",  "theme"
+                                "|", "list-ul", "list-ol", "link", "table", "datetime", "clear", "image","file", "code-block", "preview", "fullscreen", "search",  "theme"
                             ]
                         },
                         toolbarIconsClass:{
@@ -55,7 +56,7 @@ define(function (require, exports, module) {
                         },
                         toolbarIconTexts: {
                             theme: '切换主题 ', search: '搜索',  fullscreen: '全屏', preview: '预览',
-                            image: '上传图片', 'code-block': '插入代码'
+                            image: '上传图片', 'code-block': '插入代码', file: '上传附件'
                         },
                         toolbarHandlers: {
                             theme: function () {
@@ -70,6 +71,82 @@ define(function (require, exports, module) {
                                         $theme.removeClass('active');
                                     })
                                 }
+                            },
+                            file: function () {
+                                layer.open({
+                                    type: 1,
+                                    area: ['800px', '500px'], 
+                                    title: '上传附件',
+                                    content: $('#upload-tpl').html()
+                                });
+                                var state = '';
+                                var uploader = WebUploader.create({
+                                    
+                                    // swf文件路径
+                                    swf:  host + '/libs/webuploader-0.1.5/Uploader.swf',
+                                
+                                    // 文件接收服务端。
+                                    server: host+'/common/uploadAttachment',
+                                    fileVal: 'attachment',
+                                    // 选择文件的按钮。可选。
+                                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                                    pick: '#picker',
+                                
+                                    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                                    resize: false
+                                });
+                                uploader.on( 'fileQueued', function( file ) {
+                                    $('#thelist').append( '<div id="' + file.id + '" class="item">' +
+                                        '<h4 class="info">' + file.name + '</h4>' +
+                                        '<p class="state">等待上传...</p>' +
+                                    '</div>' );
+                                    state = 'ready';
+                                });
+                                // 开始上传
+                                $('#ctlBtn').off('click').on('click', function () {
+                                    if ( $(this).hasClass( 'disabled' ) ) {
+                                        return false;
+                                    }
+                            
+                                    if ( state === 'ready' ) {
+                                        uploader.upload();
+                                    } else if ( state === 'paused' ) {
+                                        uploader.upload();
+                                    } else if ( state === 'uploading' ) {
+                                        uploader.stop();
+                                    }
+                                })
+                                // 文件上传过程中创建进度条实时显示。
+                                uploader.on( 'uploadProgress', function( file, percentage ) {
+                                    var $li = $( '#'+file.id ),
+                                        $percent = $li.find('.progress .progress-bar');
+
+                                    // 避免重复创建
+                                    if ( !$percent.length ) {
+                                        $percent = $('<div class="progress progress-striped active">' +
+                                        '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                                        '</div>' +
+                                        '</div>').appendTo( $li ).find('.progress-bar');
+                                    }
+
+                                    $li.find('p.state').text('上传中');
+                                    state = 'uploading';
+                                    $percent.css( 'width', percentage * 100 + '%' );
+                                });
+                                uploader.on( 'uploadSuccess', function( file ) {
+                                    $( '#'+file.id ).find('p.state').text('已上传');
+                                    state = '';
+                                });
+                                
+                                uploader.on( 'uploadError', function( file ) {
+                                    $( '#'+file.id ).find('p.state').text('上传出错');
+                                    state = 'ready';
+                                });
+                                
+                                uploader.on( 'uploadComplete', function( file ) {
+                                    $( '#'+file.id ).find('.progress').fadeOut();
+                                });
+                                
                             }
                         },
                         onload: function () {

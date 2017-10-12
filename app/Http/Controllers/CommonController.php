@@ -118,10 +118,10 @@ class CommonController extends BaseController
     {
 
         //判断请求中是否包含name=file的上传文件
-        if(!$request->hasFile('attachment')){
-            return $this->ajaxError('上传失败,上传文件为空');
-        }
-
+        // if(!$request->hasFile('attachment')){
+        //     return $this->ajaxError('上传失败,上传文件为空');
+        // }
+            
         $file = $request->file('attachment');
 
         //判断文件上传过程中是否出错
