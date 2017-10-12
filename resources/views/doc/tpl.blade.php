@@ -211,3 +211,12 @@
         </div>
     </div>
 </script>
+
+<script id="attachment-tpl" type="text/html">
+    <% for(var i = 0; i < list.length; i++) { %>
+        <li>
+            <a href="<%= list[i].url %>"><%= list[i].url %></a>
+            <span class="del-span" data-id="<%= list[i].id %>" title="删除不可恢复">删除</span>
+        </li>
+    <% } %>
+</script>

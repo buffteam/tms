@@ -871,14 +871,30 @@ body {
 .doc-content-body{
     position: absolute;
     top:70px;
-    bottom: 130px;
+    bottom: 0;
     width: 100%;
     overflow-y: scroll;
+    transition: bottom .3s;
 }
 .doc-content-footer{
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 0;
+    overflow: hidden;
+    transition: height .3s;
+}
+.doc-content-footer.active{
+    height: 130px;
+}
+.doc-content-footer.active + .doc-content-body{
+    bottom: 130px;
+}
+.doc-content-footer.active.on{
+    height: 30px;
+}
+.doc-content-footer.active.on + .doc-content-body{
+    bottom: 30px;
 }
 .doc-content-footer .attachment-header{
     background: #dfdfdf;
@@ -887,15 +903,26 @@ body {
     padding-left: 30px;
     font-size: 14px;
 }
-.doc-content-footer .attachment-content{
+.attachment-content{
     padding: 10px 30px;
     height: 80px;
     overflow-y: auto;
 }
-.doc-content-footer .attachment-content-ul li{
-    float: left;
-    margin-right: 50px;
+.attachment-content-ul li{
     list-style: initial;
+}
+.attachment-content-ul .del-span{
+    display: none;
+    font-size: 14px;
+    color: #f27272;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.attachment-content-ul .del-span:hover{
+    color: #ff0000;
+}
+.is-edit .attachment-content-ul .del-span{
+    display: inline;
 }
 .doc-edit-body{
     display: none;

@@ -81,33 +81,30 @@ define(function (require, exports, module) {
                                 });
                                 var state = '';
                                 var uploader = WebUploader.create({
-                                    
-                                    // swf文件路径
                                     swf:  host + '/libs/webuploader-0.1.5/Uploader.swf',
-                                
-                                    // 文件接收服务端。
                                     server: host+'/common/uploadAttachment',
                                     fileVal: 'attachment',
                                     // 选择文件的按钮。可选。
                                     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
                                     pick: '#picker',
-                                
-                                    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
                                     resize: false
                                 });
                                 uploader.on( 'fileQueued', function( file ) {
                                     $('#thelist').append( '<div id="' + file.id + '" class="item">' +
                                         '<h4 class="info">' + file.name + '</h4>' +
-                                        '<p class="state">等待上传...</p>' +
+                                        '<span class="state">等待上传...</span><span class="remove-btn">移除</span>' +
                                     '</div>' );
                                     state = 'ready';
+                                    $("#"+file.id).find('.remove-btn').on('click', function () {
+                                        uploader.removeFile(file, true);
+                                        $(this).parent().remove();
+                                    })
                                 });
                                 // 开始上传
                                 $('#ctlBtn').off('click').on('click', function () {
                                     if ( $(this).hasClass( 'disabled' ) ) {
                                         return false;
                                     }
-                            
                                     if ( state === 'ready' ) {
                                         uploader.upload();
                                     } else if ( state === 'paused' ) {
@@ -128,18 +125,29 @@ define(function (require, exports, module) {
                                         '</div>' +
                                         '</div>').appendTo( $li ).find('.progress-bar');
                                     }
-
-                                    $li.find('p.state').text('上传中');
+                                    
+                                    $li.find('span.state').text('上传中');
                                     state = 'uploading';
                                     $percent.css( 'width', percentage * 100 + '%' );
                                 });
-                                uploader.on( 'uploadSuccess', function( file ) {
-                                    $( '#'+file.id ).find('p.state').text('已上传');
+                                uploader.on( 'uploadSuccess', function( file, response ) {
+                                    $( '#'+file.id ).find('span.state').text('已上传');
                                     state = '';
+                                    if(response.code == 200){
+                                        var param = response.data;
+                                        param.note_id = cur_note.id;
+                                        $.post(host+ '/note/addAttach', param, function (res) {
+                                            if(res.code == 200){
+                                                
+                                            }
+                                        })
+                                    }else{
+                                        layer.msg(response.msg);
+                                    }
                                 });
                                 
                                 uploader.on( 'uploadError', function( file ) {
-                                    $( '#'+file.id ).find('p.state').text('上传出错');
+                                    $( '#'+file.id ).find('span.state').text('上传出错');
                                     state = 'ready';
                                 });
                                 
