@@ -202,7 +202,7 @@ class NotesController extends BaseController
     {
         // 验证规则
         $rules =  [
-            'id' => 'required|max:10'
+            'id' => 'required'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -218,8 +218,11 @@ class NotesController extends BaseController
             return $this->ajaxError('删除失败,没有权限删除此笔记');
         }
 
-
+        //删除数据
         $data = Notes::where('id',$params['id'])->update(array('active'=>'0','last_updated_name'=>user()->name));
+
+        // 删除文档相关的附件
+        Attachment::where('note_id',$params['id'])->delete();
 
         return ($data != 1) ? $this->ajaxError('数据在另一端已经被删除了，请刷新页面') : $this->ajaxSuccess('删除成功');
 
