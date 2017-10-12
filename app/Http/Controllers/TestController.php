@@ -21,8 +21,8 @@ class TestController extends Controller
     }
     public function test (Request $request)
     {
-        dd($request->all());
-        return response()->json();
+
+        return view('test');
 
     }
 }

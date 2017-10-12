@@ -85,11 +85,11 @@
                 <div class="title m-b-md">
                     <span>欢迎使用醍醐共享云笔记</span>
                 </div>
-                {{--<form action="/common/upload" method="post" id="form" enctype="multipart/form-data">--}}
+                <form action="/common/uploadAttachment" method="post" id="form" enctype="multipart/form-data">
                     {{--<input type="text" name="content" id="content" value="{{$list->content}}" style="display: none;">--}}
-                    {{--<input type="file" name="picture">--}}
-                    {{--<button type="submit"  id="test">上传</button>--}}
-                {{--</form>--}}
+                    <input type="file" name="attachment">
+                    <button type="submit"  id="test">上传</button>
+                </form>
 
                 <div class="links">
                     {{--<a href="https://laravel.com/docs">Documentation</a>--}}
@@ -103,14 +103,14 @@
         <script src="{{asset('/libs/jquery/jquery.min.js')}}"></script>
     <script>
 
-        $('#test').on('click',function (e) {
-            e.preventDefault();
-//            $('#form')[0]['content'].value = $(document).html();
-//            console.log($('html').html());
-//            return;
-            $('#content').val();
-            $('#form').submit();
-        })
+//        $('#test').on('click',function (e) {
+//            e.preventDefault();
+////            $('#form')[0]['content'].value = $(document).html();
+////            console.log($('html').html());
+////            return;
+//            $('#content').val();
+//            $('#form').submit();
+//        })
 
     </script>
     </body>

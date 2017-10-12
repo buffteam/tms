@@ -113,4 +113,36 @@ class CommonController extends BaseController
         return response()->download('exout.md');
 
     }
+
+    public function uploadAttachment (Request $request)
+    {
+
+        //判断请求中是否包含name=file的上传文件
+        if(!$request->hasFile('attachment')){
+            return $this->ajaxError('上传失败,上传文件为空');
+        }
+
+        $file = $request->file('attachment');
+
+        //判断文件上传过程中是否出错
+        if(!$file->isValid()){
+            return $this->ajaxError('上传文件失败',$file->getErrorMessage());
+        }
+
+        if ($file->getClientSize() >= 50*1024*1024) {
+            return $this->ajaxError('文件尺寸不允许超出50m');
+        }
+
+        $uploadPath = 'files/';
+        if(!file_exists($uploadPath)) {
+            mkdir($uploadPath,0777,true);
+        }
+        $originName = $file->getClientOriginalName();
+//        $renameFilename = $originName.'.'.$file->getClientOriginalExtension();
+        $flag = $file->move($uploadPath,$originName);
+
+        return $flag ? $this->ajaxSuccess('上传成功',$uploadPath.$originName) : $this->ajaxError('移动文件失败');
+
+
+    }
 }

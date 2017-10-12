@@ -123,6 +123,8 @@ Route::group(['middleware' => 'CheckHost'/*,'domain' => '*.omwteam.com'*/], func
     Route::any('/common/wangEditorUpload', 'CommonController@wangEditorUpload');
     Route::any('/common/upload', 'CommonController@upload');
     Route::any('/common/exportmd', 'CommonController@exportmd');
+    Route::any('/common/uploadAttachment', 'CommonController@uploadAttachment');
+
 
 
 
