@@ -435,8 +435,9 @@ class NotesController extends BaseController
     public function noteAttach (Request $request) {
         // 验证
         $rules =  [
-            'type' => 'required',
-            'size' => 'required',
+            'type' => 'sometimes',
+            'size' => 'sometimes',
+            'name' => 'sometimes',
             'url' => 'required',
             'note_id' => 'required|integer',
         ];
