@@ -262,8 +262,10 @@ define(function (require, exports, module) {
                 if(res.code == 200){
                     if(res.data.length){
                         var html = template('attachment-tpl',{list: res.data});
-                        $('.attachment-content-ul').append(html);
+                        $('.attachment-content-ul').html(html);
                         $('.doc-content-footer').addClass('active');
+                    }else{
+                        $('.doc-content-footer').removeClass('active');
                     }
                 }
             })

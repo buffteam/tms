@@ -4,6 +4,7 @@
 define(function (require, exports, module) {
     var $ = require('jquery');
     var editormd = require('editormd'),
+        template = require('template'),
         WebUploader = require('webuploader');
 
     require("libs/editormd/plugins/link-dialog/link-dialog");
@@ -138,7 +139,15 @@ define(function (require, exports, module) {
                                         param.note_id = cur_note.id;
                                         $.post(host+ '/note/addAttach', param, function (res) {
                                             if(res.code == 200){
-                                                
+                                                var $box = $('.doc-content-footer'),
+                                                    $ul = $('.attachment-content-ul'),
+                                                html = template('attachment-tpl', {list: [res.data]});
+                                                if(!$box.hasClass('active')){
+                                                    $box.addClass('active');
+                                                    $ul.html(html);
+                                                }else{
+                                                    $ul.append(html);
+                                                }
                                             }
                                         })
                                     }else{
