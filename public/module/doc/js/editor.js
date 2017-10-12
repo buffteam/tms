@@ -20,12 +20,20 @@ define(function (require, exports, module) {
     require('wangEditor');
 
     var $window = $(window),
+        $footer_box = $('.doc-content-footer'),         // 笔记附件盒子
         $doc_box = $('.doc-content');                   // 笔记详情盒子
 
     var editor = {
         // 初始化编辑器
         initEditor: function (type, value) {
             var height = $window.height() - $('.doc-content-header').outerHeight() - 65;
+            if($footer_box.hasClass('active')){
+                if($footer_box.hasClass('on')){
+                    height -= 30;
+                }else{
+                    height -= 130;
+                }
+            }
             if (type == 1) {
                 if (!!mdeditor) {
                     value ? mdeditor.setMarkdown(value) : mdeditor.clear();
@@ -141,10 +149,17 @@ define(function (require, exports, module) {
                                             if(res.code == 200){
                                                 var $box = $('.doc-content-footer'),
                                                     $ul = $('.attachment-content-ul'),
-                                                html = template('attachment-tpl', {list: [res.data]});
+                                                    $editormd = $('#editormd'),
+                                                    $CodeMirror = $('.CodeMirror')
+                                                    $preview = $editormd.find('.editormd-preview');
+                                                    html = template('attachment-tpl', {list: [res.data]});
                                                 if(!$box.hasClass('active')){
                                                     $box.addClass('active');
                                                     $ul.html(html);
+                                                    var height = $box.hasClass('on') ? 30 : 130;
+                                                    $editormd.height($editormd.height()-height);
+                                                    $CodeMirror.height($CodeMirror.height()-height);
+                                                    $preview.height($preview.height()-height);
                                                 }else{
                                                     $ul.append(html);
                                                 }

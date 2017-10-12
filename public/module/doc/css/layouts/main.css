@@ -974,7 +974,9 @@ body {
     border-right: 0;
     margin-bottom: 0;
 }
-
+#editormd,#editormd .CodeMirror,#editormd .editormd-preview{
+    transition: height .3s;
+}
 .editormd-fullscreen {
     z-index: 100;
 }

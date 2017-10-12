@@ -557,8 +557,21 @@ define(function (require, exports, module) {
             })
 
             $('.attachment-header').on('click', function(){
-                var box = $('.doc-content-footer');
-                box.hasClass('on') ? box.removeClass('on') : box.addClass('on')
+                var $box = $('.doc-content-footer'),
+                    $editormd = $('#editormd'),
+                    $CodeMirror = $('.CodeMirror')
+                    $preview = $editormd.find('.editormd-preview');
+                if($box.hasClass('on')){
+                    $box.removeClass('on');
+                    $editormd.height($editormd.height()-100);
+                    $CodeMirror.height($CodeMirror.height()-100);
+                    $preview.height($preview.height()-100);
+                }else{
+                    $box.addClass('on');
+                    $editormd.height($editormd.height()+100);
+                    $CodeMirror.height($CodeMirror.height()+100);
+                    $preview.height($preview.height()+100);
+                }
             })
 
         },
