@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Notes;
 
 use App\Http\Traits\NotesTrait;
+use App\Model\Attachment;
 use App\Model\Folder;
 use App\Model\Notes;
 use Illuminate\Support\Facades\DB;
@@ -421,6 +422,29 @@ class NotesController extends BaseController
         );
         $notes->update($data);
         return $notes->save($data) ? $this->ajaxSuccess('移动成功',$notes->toArray()) : $this->ajaxError('移动失败');
+    }
+
+    public function noteAttach (Request $request) {
+        // 验证
+        $rules =  [
+            'type' => 'required',
+            'size' => 'required',
+            'url' => 'required',
+            'note_id' => 'required|integer',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return $this->ajaxError('参数验证输错',$validator->errors());
+        }
+
+
+        $flag = Attachment::create($request->input());
+
+        return $flag ? $this->ajaxSuccess('success',$flag) : $this->ajaxError('failed,server is error!',503);
+
+
     }
 
 

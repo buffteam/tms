@@ -137,11 +137,19 @@ class CommonController extends BaseController
         if(!file_exists($uploadPath)) {
             mkdir($uploadPath,0777,true);
         }
+
         $originName = $file->getClientOriginalName();
+
+        $fileInfo = [
+            'size' => ceil($file->getClientSize()/1024),
+            'type' => $file->getClientOriginalExtension(),
+            'url' => $uploadPath.$originName
+        ];
+
 //        $renameFilename = $originName.'.'.$file->getClientOriginalExtension();
         $flag = $file->move($uploadPath,$originName);
 
-        return $flag ? $this->ajaxSuccess('上传成功',$uploadPath.$originName) : $this->ajaxError('移动文件失败');
+        return $flag ? $this->ajaxSuccess('上传成功',$fileInfo) : $this->ajaxError('移动文件失败');
 
 
     }

@@ -92,6 +92,7 @@ Route::group(['namespace' => 'Notes'], function () {
     Route::any('/note/lockNote', 'NotesController@lockNote');
     Route::any('/note/unlockNote', 'NotesController@unlockNote');
     Route::any('/note/move', 'NotesController@move');
+    Route::any('/note/addAttach', 'NotesController@noteAttach');
 
 
     // 用户操作相关路由
