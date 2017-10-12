@@ -163,6 +163,19 @@ define(function (require, exports, module) {
             local_note.origin_content = md_cnt;
             local_note.content = html_cnt;
             localStorage.setItem('local_note', JSON.stringify(local_note));
+            $.post(host + '/note/update', {
+                id: local_note.id,
+                f_id: local_note.f_id,
+                title: title,
+                content: html_cnt,
+                origin_content: md_cnt
+            }, function (res) {
+                if (res.code === 200) {
+                    cur_note = res.data;
+                    local_note = null;
+                    editor.unbindUnload();
+                }
+            })
             editor.bindUnload();
         },
         // 保存笔记

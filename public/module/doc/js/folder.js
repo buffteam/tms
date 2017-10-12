@@ -153,6 +153,7 @@ define(function (require, exports, module) {
                 .on('click', '.second-menu-a', function () {
                     var $self = $(this);
                     g_id = $self.data('id');
+                    $self.find('.child-menu-open').click();
                     $('.child-item.active,.pure-menu-item').removeClass('active');
                     $self.parent().addClass('active');
                     cur_page = 1;

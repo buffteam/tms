@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', '共享笔记') }}</title>
+    <title></title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('libs/mdui/css/mdui.min.css') }}" >
