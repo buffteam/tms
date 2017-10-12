@@ -110,7 +110,12 @@
                         </ul>
                     </div>
                 </div>
-
+                <div class="doc-content-footer">
+                    <div class="attachment-header">附件(点击可收起展开)</div>
+                    <div class="attachment-content">
+                        <ul class="attachment-content-ul"></ul>
+                    </div>
+                </div>
                 <div class="doc-content-body">
                     <div class="doc-preview-body markdown-body  editormd-preview-container">
 
@@ -125,15 +130,7 @@
                         <div id="editor" class="editor-2"></div>
                     </div>
                 </div>
-                <div class="doc-content-footer">
-                    <div class="attachment-header">附件</div>
-                    <div class="attachment-content">
-                        <ul class="attachment-content-ul">
-                            <li><a href="#">电话手表事业部2017团建活动报名表.doc</a></li>
-                            <li><a href="#">附件2.rar</a></li>
-                        </ul>
-                    </div>
-                </div>
+                
                 <div class="doc-content-null">
 
                 </div>

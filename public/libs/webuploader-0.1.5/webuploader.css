@@ -58,3 +58,24 @@
 .wu-example-btns{
 	padding: 0 50px;
 }
+.uploader-list .state{
+	font-size: 12px;
+	line-height: 25px;
+	color: #aaa;
+}
+.uploader-list .progress{
+	width: 100%;
+	height: 3px;
+	background: #eee;
+}
+.uploader-list .progress .progress-bar{
+	height: 3px;
+	background: #17d022;
+}
+.uploader-list .remove-btn{
+	margin-left: 40px;
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 25px;
+	color: #f27272;
+}

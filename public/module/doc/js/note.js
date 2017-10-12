@@ -240,7 +240,7 @@ define(function (require, exports, module) {
                     }else{
                         $('.list-unlock,.list-lock').hide();
                     }
-
+                    note.getAttachment(note_id);
                     cur_note = res.data;
                     mdeditor && mdeditor.clear();
                     if (isRecycle) {
@@ -252,6 +252,19 @@ define(function (require, exports, module) {
                     layer.msg(res.msg);
                     $('.doc-item.active').remove();
                     $doc_box.addClass('null');
+                }
+            })
+        },
+        // 获取笔记附件
+        getAttachment: function(note_id){
+            $.get(host+'/note/getAttach/'+note_id, function(res){
+                console.log(res);
+                if(res.code == 200){
+                    if(res.data.length){
+                        var html = template('attachment-tpl',{list: res.data});
+                        $('.attachment-content-ul').append(html);
+                        $('.doc-content-footer').addClass('active');
+                    }
                 }
             })
         },
@@ -534,6 +547,16 @@ define(function (require, exports, module) {
                 $self.addClass('active').siblings().removeClass('active');
                 mdeditor.setEditorTheme(theme);
                 localStorage.setItem('editor_theme', theme);
+            })
+
+            // 点击删除附件事件
+            $('.attachment-content-ul').on('click','.del-span', function(){
+                //TODO
+            })
+
+            $('.attachment-header').on('click', function(){
+                var box = $('.doc-content-footer');
+                box.hasClass('on') ? box.removeClass('on') : box.addClass('on')
             })
 
         },
