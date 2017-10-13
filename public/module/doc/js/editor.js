@@ -2,22 +2,9 @@
  * Created by linxin on 2017/8/11.
  */
 define(function (require, exports, module) {
-    var $ = require('jquery');
-    var editormd = require('editormd'),
-        template = require('template'),
-        WebUploader = require('webuploader');
-
-    require("libs/editormd/plugins/link-dialog/link-dialog");
-    require("libs/editormd/plugins/reference-link-dialog/reference-link-dialog");
-    require("libs/editormd/plugins/image-dialog/image-dialog");
-    require("libs/editormd/plugins/code-block-dialog/code-block-dialog");
-    require("libs/editormd/plugins/table-dialog/table-dialog");
-    require("libs/editormd/plugins/emoji-dialog/emoji-dialog");
-    require("libs/editormd/plugins/goto-line-dialog/goto-line-dialog");
-    require("libs/editormd/plugins/help-dialog/help-dialog");
-    require("libs/editormd/plugins/html-entities-dialog/html-entities-dialog");
-    require("libs/editormd/plugins/preformatted-text-dialog/preformatted-text-dialog");
-    require('wangEditor');
+    var $ = require('jquery'),
+        editormd = require('editormd');
+        require('wangEditor');
 
     var $window = $(window),
         $footer_box = $('.doc-content-footer'),         // 笔记附件盒子
@@ -26,6 +13,19 @@ define(function (require, exports, module) {
     var editor = {
         // 初始化编辑器
         initEditor: function (type, value) {
+            require.async([
+                "libs/editormd/plugins/link-dialog/link-dialog",
+                "libs/editormd/plugins/reference-link-dialog/reference-link-dialog",
+                "libs/editormd/plugins/image-dialog/image-dialog",
+                "libs/editormd/plugins/code-block-dialog/code-block-dialog",
+                "libs/editormd/plugins/table-dialog/table-dialog",
+                "libs/editormd/plugins/emoji-dialog/emoji-dialog",
+                "libs/editormd/plugins/goto-line-dialog/goto-line-dialog",
+                "libs/editormd/plugins/help-dialog/help-dialog",
+                "libs/editormd/plugins/html-entities-dialog/html-entities-dialog",
+                "libs/editormd/plugins/preformatted-text-dialog/preformatted-text-dialog"
+            ]);
+            
             var height = $window.height() - $('.doc-content-header').outerHeight() - 65;
             if($footer_box.hasClass('active')){
                 if($footer_box.hasClass('on')){
@@ -82,103 +82,16 @@ define(function (require, exports, module) {
                                 }
                             },
                             file: function () {
-                                layer.open({
-                                    type: 1,
-                                    area: ['800px', '500px'], 
-                                    title: '上传附件',
-                                    content: $('#upload-tpl').html()
-                                });
-                                var state = '';
-                                var uploader = WebUploader.create({
-                                    swf:  host + '/libs/webuploader-0.1.5/Uploader.swf',
-                                    server: host+'/common/uploadAttachment',
-                                    fileVal: 'attachment',
-                                    // 选择文件的按钮。可选。
-                                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-                                    pick: '#picker',
-                                    resize: false
-                                });
-                                uploader.on( 'fileQueued', function( file ) {
-                                    $('#thelist').append( '<div id="' + file.id + '" class="item">' +
-                                        '<h4 class="info">' + file.name + '</h4>' +
-                                        '<span class="state">等待上传...</span><span class="remove-btn">移除</span>' +
-                                    '</div>' );
-                                    state = 'ready';
-                                    $("#"+file.id).find('.remove-btn').on('click', function () {
-                                        uploader.removeFile(file, true);
-                                        $(this).parent().remove();
-                                    })
-                                });
-                                // 开始上传
-                                $('#ctlBtn').off('click').on('click', function () {
-                                    if ( $(this).hasClass( 'disabled' ) ) {
-                                        return false;
-                                    }
-                                    if ( state === 'ready' ) {
-                                        uploader.upload();
-                                    } else if ( state === 'paused' ) {
-                                        uploader.upload();
-                                    } else if ( state === 'uploading' ) {
-                                        uploader.stop();
-                                    }
+                                // 上传附件
+                                require.async("./uploader", function  (uploader) {  
+                                    layer.open({
+                                        type: 1,
+                                        area: ['800px', '500px'], 
+                                        title: '上传附件',
+                                        content: $('#upload-tpl').html()
+                                    });
+                                    uploader();
                                 })
-                                // 文件上传过程中创建进度条实时显示。
-                                uploader.on( 'uploadProgress', function( file, percentage ) {
-                                    var $li = $( '#'+file.id ),
-                                        $percent = $li.find('.progress .progress-bar');
-
-                                    // 避免重复创建
-                                    if ( !$percent.length ) {
-                                        $percent = $('<div class="progress progress-striped active">' +
-                                        '<div class="progress-bar" role="progressbar" style="width: 0%">' +
-                                        '</div>' +
-                                        '</div>').appendTo( $li ).find('.progress-bar');
-                                    }
-                                    
-                                    $li.find('span.state').text('上传中');
-                                    state = 'uploading';
-                                    $percent.css( 'width', percentage * 100 + '%' );
-                                });
-                                uploader.on( 'uploadSuccess', function( file, response ) {
-                                    $( '#'+file.id ).find('span.state').text('已上传');
-                                    state = '';
-                                    if(response.code == 200){
-                                        var param = response.data;
-                                        param.note_id = cur_note.id;
-                                        $.post(host+ '/note/addAttach', param, function (res) {
-                                            if(res.code == 200){
-                                                var $box = $('.doc-content-footer'),
-                                                    $ul = $('.attachment-content-ul'),
-                                                    $editormd = $('#editormd'),
-                                                    $CodeMirror = $('.CodeMirror')
-                                                    $preview = $editormd.find('.editormd-preview');
-                                                    html = template('attachment-tpl', {list: [res.data]});
-                                                if(!$box.hasClass('active')){
-                                                    $box.addClass('active');
-                                                    $ul.html(html);
-                                                    var height = $box.hasClass('on') ? 30 : 130;
-                                                    $editormd.height($editormd.height()-height);
-                                                    $CodeMirror.height($CodeMirror.height()-height);
-                                                    $preview.height($preview.height()-height);
-                                                }else{
-                                                    $ul.append(html);
-                                                }
-                                            }
-                                        })
-                                    }else{
-                                        layer.msg(response.msg);
-                                    }
-                                });
-                                
-                                uploader.on( 'uploadError', function( file ) {
-                                    $( '#'+file.id ).find('span.state').text('上传出错');
-                                    state = 'ready';
-                                });
-                                
-                                uploader.on( 'uploadComplete', function( file ) {
-                                    $( '#'+file.id ).find('.progress').fadeOut();
-                                });
-                                
                             }
                         },
                         onload: function () {

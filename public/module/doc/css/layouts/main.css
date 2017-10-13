@@ -132,6 +132,7 @@ body {
 .new-doc-box span, .new-doc-box .add-icon img{
     float: left;
     -webkit-user-select: none;
+    user-select: none;
 }
 .new-doc-box .add-icon{
     width: 20px;
