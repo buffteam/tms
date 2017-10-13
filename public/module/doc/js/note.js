@@ -258,7 +258,6 @@ define(function (require, exports, module) {
         // 获取笔记附件
         getAttachment: function(note_id){
             $.get(host+'/note/getAttach/'+note_id, function(res){
-                console.log(res);
                 if(res.code == 200){
                     if(res.data.length){
                         var html = template('attachment-tpl',{list: res.data});
@@ -552,8 +551,27 @@ define(function (require, exports, module) {
             })
 
             // 点击删除附件事件
-            $('.attachment-content-ul').on('click','.del-span', function(){
-                //TODO
+            var $attachment_ul = $('.attachment-content-ul'),
+                $box = $('.doc-content-footer');
+            $attachment_ul.on('click','.del-span', function(){
+                var $self = $(this)
+                id = $self.data('id');
+                $.get(host+'/note/delAttach/'+id, function(res){
+                    if(res.code == 200){
+                        layer.msg('删除附件成功');
+                        $self.parent().remove();
+                        if(!$attachment_ul.find('li').length){
+                            $box.removeClass('active');
+                            var $editormd = $('#editormd'),
+                                $CodeMirror = $('.CodeMirror')
+                                $preview = $editormd.find('.editormd-preview');
+
+                            $editormd.height($editormd.height()+130);
+                            $CodeMirror.height($CodeMirror.height()+130);
+                            $preview.height($preview.height()+130);
+                        }
+                    }
+                })
             })
 
             $('.attachment-header').on('click', function(){
