@@ -365,6 +365,7 @@ define(function (require, exports, module) {
                         atag.download = res.data.title;
                         atag.href = res.data.path;
                         atag.click();
+                        atag = null;
                     }
                 })
             });
