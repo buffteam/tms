@@ -485,4 +485,22 @@ class NotesController extends BaseController
         return $distFlag && $flag ? $this->ajaxSuccess('success',$flag) : $this->ajaxError('failed,server error',503);
 
     }
+
+    /**
+     * 下载md文件
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function downloadFile($id)
+    {
+        $note = Notes::find(intval($id));
+        $fileName = iconv('UTF-8', 'GBK', 'download/download.md');
+        $myfile = fopen($fileName, 'w+');
+        fwrite($myfile, $note->origin_content);
+        fclose($myfile);
+        $data = new class{};
+        $data->title = $note->title.'.md';
+        $data->path = 'download/download.md';
+        return $myfile && $data ? $this->ajaxSuccess('下载成功',$data) : $this->ajaxError('failed,server error',503);
+    }
 }

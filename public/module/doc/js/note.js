@@ -233,13 +233,15 @@ define(function (require, exports, module) {
                     clearInterval(timeId);
                     timeId = null;
                     $('.doc-title-span').html(res.data.title);
-                    var $unshare = $('.list-unshare');
+                    var $unshare = $('.list-unshare'),
+                        $tomd = $('.list-tomd');
                     res.data.share == 1 ? $unshare.show() : $unshare.hide();
                     if(res.data.isPrivate === '1'){
                         res.data.lock ? $('.list-unlock').show().prev('.list-lock').hide() : $('.list-lock').show().next('.list-unlock').hide();
                     }else{
                         $('.list-unlock,.list-lock').hide();
                     }
+                    res.data.type == '1' ? $tomd.show() : $tomd.hide();
                     note.getAttachment(note_id);
                     cur_note = res.data;
                     mdeditor && mdeditor.clear();
@@ -354,6 +356,17 @@ define(function (require, exports, module) {
             // 点击导出pdf
             $moreList.on('click', '.list-topdf', function (e) {
                 note.htmlToPDF();
+            });
+            // 点击下载md文档
+            $moreList.on('click', '.list-tomd', function (e) {
+                $.get(host+'/note/download/'+cur_note.id, function(res){
+                    if(res.code == 200){
+                        var atag = document.createElement('a');
+                        atag.download = res.data.title;
+                        atag.href = res.data.path;
+                        atag.click();
+                    }
+                })
             });
             // 点击解锁功能
             $moreList.on('click', '.list-unlock', function (e) {

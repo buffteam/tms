@@ -105,6 +105,7 @@
                             <li class="list-share">分享</li>
                             <li class="list-unshare" style="display: none;">取消分享</li>
                             <li class="list-line"></li>
+                            <li class="list-tomd" style="display: none;">下载文档</li>
                             <li class="list-topdf">导出PDF</li>
                             <li class="list-del">删除笔记</li>
                         </ul>

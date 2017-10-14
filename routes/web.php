@@ -95,6 +95,7 @@ Route::group(['namespace' => 'Notes'], function () {
     Route::any('/note/addAttach', 'NotesController@noteAttach');
     Route::get('/note/getAttach/{id}', 'NotesController@getAttachment');
     Route::any('/note/delAttach/{id}', 'NotesController@delAttachment');
+    Route::any('/note/download/{id}', 'NotesController@downloadFile');
 
     // 用户操作相关路由
     Route::get('modify', 'UserController@getModify')->name('modify');
