@@ -22,4 +22,13 @@ class Share extends Model
     {
         $this->attributes['token'] = bcrypt($value);
     }
+
+    /**
+     * 一个笔记拥有多个附件
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+     public function attachment()
+     {
+         return $this->hasMany('App\Model\Attachment','note_id','note_id');
+     }
 }

@@ -96,6 +96,7 @@ class ShareController extends BaseController
         $data['origin_content'] = $note['origin_content'];
         $data['share_time'] = $shareData['created_at'];
         $data['author'] = $shareData['author'];
+        $data['attachment'] = $share->attachment;
         return view('share.index',['list'=>$data]);
     }
 
