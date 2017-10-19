@@ -74,9 +74,7 @@ class FolderController extends BaseController
                         $totalCount = $totalCount + $delSubCount;
                     }
                     // 返回数据中加上笔记总数
-                    if ($folder->p_id == 0) {
-                        $folder->totalCount = $totalCount;
-                    }
+                    $folder->totalCount = $totalCount;
                     unset($folder->notes);
                 }
             }
@@ -191,6 +189,7 @@ class FolderController extends BaseController
                 $subMenu = $subCondition->get();
                 $totalCount = $totalCount + $this->recursion($subMenu);
             }
+            $subItems->count = $subMenuCount;
         }
         return $totalCount;
     }
