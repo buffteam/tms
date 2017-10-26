@@ -225,9 +225,17 @@ define(function (require, exports, module) {
                                 };
                             // 查看大图
                             layer.photos({
-                                photos: json
-                                , anim: 5
+                                photos: json,
+                                anim: 5
                             });
+                            $('#layui-layer-photos').height('auto');
+                            $('.layui-layer-photos').off('mousewheel').on('mousewheel', function(e){
+                                var $self = $(this);
+                                var ratio = 1;
+                                ratio = e.originalEvent.wheelDelta > 0 ? 1.2 : 0.8;
+                                $self.width($self.width()*ratio);
+                                $self.height($self.height()*ratio);
+                            })
                         });
                     $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
                     clearInterval(timeId);
