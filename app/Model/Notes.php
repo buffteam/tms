@@ -2,10 +2,12 @@
 
 namespace App\Model;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\PublicScope;
 class Notes extends Model
 {
+    use Notifiable;
     /**
      * 关联到模型的数据表
      *

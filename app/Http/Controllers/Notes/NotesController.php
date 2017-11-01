@@ -498,9 +498,13 @@ class NotesController extends BaseController
         $myfile = fopen($fileName, 'w+');
         fwrite($myfile, $note->origin_content);
         fclose($myfile);
-        $data = new class{};
-        $data->title = $note->title.'.md';
-        $data->path = 'download/download.md';
-        return $myfile && $data ? $this->ajaxSuccess('下载成功',$data) : $this->ajaxError('failed,server error',503);
+//        $data = new class{};
+//        $data->title = $note->title.'.md';
+//        $data->path = 'download/download.md';
+        $data = [
+            'title' => $note->title.'.md',
+            'path' => 'download/download.md'
+        ];
+        return $myfile ? $this->ajaxSuccess('下载成功',$data) : $this->ajaxError('failed,server error',503);
     }
 }
