@@ -75,19 +75,19 @@ define(function (require, exports, module) {
                     $layout.removeClass('middle');
                     $menuBtn.removeClass('right');
                     $firstParent.data('switch', 'on').siblings('ul').slideDown(300);
-                    if (isEdit) {
-                        $code.animate({'width': width - 100}, 300);
-                        $preview.animate({'width': width - 100}, 300);
-                    }
+                    // if (isEdit) {
+                    //     $code.animate({'width': width - 100}, 300);
+                    //     $preview.animate({'width': width - 100}, 300);
+                    // }
                     folder.navScrollResize();
                 } else {
                     $layout.addClass('middle');
                     $menuBtn.addClass('right');
                     $firstParent.data('switch', 'off').siblings('ul').slideUp(300);
-                    if (isEdit) {
-                        $code.animate({'width': width + 100}, 300);
-                        $preview.animate({'width': width + 100}, 300);
-                    }
+                    // if (isEdit) {
+                    //     $code.animate({'width': width + 100}, 300);
+                    //     $preview.animate({'width': width + 100}, 300);
+                    // }
                 }
             });
             if ($window.width() < 1200) {

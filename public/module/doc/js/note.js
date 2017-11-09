@@ -205,50 +205,49 @@ define(function (require, exports, module) {
         // 显示笔记内容
         getNoteDetail: function (note_id) {
             $.get(host + '/note/find', {id: note_id, active: isRecycle ? '0' : '1'}, function (res) {
+                var $unshare = $('.list-unshare'),
+                    $edit = $('.edit-btn'),
+                    $tomd = $('.list-tomd');
                 if (res.code === 200) {
                     $doc_box.removeClass('null');
-                    $('.doc-preview-body').html(res.data.content)
-                        .on('click', 'img', function () {
-                            var $self = $(this),
-                                json = {
-                                    "title": "",
-                                    "id": 123,
-                                    "start": 0,
-                                    "data": [
-                                        {
-                                            "alt": "",
-                                            "pid": 666,
-                                            "src": $self.attr('src'),
-                                            "thumb": ""
-                                        }
-                                    ]
-                                };
-                            // 查看大图
-                            layer.photos({
-                                photos: json,
-                                anim: 5
-                            });
-                            $('#layui-layer-photos').height('auto');
-                            $('.layui-layer-photos').off('mousewheel').on('mousewheel', function(e){
-                                var $self = $(this);
-                                var ratio = 1;
-                                ratio = e.originalEvent.wheelDelta > 0 ? 1.2 : 0.8;
-                                $self.width($self.width()*ratio);
-                                $self.height($self.height()*ratio);
-                            })
-                        });
-                    $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
+                    $('.doc-preview-body').html(res.data.content).on('click', 'img', function () {
+                        var $self = $(this),
+                            json = {
+                                "title": "",
+                                "id": 123,
+                                "start": 0,
+                                "data": [
+                                    {
+                                        "alt": "",
+                                        "pid": 666,
+                                        "src": $self.attr('src'),
+                                        "thumb": ""
+                                    }
+                                ]
+                            };
+                        layer.photos({ photos: json, anim: 5 }); // 查看大图
+                        $('#layui-layer-photos').height('auto');
+                        $('.layui-layer-photos').off('mousewheel').on('mousewheel', function(e){
+                            var $self = $(this);
+                            var ratio = 1;
+                            ratio = e.originalEvent.wheelDelta > 0 ? 1.2 : 0.8;
+                            $self.width($self.width()*ratio);
+                            $self.height($self.height()*ratio);
+                        })
+                    });
+                    $('.doc-title-span').html(res.data.title);
                     clearInterval(timeId);
                     timeId = null;
-                    $('.doc-title-span').html(res.data.title);
-                    var $unshare = $('.list-unshare'),
-                        $tomd = $('.list-tomd');
+                    
+                    $doc_box.removeClass('is-edit is-edit-1 is-edit-2 null').addClass('no-edit');
                     res.data.share == 1 ? $unshare.show() : $unshare.hide();
+                    // isPrivate == 1 表示公开笔记，显示解锁上锁
                     if(res.data.isPrivate === '1'){
                         res.data.lock ? $('.list-unlock').show().prev('.list-lock').hide() : $('.list-lock').show().next('.list-unlock').hide();
                     }else{
                         $('.list-unlock,.list-lock').hide();
                     }
+                    // type == 1 为md笔记，则显示下载md按钮
                     res.data.type == '1' ? $tomd.show() : $tomd.hide();
                     note.getAttachment(note_id);
                     cur_note = res.data;
@@ -291,7 +290,13 @@ define(function (require, exports, module) {
             });
             // 点击编辑笔记按钮
             $('.edit-btn').on('click', function () {
-                note.editNote()
+                // 不是作者并且上锁了不显示编辑按钮
+                if(cur_note.author !== $('.user-info span').eq(0).text() && cur_note.lock){
+                    layer.msg('没有权限编辑');
+                }else{
+                    note.editNote()
+                }
+                
             });
             // 点击保存笔记按钮
             $('.save-btn').on('click', function () {
@@ -584,33 +589,34 @@ define(function (require, exports, module) {
                         $self.parent().remove();
                         if(!$attachment_ul.find('li').length){
                             $box.removeClass('active');
-                            var $editormd = $('#editormd'),
-                                $CodeMirror = $('.CodeMirror')
-                                $preview = $editormd.find('.editormd-preview');
+                            // var $editormd = $('#editormd'),
+                            //     $CodeMirror = $('.CodeMirror')
+                            //     $preview = $editormd.find('.editormd-preview');
 
-                            $editormd.height($editormd.height()+130);
-                            $CodeMirror.height($CodeMirror.height()+130);
-                            $preview.height($preview.height()+130);
+                            // $editormd.height($editormd.height()+130);
+                            // $CodeMirror.height($CodeMirror.height()+130);
+                            // $preview.height($preview.height()+130);
                         }
                     }
                 })
             })
 
             $('.attachment-header').on('click', function(){
-                var $box = $('.doc-content-footer'),
-                    $editormd = $('#editormd'),
-                    $CodeMirror = $('.CodeMirror')
-                    $preview = $editormd.find('.editormd-preview');
+                var $box = $('.doc-content-footer')
+                    // $editormd = $('#editormd'),
+                    // $CodeMirror = $('.CodeMirror'),
+                    // $preview = $editormd.find('.editormd-preview')
+                    ;
                 if($box.hasClass('on')){
                     $box.removeClass('on');
-                    $editormd.height($editormd.height()-100);
-                    $CodeMirror.height($CodeMirror.height()-100);
-                    $preview.height($preview.height()-100);
+                    // $editormd.height($editormd.height()-100);
+                    // $CodeMirror.height($CodeMirror.height()-100);
+                    // $preview.height($preview.height()-100);
                 }else{
                     $box.addClass('on');
-                    $editormd.height($editormd.height()+100);
-                    $CodeMirror.height($CodeMirror.height()+100);
-                    $preview.height($preview.height()+100);
+                    // $editormd.height($editormd.height()+100);
+                    // $CodeMirror.height($CodeMirror.height()+100);
+                    // $preview.height($preview.height()+100);
                 }
             })
 
@@ -681,6 +687,7 @@ define(function (require, exports, module) {
                     if (!$list_ul.find('.doc-item').length) {
                         $list_box.addClass('null');
                     }
+                    $doc_box.removeClass('is-edit is-edit-1 is-edit-2');
                 } else {
                     layer.msg(res.msg);
                 }

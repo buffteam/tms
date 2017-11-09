@@ -77,10 +77,10 @@ define(function(require, exports, module) {
                         if(!$box.hasClass('active')){
                             $box.addClass('active');
                             $ul.html(html);
-                            var height = $box.hasClass('on') ? 30 : 130;
-                            $editormd.height($editormd.height()-height);
-                            $CodeMirror.height($CodeMirror.height()-height);
-                            $preview.height($preview.height()-height);
+                            // var height = $box.hasClass('on') ? 30 : 130;
+                            // $editormd.height($editormd.height()-height);
+                            // $CodeMirror.height($CodeMirror.height()-height);
+                            // $preview.height($preview.height()-height);
                         }else{
                             $ul.append(html);
                         }

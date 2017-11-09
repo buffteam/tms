@@ -27,13 +27,13 @@ define(function (require, exports, module) {
             ]);
             
             var height = $window.height() - $('.doc-content-header').outerHeight() - 65;
-            if($footer_box.hasClass('active')){
-                if($footer_box.hasClass('on')){
-                    height -= 30;
-                }else{
-                    height -= 130;
-                }
-            }
+            // if($footer_box.hasClass('active')){
+            //     if($footer_box.hasClass('on')){
+            //         height -= 30;
+            //     }else{
+            //         height -= 130;
+            //     }
+            // }
             if (type == 1) {
                 if (!!mdeditor) {
                     value ? mdeditor.setMarkdown(value) : mdeditor.clear();
@@ -219,7 +219,6 @@ define(function (require, exports, module) {
                 content: html_cnt,
                 origin_content: md_cnt
             }, function (res) {
-                callback && callback();
                 if (res.code === 200) {
                     $('.doc-item.is-edit').removeClass('is-edit').find('.list-title-text').text(res.data.title);
                     layer.msg('保存成功');
@@ -232,6 +231,7 @@ define(function (require, exports, module) {
                     local_note = null;
                     localStorage.removeItem('local_note');
                     editor.unbindUnload();
+                    callback && callback();
                 } else if (res.code === 403) {
                     layer.msg(res.msg);
                 }
