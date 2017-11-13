@@ -9,7 +9,7 @@ define(function (require, exports, module) {
     var $window = $(window),
         $footer_box = $('.doc-content-footer'),         // 笔记附件盒子
         $doc_box = $('.doc-content');                   // 笔记详情盒子
-
+    
     var editor = {
         // 初始化编辑器
         initEditor: function (type, value) {
@@ -82,16 +82,7 @@ define(function (require, exports, module) {
                                 }
                             },
                             file: function () {
-                                // 上传附件
-                                require.async("./uploader", function  (uploader) {  
-                                    layer.open({
-                                        type: 1,
-                                        area: ['800px', '500px'], 
-                                        title: '上传附件',
-                                        content: $('#upload-tpl').html()
-                                    });
-                                    uploader();
-                                })
+                                editor.uploadFile();
                             }
                         },
                         onload: function () {
@@ -129,11 +120,29 @@ define(function (require, exports, module) {
                             return false;
                         }
                     });
+                    var tags = '<div class="w-e-menu w-e-upload" style="z-index:6;padding: 0 10px;line-height: 36px;">上传附件</div>';
+                    $('.w-e-toolbar').append(tags);
+                    $('.w-e-upload').on('click', function(){
+                        editor.uploadFile();
+                    })
                 }
 
             }
-
+            clearInterval(timeId);
             timeId = setInterval(editor.autoSaveNote, AUTO_TIME);
+        },
+        // 上传附件
+        uploadFile: function(){
+            // 引入 uploader.js
+            require.async("./uploader", function  (uploader) {  
+                layer.open({
+                    type: 1,
+                    area: ['800px', '500px'], 
+                    title: '上传附件',
+                    content: $('#upload-tpl').html()
+                });
+                uploader();
+            })
         },
         // ctrl-s 保存笔记
         ctrlSNote: function () {
@@ -196,6 +205,9 @@ define(function (require, exports, module) {
                     cur_note = res.data;
                     local_note = null;
                     editor.unbindUnload();
+                    $('.doc-preview-body').html(html_cnt);
+                    $('.doc-title-span').html(res.data.title);
+                    $('.doc-item.is-edit').find('.list-title-text').text(res.data.title);
                 }
             })
             editor.bindUnload();

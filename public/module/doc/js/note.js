@@ -251,6 +251,7 @@ define(function (require, exports, module) {
                     res.data.type == '1' ? $tomd.show() : $tomd.hide();
                     note.getAttachment(note_id);
                     cur_note = res.data;
+                    console.log(cur_note);
                     mdeditor && mdeditor.clear();
                     if (isRecycle) {
                         $doc_box.addClass('is-recycle');
@@ -661,11 +662,13 @@ define(function (require, exports, module) {
                     $('.doc-title-input').val('');
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-preview-body').html(res.data.content || '');
-                    var $count = $('.g_' + res.data.f_id);
+                    var $count = $('.g_' + res.data.f_id),
+                        $doc_footer = $('.doc-content-footer');
                     $count && note.navCountHandle($count, 'add');
                     cur_note = res.data;
                     editor.initEditor(type);
                     $('.list-unshare').hide();
+                    $doc_footer.hasClass('active') && $doc_footer.removeClass('active');
                 } else {
                     layer.msg(res.msg);
                 }

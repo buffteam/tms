@@ -884,19 +884,20 @@ body {
     height: 0;
     overflow: hidden;
     transition: height .3s;
+    z-index: 100;
 }
 .doc-content-footer.active{
     height: 130px;
 }
-.doc-content-footer.active + .doc-content-body{
+/* .doc-content-footer.active + .doc-content-body{
     bottom: 130px;
-}
+} */
 .doc-content-footer.active.on{
     height: 30px;
 }
-.doc-content-footer.active.on + .doc-content-body{
+/* .doc-content-footer.active.on + .doc-content-body{
     bottom: 30px;
-}
+} */
 .doc-content-footer .attachment-header{
     background: #dfdfdf;
     height: 30px;
@@ -908,6 +909,7 @@ body {
     padding: 10px 30px;
     height: 80px;
     overflow-y: auto;
+    background: #fff;
 }
 .attachment-content-ul li{
     list-style: initial;
