@@ -251,7 +251,6 @@ define(function (require, exports, module) {
                     res.data.type == '1' ? $tomd.show() : $tomd.hide();
                     note.getAttachment(note_id);
                     cur_note = res.data;
-                    console.log(cur_note);
                     mdeditor && mdeditor.clear();
                     if (isRecycle) {
                         $doc_box.addClass('is-recycle');

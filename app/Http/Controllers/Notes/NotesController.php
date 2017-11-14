@@ -190,8 +190,10 @@ class NotesController extends BaseController
         }
 
         $updateData = $this->updateData($params);
-
-        return ($updateData != 1) ? $this->ajaxError('更新失败，数据不存在') : $this->ajaxSuccess('更新成功',Notes::find($params['id']));
+        $data = Notes::leftJoin('users','notes.u_id','=','users.id')
+                ->select('notes.*', 'users.name as author')
+                ->find($params['id']);
+        return ($updateData != 1) ? $this->ajaxError('更新失败，数据不存在') : $this->ajaxSuccess('更新成功', $data);
     }
 
     /**
