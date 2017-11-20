@@ -118,7 +118,9 @@ define(function (require, exports, module) {
             });
             // 收起侧边栏后点击新建笔记图标，直接创建 type 为 1 的笔记
             $('.middle-add-item').on('click', function () {
-                note.newNote('1');
+                note.saveNoteBeforeHandle(function(){
+                    note.newNote('1');
+                })
             });
 
             // 左边栏目录点击事件
@@ -159,7 +161,9 @@ define(function (require, exports, module) {
                     cur_page = 1;
                     isShare = isRecycle = isNewest = isSearch = false;
                     $search.val('');
-                    note.getList(g_id);
+                    note.saveNoteBeforeHandle(function(){
+                        note.getList(g_id);
+                    })
                 })
                 // 点击下拉菜单
                 .on('click', '.child-menu-down', function (e) {

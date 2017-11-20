@@ -278,6 +278,16 @@ define(function (require, exports, module) {
                 }
             })
         },
+        // 操作其他之前先保存笔记
+        saveNoteBeforeHandle: function(callback){
+            if ($doc_box.hasClass('is-edit')) {
+                editor.saveNote(function () {
+                    callback();
+                })
+            } else {
+                callback();
+            }
+        },
         // 监听事件
         clickListEvent: function () {
             var $searchType = $('.search-type'),
@@ -286,7 +296,9 @@ define(function (require, exports, module) {
             // 新建笔记事件
             $('.add-list li').on('click', function () {
                 var idx = $(this).data('idx');
-                note.newNote(idx);
+                note.saveNoteBeforeHandle(function(){
+                    note.newNote(idx);
+                })
             });
             // 点击编辑笔记按钮
             $('.edit-btn').on('click', function () {
@@ -312,13 +324,16 @@ define(function (require, exports, module) {
                 if (!$self.hasClass('active')) {
                     $self.addClass('active').siblings().removeClass('active');
                     var note_id = $self.data('id');
-                    if ($doc_box.hasClass('is-edit')) {
-                        editor.saveNote(function () {
-                            note.getNoteDetail(note_id);
-                        })
-                    } else {
+                    note.saveNoteBeforeHandle(function(){
                         note.getNoteDetail(note_id);
-                    }
+                    })
+                    // if ($doc_box.hasClass('is-edit')) {
+                    //     editor.saveNote(function () {
+                    //         note.getNoteDetail(note_id);
+                    //     })
+                    // } else {
+                    //     note.getNoteDetail(note_id);
+                    // }
                 }
             });
             // 点击文件夹列表
