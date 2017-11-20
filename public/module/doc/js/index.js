@@ -2,7 +2,7 @@
  * Created by linxin on 2017/8/14.
  */
 // 自动保存时间
-var AUTO_TIME = 60 * 1000,
+var AUTO_TIME = 30 * 1000,
     NEW_TITLE = '新建笔记';
 var host = window.location.host,
     g_id = null,                // 定义一个全局id 用来存储当前操作目录的id
