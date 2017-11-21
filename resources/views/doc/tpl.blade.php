@@ -16,7 +16,7 @@
         <p>移动到：</p>
         <div class="folder-box">
         <% for(var j = 0; j < group.length; j++) { %>
-            <div class="folder-group-list folder-parent-list on">
+            <div class="folder-group-list folder-parent-list">
                 <span class="folder-group-open"></span>
                 <span class="folder-group-icon"></span>
                 <span><%= group[j].name %></span>
@@ -25,13 +25,13 @@
                 <% for(var i = 0, list = renderNav(group[j].folders); i < list.length; i++) { %>
                 <li class="folder-group-child">
                     <% if(list[i].child) {%>
-                        <div class="folder-child-list folder-parent-list on" 
+                        <div class="folder-child-list folder-parent-list" 
                             data-type="<%= group[j].type %>" data-fid="<%= list[i].id %>">
                             <span class="folder-group-open"></span>
                             <span class="folder-group-icon"></span>
                             <span><%= list[i].title %></span>
                         </div>
-                        <ul>
+                        <ul style="display:none">
                             <% include('folder-child-tpl', {list: list[i].child, type: group[j].type})  %>
                         </ul>
                     <% } else { %>
@@ -52,12 +52,12 @@
     <% for(var i = 0; i < list.length; i++) { %>
         <li class="folder-group-child">
             <% if(list[i].child) {%>
-                <div class="folder-child-list folder-parent-list on" data-type="<%= type %>" data-fid="<%= list[i].id %>">
+                <div class="folder-child-list folder-parent-list" data-type="<%= type %>" data-fid="<%= list[i].id %>">
                     <span class="folder-group-open"></span>
                     <span class="folder-group-icon"></span>
                     <span><%= list[i].title %></span>
                 </div>
-                <ul>
+                <ul style="display:none">
                     <% include('folder-child-tpl', {list:list[i].child, type: type})  %>
                 </ul>
             <% } else { %>

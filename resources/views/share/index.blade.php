@@ -3,6 +3,7 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/jquery-smartMenu/css/smartMenu.css')}}">
     <link rel="stylesheet" href="{{asset('module/share/css/index.css')}}">
 @endsection
 

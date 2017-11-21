@@ -496,17 +496,11 @@ class NotesController extends BaseController
     public function downloadFile($id)
     {
         $note = Notes::find(intval($id));
-        $fileName = iconv('UTF-8', 'GBK', 'download/download.md');
+        $fileName = iconv('UTF-8', 'GBK','download/'.urlencode($note->title).'.md');
         $myfile = fopen($fileName, 'w+');
         fwrite($myfile, $note->origin_content);
         fclose($myfile);
-//        $data = new class{};
-//        $data->title = $note->title.'.md';
-//        $data->path = 'download/download.md';
-        $data = [
-            'title' => $note->title.'.md',
-            'path' => 'download/download.md'
-        ];
-        return $myfile ? $this->ajaxSuccess('下载成功',$data) : $this->ajaxError('failed,server error',503);
+        $file = public_path(). '/download/'.urlencode($note->title).'.md';
+        return response()->download($file, $note->title.'.md')->deleteFileAfterSend(true);
     }
 }

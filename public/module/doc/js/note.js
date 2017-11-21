@@ -327,13 +327,6 @@ define(function (require, exports, module) {
                     note.saveNoteBeforeHandle(function(){
                         note.getNoteDetail(note_id);
                     })
-                    // if ($doc_box.hasClass('is-edit')) {
-                    //     editor.saveNote(function () {
-                    //         note.getNoteDetail(note_id);
-                    //     })
-                    // } else {
-                    //     note.getNoteDetail(note_id);
-                    // }
                 }
             });
             // 点击文件夹列表
@@ -387,15 +380,7 @@ define(function (require, exports, module) {
             });
             // 点击下载md文档
             $moreList.on('click', '.list-tomd', function (e) {
-                $.get(host+'/note/download/'+cur_note.id, function(res){
-                    if(res.code == 200){
-                        var atag = document.createElement('a');
-                        atag.download = res.data.title;
-                        atag.href = res.data.path;
-                        atag.click();
-                        atag = null;
-                    }
-                })
+                window.open(host+'/note/download/'+cur_note.id);
             });
             // 点击解锁功能
             $moreList.on('click', '.list-unlock', function (e) {
