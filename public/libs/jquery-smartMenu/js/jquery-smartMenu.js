@@ -29,7 +29,7 @@
 			name: "",
 			offsetX: 2,
 			offsetY: 2,
-			textLimit: 6,
+			textLimit: 7,
 			beforeShow: $.noop,
 			afterShow: $.noop
 		};
@@ -137,6 +137,7 @@
 						left: e.clientX + params.offsetX,
 						top: e.clientY + st + params.offsetY
 					});
+					console.log(e.clientY + st + params.offsetY);
 					D.data("target", jqueryMenu);
 					D.data("trigger", this);
 					//回调
@@ -165,4 +166,4 @@
 			}
 		}
 	});
-})(jQuery));
+}));

@@ -5,6 +5,7 @@ define(function (require, exports, module) {
     var $ = require('jquery');
     var template = require('template');
     require('nicescroll');
+    require('smartMenu');
     var note = require('./note');
 
     var $window = $(window),

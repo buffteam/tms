@@ -39,7 +39,8 @@ seajs.config({
         template: host + "/libs/template/template-native",
         clipboard: host + "/libs/clipboard/clipboard.min",
         nicescroll: host + "/libs/nicescroll/jquery.nicescroll.min",
-        webuploader: host + "/libs/webuploader-0.1.5/webuploader.min"
+        webuploader: host + "/libs/webuploader-0.1.5/webuploader.min",
+        smartMenu: host + "/libs/jquery-smartMenu/js/jquery-smartMenu"
     }
 });
 var deps = [

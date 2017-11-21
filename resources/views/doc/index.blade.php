@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{asset('libs/editormd/css/editormd.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/wangEditor-3.0.3/wangEditor.min.css')}}">
     <link rel="stylesheet" href="{{asset('libs/webuploader-0.1.5/webuploader.css')}}">
+    <link rel="stylesheet" href="{{asset('libs/jquery-smartMenu/css/smartMenu.css')}}">
     <link rel="stylesheet" href="{{asset('module/doc/css/layouts/main.css')}}">
 @endsection
 

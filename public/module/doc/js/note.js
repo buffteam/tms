@@ -22,6 +22,7 @@ define(function (require, exports, module) {
                     $self.addClass('active ' + sort_order);
                 }
             });
+            
         },
         // 获取最新笔记
         getNewList: function () {
@@ -37,6 +38,7 @@ define(function (require, exports, module) {
                         $list_ul.html(html);
                         niceScroll ? $list_box.getNiceScroll().resize() : note.scorllHandle();
                         note.getNoteDetail(res.data[0].id);
+                        note.initContentMenu();
                     } else {
                         $doc_box.addClass('null');
                         $list_box.addClass('null').removeClass('is-search-null');
@@ -72,6 +74,7 @@ define(function (require, exports, module) {
                                 $list_ul.append(html);
                                 $list_box.getNiceScroll().resize()
                             }
+                            note.initContentMenu();
                         }else{
                             $list_ul.html(html);
                             $doc_box.addClass('null');
@@ -147,6 +150,7 @@ define(function (require, exports, module) {
                             $list_box.getNiceScroll().resize();
                         }
                         cur_page++;
+                        note.initContentMenu();
                     } else {
                         if (cur_page === 1) {
                             $doc_box.addClass('null');
@@ -191,6 +195,7 @@ define(function (require, exports, module) {
                             $list_box.getNiceScroll().resize()
                         }
                         cur_page++;
+                        note.initContentMenu();
                     } else {
                         if (cur_page === 1) {
                             $doc_box.addClass('null');
@@ -404,7 +409,7 @@ define(function (require, exports, module) {
                         title: cur_note.title,
                         content: str,
                         btn: ['确定','取消'],
-                        area: ['400px', '400px'],
+                        area: ['600px', '500px'],
                         yes: function (index) {
                             note.moveNote(index);
                         }
@@ -783,14 +788,14 @@ define(function (require, exports, module) {
                 }
             })
         },
-        // 移动笔记获取目录
+        // 发布笔记获取目录
         getFolderList: function (callback) {
             $.get(host + '/group/list', function (res) {
                 var html = template('folder-tpl', {group: res.data});
                 callback && callback(html);
             });
         },
-        // 移动笔记
+        // 发布笔记到团队文档
         moveNote: function (index) {
             var $folder = $('.folder-parent-list.active'),
                 type = $folder.data('type'),
@@ -816,6 +821,45 @@ define(function (require, exports, module) {
                     layer.msg(res.msg);
                 }
             })
+        },
+        // 右键菜单
+        initContentMenu: function(){
+            var $listMove = $('.list-move'),
+                $listShare = $('.list-share'),
+                $listUnShare = $('.list-unshare'),
+                $listToMd = $('.list-tomd'),
+                $listToPDF = $('.list-topdf'),
+                $listDel = $('.list-del'),
+                $listLock = $('.list-lock'),
+                $listUnLock = $('.list-unlock');
+            var noteMenu = [
+                [
+                    { text: '新建md文档', func: function(){ note.newNote('1'); } },
+                    { text: '新建普通文档', func: function(){ note.newNote('2'); } }
+                ],[
+                    { text: '上锁（他人不可编辑）', func: function(){ 
+                        cur_note.isPrivate === '0' ? layer.msg('个人文档不需要上锁') : 
+                        ( cur_note.lock === 1 ? layer.msg('该文档已经上锁') : $listLock.click() );
+                    } },
+                    { text: '解锁（他人可编辑）', func: function(){ 
+                        cur_note.isPrivate === '0' ? layer.msg('个人文档不需要解锁') : 
+                        ( cur_note.lock === 1 ? layer.msg('该文档已经解锁') : $listUnLock.click() );
+                    } }
+                ],[
+                    { text: '发布到团队文档', func: function(){ $listMove.click(); } },
+                    { text: '分享链接', func: function(){ $listShare.click(); } },
+                    { text: '取消分享', func: function(){ 
+                        cur_note.share === 1 ? $listUnShare.click() : layer.msg('该文档没进行分享'); 
+                    } }
+                ],[
+                    { text: '下载md文档', func: function(){ $listToMd.click(); } },
+                    { text: '导出PDF', func: function(){ $listToPDF.click(); } },
+                    { text: '删除笔记', func: function(){ $listDel.click(); } }
+                ]
+            ];
+            $(".doc-item").smartMenu(noteMenu, {
+                beforeShow: function(){ $(this).click(); } 
+            });
         }
     };
 
