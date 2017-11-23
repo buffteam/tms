@@ -938,7 +938,9 @@ body {
 }
 .doc-preview-body{
     display: none;
-    width: 80%;
+    width: 90%;
+    min-height: 100%;
+    box-sizing: border-box;
     margin: auto;
     padding: 20px;
     animation: show .3s ease;

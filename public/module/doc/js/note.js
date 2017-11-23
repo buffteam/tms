@@ -832,6 +832,7 @@ define(function (require, exports, module) {
                 $listDel = $('.list-del'),
                 $listLock = $('.list-lock'),
                 $listUnLock = $('.list-unlock');
+            // 笔记列表右键菜单
             var noteMenu = [
                 [
                     { text: '新建md文档', func: function(){ note.newNote('1'); } },
@@ -852,13 +853,26 @@ define(function (require, exports, module) {
                         cur_note.share === 1 ? $listUnShare.click() : layer.msg('该文档没进行分享'); 
                     } }
                 ],[
-                    { text: '下载md文档', func: function(){ $listToMd.click(); } },
+                    { text: '下载md文档', func: function(){ 
+                        cur_note.type === '1' ? $listToMd.click() : layer.msg('该文档不是md文档'); 
+                    } },
                     { text: '导出PDF', func: function(){ $listToPDF.click(); } },
                     { text: '删除笔记', func: function(){ $listDel.click(); } }
                 ]
             ];
-            $(".doc-item").smartMenu(noteMenu, {
+            $(".doc-item,.doc-preview-body").smartMenu(noteMenu, {
+                name: "note",
                 beforeShow: function(){ $(this).click(); } 
+            });
+            // 空白处右键菜单
+            var nullMenu = [
+                [
+                    { text: '新建md文档', func: function(){ note.newNote('1'); } },
+                    { text: '新建普通文档', func: function(){ note.newNote('2'); } }
+                ]
+            ]
+            $(".list-content").smartMenu(nullMenu, {
+                name: 'null'
             });
         }
     };

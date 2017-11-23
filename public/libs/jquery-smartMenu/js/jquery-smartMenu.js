@@ -29,7 +29,7 @@
 			name: "",
 			offsetX: 2,
 			offsetY: 2,
-			textLimit: 7,
+			textLimit: 8,
 			beforeShow: $.noop,
 			afterShow: $.noop
 		};
@@ -132,12 +132,21 @@
 				var st = D.scrollTop();
 				var jqueryMenu = funSmartMenu();
 				if (jqueryMenu) {
-					jqueryMenu.css({
-						display: "block",
-						left: e.clientX + params.offsetX,
-						top: e.clientY + st + params.offsetY
-					});
-					console.log(e.clientY + st + params.offsetY);
+					if(e.clientY + st + params.offsetY + $('#smartMenu_'+params.name).height() < $(window).height()){
+						jqueryMenu.css({
+							display: "block",
+							left: e.clientX + params.offsetX,
+							top: e.clientY + st + params.offsetY,
+							bottom: 'inherit'
+						});
+					}else{
+						jqueryMenu.css({
+							display: "block",
+							left: e.clientX + params.offsetX,
+							top: 'inherit',
+							bottom: 0
+						});
+					}
 					D.data("target", jqueryMenu);
 					D.data("trigger", this);
 					//回调
