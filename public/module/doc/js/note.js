@@ -840,11 +840,11 @@ define(function (require, exports, module) {
                 ],[
                     { text: '上锁（他人不可编辑）', func: function(){ 
                         cur_note.isPrivate === '0' ? layer.msg('个人文档不需要上锁') : 
-                        ( cur_note.lock === 1 ? layer.msg('该文档已经上锁') : $listLock.click() );
+                        ( cur_note.lock === 1 ? layer.msg('该文档当前已是上锁状态') : $listLock.click() );
                     } },
                     { text: '解锁（他人可编辑）', func: function(){ 
                         cur_note.isPrivate === '0' ? layer.msg('个人文档不需要解锁') : 
-                        ( cur_note.lock === 1 ? layer.msg('该文档已经解锁') : $listUnLock.click() );
+                        ( cur_note.lock === 0 ? layer.msg('该文档当前已是解锁状态') : $listUnLock.click() );
                     } }
                 ],[
                     { text: '发布到团队文档', func: function(){ $listMove.click(); } },
