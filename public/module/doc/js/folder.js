@@ -346,6 +346,7 @@ define(function (require, exports, module) {
                     $(this).addClass('active').siblings().removeClass('active');
                     $('.child-item.active').removeClass('active');
                     g_id = null;
+                    $('.list-content').off('scroll');
                     note.getNewList();
                 });
 
