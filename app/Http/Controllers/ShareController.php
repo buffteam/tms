@@ -4,10 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Model\Notes;
 use App\Model\Share;
+use App\Model\Folder;
 use Illuminate\Http\Request;
 
 class ShareController extends BaseController
 {
+    protected function getFolder($id)
+    {
+        $folders = [];
+        $array = $this->evelFolder($id, $folders);
+        return array_reverse($array);
+    }
+
+    protected function evelFolder($id, $arr)
+    {
+        $folder = Folder::where('id', $id)->get()[0];
+        array_push($arr, $folder->title);
+        if($folder->p_id != 0){
+            return $this->evelFolder($folder->p_id, $arr);
+        }else{
+            return $arr;
+        }
+    }
+
     public function __construct()
     {
         $this->middleware('auth')->except('show');
@@ -97,6 +116,7 @@ class ShareController extends BaseController
         $data['share_time'] = $shareData['created_at'];
         $data['author'] = $shareData['author'];
         $data['attachment'] = $share->attachment;
+        $data['folderArr'] = $this->getFolder( $note['f_id']);
         return view('share.index',['list'=>$data]);
     }
 

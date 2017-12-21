@@ -50,4 +50,12 @@ class Folder extends Model
     {
         return $this->belongsTo('App\Model\Groups','g_id','id');
     }
+
+    /**
+     * 一个文件夹属于一个父文件夹下
+     */
+    public function folder()
+    {
+        return $this->hasOne('App\Model\Folder','id','p_id');
+    }
 }
