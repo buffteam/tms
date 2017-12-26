@@ -1140,3 +1140,20 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 .share-dialog-content .share-handle a{
     margin-right: 30px;
 }
+
+
+/* 面包屑导航 */
+.doc-crumb{
+    padding-left: 27px;
+    line-height: 25px;
+    margin-bottom: 10px;
+    color: #999;
+    background: url(../../imgs/icon/folder.png) no-repeat;
+    background-size: 22px;
+}
+.doc-crumb .doc-crumb-item{
+    cursor: pointer;
+}
+.doc-crumb .doc-crumb-item:hover{
+    color: #58c1f1;
+}

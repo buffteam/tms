@@ -220,3 +220,14 @@
         </li>
     <% } %>
 </script>
+
+<script id="crumb-tpl" type="text/html">
+    <div class="doc-crumb ">
+        <% for(var i = 0; i < list.length; i++) { %>
+            <span class="doc-crumb-item" data-id="<%= list[i].id %>"><%= list[i].title %></span>
+            <% if(i !== list.length-1){ %>
+            <span> > </span>
+            <% } %>
+        <% } %>
+    </div>
+</script>

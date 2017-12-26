@@ -215,31 +215,42 @@ define(function (require, exports, module) {
                     $tomd = $('.list-tomd');
                 if (res.code === 200) {
                     $doc_box.removeClass('null');
-                    $('.doc-preview-body').html(res.data.content).on('click', 'img', function () {
-                        var $self = $(this),
-                            json = {
-                                "title": "",
-                                "id": 123,
-                                "start": 0,
-                                "data": [
-                                    {
-                                        "alt": "",
-                                        "pid": 666,
-                                        "src": $self.attr('src'),
-                                        "thumb": ""
-                                    }
-                                ]
-                            };
-                        layer.photos({ photos: json, anim: 5 }); // 查看大图
-                        $('#layui-layer-photos').height('auto');
-                        $('.layui-layer-photos').off('mousewheel').on('mousewheel', function(e){
-                            var $self = $(this);
-                            var ratio = 1;
-                            ratio = e.originalEvent.wheelDelta > 0 ? 1.2 : 0.8;
-                            $self.width($self.width()*ratio);
-                            $self.height($self.height()*ratio);
-                        })
-                    });
+                    var crumb = template('crumb-tpl', {list: res.data.crumb});
+                    $('.doc-preview-body').html('')
+                                        .append(crumb)
+                                        .append(res.data.content)
+                                        .off('click')
+                                        .on('click', 'img', function () {
+                                            var $self = $(this),
+                                                json = {
+                                                    "title": "",
+                                                    "id": 123,
+                                                    "start": 0,
+                                                    "data": [
+                                                        {
+                                                            "alt": "",
+                                                            "pid": 666,
+                                                            "src": $self.attr('src'),
+                                                            "thumb": ""
+                                                        }
+                                                    ]
+                                                };
+                                            layer.photos({ photos: json, anim: 5 }); // 查看大图
+                                            $('#layui-layer-photos').height('auto');
+                                            $('.layui-layer-photos').off('mousewheel').on('mousewheel', function(e){
+                                                var $self = $(this);
+                                                var ratio = 1;
+                                                ratio = e.originalEvent.wheelDelta > 0 ? 1.2 : 0.8;
+                                                $self.width($self.width()*ratio);
+                                                $self.height($self.height()*ratio);
+                                            })
+                                        })
+                                        .on('click', '.doc-crumb-item', function(){
+                                            var id = $(this).data('id');
+                                            cur_page = 1;
+                                            isShare = isRecycle = isNewest = isSearch = false;
+                                            note.getList(id);
+                                        });
                     $('.doc-title-span').html(res.data.title);
                     clearInterval(timeId);
                     timeId = null;

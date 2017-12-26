@@ -24,6 +24,30 @@ class NotesController extends BaseController
      */
     protected $notesModel;
 
+    /**
+     * 获取文档的所有父文件夹
+     */
+    protected function getFolder($id)
+    {
+        $folders = [];
+        $array = $this->evelFolder($id, $folders);
+        return array_reverse($array);
+    }
+
+    /**
+     * 递归获取父文件夹
+     */
+    protected function evelFolder($id, $arr)
+    {
+        $folder = Folder::where('id', $id)->get()[0];
+        array_push($arr, ['title'=>$folder->title, 'id'=>$folder->id]);
+        if($folder->p_id != 0){
+            return $this->evelFolder($folder->p_id, $arr);
+        }else{
+            return $arr;
+        }
+    }
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -149,6 +173,7 @@ class NotesController extends BaseController
         if ($data->share !== null) {
             $list['share'] = 1;
         }
+        $list['crumb'] = $this->getFolder($data->f_id);
 
         if (null != $data) {
             return $this->ajaxSuccess('获取成功',$list);
