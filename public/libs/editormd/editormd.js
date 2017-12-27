@@ -3521,7 +3521,7 @@
                 }
             }
 
-            var out = "<a href=\"" + href + "\"";
+            var out = "<a href=\"" + href + "\" target=\"_blank\"";
             
             if (atLinkReg.test(title) || atLinkReg.test(text))
             {
