@@ -26,6 +26,7 @@
                                 <span> / </span>
                             @endif
                         @endforeach
+                        <span class="note-views">浏览量：{{$list['views']}}</span>
                     </div>
                     <div class="note-content markdown-body editormd-preview-container">
                         {!! $list['content'] !!}

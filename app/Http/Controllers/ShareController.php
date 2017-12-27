@@ -109,12 +109,17 @@ class ShareController extends BaseController
             return view('share.index',['list'=>null]);
         }
         $note = $share->note->toArray();
+
+        $note['views'] = $note['views'] + 1;
+        $share->note->update(['views'=>$note['views']]);
+
         $shareData = collect($share)->toArray();
         $data['title'] = $note['title'];
         $data['content'] = $note['content'];
         $data['origin_content'] = $note['origin_content'];
         $data['share_time'] = $shareData['created_at'];
         $data['author'] = $shareData['author'];
+        $data['views'] = $note['views'];
         $data['attachment'] = $share->attachment;
         $data['folderArr'] = $this->getFolder( $note['f_id']);
         return view('share.index',['list'=>$data]);

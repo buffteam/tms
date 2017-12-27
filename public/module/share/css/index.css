@@ -80,6 +80,9 @@ header.dark{
     background: url(../../doc/imgs/icon/folder.png) no-repeat;
     background-size: 22px;
 }
+.note-views{
+    float: right;
+}
 .note-null{
     text-align: center;
     margin-top: 50px;
