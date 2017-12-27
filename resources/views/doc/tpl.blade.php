@@ -229,5 +229,6 @@
             <span> > </span>
             <% } %>
         <% } %>
+        <span class="doc-views"></span>
     </div>
 </script>

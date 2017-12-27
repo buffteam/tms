@@ -164,11 +164,19 @@ class NotesController extends BaseController
             return $this->ajaxError('请传入active');
         }
         $params = $request->input();
+        
+
         $data = Notes::withoutGlobalScopes()->where('active',$params['active'])
             ->leftJoin('users','notes.u_id','=','users.id')
             ->select('notes.*', 'users.name as author')
             ->find($params['id']);
+
         $list = $data->toArray();
+
+        // 增加浏览量
+        $list['views'] = $list['views'] + 1;
+        Notes::withoutGlobalScopes()->where('id',$params['id'])->update(['views'=>$list['views']]);
+
         $list['share'] = null;
         if ($data->share !== null) {
             $list['share'] = 1;

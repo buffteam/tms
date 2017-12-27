@@ -252,6 +252,7 @@ define(function (require, exports, module) {
                                             note.getList(id);
                                         });
                     $('.doc-title-span').html(res.data.title);
+                    $('.doc-views').html('浏览量：'+res.data.views);
                     clearInterval(timeId);
                     timeId = null;
                     

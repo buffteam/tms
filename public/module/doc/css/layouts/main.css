@@ -1157,3 +1157,6 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 .doc-crumb .doc-crumb-item:hover{
     color: #58c1f1;
 }
+.doc-views{
+    float: right;
+}
