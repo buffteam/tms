@@ -216,9 +216,11 @@ define(function (require, exports, module) {
                 if (res.code === 200) {
                     $doc_box.removeClass('null');
                     var crumb = template('crumb-tpl', {list: res.data.crumb});
+                    var visitor = res.data.isPrivate == '1' ? template('visitor-tpl', {list: res.data.visitor}) : '';
                     $('.doc-preview-body').html('')
                                         .append(crumb)
                                         .append(res.data.content)
+                                        .append(visitor)
                                         .off('click')
                                         .on('click', 'img', function () {
                                             var $self = $(this),

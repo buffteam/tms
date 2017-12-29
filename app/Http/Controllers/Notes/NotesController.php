@@ -6,6 +6,7 @@ use App\Http\Traits\NotesTrait;
 use App\Model\Attachment;
 use App\Model\Folder;
 use App\Model\Notes;
+use App\Model\Visitor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -176,6 +177,27 @@ class NotesController extends BaseController
         // 增加浏览量
         $list['views'] = $list['views'] + 1;
         Notes::withoutGlobalScopes()->where('id',$params['id'])->update(['views'=>$list['views']]);
+
+
+        if($list['isPrivate']){
+            // 统计用户访问
+            $visitor = Visitor::where('note_id', $list['id'])
+                    ->where('user_id', user()->id)
+                    ->get();
+            if (count($visitor) == 0) {
+                Visitor::create(['note_id'=>$list['id'], 'user_id'=>user()->id]);
+            }
+
+            // 返回访问者信息
+            $visitors = Visitor::where('note_id', $list['id'])->get();
+            $visitor_array = [];
+            foreach ($visitors as $key => $item) {
+                array_push($visitor_array, $item->visitor->name);
+            }
+            $list['visitor'] = $visitor_array;
+        }else{
+            $list['visitor'] = [];
+        }
 
         $list['share'] = null;
         if ($data->share !== null) {

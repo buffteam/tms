@@ -1160,3 +1160,22 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 .doc-views{
     float: right;
 }
+.doc-visitor{
+    padding: 0 20px 20px;
+    margin: 70px -20px 0;
+    border-top: 1px solid #ddd;
+    font-size: 16px;
+    font-family: 'PingFang SC';
+    background: #f3f3f3;
+}
+.doc-visitor-title{
+    color: #2196f3;
+    font-weight: bold;
+    line-height: 40px;
+    margin-bottom: 5px;
+}
+.doc-visitor-item{
+    line-height: 24px;
+    color: #222;
+    padding-right: 15px;
+}

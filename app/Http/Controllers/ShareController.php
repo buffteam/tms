@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Notes;
 use App\Model\Share;
 use App\Model\Folder;
+use App\Model\Visitor;
 use Illuminate\Http\Request;
 
 class ShareController extends BaseController
@@ -110,8 +111,20 @@ class ShareController extends BaseController
         }
         $note = $share->note->toArray();
 
+        
+        // 增加浏览量
         $note['views'] = $note['views'] + 1;
         $share->note->update(['views'=>$note['views']]);
+        
+        // 增加访问者
+        if(user() != null && $note['isPrivate']){
+            $visitor = Visitor::where('note_id', $note['id'])
+                    ->where('user_id', user()->id)
+                    ->get();
+            if (count($visitor) == 0) {
+                Visitor::create(['note_id'=>$note['id'], 'user_id'=>user()->id]);
+            }
+        }
 
         $shareData = collect($share)->toArray();
         $data['title'] = $note['title'];

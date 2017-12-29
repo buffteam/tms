@@ -232,3 +232,12 @@
         <span class="doc-views"></span>
     </div>
 </script>
+
+<script id="visitor-tpl" type="text/html">
+    <div class="doc-visitor">
+        <div class="doc-visitor-title">他们来看过：（<%= list.length %>人）</div>
+        <% for(var i = 0; i < list.length; i++) { %>
+            <span class="doc-visitor-item"><%= list[i] %></span>
+        <% } %>
+    </div>
+</script>
