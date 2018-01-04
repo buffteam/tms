@@ -260,13 +260,8 @@ define(function (require, exports, module) {
                                         .on('click', '.doc-crumb-item', function(){
                                             var id = $(this).data('id'),
                                                 $menu = $('.second-menu-a[data-id="'+id+'"]');
-                                                console.log($menu.is(':visible'));
-                                            
                                                 $menu.click();
                                                 showSelectedFolder($menu);
-                                            // cur_page = 1;
-                                            // isShare = isRecycle = isNewest = isSearch = false;
-                                            // note.getList(id);
                                         });
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-views').html('浏览量：'+res.data.views);
