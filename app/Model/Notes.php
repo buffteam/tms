@@ -26,6 +26,13 @@ class Notes extends Model
     protected $fillable = ['title','content','origin_content','u_id','f_id','isPrivate','type','active','last_updated_name','lock','views'];
 
     /**
+    * 禁止updated_at自动更新
+    */
+    public function getUpdatedAtColumn() {
+        return null;
+    }
+
+    /**
      * 关联所属的用户
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

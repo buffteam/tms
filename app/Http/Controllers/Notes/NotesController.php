@@ -176,8 +176,7 @@ class NotesController extends BaseController
 
         // 增加浏览量
         $list['views'] = $list['views'] + 1;
-        Notes::withoutGlobalScopes()->where('id',$params['id'])->update(['views'=>$list['views']]);
-
+        Notes::find($params['id'])->increment('views');
 
         if($list['isPrivate']){
             // 统计用户访问
@@ -236,6 +235,7 @@ class NotesController extends BaseController
         }
 
         $params = $request->input();
+        $params['updated_at'] = date('Y-m-d h:i:s',time());
 
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
