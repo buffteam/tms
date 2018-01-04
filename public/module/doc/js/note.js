@@ -217,6 +217,16 @@ define(function (require, exports, module) {
                     $doc_box.removeClass('null');
                     var crumb = template('crumb-tpl', {list: res.data.crumb});
                     var visitor = res.data.isPrivate == '1' ? template('visitor-tpl', {list: res.data.visitor}) : '';
+                    function showSelectedFolder(elem){
+                        if(!elem.is(':visible')){
+                            var pid = elem.data('pid'),
+                                $parent = $('.second-menu-a[data-id="'+pid+'"]');
+                            if(!$parent.hasClass('on')){
+                                $parent.find('.child-menu-open').click();
+                            }
+                            showSelectedFolder($parent);
+                        }
+                    }
                     $('.doc-preview-body').html('')
                                         .append(crumb)
                                         .append(res.data.content)
@@ -248,10 +258,15 @@ define(function (require, exports, module) {
                                             })
                                         })
                                         .on('click', '.doc-crumb-item', function(){
-                                            var id = $(this).data('id');
-                                            cur_page = 1;
-                                            isShare = isRecycle = isNewest = isSearch = false;
-                                            note.getList(id);
+                                            var id = $(this).data('id'),
+                                                $menu = $('.second-menu-a[data-id="'+id+'"]');
+                                                console.log($menu.is(':visible'));
+                                            
+                                                $menu.click();
+                                                showSelectedFolder($menu);
+                                            // cur_page = 1;
+                                            // isShare = isRecycle = isNewest = isSearch = false;
+                                            // note.getList(id);
                                         });
                     $('.doc-title-span').html(res.data.title);
                     $('.doc-views').html('浏览量：'+res.data.views);

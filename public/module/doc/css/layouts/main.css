@@ -944,6 +944,7 @@ body {
     margin: auto;
     padding: 20px;
     animation: show .3s ease;
+    overflow: visible;
 }
 .editor-theme{
     position: absolute;
@@ -1144,12 +1145,13 @@ li.L1, li.L3, li.L5, li.L7, li.L9{
 
 /* 面包屑导航 */
 .doc-crumb{
-    padding-left: 27px;
+    padding: 10px 20px 10px 47px;
     line-height: 25px;
-    margin-bottom: 10px;
+    margin: 0 -30px 10px;
     color: #999;
-    background: url(../../imgs/icon/folder.png) no-repeat;
+    background: #f3f3f3 url(../../imgs/icon/folder.png) 20px no-repeat;
     background-size: 22px;
+    border-radius: 4px;
 }
 .doc-crumb .doc-crumb-item{
     cursor: pointer;
