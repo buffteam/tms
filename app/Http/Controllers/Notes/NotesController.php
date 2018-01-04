@@ -235,7 +235,7 @@ class NotesController extends BaseController
         }
 
         $params = $request->input();
-        $params['updated_at'] = date('Y-m-d h:i:s',time());
+        $params['updated_at'] = date('Y-m-d H:i:s',time());
 
         $isPrivate = $this->checkFolderIsPrivate($params['f_id']);
 
