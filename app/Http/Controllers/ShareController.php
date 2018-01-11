@@ -79,9 +79,9 @@ class ShareController extends BaseController
 
         $userId = user()->id;
 
-        if ( !($note->u_id == $userId  || isAdmin() || $note->lock == 0) ) {
-            return $this->ajaxError('没有权限分享');
-        }
+        // if ( !($note->u_id == $userId  || isAdmin() || $note->lock == 0) ) {
+        //     return $this->ajaxError('没有权限分享');
+        // }
 
         $data['token'] = str_random(16);
         $data['note_id'] = $id;
