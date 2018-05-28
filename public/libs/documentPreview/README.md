@@ -1,9 +1,6 @@
 # 在线预览office
 preview doc/ppt/xls online via unoconv.
 
-## 结果
-![screenflow.gif](./screenflow.gif)
-
 ## 安装
 ``` sh
 sudo yum install unoconv redis-server php5-redis
