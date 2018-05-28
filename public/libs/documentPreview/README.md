@@ -20,5 +20,5 @@ cd online_office_viewer/cli
 bash ./start_worker.sh
 ```
 
-## powerd by
+## created by
 gaoliang
