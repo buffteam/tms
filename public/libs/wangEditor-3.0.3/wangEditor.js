@@ -3028,6 +3028,10 @@ Text.prototype = {
         // 粘贴图片
         $textElem.on('paste', function (e) {
             e.preventDefault();
+            if(getPasteImgs(e) && getPasteImgs(e).length && e.clipboardData.files.length == 0) {
+                alert('谷歌浏览器不支持粘贴word图片，请使用火狐或另存图片然后上传！');
+                return;
+            }
 
             // 获取粘贴的图片
             var pasteFiles = getPasteImgs(e);

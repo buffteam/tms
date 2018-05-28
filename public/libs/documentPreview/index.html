@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Office Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script type="text/javascript" src="./assets/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/lib/jquery-toast-plugin/dist/jquery.toast.min.css">
+    <script type="text/javascript" src="./assets/lib/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+</head>
+<body>
+    <div id="loading" class="loading" style="display: none">
+        <img src="./assets/imgs/loadingBar.gif"/>
+    </div>
+    <div class="container">
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        function getQueryString(name) {
+            var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+            if (result == null || result.length < 1) {
+                return "";
+            }
+            return result[1];
+        }
+        var file = getQueryString("file");
+        $.toast({
+            text : "正在解析中，请稍等！",
+            icon: 'info',
+            hideAfter: false,
+            position : 'mid-center',
+            allowToastClose: false
+        });
+        $("#loading").css("display", "block");
+        $.ajax({
+            type: 'post',
+            url : 'http://127.0.0.1:8000/libs/documentPreview/api/handle.php',
+            data: {trans_data:file},
+            error : function () {
+                $("#loading").css("display", "none");
+                $.toast({
+                    stack: 1,
+                    text : "解析失败！",
+                    icon: 'error',
+                    hideAfter: false,
+                    allowToastClose: false
+                });
+            },
+            success : function (data) {
+                $("#loading").css("display", "none");
+                data = JSON.parse(data);
+                if (data.code == 0){
+                    $.toast({
+                        stack: 1,
+                        icon: 'success',
+                        text : "解析成功，即将跳转预览界面！",
+                        hideAfter: false,
+                        allowToastClose: false
+                    });
+                    setTimeout(function () {
+                        window.location.href = "http://127.0.0.1:8000/libs/documentPreview/viewer.html?file=" + encodeURIComponent(data.data.href);
+                    }, 1000);
+                }else{
+                    $.toast({
+                        stack: 1,
+                        text : data.msg,
+                        hideAfter: false,
+                        icon: 'error',
+                        allowToastClose: false
+                    });
+                }
+            }
+        });
+    });
+
+
+</script>
+
+</html>

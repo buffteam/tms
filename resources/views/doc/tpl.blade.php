@@ -217,8 +217,13 @@
         <li>
             <a href="<%= list[i].url %>" download="<%= list[i].name %>"><%= list[i].name %></a>
             <span class="del-span" data-id="<%= list[i].id %>" title="删除不可恢复">删除</span>
+            <span class="preview" data="<%= list[i].url %>" title="点击预览文件">预览</span>
         </li>
     <% } %>
+</script>
+
+<script id="preview-tpl" type="text/html">
+    <iframe id="preview-iframe" width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 </script>
 
 <script id="crumb-tpl" type="text/html">

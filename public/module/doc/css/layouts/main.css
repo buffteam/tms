@@ -931,6 +931,19 @@ body {
 .is-edit .attachment-content-ul .del-span{
     display: inline;
 }
+.attachment-content-ul .preview{
+    display: none;
+    font-size: 14px;
+    color: #f27272;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.attachment-content-ul .preview:hover{
+    color: #ff0000;
+}
+.is-edit .attachment-content-ul .preview{
+    display: inline;
+}
 .doc-edit-body{
     display: none;
     animation: show .3s ease;
