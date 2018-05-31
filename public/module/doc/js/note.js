@@ -634,8 +634,6 @@ define(function (require, exports, module) {
             $attachment_ul.on('click','.preview', function(){
                 var fileName = this.getAttribute('data').slice(6);
                 var filetype =  this.getAttribute('data').slice(-5);
-                var filenm = fileName.indexOf('.');
-                var filenn = fileName.substring(0,filenm);
                 /*window.open('http://127.0.0.1:8000/libs/PDFjs/web/viewer.html?file=../../../files/'+fileName);*/
                 if(filetype.indexOf('.pdf')>-1||filetype.indexOf('.doc')>-1||filetype.indexOf('.docx')>-1||filetype.indexOf('.xls')>-1||filetype.indexOf('.xlsx')>-1||filetype.indexOf('.ppt')>-1||filetype.indexOf('.pptx')>-1||filetype.indexOf('.txt')>-1){
                     layer.open({
@@ -649,7 +647,7 @@ define(function (require, exports, module) {
                     if(filetype.indexOf('.pdf')>-1){
                         $('#preview-iframe').attr('src','http://127.0.0.1:8000/libs/documentPreview/viewer.html?file=../../../files/'+fileName)
                     }else{
-                        $('#preview-iframe').attr('src','http://127.0.0.1:8000/libs/documentPreview/index.html?file='+filenn)
+                        $('#preview-iframe').attr('src','http://127.0.0.1:8000/libs/documentPreview/index.html?file='+fileName)
                     }
                 }else{
                     layer.msg('暂不支持预览此格式附件！');

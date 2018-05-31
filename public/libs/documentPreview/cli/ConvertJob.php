@@ -14,17 +14,17 @@ class ConvertJob
 
         # copy the office file
         fwrite(STDOUT, "start coping ". $filename. "\n");
-        shell_exec("cp ../../../files/{$filename}.docx ../uploaded_files/");
+        shell_exec("cp ../../../files/{$filename} ../uploaded_files/");
         fwrite(STDOUT, "coped ". $filename. " finished\n");
 
         # Convert the pdf
         fwrite(STDOUT, "start converting ". $filename. "\n");
-        shell_exec("unoconv -f pdf ../uploaded_files/{$filename}.docx");
+        shell_exec("unoconv -f pdf ../uploaded_files/{$filename}");
         fwrite(STDOUT, "converted ". $filename. " finished\n");
 
         # remove the office file
         fwrite(STDOUT, "start removing ". $filename. "\n");
-        shell_exec("rm -f ../uploaded_files/{$filename}.docx");
+        shell_exec("rm -f ../uploaded_files/{$filename}");
         fwrite(STDOUT, "removed ". $filename. " success\n");
     }
 }

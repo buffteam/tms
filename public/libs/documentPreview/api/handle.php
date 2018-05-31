@@ -49,10 +49,12 @@ function wait_conversion($filename) {
 
 // 转换文档
 $is_success = wait_conversion($file);
+$filenn = strpos($file,".");
+$filenm = substr($file,0,$filenn);
 
 // 返回结果
 if ($is_success) {
-    $href = "http://127.0.0.1:8000/libs/documentPreview/uploaded_files/{$file}.pdf";
+    $href = "http://127.0.0.1:8000/libs/documentPreview/uploaded_files/{$filenm}.pdf";
     json_response(0, "success", ["href" => $href]);
 } else {
     json_response(1, "conversion failed", "");
